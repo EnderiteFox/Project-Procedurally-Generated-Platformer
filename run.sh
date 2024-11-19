@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 if ! test -d build
 then
