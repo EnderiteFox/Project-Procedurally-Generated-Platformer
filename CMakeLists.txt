@@ -11,7 +11,8 @@ find_package(gf REQUIRED COMPONENTS graphics)
 find_package(Threads)
 
 add_executable(Platformer
-  code/Main.cc
+        code/Main.cc
+        code/Main.h
 )
 
 target_include_directories(Platformer
