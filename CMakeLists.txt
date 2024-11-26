@@ -12,7 +12,8 @@ find_package(Threads)
 
 add_executable(Platformer
         code/Main.cc
-        code/Main.h
+        code/Block.cc
+        code/Character.cc
 )
 
 target_include_directories(Platformer
@@ -31,7 +32,7 @@ PUBLIC
 
 target_compile_options(Platformer
   PRIVATE
-    "-Wall" "-Wextra" "-pedantic" "-g"
+    "-Wall" "-Wextra" "-pedantic" "-g" "-fPIC"
 )
 
 set_target_properties(Platformer
