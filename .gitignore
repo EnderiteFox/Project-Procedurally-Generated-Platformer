@@ -1,2 +1,14 @@
-build/
 .idea
+cmake/
+build/
+cmake/
+CMakeFiles/
+docs/
+examples/
+games/
+include/
+include-priv/
+library/
+tests/
+tools/
+
