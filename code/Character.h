@@ -2,17 +2,18 @@
  * A character, a basic movable entity that should collide with other entities
  * Hopefully, we'll add some acceleration to it
  */
+#pragma once
 #include <gf/Entity.h>
 #include <gf/Vector.h>
 #include <gf/Sprite.h>
 
 namespace platformer{
-    class Character : public gf::Entity{
+    class Character : public gf::Entity {
     public:
         Character(gf::Vector2f position, const gf::Texture& texture);
 
-        virtual void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
-        virtual void update(gf::Time time) override;
+        void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+        void update(gf::Time time) override;
 
         void setSpeed(gf::Vector2f speed);
     private:
