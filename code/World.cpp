@@ -11,14 +11,19 @@ namespace platformer {
         return this->player;
     }
 
+    std::vector<Block>& World::getBlocks() {
+        return this->blocks;
+    }
+
     gf::EntityContainer& World::getEntityContainer() {
         return this->entity_container;
     }
 
     void World::generate(const gf::Texture& blockTexture) {
         for (int i = 0; i < 10; ++i) {
-            Block block({(i - 5) * 10.0f, 10.0f}, blockTexture);
-            this->addEntity(block);
+            Block block({(static_cast<float>(i) - 5.0f) * 10.0f, 10.0f}, blockTexture);
+            this->blocks.push_back(block);
+            this->getEntityContainer().addEntity(block);
         }
     }
 }

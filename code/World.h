@@ -8,12 +8,13 @@ namespace platformer {
     class World {
         gf::EntityContainer entity_container;
         Character player;
-        std::set<Block> blocks;
+        std::vector<Block> blocks;
         // TODO: Turn the EntityContainer into an encapsulated class
 
     public:
         explicit World(Character& player);
         Character& getPlayer();
+        std::vector<Block>& getBlocks();
         gf::EntityContainer& getEntityContainer();
 
         /**

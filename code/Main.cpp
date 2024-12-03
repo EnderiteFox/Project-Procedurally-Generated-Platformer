@@ -108,13 +108,13 @@ int main() {
 
         // 2 - update
         gf::Time time = clock.restart();
-        world.update(time);
+        world.getEntityContainer().update(time);
 
         // 3 - render
         renderer.clear();
         renderer.setView(mainView);
 
-        world.render(renderer);
+        world.getEntityContainer().render(renderer);
         renderer.display();
     }
 
