@@ -14,6 +14,8 @@ add_executable(Platformer
         code/Main.cc
         code/Block.cc
         code/Character.cc
+        code/Collidable.cc
+        code/Physics.cc
 )
 
 target_include_directories(Platformer
