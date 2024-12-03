@@ -25,8 +25,16 @@ namespace platformer{
         this->speed = speed;
     }
 
-    gf::Vector2f Character::getPosition(){
+    gf::Vector2f Character::getSpeed() const{
+        return this->speed;
+    }
+
+    gf::Vector2f Character::getPosition() const{
         return this->position;
+    }
+
+    gf::RectF Character::getHitbox() const{
+        return gf::RectF::fromPositionSize(this->position, this->size);
     }
 
 }

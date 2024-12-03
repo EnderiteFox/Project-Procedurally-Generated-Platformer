@@ -15,4 +15,12 @@ namespace platformer{
     void Block::render(gf::RenderTarget& target, const gf::RenderStates& states) {
         target.draw(this->sprite, states);
     }
+
+    gf::RectF Block::getHitbox() const{
+        return gf::RectF::fromPositionSize(this->position, {8.0f,8.0f});
+    }
+
+    gf::Vector2f Block::getPosition() const{
+        return this->position;
+    }
 }

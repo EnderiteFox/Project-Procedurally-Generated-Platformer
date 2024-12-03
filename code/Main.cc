@@ -51,7 +51,7 @@ int main() {
     mainEntities.addEntity(block);
     collidableEntities.addEntity(block);
 
-    platformer::Character character({5.0f,5.0f},characterTexture);
+    platformer::Character character({0.0f,0.0f},characterTexture);
     mainEntities.addEntity(character);
 
     // actions
