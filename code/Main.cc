@@ -42,9 +42,14 @@ int main() {
 
     // entities
     gf::EntityContainer mainEntities;
+    // Container defined to store entities than can collide with the main character
+    // We will probably have to change it for another data structure to be able to locate entities that are able to collide more efficiently
+    // Like to do a bit of space partitionning or smth
+    gf::EntityContainer collidableEntities;
 
     platformer::Block block({10.0f,10.0f},blockTexture);
     mainEntities.addEntity(block);
+    collidableEntities.addEntity(block);
 
     platformer::Character character({5.0f,5.0f},characterTexture);
     mainEntities.addEntity(character);
@@ -96,6 +101,8 @@ int main() {
             }
         }
 
+        // 2 - update
+
         gf::Vector2f charSpeed{0.0f,0.0f};
         if (rightAction.isActive()) {
             charSpeed.x+= speed;
@@ -110,9 +117,10 @@ int main() {
         }
         character.setSpeed(charSpeed);
 
-        // 2 - update
         gf::Time time = clock.restart();
         mainEntities.update(time);
+
+        mainView.setCenter(character.getPosition());
 
         // 3 - render
         renderer.clear();

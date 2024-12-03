@@ -16,6 +16,7 @@ namespace platformer{
         void update(gf::Time time) override;
 
         void setSpeed(gf::Vector2f speed);
+        gf::Vector2f getPosition();
     private:
         gf::Vector2f position;
         gf::Vector2f maxSpeed;

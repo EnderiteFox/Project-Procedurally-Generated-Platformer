@@ -25,4 +25,8 @@ namespace platformer{
         this->speed = speed;
     }
 
+    gf::Vector2f Character::getPosition(){
+        return this->position;
+    }
+
 }
