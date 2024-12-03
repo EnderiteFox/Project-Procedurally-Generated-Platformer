@@ -4,7 +4,7 @@
 
 namespace platformer {
     World::World(Character& player): player(player) {
-        entity_container.addEntity(player);
+        entityContainer.addEntity(player);
     }
 
     Character& World::getPlayer() {
@@ -16,7 +16,7 @@ namespace platformer {
     }
 
     gf::EntityContainer& World::getEntityContainer() {
-        return this->entity_container;
+        return this->entityContainer;
     }
 
     void World::generate(const gf::Texture& blockTexture) {

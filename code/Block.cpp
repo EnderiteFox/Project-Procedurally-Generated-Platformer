@@ -6,10 +6,9 @@
 #include "Block.h"
 
 namespace platformer{
-    Block::Block(gf::Vector2f position, const gf::Texture& texture) {
+    Block::Block(gf::Vector2f position, const gf::Texture& texture): position(position) {
         this->sprite.setTexture(texture);
         sprite.setPosition(position);
-        this->position = position;
     }
 
     void Block::render(gf::RenderTarget& target, const gf::RenderStates& states) {

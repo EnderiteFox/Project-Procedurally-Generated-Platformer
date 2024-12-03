@@ -6,10 +6,9 @@
 #include <gf/Time.h>
 
 namespace platformer{
-    Character::Character(gf::Vector2f position, const gf::Texture& texture): maxSpeed(), speed(), acceleration() {
+    Character::Character(gf::Vector2f position, const gf::Texture& texture): position(position), maxSpeed(), speed(), acceleration() {
         this->sprite.setTexture(texture);
         sprite.setPosition(position);
-        this->position = position;
     }
 
     void Character::render(gf::RenderTarget& target, const gf::RenderStates& states) {

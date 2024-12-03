@@ -1,15 +1,13 @@
 #pragma once
 #include <Block.h>
 #include <Character.h>
-#include <set>
 #include <gf/EntityContainer.h>
 
 namespace platformer {
     class World {
-        gf::EntityContainer entity_container;
+        gf::EntityContainer entityContainer;
         Character player;
         std::vector<Block> blocks;
-        // TODO: Turn the EntityContainer into an encapsulated class
 
     public:
         explicit World(Character& player);
