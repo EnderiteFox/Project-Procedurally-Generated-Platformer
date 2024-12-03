@@ -1,17 +1,15 @@
-#include <iostream>
 #include <gf/Window.h>
 #include <gf/RenderWindow.h>
 #include <gf/Event.h>
 #include <gf/EntityContainer.h>
-#include <gf/Entity.h>
 #include <gf/Clock.h>
 #include <gf/Color.h>
 #include <gf/Action.h>
 #include <gf/Views.h>
 #include <gf/ViewContainer.h>
 #include <gf/Texture.h>
-#include "Block.h"
 #include "Character.h"
+#include "World.h"
 
 int main() {
     // Speed added to a character by default
@@ -41,13 +39,11 @@ int main() {
     gf::Texture characterTexture("../assets/character_placeholder.png");
 
     // entities
-    gf::EntityContainer mainEntities;
-
-    platformer::Block block({10.0f,10.0f},blockTexture);
-    mainEntities.addEntity(block);
-
     platformer::Character character({5.0f,5.0f},characterTexture);
-    mainEntities.addEntity(character);
+    platformer::World world(character);
+
+    // Generate world
+    world.generate(blockTexture);
 
     // actions
     gf::ActionContainer actions;
@@ -98,27 +94,27 @@ int main() {
 
         gf::Vector2f charSpeed{0.0f,0.0f};
         if (rightAction.isActive()) {
-            charSpeed.x+= speed;
-        }else if (leftAction.isActive()) {
-            charSpeed.x-= speed;
+            charSpeed.x += 1;
+        } else if (leftAction.isActive()) {
+            charSpeed.x -= 1;
         }
 
         if (upAction.isActive()) {
-            charSpeed.y-= speed;
+            charSpeed.y -= 1;
         } else if (downAction.isActive()) {
-            charSpeed.y+= speed;
+            charSpeed.y += 1;
         }
-        character.setSpeed(charSpeed);
+        character.setSpeed((charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * speed);
 
         // 2 - update
         gf::Time time = clock.restart();
-        mainEntities.update(time);
+        world.update(time);
 
         // 3 - render
         renderer.clear();
         renderer.setView(mainView);
 
-        mainEntities.render(renderer);
+        world.render(renderer);
         renderer.display();
     }
 
