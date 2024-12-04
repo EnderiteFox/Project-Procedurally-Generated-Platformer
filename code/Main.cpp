@@ -34,16 +34,16 @@ int main() {
 
     views.setInitialFramebufferSize(ScreenSize);
 
-    // Loading textures
-    gf::Texture blockTexture("../assets/tile_placeholder.png");
+    // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
-
-    // entities
-    platformer::Character character({5.0f,5.0f},characterTexture);
+    platformer::Character character({5.0f,5.0f}, characterTexture);
     platformer::World world(character);
 
+    // Loading textures
+    world.getBlockManager().loadTextures();
+
     // Generate world
-    world.generate(blockTexture);
+    world.generate();
 
     // actions
     gf::ActionContainer actions;

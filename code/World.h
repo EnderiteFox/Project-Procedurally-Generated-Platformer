@@ -1,24 +1,25 @@
 #pragma once
-#include <Block.h>
 #include <Character.h>
 #include <gf/EntityContainer.h>
+
+#include "BlockManager.h"
 
 namespace platformer {
     class World {
         gf::EntityContainer entityContainer;
+        BlockManager blockManager;
         Character player;
-        std::vector<Block> blocks;
 
     public:
         explicit World(Character& player);
         Character& getPlayer();
-        std::vector<Block>& getBlocks();
+        BlockManager& getBlockManager();
         gf::EntityContainer& getEntityContainer();
 
         /**
          * Generates the world
          * For the time being, will generate a line of blocks
          */
-        void generate(const gf::Texture& blockTexture);
+        void generate();
     };
 }

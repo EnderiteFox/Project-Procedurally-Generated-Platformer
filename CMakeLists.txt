@@ -16,6 +16,8 @@ add_executable(Platformer
         code/Character.cpp
         code/World.cpp
         code/World.h
+        code/BlockManager.cpp
+        code/BlockManager.h
 )
 
 target_include_directories(Platformer
