@@ -28,5 +28,4 @@ namespace platformer{
     gf::Vector2f Character::getPosition() const {
         return this->position;
     }
-
 }

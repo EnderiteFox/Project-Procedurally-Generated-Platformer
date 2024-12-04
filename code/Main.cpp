@@ -13,7 +13,7 @@
 
 int main() {
     // Speed added to a character by default
-    const float speed = 10.0f;
+    const float speed = 20.0f;
 
     // Defining useful constants for later
     static constexpr gf::Vector2i ScreenSize(1024, 576);
@@ -76,6 +76,10 @@ int main() {
     // clock
     gf::Clock clock;
 
+    // View center position
+    const double CAMERA_EASING = 2;
+    gf::Vector2f viewPos = character.getPosition();
+
     // Game loop
 
     while (window.isOpen()) {
@@ -112,7 +116,9 @@ int main() {
         gf::Time time = clock.restart();
         world.getEntityContainer().update(time);
 
-        mainView.setCenter(character.getPosition());
+        // Update camera
+        viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
+        mainView.setCenter(viewPos);
 
         // 3 - render
         renderer.clear();
