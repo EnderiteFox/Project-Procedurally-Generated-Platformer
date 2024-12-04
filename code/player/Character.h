@@ -4,11 +4,11 @@
  */
 #pragma once
 #include <gf/Entity.h>
-#include <gf/Vector.h>
 #include <gf/Sprite.h>
+#include <gf/Vector.h>
 
 namespace platformer{
-    class Character : public gf::Entity {
+    class Character final : public gf::Entity {
     public:
         Character(gf::Vector2f position, const gf::Texture& texture);
 

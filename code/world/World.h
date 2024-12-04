@@ -1,8 +1,7 @@
 #pragma once
-#include <Character.h>
+#include <blocks/BlockManager.h>
 #include <gf/EntityContainer.h>
-
-#include "BlockManager.h"
+#include <player/Character.h>
 
 namespace platformer {
     class World {

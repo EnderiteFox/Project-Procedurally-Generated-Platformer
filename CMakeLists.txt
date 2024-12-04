@@ -13,11 +13,9 @@ find_package(Threads)
 add_executable(Platformer
         code/Main.cpp
         code/Block.cpp
-        code/Character.cpp
-        code/World.cpp
-        code/World.h
-        code/BlockManager.cpp
-        code/BlockManager.h
+        code/player/Character.cpp
+        code/world/World.cpp
+        code/blocks/BlockManager.cpp
 )
 
 target_include_directories(Platformer

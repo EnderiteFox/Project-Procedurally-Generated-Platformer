@@ -1,9 +1,9 @@
 /**
  * A basic block that will be used for testing, and maybe build maps later
  */
+#include <Block.h>
 #include <gf/RenderTarget.h>
 #include <gf/Shapes.h>
-#include "Block.h"
 
 namespace platformer{
     Block::Block(gf::Vector2f position, const gf::Texture& texture): position(position) {

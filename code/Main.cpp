@@ -1,15 +1,15 @@
 #include <iostream>
-#include <gf/Window.h>
-#include <gf/RenderWindow.h>
-#include <gf/Event.h>
+#include <gf/Action.h>
 #include <gf/Clock.h>
 #include <gf/Color.h>
-#include <gf/Action.h>
-#include <gf/Views.h>
-#include <gf/ViewContainer.h>
+#include <gf/Event.h>
+#include <gf/RenderWindow.h>
 #include <gf/Texture.h>
-#include "Character.h"
-#include "World.h"
+#include <gf/ViewContainer.h>
+#include <gf/Views.h>
+#include <gf/Window.h>
+#include <player/Character.h>
+#include <world/World.h>
 
 int main() {
     // Speed added to a character by default

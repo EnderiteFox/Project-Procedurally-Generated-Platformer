@@ -1,7 +1,6 @@
-#include "BlockManager.h"
-
-#include <Block.h>
+#include <blocks/BlockManager.h>
 #include <gf/RenderTarget.h>
+#include <gf/Sprite.h>
 
 namespace platformer {
     std::string BlockManager::getBlockTypeAt(const int x, const int y) const {

@@ -1,6 +1,6 @@
-#include "World.h"
-
-#include <Block.h>
+#include <world/World.h>
+#include <player/Character.h>
+#include <blocks/BlockManager.h>
 
 namespace platformer {
     World::World(Character& player): blockManager(BlockManager()), player(player) {

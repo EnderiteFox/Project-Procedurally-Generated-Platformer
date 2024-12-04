@@ -1,7 +1,7 @@
 #pragma once
 #include <gf/Entity.h>
-#include <gf/Vector.h>
 #include <gf/Sprite.h>
+#include <gf/Vector.h>
 
 namespace platformer{
     class Block final : public gf::Entity {
