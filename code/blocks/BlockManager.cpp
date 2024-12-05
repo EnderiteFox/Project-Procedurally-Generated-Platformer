@@ -1,4 +1,6 @@
 #include <blocks/BlockManager.h>
+#include <blocks/BlockType.h>
+#include <blocks/BlockTypes.h>
 #include <gf/RenderTarget.h>
 #include <gf/Sprite.h>
 
@@ -9,12 +11,14 @@ namespace platformer {
         return found->second;
     }
 
-    void BlockManager::setBlockTypeAt(const int x, const int y, std::string blockType) {
-        blockMap.insert(std::make_pair(std::make_pair(x, y), blockType));
+    void BlockManager::setBlockTypeAt(const int x, const int y, const BlockType& blockType) {
+        blockMap.insert(std::make_pair(std::make_pair(x, y), blockType.getTypeName()));
     }
 
     void BlockManager::loadTextures() {
-        textureMap.insert(std::make_pair("testBlock", gf::Texture("../assets/tile_placeholder.png")));
+        for (const BlockType& blockType : BlockTypes::getAllTypes()) {
+            textureMap.insert(std::make_pair(blockType.getTypeName(), gf::Texture(blockType.getTexturePath())));
+        }
     }
 
     void BlockManager::render(gf::RenderTarget& target, const gf::RenderStates& states) {

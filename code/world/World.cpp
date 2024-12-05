@@ -1,6 +1,7 @@
 #include <world/World.h>
 #include <player/Character.h>
 #include <blocks/BlockManager.h>
+#include <blocks/BlockTypes.h>
 
 namespace platformer {
     World::World(Character& player): blockManager(BlockManager()), player(player) {
@@ -22,7 +23,7 @@ namespace platformer {
 
     void World::generate() {
         for (int i = -5; i <= 5; ++i) {
-            blockManager.setBlockTypeAt(i, 0, "testBlock");
+            blockManager.setBlockTypeAt(i, 0, BlockTypes::TEST_BLOCK);
         }
     }
 }

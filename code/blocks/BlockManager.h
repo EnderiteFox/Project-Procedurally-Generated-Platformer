@@ -4,6 +4,8 @@
 #include <gf/Entity.h>
 #include <gf/Texture.h>
 
+#include "BlockType.h"
+
 namespace platformer {
     class BlockManager final : public gf::Entity {
         std::map<std::string, gf::Texture> textureMap;
@@ -14,7 +16,7 @@ namespace platformer {
         const float BLOCK_SIZE = 8.0;
 
         std::string getBlockTypeAt(int x, int y) const;
-        void setBlockTypeAt(int x, int y, std::string blockType);
+        void setBlockTypeAt(int x, int y, const BlockType& blockType);
 
         void loadTextures();
 
