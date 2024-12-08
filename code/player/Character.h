@@ -17,9 +17,10 @@ namespace platformer{
         void update(gf::Time time) override;
 
         void setSpeed(gf::Vector2f speed);
-        gf::Vector2f getPosition() const;
         gf::Vector2f getSpeed() const;
+        gf::Vector2f getPosition() const;
         gf::RectF getHitbox() const;
+
     private:
         const gf::Vector2f size{8.0f,8.0f};
 
