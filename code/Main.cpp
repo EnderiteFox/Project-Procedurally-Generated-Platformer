@@ -116,6 +116,16 @@ int main() {
         //Collision determination
         std::pair<bool,gf::Vector2f> collisions = platformer::Physics::collide(character,world.getBlockManager().getNearbyHitboxes(character.getPosition()));
         character.setSpeed(character.getSpeed() + collisions.second*speed);
+        //Removing acceleration
+        gf::Vector2f charAcceleration = character.getAcceleration();
+        if(collisions.second.x!=0){
+            charAcceleration.x=0;
+        }
+        if(collisions.second.y !=0){
+            charAcceleration.y=0;
+        }
+        character.setAcceleration(charAcceleration);
+
 
         gf::Time time = clock.restart();
         world.getEntityContainer().update(time);
