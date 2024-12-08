@@ -12,14 +12,12 @@ find_package(Threads)
 
 add_executable(Platformer
         code/Main.cpp
-        code/Block.cpp
         code/player/Character.cpp
         code/world/World.cpp
         code/blocks/BlockManager.cpp
         code/blocks/BlockTypes.cpp
         code/blocks/BlockType.cpp
-        code/Collidable.cc
-        code/Physics.cc
+        code/physics/Physics.cpp
 )
 
 target_include_directories(Platformer

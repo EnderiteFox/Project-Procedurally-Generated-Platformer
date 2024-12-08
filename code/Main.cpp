@@ -10,7 +10,7 @@
 #include <gf/Window.h>
 #include <player/Character.h>
 #include <world/World.h>
-#include "Physics.h"
+#include <physics/Physics.h>
 
 int main() {
     // Speed added to a character by default
