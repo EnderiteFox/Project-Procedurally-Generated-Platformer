@@ -6,6 +6,7 @@
 #include <gf/Entity.h>
 #include <gf/Sprite.h>
 #include <gf/Vector.h>
+#include <gf/Rect.h>
 
 namespace platformer{
     class Character final : public gf::Entity {
@@ -17,7 +18,11 @@ namespace platformer{
 
         void setSpeed(gf::Vector2f speed);
         gf::Vector2f getPosition() const;
+        gf::Vector2f getSpeed() const;
+        gf::RectF getHitbox() const;
     private:
+        const gf::Vector2f size{8.0f,8.0f};
+
         gf::Vector2f position;
         gf::Vector2f maxSpeed;
         gf::Vector2f speed;

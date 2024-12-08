@@ -3,6 +3,7 @@
 #include <gf/Time.h>
 #include <gf/Vector.h>
 #include <player/Character.h>
+#include <gf/Rect.h>
 
 namespace platformer{
     Character::Character(gf::Vector2f position, const gf::Texture& texture): position(position), maxSpeed(), speed(), acceleration() {
@@ -26,5 +27,13 @@ namespace platformer{
 
     gf::Vector2f Character::getPosition() const {
         return this->position;
+    }
+
+    gf::Vector2f Character::getSpeed() const{
+        return this->speed;
+    }
+
+    gf::RectF Character::getHitbox() const{
+        return gf::RectF::fromPositionSize(this->position, this->size);
     }
 }

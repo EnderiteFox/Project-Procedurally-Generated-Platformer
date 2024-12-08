@@ -18,6 +18,8 @@ add_executable(Platformer
         code/blocks/BlockManager.cpp
         code/blocks/BlockTypes.cpp
         code/blocks/BlockType.cpp
+        code/Collidable.cc
+        code/Physics.cc
 )
 
 target_include_directories(Platformer

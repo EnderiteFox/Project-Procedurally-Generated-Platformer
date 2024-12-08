@@ -3,6 +3,8 @@
 #include <blocks/BlockTypes.h>
 #include <gf/RenderTarget.h>
 #include <gf/Sprite.h>
+#include <vector>
+#include <gf/Rect.h>
 
 namespace platformer {
     std::string BlockManager::getBlockTypeAt(const int x, const int y) const {
@@ -27,9 +29,20 @@ namespace platformer {
             auto found = textureMap.find(blockType);
             if (found == textureMap.cend()) continue;
             gf::Sprite sprite;
-            sprite.setPosition(gf::Vector2f(pos.first, pos.second) * 8);
+            sprite.setPosition(gf::Vector2f(pos.first, pos.second) * BLOCK_SIZE);
             sprite.setTexture(found->second);
             target.draw(sprite, states);
         }
+    }
+
+    //TODO : This function returns *all* the hitboxes instead of what it's supposed to do. We'll have to fix it.
+    std::vector<gf::RectF> BlockManager::getNearbyHitboxes(const gf::Vector2f position) const{
+        std::vector<gf::RectF> res;
+        for (const auto& [pos, blockType] : blockMap) {
+            gf::Vector2f position = gf::Vector2f(pos.first, pos.second)*BLOCK_SIZE;
+            gf::Vector2f size = gf::Vector2f(BLOCK_SIZE, BLOCK_SIZE);
+            res.push_back(gf::RectF::fromPositionSize(position,size));
+        }
+        return res;
     }
 }

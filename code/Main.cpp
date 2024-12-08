@@ -10,6 +10,7 @@
 #include <gf/Window.h>
 #include <player/Character.h>
 #include <world/World.h>
+#include "Physics.h"
 
 int main() {
     // Speed added to a character by default
@@ -36,7 +37,7 @@ int main() {
 
     // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
-    platformer::Character character({5.0f,5.0f}, characterTexture);
+    platformer::Character character({8.0f,-20.0f}, characterTexture);
     platformer::World world(character);
 
     // Loading textures
@@ -110,9 +111,12 @@ int main() {
         } else if (downAction.isActive()) {
             charSpeed.y += 1;
         }
-        character.setSpeed((charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * speed);
+        //Initial speed determination
+        character.setSpeed(((charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed))*speed);
+        //Collision determination
+        std::pair<bool,gf::Vector2f> collisions = platformer::Physics::collide(character,world.getBlockManager().getNearbyHitboxes(character.getPosition()));
+        character.setSpeed(character.getSpeed() + collisions.second*speed);
 
-        // 2 - update
         gf::Time time = clock.restart();
         world.getEntityContainer().update(time);
 

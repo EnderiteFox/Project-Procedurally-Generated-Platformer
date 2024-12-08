@@ -3,6 +3,8 @@
 #include <string>
 #include <gf/Entity.h>
 #include <gf/Texture.h>
+#include <vector>
+#include <gf/Rect.h>
 
 #include "BlockType.h"
 
@@ -21,5 +23,8 @@ namespace platformer {
         void loadTextures();
 
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
+
+        // Get and return rectangles symbolising the hitboxes of the blocks located nearby the position passed in parameter
+        std::vector<gf::RectF> getNearbyHitboxes(const gf::Vector2f position) const;
     };
 }
