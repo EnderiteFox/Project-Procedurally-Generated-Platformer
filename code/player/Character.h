@@ -13,7 +13,7 @@
 namespace platformer{
     class Character final : public gf::Entity {
     public:
-        Character(gf::Vector2f position, const gf::Texture& texture);
+        Character(gf::Vector2f position, const gf::Texture& texture, const BlockManager& blockManager);
 
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
         void update(gf::Time time) override;
@@ -33,7 +33,7 @@ namespace platformer{
         const gf::Vector2f drag{0.1, 0};
         const float ACCELERATION = 3.0f;
 
-        World& world;
+        BlockManager blockManager;
 
         gf::Vector2f position;
         gf::Vector2f maxSpeed;

@@ -6,19 +6,19 @@
 namespace platformer {
     class World {
         gf::EntityContainer entityContainer;
-        BlockManager blockManager;
+        BlockManager& blockManager;
         Character& player;
 
     public:
-        explicit World(Character& player);
+        explicit World(Character& player, BlockManager& blockManager);
         Character& getPlayer() const;
-        BlockManager& getBlockManager();
+        BlockManager& getBlockManager() const;
         gf::EntityContainer& getEntityContainer();
 
         /**
          * Generates the world
          * For the time being, will generate a line of blocks
          */
-        void generate();
+        void generate() const;
     };
 }

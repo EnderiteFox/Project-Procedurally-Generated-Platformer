@@ -7,12 +7,12 @@
 #include <gf/Rect.h>
 
 namespace platformer{
-    Character::Character(const gf::Vector2f position, const gf::Texture& texture):
-    world(),
-    position(position),
-    maxSpeed(),
-    speed(),
-    acceleration()
+    Character::Character(const gf::Vector2f position, const gf::Texture& texture, const BlockManager& blockManager):
+        blockManager(blockManager),
+        position(position),
+        maxSpeed(),
+        speed(),
+        acceleration()
     {
         this->sprite.setTexture(texture);
         sprite.setPosition(position);
