@@ -7,11 +7,11 @@ namespace platformer {
     class World {
         gf::EntityContainer entityContainer;
         BlockManager blockManager;
-        Character player;
+        Character& player;
 
     public:
         explicit World(Character& player);
-        Character& getPlayer();
+        Character& getPlayer() const;
         BlockManager& getBlockManager();
         gf::EntityContainer& getEntityContainer();
 

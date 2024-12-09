@@ -9,7 +9,7 @@ namespace platformer {
         entityContainer.addEntity(blockManager);
     }
 
-    Character& World::getPlayer() {
+    Character& World::getPlayer() const {
         return this->player;
     }
 
