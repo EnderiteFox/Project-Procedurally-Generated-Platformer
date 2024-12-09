@@ -14,7 +14,7 @@
 
 int main() {
     // Speed added to a character by default
-    const float speed = 20.0f;
+    const float speed = 3.0f;
 
     // Defining useful constants for later
     static constexpr gf::Vector2i ScreenSize(1024, 576);
@@ -112,7 +112,9 @@ int main() {
             charSpeed.y += 1;
         }
         //Initial speed determination
-        character.setSpeed(((charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed))*speed);
+        character.setSpeed(
+            character.getSpeed() + (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * speed
+        );
         //Collision determination
         std::pair<bool,gf::Vector2f> collisions = platformer::Physics::collide(character,world.getBlockManager().getNearbyHitboxes(character.getPosition()));
         character.setSpeed(character.getSpeed() + collisions.second*speed);

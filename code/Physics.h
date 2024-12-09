@@ -4,9 +4,9 @@
 #include <vector>
 #include "player/Character.h"
 
-namespace platformer{
-    class Physics{
-        Physics() = delete; //Prevent users from creating an instance of physics, as it only has static functions
+namespace platformer {
+    class Physics {
+        Physics() = delete; // Prevent users from creating an instance of physics, as it only has static functions
 
     public:
         /**
@@ -18,7 +18,7 @@ namespace platformer{
          *                  boolean indicating if the collision occured
          *                  Vector2f giving a vector of the collision that occured. If the collision didn't occur, the result is the null vector
          */
-        static std::pair<bool,gf::Vector2f> collide(const platformer::Character& character, const gf::RectF& otherHitbox);
+        static std::pair<bool, gf::Vector2f> collide(const Character& character, const gf::RectF& otherHitbox);
 
         /**
          * Tests the collision between a character and multiple objects/hitboxes
@@ -28,6 +28,6 @@ namespace platformer{
          *                  boolean indicating if the collision occured
          *                  Vector2f giving a vector of the sum of the vector of the collision that occured.
          */
-        static std::pair<bool,gf::Vector2f> collide(const platformer::Character& character, const std::vector<gf::RectF>& otherHitboxes);
+        static std::pair<bool,gf::Vector2f> collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes);
     };
 }

@@ -23,6 +23,8 @@ namespace platformer{
 
     private:
         const gf::Vector2f size{8.0f,8.0f};
+        const gf::Vector2f gravity{0.0, 0.5};
+        const gf::Vector2f drag{0.1, 0};
 
         gf::Vector2f position;
         gf::Vector2f maxSpeed;

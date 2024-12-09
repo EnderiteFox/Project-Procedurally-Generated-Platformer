@@ -17,6 +17,9 @@ namespace platformer{
     }
 
     void Character::update(const gf::Time time) {
+        speed += gravity;
+        //speed /= drag;
+
         //Not handling acceleration for now
         position += speed * time.asSeconds();
     }

@@ -18,13 +18,13 @@ namespace platformer{
         if(gf::collides(charHB,otherHitbox,p)){
             // Get the player's direction
             gf::Vector2f direction = character.getSpeed();
-            direction.x = direction.x/(abs(direction.x)<0.001?1:abs(direction.x));
-            direction.y = direction.y/(abs(direction.y)<0.001?1:abs(direction.y));
+            direction.x = direction.x/(std::abs(direction.x)<0.001?1:std::abs(direction.x));
+            direction.y = direction.y/(std::abs(direction.y)<0.001?1:std::abs(direction.y));
 
             // Get the player's direction relative to the other hitbox
             gf::Vector2f collideDirection = charHB.getCenter() - otherHitbox.getCenter();
-            collideDirection.x = collideDirection.x/(abs(collideDirection.x)<0.001?1:abs(collideDirection.x));
-            collideDirection.y = collideDirection.y/(abs(collideDirection.y)<0.001?1:abs(collideDirection.y));
+            collideDirection.x = collideDirection.x/(std::abs(collideDirection.x)<0.001?1:std::abs(collideDirection.x));
+            collideDirection.y = collideDirection.y/(std::abs(collideDirection.y)<0.001?1:std::abs(collideDirection.y));
 
             gf::Vector2f result{-direction.x+collideDirection.x*p.depth,-direction.y+collideDirection.y*p.depth};
             return {true,result};
