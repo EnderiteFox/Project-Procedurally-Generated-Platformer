@@ -1,9 +1,10 @@
 #pragma once
 #include <blocks/BlockManager.h>
 #include <gf/EntityContainer.h>
-#include <player/Character.h>
 
 namespace platformer {
+    class Character;
+
     class World {
         gf::EntityContainer entityContainer;
         BlockManager& blockManager;
