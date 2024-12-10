@@ -36,12 +36,12 @@ namespace platformer {
     }
 
     //TODO : This function returns *all* the hitboxes instead of what it's supposed to do. We'll have to fix it.
-    std::vector<gf::RectF> BlockManager::getNearbyHitboxes(const gf::Vector2f position) const{
+    std::vector<gf::RectF> BlockManager::getNearbyHitboxes(const gf::Vector2f position) const {
         std::vector<gf::RectF> res;
         for (const auto& [pos, blockType] : blockMap) {
-            gf::Vector2f position = gf::Vector2f(pos.first, pos.second)*BLOCK_SIZE;
-            gf::Vector2f size = gf::Vector2f(BLOCK_SIZE, BLOCK_SIZE);
-            res.push_back(gf::RectF::fromPositionSize(position,size));
+            const gf::Vector2f otherPos = gf::Vector2f(pos.first, pos.second)*BLOCK_SIZE;
+            const auto size = gf::Vector2f(BLOCK_SIZE, BLOCK_SIZE);
+            res.push_back(gf::RectF::fromPositionSize(otherPos,size));
         }
         return res;
     }

@@ -25,6 +25,6 @@ namespace platformer {
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
         // Get and return rectangles symbolising the hitboxes of the blocks located nearby the position passed in parameter
-        std::vector<gf::RectF> getNearbyHitboxes(const gf::Vector2f position) const;
+        std::vector<gf::RectF> getNearbyHitboxes(gf::Vector2f position) const;
     };
 }
