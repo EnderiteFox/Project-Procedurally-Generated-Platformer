@@ -10,7 +10,6 @@
 #include <gf/Window.h>
 #include <player/Character.h>
 #include <world/World.h>
-#include <physics/Physics.h>
 
 int main() {
     // Speed added to a character by default
@@ -40,7 +39,6 @@ int main() {
     platformer::BlockManager blockManager;
     platformer::Character character({8.0f,-20.0f}, characterTexture, blockManager);
     platformer::World world(character, blockManager);
-    character.setWorld(world);
 
     // Loading textures
     world.getBlockManager().loadTextures();

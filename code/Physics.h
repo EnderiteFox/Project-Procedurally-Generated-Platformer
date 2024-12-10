@@ -1,8 +1,8 @@
 #pragma once
-#include <gf/Vector.h>
-#include <gf/Rect.h>
 #include <vector>
-#include "player/Character.h"
+#include <gf/Rect.h>
+#include <gf/Vector.h>
+#include <player/Character.h>
 
 namespace platformer {
     class Physics {

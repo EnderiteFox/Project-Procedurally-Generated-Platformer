@@ -6,8 +6,8 @@
 #include <player/Character.h>
 #include <gf/Rect.h>
 
-namespace platformer{
-    Character::Character(const gf::Vector2f position, const gf::Texture& texture, const BlockManager& blockManager):
+namespace platformer {
+    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager):
         blockManager(blockManager),
         position(position),
         maxSpeed(),
@@ -33,16 +33,12 @@ namespace platformer{
         position += speed * time.asSeconds();
 
         // Calculate collisions
-        std::pair<bool,gf::Vector2f> collisions = Physics::collide(*this, world.getBlockManager().getNearbyHitboxes(position));
+        std::pair<bool,gf::Vector2f> collisions = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
         speed += collisions.second * speed;
     }
 
     void Character::setSpeed(const gf::Vector2f speed) {
         this->speed = speed;
-    }
-
-    void Character::setWorld(const World& world) {
-        this->world = world;
     }
 
 
@@ -99,5 +95,4 @@ namespace platformer{
         //Initial speed determination
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
     }
-
 }

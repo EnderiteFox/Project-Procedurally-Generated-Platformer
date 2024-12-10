@@ -10,7 +10,7 @@ namespace platformer {
         Character& player;
 
     public:
-        explicit World(Character& player, BlockManager& blockManager);
+        World(Character& player, BlockManager& blockManager);
         Character& getPlayer() const;
         BlockManager& getBlockManager() const;
         gf::EntityContainer& getEntityContainer();

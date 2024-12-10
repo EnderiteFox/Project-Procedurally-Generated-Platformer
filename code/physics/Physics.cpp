@@ -7,7 +7,7 @@
 #include <gf/Vector.h>
 #include <gf/Collision.h>
 #include <vector>
-#include <Physics.h>
+#include <physics/Physics.h>
 #include <player/Character.h>
 
 
