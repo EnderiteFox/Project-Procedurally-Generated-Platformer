@@ -10,11 +10,10 @@
 #include <gf/Window.h>
 #include <player/Character.h>
 #include <world/World.h>
-#include <physics/Physics.h>
 
 int main() {
     // Speed added to a character by default
-    const float speed = 3.0f;
+
 
     // Defining useful constants for later
     static constexpr gf::Vector2i ScreenSize(1024, 576);
@@ -37,8 +36,9 @@ int main() {
 
     // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
-    platformer::Character character({8.0f,-20.0f}, characterTexture);
-    platformer::World world(character);
+    platformer::BlockManager blockManager;
+    platformer::Character character({8.0f,-20.0f}, characterTexture, blockManager);
+    platformer::World world(character, blockManager);
 
     // Loading textures
     world.getBlockManager().loadTextures();
@@ -48,31 +48,7 @@ int main() {
 
     // actions
     gf::ActionContainer actions;
-
-    gf::Action leftAction("Left");
-    leftAction.addScancodeKeyControl(gf::Scancode::Q);
-    leftAction.addScancodeKeyControl(gf::Scancode::Left);
-    leftAction.setContinuous();
-    actions.addAction(leftAction);
-
-    gf::Action rightAction("Right");
-    rightAction.addScancodeKeyControl(gf::Scancode::D);
-    rightAction.addScancodeKeyControl(gf::Scancode::Right);
-    rightAction.setContinuous();
-    actions.addAction(rightAction);
-
-    //Will probably be removed in profit of a "jump" button once we add gravity and collisions
-    gf::Action upAction("Up");
-    upAction.addScancodeKeyControl(gf::Scancode::Z);
-    upAction.addScancodeKeyControl(gf::Scancode::Up);
-    upAction.setContinuous();
-    actions.addAction(upAction);
-
-    gf::Action downAction("Down");
-    downAction.addScancodeKeyControl(gf::Scancode::S);
-    downAction.addScancodeKeyControl(gf::Scancode::Down);
-    downAction.setContinuous();
-    actions.addAction(downAction);
+    character.initInput(actions);
 
     // clock
     gf::Clock clock;
@@ -98,27 +74,6 @@ int main() {
         }
 
         // 2 - update
-
-        gf::Vector2f charSpeed{0.0f,0.0f};
-        if (rightAction.isActive()) {
-            charSpeed.x += 1;
-        } else if (leftAction.isActive()) {
-            charSpeed.x -= 1;
-        }
-
-        if (upAction.isActive()) {
-            charSpeed.y -= 1;
-        } else if (downAction.isActive()) {
-            charSpeed.y += 1;
-        }
-        //Initial speed determination
-        character.setSpeed(
-            character.getSpeed() + (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * speed
-        );
-        //Collision determination
-        std::pair<bool,gf::Vector2f> collisions = platformer::Physics::collide(character,world.getBlockManager().getNearbyHitboxes(character.getPosition()));
-        character.setSpeed(character.getSpeed() + collisions.second*speed);
-
         gf::Time time = clock.restart();
         world.getEntityContainer().update(time);
 

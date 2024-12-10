@@ -3,15 +3,36 @@
  * Hopefully, we'll add some acceleration to it
  */
 #pragma once
+#include <gf/Action.h>
 #include <gf/Entity.h>
 #include <gf/Sprite.h>
 #include <gf/Vector.h>
 #include <gf/Rect.h>
+#include <world/World.h>
 
-namespace platformer{
+namespace platformer {
     class Character final : public gf::Entity {
+        const gf::Vector2f size{8.0f,8.0f};
+        const gf::Vector2f gravity{0.0, 0.5};
+        const gf::Vector2f drag{0.1, 0};
+        const float ACCELERATION = 3.0f;
+
+        BlockManager& blockManager;
+
+        gf::Vector2f position;
+        gf::Vector2f maxSpeed;
+        gf::Vector2f speed;
+        gf::Vector2f acceleration;
+        gf::Sprite sprite;
+
+        gf::Action leftAction{"Left"};
+        gf::Action rightAction{"Right"};
+        gf::Action upAction{"Up"};
+        gf::Action downAction{"Down"};
+
+
     public:
-        Character(gf::Vector2f position, const gf::Texture& texture);
+        Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager);
 
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
         void update(gf::Time time) override;
@@ -21,15 +42,7 @@ namespace platformer{
         gf::Vector2f getPosition() const;
         gf::RectF getHitbox() const;
 
-    private:
-        const gf::Vector2f size{8.0f,8.0f};
-        const gf::Vector2f gravity{0.0, 0.5};
-        const gf::Vector2f drag{0.1, 0};
-
-        gf::Vector2f position;
-        gf::Vector2f maxSpeed;
-        gf::Vector2f speed;
-        gf::Vector2f acceleration;
-        gf::Sprite sprite;
+        void initInput(gf::ActionContainer& actionContainer);
+        void processInput();
     };
 }
