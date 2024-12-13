@@ -1,4 +1,4 @@
-#include <Physics.h>
+#include <physics/Physics.h>
 #include <gf/RenderTarget.h>
 #include <gf/Sprite.h>
 #include <gf/Time.h>
