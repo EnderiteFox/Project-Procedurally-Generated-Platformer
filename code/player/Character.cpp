@@ -33,8 +33,12 @@ namespace platformer {
         position += speed * time.asSeconds();
 
         // Calculate collisions
-        std::pair<bool,gf::Vector2f> collisions = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
-        speed += collisions.second * speed;
+        auto [collided, collisionVector] = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
+        position.y += collisionVector.y * time.asSeconds();
+        if (collided) speed.y = 0;
+        auto [collided1, collisionVector1] = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
+        position.x += collisionVector1.x * time.asSeconds();
+        if (collided1) speed.x = 0;
     }
 
     void Character::setSpeed(const gf::Vector2f speed) {
@@ -55,7 +59,7 @@ namespace platformer {
     }
 
     void Character::initInput(gf::ActionContainer& actionContainer) {
-        leftAction.addScancodeKeyControl(gf::Scancode::Q);
+        leftAction.addScancodeKeyControl(gf::Scancode::A);
         leftAction.addScancodeKeyControl(gf::Scancode::Left);
         leftAction.setContinuous();
         actionContainer.addAction(leftAction);
@@ -65,11 +69,9 @@ namespace platformer {
         rightAction.setContinuous();
         actionContainer.addAction(rightAction);
 
-        //Will probably be removed in profit of a "jump" button once we add gravity and collisions
-        upAction.addScancodeKeyControl(gf::Scancode::Z);
-        upAction.addScancodeKeyControl(gf::Scancode::Up);
-        upAction.setContinuous();
-        actionContainer.addAction(upAction);
+        jumpAction.addScancodeKeyControl(gf::Scancode::Space);
+        jumpAction.addScancodeKeyControl(gf::Scancode::Z);
+        actionContainer.addAction(jumpAction);
 
         downAction.addScancodeKeyControl(gf::Scancode::S);
         downAction.addScancodeKeyControl(gf::Scancode::Down);
@@ -86,13 +88,16 @@ namespace platformer {
             charSpeed.x -= 1;
         }
 
-        if (upAction.isActive()) {
-            charSpeed.y -= 1;
-        } else if (downAction.isActive()) {
+        if (jumpAction.isActive()) {
+            charSpeed.y = -JUMP_FACTOR;
+            jumpAction.reset();
+        }
+
+        if (downAction.isActive()) {
             charSpeed.y += 1;
         }
 
         //Initial speed determination
-        speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
+        speed += charSpeed * ACCELERATION;
     }
 }

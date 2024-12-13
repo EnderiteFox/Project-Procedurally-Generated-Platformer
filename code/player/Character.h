@@ -15,7 +15,8 @@ namespace platformer {
         const gf::Vector2f size{8.0f,8.0f};
         const gf::Vector2f gravity{0.0, 0.5};
         const gf::Vector2f drag{0.1, 0};
-        const float ACCELERATION = 3.0f;
+        const float ACCELERATION = 1.0f;
+        const float JUMP_FACTOR = 100.0f;
 
         BlockManager& blockManager;
 
@@ -27,7 +28,7 @@ namespace platformer {
 
         gf::Action leftAction{"Left"};
         gf::Action rightAction{"Right"};
-        gf::Action upAction{"Up"};
+        gf::Action jumpAction{"Jump"};
         gf::Action downAction{"Down"};
 
 
