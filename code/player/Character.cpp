@@ -12,6 +12,7 @@ namespace platformer {
     Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager):
         blockManager(blockManager),
         position(position),
+        maxSpeed(),
         speed(),
         acceleration()
     {
@@ -103,12 +104,17 @@ namespace platformer {
             charSpeed.x -= 1;
         }
 
+        if (jumpAction.isActive()) {
+            charSpeed.y = -JUMP_FACTOR;
+            jumpAction.reset();
+        }
+
         if (downAction.isActive()) {
             charSpeed.y += 1;
         }
 
         //Initial speed determination
-        speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
+        speed += charSpeed * ACCELERATION;
     }
 
     void Character::processImpulse() {
