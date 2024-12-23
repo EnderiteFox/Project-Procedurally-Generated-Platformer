@@ -6,11 +6,12 @@
 #include <player/Character.h>
 #include <gf/Rect.h>
 
+#include <iostream>
+
 namespace platformer {
     Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager):
         blockManager(blockManager),
         position(position),
-        maxSpeed(),
         speed(),
         acceleration()
     {
@@ -23,18 +24,31 @@ namespace platformer {
         target.draw(this->sprite, states);
     }
 
+    gf::Vector2f Character::getDirection() const{
+        gf::Vector2f direction = {0.0f,0.0f};
+        direction.x = speed.x / (std::abs(speed.x) < 0.001 ? 1 : std::abs(speed.x));
+        direction.y = speed.y / (std::abs(speed.y) < 0.001 ? 1 : std::abs(speed.y));
+        return direction;
+    }
+
     void Character::update(const gf::Time time) {
         processInput();
 
-        speed += gravity;
-        // speed /= drag;
+        // We will need to change this if we want the character to accelerate in other ways than just falling
+        acceleration = gravity;
+        acceleration += Physics::friction(speed,getDirection());
+        const gf::Vector2f currentAcceleration = acceleration * time.asSeconds();
 
-        //Not handling acceleration for now
-        position += speed * time.asSeconds();
+        // Adding the current acceleration to the speed (if it doesn't exceeds the maximum possible speed)
+        speed.x = (std::abs(speed.x+currentAcceleration.x) > std::abs(maxSpeed.x))?maxSpeed.x*getDirection().x:speed.x+currentAcceleration.x;
+        speed.y = (std::abs(speed.y+currentAcceleration.y) > std::abs(maxSpeed.y))?maxSpeed.y*getDirection().y:speed.y+currentAcceleration.y;
 
-        // Calculate collisions
+        // Calculating collisions
         std::pair<bool,gf::Vector2f> collisions = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
-        speed += collisions.second * speed;
+        speed += collisions.second;
+
+        // Adding the speed to the position
+        position += speed * time.asSeconds();
     }
 
     void Character::setSpeed(const gf::Vector2f speed) {
@@ -93,6 +107,6 @@ namespace platformer {
         }
 
         //Initial speed determination
-        speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
+        speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed);
     }
 }

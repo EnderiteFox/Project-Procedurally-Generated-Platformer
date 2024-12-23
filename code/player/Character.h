@@ -13,14 +13,14 @@
 namespace platformer {
     class Character final : public gf::Entity {
         const gf::Vector2f size{8.0f,8.0f};
-        const gf::Vector2f gravity{0.0, 0.5};
+        const gf::Vector2f gravity{0.0f, 15.0f};
         const gf::Vector2f drag{0.1, 0};
         const float ACCELERATION = 3.0f;
+        const gf::Vector2f maxSpeed{40.0f,40.0f};
 
         BlockManager& blockManager;
 
         gf::Vector2f position;
-        gf::Vector2f maxSpeed;
         gf::Vector2f speed;
         gf::Vector2f acceleration;
         gf::Sprite sprite;
@@ -41,6 +41,7 @@ namespace platformer {
         gf::Vector2f getSpeed() const;
         gf::Vector2f getPosition() const;
         gf::RectF getHitbox() const;
+        gf::Vector2f getDirection() const;
 
         void initInput(gf::ActionContainer& actionContainer);
         void processInput();
