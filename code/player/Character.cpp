@@ -39,8 +39,8 @@ namespace platformer {
         const gf::Vector2f currentAcceleration = acceleration * time.asSeconds();
 
         // Adding the current acceleration to the speed (if it doesn't exceeds the maximum possible speed)
-        speed.x = (std::abs(speed.x+currentAcceleration.x) > std::abs(maxSpeed.x))?maxSpeed.x*getDirection().x:speed.x+currentAcceleration.x;
-        speed.y = (std::abs(speed.y+currentAcceleration.y) > std::abs(maxSpeed.y))?maxSpeed.y*getDirection().y:speed.y+currentAcceleration.y;
+        speed.x = std::abs(speed.x + currentAcceleration.x) > std::abs(maxSpeed.x) ? maxSpeed.x*getDirection().x : speed.x + currentAcceleration.x;
+        speed.y = std::abs(speed.y + currentAcceleration.y) > std::abs(maxSpeed.y) ? maxSpeed.y*getDirection().y : speed.y + currentAcceleration.y;
 
         // Adding other impulse such as jump/dash
         processImpulse();
@@ -108,7 +108,7 @@ namespace platformer {
         }
 
         //Initial speed determination
-        speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed)*ACCELERATION;
+        speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
     }
 
     void Character::processImpulse(){
