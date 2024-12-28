@@ -24,7 +24,7 @@ namespace platformer {
         target.draw(this->sprite, states);
     }
 
-    gf::Vector2f Character::getDirection() const{
+    gf::Vector2f Character::getDirection() const {
         gf::Vector2f direction = {0.0f,0.0f};
         direction.x = speed.x / (std::abs(speed.x) < 0.001 ? 1 : std::abs(speed.x));
         direction.y = speed.y / (std::abs(speed.y) < 0.001 ? 1 : std::abs(speed.y));
@@ -35,19 +35,19 @@ namespace platformer {
         processInput();
 
         // We will need to change this if we want the character to accelerate in other ways than just falling
-        acceleration = gravity + Physics::friction(speed,getDirection());
+        acceleration = gravity + Physics::friction(speed, getDirection());
         const gf::Vector2f currentAcceleration = acceleration * time.asSeconds();
 
         // Adding the current acceleration to the speed (if it doesn't exceeds the maximum possible speed)
-        speed.x = std::abs(speed.x + currentAcceleration.x) > std::abs(maxSpeed.x) ? maxSpeed.x*getDirection().x : speed.x + currentAcceleration.x;
-        speed.y = std::abs(speed.y + currentAcceleration.y) > std::abs(maxSpeed.y) ? maxSpeed.y*getDirection().y : speed.y + currentAcceleration.y;
+        speed.x = std::abs(speed.x + currentAcceleration.x) > std::abs(maxSpeed.x) ? maxSpeed.x * getDirection().x : speed.x + currentAcceleration.x;
+        speed.y = std::abs(speed.y + currentAcceleration.y) > std::abs(maxSpeed.y) ? maxSpeed.y * getDirection().y : speed.y + currentAcceleration.y;
 
         // Adding other impulse such as jump/dash
         processImpulse();
 
         // Calculating collisions
-        std::pair<bool,gf::Vector2f> collisions = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
-        speed += collisions.second;
+        auto [collisionOccured, collisionVector] = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
+        speed += collisionVector;
 
         // Adding the speed to the position
         position += speed * time.asSeconds();
@@ -111,10 +111,10 @@ namespace platformer {
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
     }
 
-    void Character::processImpulse(){
+    void Character::processImpulse() {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
-        if(jumpAction.isActive()){
-            jumpSpeed.y += -JUMP_FACTOR;
+        if (jumpAction.isActive()) {
+            jumpSpeed.y -= JUMP_FACTOR;
         }
         // if(dashAction.isActive()){
         //      jumpSpeed.x += DASH_FACTOR;

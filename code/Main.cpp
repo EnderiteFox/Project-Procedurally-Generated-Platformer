@@ -37,7 +37,7 @@ int main() {
     // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager;
-    platformer::Character character({8.0f,-20.0f}, characterTexture, blockManager);
+    platformer::Character character({8.0f, -20.0f}, characterTexture, blockManager);
     platformer::World world(character, blockManager);
 
     // Loading textures
@@ -54,12 +54,13 @@ int main() {
     gf::Clock clock;
 
     // View center position
-    const double CAMERA_EASING = 2;
     gf::Vector2f viewPos = character.getPosition();
 
     // Game loop
 
     while (window.isOpen()) {
+        constexpr double CAMERA_EASING = 2;
+
         // 1 - inputs
         gf::Event event{};
 

@@ -21,19 +21,19 @@ namespace platformer {
             constexpr float correctionCoeff = 0.8f;
             const gf::Vector2f relativeVelocity = -character.getSpeed();
             const float velocityAlongNormal = dot(relativeVelocity, p.normal);
-            if(velocityAlongNormal > 0) {
-                return {false,{0,0}};
+            if (velocityAlongNormal > 0) {
+                return {false, {0,0}};
             }
             const gf::Vector2f correction = -p.depth / correctionCoeff * p.normal;
 
             const float impulseScalar = (1 + RESTITUTION) * velocityAlongNormal;
-            return {true,impulseScalar * p.normal + correction};
+            return {true, impulseScalar * p.normal + correction};
         }
-        return {false,{0,0}};
+        return {false, {0,0}};
     }
 
     std::pair<bool,gf::Vector2f> Physics::collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes) {
-        gf::Vector2f result {0,0};
+        gf::Vector2f result {0, 0};
         bool occured = false;
         int collisions = 0;
         for (gf::RectF hb: otherHitboxes) {
@@ -46,7 +46,7 @@ namespace platformer {
                 collisions++;
             }
         }
-        return {occured,(result / (collisions == 0 ? 1 : collisions))};
+        return {occured, (result / (collisions == 0 ? 1 : collisions))};
     }
 
     gf::Vector2f Physics::friction(const gf::Vector2f speed,const gf::Vector2f direction) {

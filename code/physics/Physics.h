@@ -9,7 +9,7 @@ namespace platformer {
         Physics() = delete; //Prevent users from creating an instance of physics, as it only has static functions
 
     public:
-        static constexpr gf::Vector2f AIRRESISTANCE{0.125f,0.125f};
+        static constexpr gf::Vector2f AIRRESISTANCE{1.5f,0.125f};
         static constexpr float RESTITUTION = 0.1; // Coefficient giving the strength of the rebound in case one occurs
 
         /**
@@ -37,9 +37,10 @@ namespace platformer {
          *  Determines a moving object's friction with the air in fuction of their current speed
          *
          *  @param speed : Speed of the moving object
+         *  @param direction : The direction of the friction
          *
          *  @return vector corresponding to the current friction
          */
-        static gf::Vector2f friction(const gf::Vector2f speed, const gf::Vector2f direction);
+        static gf::Vector2f friction(gf::Vector2f speed, gf::Vector2f direction);
     };
 }
