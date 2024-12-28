@@ -1,8 +1,6 @@
 /**
  * A class used to handle all physic behaviors
  */
-#include <cassert>
-#include <iostream>
 #include <gf/Rect.h>
 #include <gf/Vector.h>
 #include <gf/Collision.h>

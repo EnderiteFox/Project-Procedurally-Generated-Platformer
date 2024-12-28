@@ -14,7 +14,7 @@ namespace platformer {
     class Character final : public gf::Entity {
         const gf::Vector2f size {8.0f, 8.0f};
         const gf::Vector2f gravity {0.0f, 40.0f};
-        const gf::Vector2f drag {0.1, 0};
+        const gf::Vector2f drag {0.1f, 0.0f};
         const float ACCELERATION = 3.0f;
         const float JUMP_FACTOR = 20.0f;
         const gf::Vector2f maxSpeed {40.0f, 100.0f};

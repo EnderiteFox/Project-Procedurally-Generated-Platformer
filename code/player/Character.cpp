@@ -12,7 +12,6 @@ namespace platformer {
     Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager):
         blockManager(blockManager),
         position(position),
-        maxSpeed(),
         speed(),
         acceleration()
     {
@@ -83,9 +82,9 @@ namespace platformer {
         rightAction.setContinuous();
         actionContainer.addAction(rightAction);
 
-        //Will probably be removed in profit of a "jump" button once we add gravity and collisions
         jumpAction.addScancodeKeyControl(gf::Scancode::Z);
         jumpAction.addScancodeKeyControl(gf::Scancode::Up);
+        jumpAction.addScancodeKeyControl(gf::Scancode::Space);
         actionContainer.addAction(jumpAction);
 
         downAction.addScancodeKeyControl(gf::Scancode::S);
