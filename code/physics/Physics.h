@@ -9,7 +9,7 @@ namespace platformer {
         Physics() = delete; //Prevent users from creating an instance of physics, as it only has static functions
 
     public:
-        static constexpr gf::Vector2f AIRRESISTANCE{1.5f,0.125f};
+        static constexpr gf::Vector2f AIRRESISTANCE{0.125f,0.125f};
         static constexpr float RESTITUTION = 0.1; // Coefficient giving the strength of the rebound in case one occurs
 
         /**
