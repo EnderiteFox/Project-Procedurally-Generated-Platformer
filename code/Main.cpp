@@ -37,7 +37,8 @@ int main() {
     // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager;
-    platformer::Character character({8.0f, -20.0f}, characterTexture, blockManager);
+    gf::ActionContainer actions;
+    platformer::Character character({8.0f, -20.0f}, characterTexture, blockManager, actions);
     platformer::World world(character, blockManager);
 
     // Loading textures
@@ -47,8 +48,7 @@ int main() {
     world.generate();
 
     // actions
-    gf::ActionContainer actions;
-    character.initInput(actions);
+    character.initInput();
 
     // clock
     gf::Clock clock;

@@ -9,8 +9,9 @@
 #include <iostream>
 
 namespace platformer {
-    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager):
+    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::ActionContainer& actionContainer):
         blockManager(blockManager),
+        actionContainer(actionContainer),
         position(position),
         speed(),
         acceleration()
@@ -31,6 +32,10 @@ namespace platformer {
         return direction;
     }
 
+    bool Character::isOnGround() const {
+        return lastGroundTouchTime <= COYOTE_JUMP_TIME;
+    }
+
     void Character::update(const gf::Time time) {
         processInput();
 
@@ -48,6 +53,10 @@ namespace platformer {
         // Calculating collisions
         auto [collisionOccured, collisionVector] = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
         speed += collisionVector;
+
+        // Update last time we touched the ground
+        if (collisionVector.y < 0) lastGroundTouchTime = 0;
+        else lastGroundTouchTime += time.asSeconds();
 
         // Adding the speed to the position
         position += speed * time.asSeconds();
@@ -70,7 +79,7 @@ namespace platformer {
         return gf::RectF::fromPositionSize(this->position, this->size);
     }
 
-    void Character::initInput(gf::ActionContainer& actionContainer) {
+    void Character::initInput() {
         leftAction.addScancodeKeyControl(gf::Scancode::Q);
         leftAction.addScancodeKeyControl(gf::Scancode::A);
         leftAction.addScancodeKeyControl(gf::Scancode::Left);
@@ -85,6 +94,7 @@ namespace platformer {
         jumpAction.addScancodeKeyControl(gf::Scancode::Z);
         jumpAction.addScancodeKeyControl(gf::Scancode::Up);
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
+        jumpAction.setInstantaneous();
         actionContainer.addAction(jumpAction);
 
         downAction.addScancodeKeyControl(gf::Scancode::S);
@@ -103,9 +113,9 @@ namespace platformer {
             charSpeed.x -= 1;
         }
 
-        if (jumpAction.isActive()) {
+        if (jumpAction.isActive() && isOnGround()) {
             charSpeed.y = -JUMP_FACTOR;
-            jumpAction.reset();
+            lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
         }
 
         if (downAction.isActive()) {
@@ -114,6 +124,9 @@ namespace platformer {
 
         //Initial speed determination
         speed += charSpeed * ACCELERATION;
+
+        // Reset inputs
+        actionContainer.reset();
     }
 
     void Character::processImpulse() {

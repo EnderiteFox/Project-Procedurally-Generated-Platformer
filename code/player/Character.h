@@ -18,8 +18,10 @@ namespace platformer {
         const float ACCELERATION = 3.0f;
         const float JUMP_FACTOR = 20.0f;
         const gf::Vector2f maxSpeed {40.0f, 100.0f};
+        const float COYOTE_JUMP_TIME = 0.1f;
 
         BlockManager& blockManager;
+        gf::ActionContainer& actionContainer;
 
         gf::Vector2f position;
         gf::Vector2f speed;
@@ -31,20 +33,29 @@ namespace platformer {
         gf::Action jumpAction {"Jump"};
         gf::Action downAction {"Down"};
 
+        bool groundCollision = false;
+        float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
+
 
     public:
-        Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager);
+        Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::ActionContainer& actionContainer);
 
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
         void update(gf::Time time) override;
 
+        // Setters and getters
         void setSpeed(gf::Vector2f speed);
         gf::Vector2f getSpeed() const;
+
         gf::Vector2f getPosition() const;
+
         gf::RectF getHitbox() const;
+
         gf::Vector2f getDirection() const;
 
-        void initInput(gf::ActionContainer& actionContainer);
+        bool isOnGround() const;
+
+        void initInput();
         void processInput();
         void processImpulse();
     };
