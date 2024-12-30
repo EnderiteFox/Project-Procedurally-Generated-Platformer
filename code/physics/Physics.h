@@ -1,3 +1,13 @@
+/**
+ * Static class dedicated to physics and interactions between objects
+ * Currently handles :
+ *  - Collisions between character and a rectangle
+ *      TODO : Update this function so it works between 2 rectangles with velocity
+ *  - Collisions between character and multiple rectangles
+ *      TODO : Same as above
+ *  - Friction : Determines the air resistance that would affect an object as a function of it's speed and direction
+ */
+
 #pragma once
 #include <gf/Vector.h>
 #include <gf/Rect.h>
@@ -9,7 +19,7 @@ namespace platformer {
         Physics() = delete; //Prevent users from creating an instance of physics, as it only has static functions
 
     public:
-        static constexpr gf::Vector2f AIRRESISTANCE{0.125f,0.125f};
+        static constexpr gf::Vector2f AIRRESISTANCE{0.125f,0.125f}; // Coefficient affecting the air direction
         static constexpr float RESTITUTION = 0.1; // Coefficient giving the strength of the rebound in case one occurs
 
         /**
