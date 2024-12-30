@@ -92,6 +92,7 @@ namespace platformer {
         actionContainer.addAction(rightAction);
 
         jumpAction.addScancodeKeyControl(gf::Scancode::Z);
+        jumpAction.addScancodeKeyControl(gf::Scancode::W);
         jumpAction.addScancodeKeyControl(gf::Scancode::Up);
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
         jumpAction.setInstantaneous();
