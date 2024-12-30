@@ -1,3 +1,7 @@
+/**
+ * A type of block used by the blockmanager
+ * A type of block is defined by a string and a texture
+ */
 #pragma once
 #include <string>
 

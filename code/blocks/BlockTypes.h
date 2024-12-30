@@ -1,3 +1,7 @@
+/**
+ * A container for all the existing block types
+ * Destined to be used by the block manager
+ */
 #pragma once
 #include <vector>
 
