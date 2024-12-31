@@ -121,7 +121,7 @@ namespace platformer {
             charSpeed.x -= 1;
         }
 
-        if (downAction.isActive()) {
+        if (downAction.isActive() && !isOnGround()) {
             charSpeed.y += 1;
         }
 
