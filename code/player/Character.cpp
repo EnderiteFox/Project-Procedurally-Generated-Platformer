@@ -64,6 +64,9 @@ namespace platformer {
 
         // Adding the speed to the position
         position += speed * time.asSeconds();
+
+        //Resetting the actions
+        actionContainer.reset();
     }
 
     void Character::setSpeed(const gf::Vector2f speed) {
@@ -118,31 +121,24 @@ namespace platformer {
             charSpeed.x -= 1;
         }
 
-        if (jumpAction.isActive() && (isOnGround() || jumpCount < maxJumpCount)) {
-            charSpeed.y = -JUMP_FACTOR;
-            jumpCount++;
-            if (isOnGround()) {
-                lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
-            }
-        }
-
         if (downAction.isActive()) {
             charSpeed.y += 1;
         }
 
         //Initial speed determination
         speed += charSpeed * ACCELERATION;
-
-        // Reset inputs
-        actionContainer.reset();
     }
 
     void Character::processImpulse() {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
-
-        if (jumpAction.isActive() && isOnGround()) {
-            jumpSpeed.y -= JUMP_FACTOR;
+        if (jumpAction.isActive() && (isOnGround() || jumpCount < maxJumpCount)) {
+            jumpSpeed.y = -JUMP_FACTOR;
+            jumpCount++;
+            if (isOnGround()) {
+                lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
+            }
         }
+
         // if(dashAction.isActive()){
         //      jumpSpeed.x += DASH_FACTOR;
         // }

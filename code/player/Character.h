@@ -36,7 +36,7 @@ namespace platformer {
         const gf::Vector2f gravity {0.0f, 40.0f};
         const gf::Vector2f drag {0.1f, 0.0f};
         const float ACCELERATION = 3.0f;
-        const float JUMP_FACTOR = 20.0f;
+        const float JUMP_FACTOR = 60.0f;
         const gf::Vector2f maxSpeed {40.0f, 100.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
         const int maxJumpCount = 2;
