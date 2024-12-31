@@ -10,41 +10,45 @@
 
 
 namespace platformer {
-    std::pair<bool,gf::Vector2f> Physics::collide(const Character& character, const gf::RectF& otherHitbox) {
+    std::pair<gf::Vector2f,gf::Vector2f> Physics::collide(const Character& character, const gf::RectF& otherHitbox) {
         const gf::RectF charHB = character.getHitbox();
         if (
             gf::Penetration p;
             collides(charHB,otherHitbox,p)
         ) {
-            constexpr float correctionCoeff = 0.8f;
+            constexpr float correctionCoeff = 0.2f;
+            const gf::Vector2f correction = -std::max(p.depth-0.1f,0.0f) * correctionCoeff * p.normal;
+
             const gf::Vector2f relativeVelocity = -character.getSpeed();
             const float velocityAlongNormal = dot(relativeVelocity, p.normal);
+
             if (velocityAlongNormal > 0) {
-                return {false, {0,0}};
+                return {correction, {0,0}};
             }
-            const gf::Vector2f correction = -p.depth / correctionCoeff * p.normal;
 
             const float impulseScalar = (1 + RESTITUTION) * velocityAlongNormal;
-            return {true, impulseScalar * p.normal + correction};
+            return {correction, impulseScalar * p.normal + correction};
         }
-        return {false, {0,0}};
+        return {{0,0}, {0,0}};
     }
 
-    std::pair<bool,gf::Vector2f> Physics::collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes) {
+    std::pair<gf::Vector2f,gf::Vector2f> Physics::collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes) {
         gf::Vector2f result {0, 0};
-        bool occured = false;
+        gf::Vector2f correction {0, 0};
         int collisions = 0;
+        int corrections = 0;
         for (gf::RectF hb: otherHitboxes) {
-            if (
-                auto [collided, collisionResult] = collide(character, hb);
-                collided
-            ) {
-                occured = true;
-                result += collisionResult;
+            auto [correctionResult, collisionResult] = collide(character, hb);
+            result += collisionResult;
+            correction += correctionResult;
+            if(collisionResult.x != 0 || collisionResult.y != 0){
                 collisions++;
             }
+            if(correctionResult.x != 0  || correctionResult.y != 0){
+                corrections++;
+            }
         }
-        return {occured, (result / (collisions == 0 ? 1 : collisions))};
+        return {(correction/std::max(corrections,1)), (result /std::max(collisions,1))};
     }
 
     gf::Vector2f Physics::friction(const gf::Vector2f speed,const gf::Vector2f direction) {
