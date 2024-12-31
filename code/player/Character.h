@@ -30,6 +30,7 @@ namespace platformer {
          * JUMP_FACTOR : Magnitude of the impulsion the character gains during a jump
          * maxSpeed : Maximum horizontal and vertical speed, not considering jumping
          * COYOTE_JUMP_TIME : Duration after leaving the ground when jumping is still possible
+         * maxJumpCount : Number of jumps possible in a row without touching the ground
          */
         const gf::Vector2f size {8.0f, 8.0f};
         const gf::Vector2f gravity {0.0f, 40.0f};
@@ -38,6 +39,7 @@ namespace platformer {
         const float JUMP_FACTOR = 20.0f;
         const gf::Vector2f maxSpeed {40.0f, 100.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
+        const int maxJumpCount = 2;
 
         BlockManager& blockManager;
         gf::ActionContainer& actionContainer;
@@ -54,6 +56,7 @@ namespace platformer {
 
         bool groundCollision = false;
         float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
+        int jumpCount = 0;
 
     public:
         // Constructor

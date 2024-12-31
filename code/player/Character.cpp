@@ -55,8 +55,12 @@ namespace platformer {
         speed += collisionVector;
 
         // Update last time we touched the ground
-        if (collisionVector.y < 0) lastGroundTouchTime = 0;
-        else lastGroundTouchTime += time.asSeconds();
+        if (collisionVector.y < 0){
+            lastGroundTouchTime = 0;
+            jumpCount=0;
+        } else {
+            lastGroundTouchTime += time.asSeconds();
+        }
 
         // Adding the speed to the position
         position += speed * time.asSeconds();
@@ -114,9 +118,12 @@ namespace platformer {
             charSpeed.x -= 1;
         }
 
-        if (jumpAction.isActive() && isOnGround()) {
+        if (jumpAction.isActive() && (isOnGround() || jumpCount < maxJumpCount)) {
             charSpeed.y = -JUMP_FACTOR;
-            lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
+            jumpCount++;
+            if (isOnGround()) {
+                lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
+            }
         }
 
         if (downAction.isActive()) {
@@ -132,7 +139,8 @@ namespace platformer {
 
     void Character::processImpulse() {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
-        if (jumpAction.isActive()) {
+
+        if (jumpAction.isActive() && isOnGround()) {
             jumpSpeed.y -= JUMP_FACTOR;
         }
         // if(dashAction.isActive()){
