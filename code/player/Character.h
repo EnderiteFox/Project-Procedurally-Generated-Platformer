@@ -39,7 +39,7 @@ namespace platformer {
         const float JUMP_FACTOR = 60.0f;
         const gf::Vector2f maxSpeed {40.0f, 100.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
-        const int maxJumpCount = 2;
+        const int maxJumpCount = 1;
 
         BlockManager& blockManager;
         gf::ActionContainer& actionContainer;

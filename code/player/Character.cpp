@@ -133,9 +133,11 @@ namespace platformer {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
         if (jumpAction.isActive() && (isOnGround() || jumpCount < maxJumpCount)) {
             jumpSpeed.y = -JUMP_FACTOR;
-            jumpCount++;
             if (isOnGround()) {
                 lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
+            }
+            else{
+                jumpCount++;
             }
         }
 
