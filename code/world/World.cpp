@@ -26,6 +26,14 @@ namespace platformer {
         for (int i = -5; i <= 5; ++i) {
             blockManager.setBlockTypeAt(i, 0, BlockTypes::TEST_BLOCK);
         }
+        for (int i = -5; i <= 5; ++i) {
+            blockManager.setBlockTypeAt(i, -3, BlockTypes::TEST_BLOCK);
+        }
+        for (int i = -9; i <= -6; ++i) {
+            blockManager.setBlockTypeAt(i, -1, BlockTypes::TEST_BLOCK);
+        }
+
+
         playerSpawnPoint = gf::Vector2f{5.0f,-20.0f};
         player.teleport(playerSpawnPoint);
     }
