@@ -21,6 +21,7 @@
 
 namespace platformer {
     class Character final : public gf::Entity {
+    private:
         /**
          * Main constants relating to the physics of the character :
          * size : Size of the sprite (and hitbox) of the character
