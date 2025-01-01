@@ -51,11 +51,11 @@ namespace platformer {
         processImpulse();
 
         // Calculating collisions
-        auto [correctionVector, collisionVector] = Physics::collide(*this, blockManager.getNearbyHitboxes(position));
-        speed += collisionVector;
+        platformer::collisionData collisionVector= Physics::collide(*this, blockManager.getNearbyHitboxes(position));
+        speed += collisionVector.collision;
 
         // Update last time we touched the ground
-        if (collisionVector.y < 0){
+        if (collisionVector.collision.y < 0){
             lastGroundTouchTime = 0;
             jumpCount=0;
         } else {
@@ -63,7 +63,7 @@ namespace platformer {
         }
 
         // Adding the speed to the position
-        position += speed * time.asSeconds() + correctionVector;
+        position += speed * time.asSeconds() + collisionVector.correction;
 
         //Resetting the actions
         actionContainer.reset();

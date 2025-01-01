@@ -15,6 +15,24 @@
 #include "player/Character.h"
 
 namespace platformer {
+
+    struct collisionData{
+        gf::Vector2f collision{0,0};
+        gf::Vector2f correction{0,0};
+        gf::Vector2f friction{0,0};
+        bool hasCollisionOccured = false;
+        bool hasCorrectionOccured = false;
+
+        collisionData& operator+=(const collisionData& other){
+            collision += other.collision;
+            correction += other.correction;
+            friction += other.friction;
+            hasCollisionOccured = hasCollisionOccured || other.hasCollisionOccured;
+            hasCorrectionOccured = hasCorrectionOccured || other.hasCorrectionOccured;
+            return *this;
+        }
+    };
+
     class Physics {
         Physics() = delete; //Prevent users from creating an instance of physics, as it only has static functions
 
@@ -31,7 +49,7 @@ namespace platformer {
          *                  Vector2f giving a vector corresponding to a correction to prevent the character from sinking in other objects
          *                  Vector2f giving a vector of the collision that occured. If the collision didn't occur, the result is the null vector
          */
-        static std::pair<gf::Vector2f,gf::Vector2f> collide(const Character& character, const gf::RectF& otherHitbox);
+        static platformer::collisionData collide(const Character& character, const gf::RectF& otherHitbox);
 
         /**
          * Tests the collision between a character and multiple objects/hitboxes
@@ -41,7 +59,7 @@ namespace platformer {
          *                  Vector2f giving a vector corresponding to a correction to prevent the character from sinking in other objects
          *                  Vector2f giving a vector of the sum of the vector of the collision that occured.
          */
-        static std::pair<gf::Vector2f,gf::Vector2f> collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes);
+        static platformer::collisionData collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes);
 
         /**
          *  Determines a moving object's friction with the air in fuction of their current speed
