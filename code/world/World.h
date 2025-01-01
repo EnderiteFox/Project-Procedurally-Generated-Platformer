@@ -16,6 +16,7 @@ namespace platformer {
         gf::EntityContainer entityContainer;
         BlockManager& blockManager;
         Character& player;
+        gf::Vector2f playerSpawnPoint;
 
     public:
         //Constructor
@@ -29,6 +30,6 @@ namespace platformer {
          * Generates the world
          * For the time being, will generate a line of blocks
          */
-        void generate() const;
+        void generate();
     };
 }

@@ -38,7 +38,7 @@ int main() {
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager;
     gf::ActionContainer actions;
-    platformer::Character character({8.0f, -20.0f}, characterTexture, blockManager, actions);
+    platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
     platformer::World world(character, blockManager);
 
     // Loading textures

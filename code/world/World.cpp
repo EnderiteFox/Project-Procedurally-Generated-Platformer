@@ -2,6 +2,7 @@
 #include <player/Character.h>
 #include <blocks/BlockManager.h>
 #include <blocks/BlockTypes.h>
+#include <vector>
 
 namespace platformer {
     World::World(Character& player, BlockManager& blockManager): blockManager(blockManager), player(player) {
@@ -21,9 +22,11 @@ namespace platformer {
         return this->entityContainer;
     }
 
-    void World::generate() const {
+    void World::generate() {
         for (int i = -5; i <= 5; ++i) {
             blockManager.setBlockTypeAt(i, 0, BlockTypes::TEST_BLOCK);
         }
+        playerSpawnPoint = gf::Vector2f{5.0f,-20.0f};
+        player.teleport(playerSpawnPoint);
     }
 }

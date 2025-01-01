@@ -80,6 +80,9 @@ namespace platformer {
         // Initialize the input action within the player's action container
         void initInput();
 
+        // Teleports the character to a location given in parameter
+        void teleport(gf::Vector2f newPosition);
+
         /**
          * Processed the user's inputs.
          * Adds speed to the player depending on the actions active during the current frame

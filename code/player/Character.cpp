@@ -111,6 +111,12 @@ namespace platformer {
         actionContainer.addAction(downAction);
     }
 
+    void Character::teleport(gf::Vector2f newPosition){
+        position = newPosition;
+        speed = gf::Vector2f{0.0f,0.0f};
+        actionContainer.reset();
+    }
+
     // Determining initial basic inputs (left/right/down)
     // "Immediate" inputs such as dash or jump are treated in "processImpulse"
     void Character::processInput() {
