@@ -48,8 +48,9 @@ namespace platformer {
                 res.friction = -impulseScalar * tangent * KINETICFRICTION;
             }
             // To avoid floating point issues
-            if (std::abs(res.friction.x) < 0.05) res.friction.x = ((res.friction.x > 0) - (res.friction.x < 0)) * 0.05;
-            if (std::abs(res.friction.y) < 0.05) res.friction.y = ((res.friction.y > 0) - (res.friction.y < 0)) * 0.05;
+            if(std::abs(character.getSpeed().x) < 0.5f && std::abs(character.getSpeed().x) > 0){
+                res.friction.x = -character.getSpeed().x;
+            }
         }
         return res;
     }

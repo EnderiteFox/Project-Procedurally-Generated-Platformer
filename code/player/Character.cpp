@@ -54,6 +54,8 @@ namespace platformer {
         const collisionData collisionVector= Physics::collide(*this, blockManager.getNearbyHitboxes(position));
         speed += collisionVector.collision + collisionVector.friction;
 
+        std::cout << speed.x << " " << speed.y << std::endl;
+
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
