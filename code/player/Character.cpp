@@ -51,16 +51,19 @@ namespace platformer {
         processImpulse();
 
         // Calculating collisions
-        platformer::collisionData collisionVector= Physics::collide(*this, blockManager.getNearbyHitboxes(position));
+        const collisionData collisionVector= Physics::collide(*this, blockManager.getNearbyHitboxes(position));
         speed += collisionVector.collision + collisionVector.friction;
 
         // Update last time we touched the ground
-        if (collisionVector.collision.y < 0){
+        if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
-            jumpCount=0;
+            jumpCount = 0;
         } else {
             lastGroundTouchTime += time.asSeconds();
         }
+
+        // Update jump time
+        jumpStartTime += time.asSeconds();
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
@@ -78,11 +81,11 @@ namespace platformer {
         return this->position;
     }
 
-    gf::Vector2f Character::getSpeed() const{
+    gf::Vector2f Character::getSpeed() const {
         return this->speed;
     }
 
-    gf::RectF Character::getHitbox() const{
+    gf::RectF Character::getHitbox() const {
         return gf::RectF::fromPositionSize(this->position, this->size);
     }
 
@@ -102,7 +105,7 @@ namespace platformer {
         jumpAction.addScancodeKeyControl(gf::Scancode::W);
         jumpAction.addScancodeKeyControl(gf::Scancode::Up);
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
-        jumpAction.setInstantaneous();
+        jumpAction.setContinuous();
         actionContainer.addAction(jumpAction);
 
         downAction.addScancodeKeyControl(gf::Scancode::S);
@@ -111,7 +114,7 @@ namespace platformer {
         actionContainer.addAction(downAction);
     }
 
-    void Character::teleport(gf::Vector2f newPosition){
+    void Character::teleport(const gf::Vector2f newPosition){
         position = newPosition;
         speed = gf::Vector2f{0.0f,0.0f};
         actionContainer.reset();
@@ -127,7 +130,7 @@ namespace platformer {
             charSpeed.x -= 1;
         }
 
-        if (downAction.isActive() && !isOnGround()) {
+        if (downAction.isActive() && !isOnGround() && !jumping) {
             charSpeed.y += 1;
         }
 
@@ -137,14 +140,28 @@ namespace platformer {
 
     void Character::processImpulse() {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
-        if (jumpAction.isActive() && (isOnGround() || jumpCount < maxJumpCount)) {
-            jumpSpeed.y = -JUMP_FACTOR;
-            if (isOnGround()) {
-                lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
-            }
-            else {
+
+        // If jumping and can jump
+        if (jumpAction.isActive() && (jumping || isOnGround() || (jumpCount < maxJumpCount && canDoubleJump)) && jumpStartTime <= MAX_JUMP_TIME) {
+            // When starting to jump
+            if (!jumping) {
                 jumpCount++;
+                lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
+                canDoubleJump = false;
             }
+
+            // Is jumping
+            jumping = true;
+            jumpSpeed.y = -JUMP_FACTOR;
+        }
+        // When not jumping
+        else {
+            jumping = false;
+            jumpStartTime = 0;
+            if (isOnGround()) jumpCount = 0;
+
+            // Can double jump once we finished jumping and we released the button (so when keeping the button pressed it doesn't keep jumping)
+            if (!jumpAction.isActive()) canDoubleJump = true;
         }
 
         // if(dashAction.isActive()){
