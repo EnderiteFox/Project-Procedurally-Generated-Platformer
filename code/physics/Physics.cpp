@@ -51,6 +51,8 @@ namespace platformer {
             if(std::abs(character.getSpeed().x) < 0.5f && std::abs(character.getSpeed().x) > 0){
                 res.friction.x = -character.getSpeed().x;
             }
+
+            res.friction = res.friction * gf::Vector2f{1,0};
         }
         return res;
     }

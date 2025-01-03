@@ -57,7 +57,6 @@ namespace platformer {
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
-            jumpCount = 0;
         } else {
             lastGroundTouchTime += time.asSeconds();
         }
@@ -145,10 +144,10 @@ namespace platformer {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
 
         // If jumping and can jump
-        if (jumpAction.isActive() && (jumping || isOnGround() || (jumpCount < maxJumpCount && canDoubleJump)) && jumpStartTime <= MAX_JUMP_TIME) {
+        if (jumpAction.isActive() && (jumping || isOnGround() || (airjumps < maxAirJumpCount && canDoubleJump)) && jumpStartTime <= MAX_JUMP_TIME) {
             // When starting to jump
             if (!jumping) {
-                jumpCount++;
+                if(!isOnGround()){airjumps++;}
                 lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
                 canDoubleJump = false;
             }
@@ -161,7 +160,7 @@ namespace platformer {
         else {
             jumping = false;
             jumpStartTime = 0;
-            if (isOnGround()) jumpCount = 0;
+            if (isOnGround()) airjumps = 0;
 
             // Can double jump once we finished jumping and we released the button (so when keeping the button pressed it doesn't keep jumping)
             if (!jumpAction.isActive()) canDoubleJump = true;
