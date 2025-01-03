@@ -7,5 +7,5 @@ namespace platformer {
         };
     }
 
-    BlockType BlockTypes::TEST_BLOCK = BlockType("testBlock", "../assets/tile_placeholder.png");
+    BlockType BlockTypes::TEST_BLOCK = BlockType("testBlock", "../assets/tiles/tile_placeholder.png");
 }
