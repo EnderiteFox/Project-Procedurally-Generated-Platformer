@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace platformer {
-    World::World(Character& player, BlockManager& blockManager): blockManager(blockManager), player(player) {
+    World::World(Character& player, BlockManager& blockManager): blockManager(blockManager), player(player), playerSpawnPoint() {
         entityContainer.addEntity(player);
         entityContainer.addEntity(blockManager);
     }

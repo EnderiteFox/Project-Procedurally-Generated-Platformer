@@ -10,8 +10,8 @@
 
 
 namespace platformer {
-    platformer::collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox) {
-        platformer::collisionData res;
+    collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox) {
+        collisionData res;
         const gf::RectF charHB = character.getHitbox();
         if (
             gf::Penetration p;
@@ -35,34 +35,36 @@ namespace platformer {
             //Friction
             relativeVelocity = -(character.getSpeed() + res.collision);
             gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal) * p.normal;
-            if(tangent.x != 0 && tangent.y != 0){
+            if (tangent.x != 0 && tangent.y != 0) {
                 tangent = normalize(tangent);
             }
-            float frictionScalar = -dot(relativeVelocity,tangent);
-            if ( std::abs(frictionScalar) < std::abs(impulseScalar) * STATICFRICTION){
+            if (
+                float frictionScalar = -dot(relativeVelocity,tangent);
+                std::abs(frictionScalar) < std::abs(impulseScalar) * STATICFRICTION
+            ) {
                 res.friction = frictionScalar * tangent;
             }
             else {
                 res.friction = -impulseScalar * tangent * KINETICFRICTION;
             }
             // To avoid floating point issues
-            if(std::abs(res.friction.x) < 0.05) res.friction.x = ((res.friction.x > 0) - (res.friction.x < 0)) * 0.05;
-            if(std::abs(res.friction.y) < 0.05) res.friction.y = ((res.friction.y > 0) - (res.friction.y < 0)) * 0.05;
+            if (std::abs(res.friction.x) < 0.05) res.friction.x = ((res.friction.x > 0) - (res.friction.x < 0)) * 0.05;
+            if (std::abs(res.friction.y) < 0.05) res.friction.y = ((res.friction.y > 0) - (res.friction.y < 0)) * 0.05;
         }
         return res;
     }
 
-   platformer::collisionData Physics::collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes) {
-        platformer::collisionData result;
+    collisionData Physics::collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes) {
+        collisionData result;
         int collisions = 0;
         int corrections = 0;
         for (gf::RectF hb: otherHitboxes) {
-            platformer::collisionData collisionResult = collide(character, hb);
+            collisionData collisionResult = collide(character, hb);
             result += collisionResult;
-            if(collisionResult.hasCollisionOccured){
+            if (collisionResult.hasCollisionOccured) {
                 collisions++;
             }
-            if(collisionResult.hasCorrectionOccured){
+            if (collisionResult.hasCorrectionOccured) {
                 corrections++;
             }
         }

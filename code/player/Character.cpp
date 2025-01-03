@@ -142,7 +142,7 @@ namespace platformer {
             if (isOnGround()) {
                 lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
             }
-            else{
+            else {
                 jumpCount++;
             }
         }
