@@ -2,7 +2,6 @@
 #include <player/Character.h>
 #include <blocks/BlockManager.h>
 #include <blocks/BlockTypes.h>
-#include <vector>
 
 namespace platformer {
     World::World(Character& player, BlockManager& blockManager): blockManager(blockManager), player(player), playerSpawnPoint() {
@@ -36,5 +35,16 @@ namespace platformer {
 
         playerSpawnPoint = gf::Vector2f{5.0f,-20.0f};
         player.teleport(playerSpawnPoint);
+    }
+
+    void World::update(const gf::Time time) {
+        entityContainer.update(time);
+
+        // Teleport player to spawn point if they fall in the void
+        if (player.getPosition().y > VOID_HEIGHT) player.setPosition(playerSpawnPoint);
+    }
+
+    void World::render(gf::RenderTarget& target, const gf::RenderStates& states) {
+        entityContainer.render(target, states);
     }
 }

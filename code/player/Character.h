@@ -25,7 +25,6 @@ namespace platformer {
          * Main constants relating to the physics of the character :
          * size : Size of the sprite (and hitbox) of the character
          * gravity : Value of the gravity that affects the character
-         * drag : TODO : find wtf this is for
          * ACCELERATION : The speed the character gains from the user's inputs
          * JUMP_FACTOR : Magnitude of the impulsion the character gains during a jump
          * maxSpeed : Maximum horizontal and vertical speed, not considering jumping
@@ -34,7 +33,6 @@ namespace platformer {
          */
         const gf::Vector2f size {8.0f, 8.0f};
         const gf::Vector2f gravity {0.0f, 40.0f};
-        const gf::Vector2f drag {0.1f, 0.0f};
         const float ACCELERATION = 3.0f;
         const float JUMP_FACTOR = 5.0f;
         const gf::Vector2f maxSpeed {40.0f, 100.0f};
@@ -74,6 +72,7 @@ namespace platformer {
         void setSpeed(gf::Vector2f speed);
         gf::Vector2f getSpeed() const;
         gf::Vector2f getPosition() const;
+        void setPosition(gf::Vector2f position);
         gf::RectF getHitbox() const;
         gf::Vector2f getDirection() const;
 

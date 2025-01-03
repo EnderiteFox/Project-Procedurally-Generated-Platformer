@@ -76,7 +76,7 @@ int main() {
 
         // 2 - update
         gf::Time time = clock.restart();
-        world.getEntityContainer().update(time);
+        world.update(time);
 
         // Update camera
         viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
@@ -86,7 +86,7 @@ int main() {
         renderer.clear();
         renderer.setView(mainView);
 
-        world.getEntityContainer().render(renderer);
+        world.render(renderer);
         renderer.display();
     }
 

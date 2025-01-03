@@ -76,6 +76,9 @@ namespace platformer {
         this->speed = speed;
     }
 
+    void Character::setPosition(const gf::Vector2f position) {
+        this->position = position;
+    }
 
     gf::Vector2f Character::getPosition() const {
         return this->position;
