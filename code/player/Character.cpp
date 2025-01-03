@@ -114,6 +114,11 @@ namespace platformer {
         downAction.addScancodeKeyControl(gf::Scancode::Down);
         downAction.setContinuous();
         actionContainer.addAction(downAction);
+
+        dashAction.addScancodeKeyControl(gf::Scancode::LeftShift);
+        dashAction.addScancodeKeyControl(gf::Scancode::RightShift);
+        dashAction.setInstantaneous();
+        actionContainer.addAction(dashAction);
     }
 
     void Character::teleport(const gf::Vector2f newPosition){
@@ -166,9 +171,17 @@ namespace platformer {
             if (!jumpAction.isActive()) canDoubleJump = true;
         }
 
-        // if(dashAction.isActive()){
-        //      jumpSpeed.x += DASH_FACTOR;
-        // }
+        if (dashAction.isActive()) {
+            if (rightAction.isActive() && !leftAction.isActive()) {
+                jumpSpeed.x += DASH_FACTOR;
+            } else if (leftAction.isActive() && !rightAction.isActive()) {
+                jumpSpeed.x -= DASH_FACTOR;
+            } //else if (!leftAction.isActive() && !rightAction.isActive()){
+                //If the shift key is pressed alone, we go to the right by default
+                //jumpSpeed.x += DASH_FACTOR;
+            //}
+        }
+
 
         // Speed resolution
         speed += jumpSpeed;

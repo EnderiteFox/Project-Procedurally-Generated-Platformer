@@ -35,6 +35,7 @@ namespace platformer {
         const gf::Vector2f gravity {0.0f, 40.0f};
         const float ACCELERATION = 3.0f;
         const float JUMP_FACTOR = 5.0f;
+        const float DASH_FACTOR = 50.0f;
         const gf::Vector2f maxSpeed {40.0f, 100.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
         const float MAX_JUMP_TIME = 0.17f; // ~= 8 frames
@@ -52,6 +53,7 @@ namespace platformer {
         gf::Action rightAction {"Right"};
         gf::Action jumpAction {"Jump"};
         gf::Action downAction {"Down"};
+        gf::Action dashAction {"Dash"};
 
         bool groundCollision = false;
         float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
