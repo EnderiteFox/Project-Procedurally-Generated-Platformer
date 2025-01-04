@@ -147,6 +147,7 @@ namespace platformer {
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
 
         //actionContainer.reset(); // This prevents dash from being processed, please don't add it back. It's already present at the end of the update method
+                                   // And it's useless here since our input actions (except dash) aren't Instantaneous.
     }
 
     void Character::processImpulse() {
