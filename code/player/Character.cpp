@@ -142,7 +142,9 @@ namespace platformer {
         }
 
         //Initial speed determination
-        speed += charSpeed * ACCELERATION;
+        speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
+
+        actionContainer.reset();
     }
 
     void Character::processImpulse() {
