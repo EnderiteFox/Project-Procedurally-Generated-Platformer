@@ -41,11 +41,7 @@ namespace platformer {
 
         // We will need to change this if we want the character to accelerate in other ways than just falling
         acceleration = gravity + Physics::friction(speed, getDirection());
-        const gf::Vector2f currentAcceleration = acceleration * time.asSeconds();
-
-        // Adding the current acceleration to the speed (if it doesn't exceeds the maximum possible speed)
-        speed.x = std::abs(speed.x + currentAcceleration.x) > std::abs(maxSpeed.x) ? maxSpeed.x * getDirection().x : speed.x + currentAcceleration.x;
-        speed.y = std::abs(speed.y + currentAcceleration.y) > std::abs(maxSpeed.y) ? maxSpeed.y * getDirection().y : speed.y + currentAcceleration.y;
+        speed += acceleration * time.asSeconds();
 
         // Adding other impulse such as jump/dash
         processImpulse();
@@ -136,15 +132,21 @@ namespace platformer {
         } else if (leftAction.isActive()) {
             charSpeed.x -= 1;
         }
-
         if (downAction.isActive() && !isOnGround() && !jumping) {
             charSpeed.y += 1;
+        }
+
+        if(speed.x + charSpeed.x * ACCELERATION > maxSpeed.x){
+            charSpeed.x = maxSpeed.x - speed.x;
+        }
+        if(speed.y + charSpeed.y * ACCELERATION > maxSpeed.y){
+            charSpeed.y = maxSpeed.y - speed.y;
         }
 
         //Initial speed determination
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
 
-        actionContainer.reset();
+        //actionContainer.reset(); // This prevents dash from being processed, please don't add it back. It's already present at the end of the update method
     }
 
     void Character::processImpulse() {
