@@ -30,7 +30,7 @@ namespace platformer {
             if (found == textureMap.cend()) continue;
             gf::Sprite sprite;
             sprite.setPosition(gf::Vector2f(pos.first, pos.second) * BLOCK_SIZE);
-            sprite.setTexture(found->second);
+            sprite.setTexture(found->second,gf::RectF::fromSize({1.0f,1.0f}));
             target.draw(sprite, states);
         }
     }
