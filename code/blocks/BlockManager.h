@@ -30,6 +30,7 @@ namespace platformer {
         // Getters and setter
         std::string getBlockTypeAt(int x, int y) const;
         void setBlockTypeAt(int x, int y, const BlockType& blockType);
+        void removeBlockAt(int x, int y);
 
         // Loads all available blocks textures
         void loadTextures();

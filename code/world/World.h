@@ -17,13 +17,14 @@ namespace platformer {
     class World final : public gf::Entity {
         // The height at which the void is located
         // If the player falls in the void, they are teleported at their spawn point
-        const float VOID_HEIGHT = 100.0f;
+        const float DEFAULT_VOID_HEIGHT = 100.0f;
 
         WorldGenerator& generator;
         gf::EntityContainer entityContainer;
         BlockManager& blockManager;
         Character& player;
         gf::Vector2f playerSpawnPoint;
+        float voidHeight = DEFAULT_VOID_HEIGHT;
 
     public:
         //Constructor
@@ -36,6 +37,7 @@ namespace platformer {
 
         // Setters
         void setSpawnPoint(gf::Vector2f spawnPoint);
+        void setVoidHeight(float voidHeight);
 
         // GF's render and update methods
         void render(gf::RenderTarget& target, const gf::RenderStates& states = gf::RenderStates()) override;

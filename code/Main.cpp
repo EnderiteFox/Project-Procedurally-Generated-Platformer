@@ -42,7 +42,7 @@ int main() {
     platformer::BlockManager blockManager;
     gf::ActionContainer actions;
     platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
-    platformer::TestGenerator generator;
+    platformer::BasicWorldGenerator generator;
     platformer::World world(character, blockManager, generator);
 
     // Loading textures

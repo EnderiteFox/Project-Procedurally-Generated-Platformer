@@ -8,8 +8,10 @@ namespace platformer {
     class World;
 
     class WorldGenerator {
+        gf::Random seedRandom;
     protected:
-        gf::Random random;
+        uint64_t seed = seedRandom.computeId();
+        gf::Random random{seed};
 
     public:
         virtual ~WorldGenerator() = default;

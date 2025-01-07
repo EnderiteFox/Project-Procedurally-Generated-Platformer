@@ -1,6 +1,8 @@
 #ifndef BASICWORLDGENERATOR_H
 #define BASICWORLDGENERATOR_H
 #include <vector>
+#include <blocks/BlockType.h>
+#include <blocks/BlockTypes.h>
 #include <gf/Vector.h>
 
 #include "WorldGenerator.h"
@@ -8,13 +10,19 @@
 namespace platformer {
     class BasicWorldGenerator final : public WorldGenerator {
         // Placeholder values, will be defined later
-        const int ROOM_WIDTH = 10;
-        const int ROOM_HEIGHT = 10;
+        const int ROOM_WIDTH = 3;
+        const int ROOM_HEIGHT = 3;
         const int ROOM_COUNT = 10;
+
+        const std::string WALL_BLOCK_NAME = "testBlock";
+
+        const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(WALL_BLOCK_NAME);
 
         std::vector<gf::Vector2i> rooms;
 
         void generateRooms();
+        void fillWorld(World& world);
+        void carveRooms(const World& world);
 
     public:
         void generate(World& world) override;

@@ -1,11 +1,19 @@
 #include "BasicWorldGenerator.h"
 
 #include <iostream>
+#include <blocks/BlockTypes.h>
+#include <world/World.h>
 
 namespace platformer {
     void BasicWorldGenerator::generate(World& world) {
+        std::cout << "Generating seed " << seed << "\n";
         generateRooms();
-        for (const gf::Vector2i room : rooms) std::cout << room.x << ", " << room.y << "\n";
+        fillWorld(world);
+        carveRooms(world);
+        world.setSpawnPoint(gf::Vector2f(
+            (rooms.front().x + ROOM_WIDTH / 2) * world.getBlockManager().BLOCK_SIZE,
+            (rooms.front().y + ROOM_HEIGHT) * world.getBlockManager().BLOCK_SIZE
+        ));
     }
 
     void BasicWorldGenerator::generateRooms() {
@@ -38,6 +46,38 @@ namespace platformer {
             );
         }
     }
+
+    void BasicWorldGenerator::fillWorld(World& world) {
+        int minX = 0;
+        int maxX = 0;
+        int minY = 0;
+        int maxY = 0;
+
+        for (const gf::Vector2i room : rooms) {
+            if (room.x < minX) minX = room.x;
+            if (room.x + ROOM_WIDTH > maxX) maxX = room.x + ROOM_WIDTH;
+            if (room.y < minY) minY = room.y;
+            if (room.y + ROOM_HEIGHT > maxY) maxY = room.y + ROOM_HEIGHT;
+        }
+
+        for (int x = minX - 1; x <= maxX; ++x) {
+            for (int y = minY - 1; y <= maxY; ++y) {
+                world.getBlockManager().setBlockTypeAt(x, y, WALL_BLOCK);
+            }
+        }
+        world.setVoidHeight((maxY + 2) * world.getBlockManager().BLOCK_SIZE);
+    }
+
+    void BasicWorldGenerator::carveRooms(const World& world) {
+        for (const gf::Vector2i room : rooms) {
+            for (int x = room.x; x < room.x + ROOM_WIDTH; ++x) {
+                for (int y = room.y; y < room.y + ROOM_HEIGHT; ++y) {
+                    world.getBlockManager().removeBlockAt(x, y);
+                }
+            }
+        }
+    }
+
 
 
 } // platformer
