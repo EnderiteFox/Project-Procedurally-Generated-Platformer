@@ -9,6 +9,8 @@
 #include <blocks/BlockManager.h>
 #include <gf/EntityContainer.h>
 
+#include "generators/WorldGenerator.h"
+
 namespace platformer {
     class Character;
 
@@ -17,6 +19,7 @@ namespace platformer {
         // If the player falls in the void, they are teleported at their spawn point
         const float VOID_HEIGHT = 100.0f;
 
+        WorldGenerator& generator;
         gf::EntityContainer entityContainer;
         BlockManager& blockManager;
         Character& player;
@@ -24,12 +27,15 @@ namespace platformer {
 
     public:
         //Constructor
-        World(Character& player, BlockManager& blockManager);
+        World(Character& player, BlockManager& blockManager, WorldGenerator& generator);
 
         //Getters
         Character& getPlayer() const;
         BlockManager& getBlockManager() const;
         gf::EntityContainer& getEntityContainer();
+
+        // Setters
+        void setSpawnPoint(gf::Vector2f spawnPoint);
 
         // GF's render and update methods
         void render(gf::RenderTarget& target, const gf::RenderStates& states = gf::RenderStates()) override;

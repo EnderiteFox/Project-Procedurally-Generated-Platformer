@@ -18,6 +18,8 @@ add_executable(Platformer
         code/blocks/BlockTypes.cpp
         code/blocks/BlockType.cpp
         code/physics/Physics.cpp
+        code/world/generators/WorldGenerator.cpp
+        code/world/generators/TestGenerator.cpp
 )
 
 target_include_directories(Platformer

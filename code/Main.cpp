@@ -11,6 +11,8 @@
 #include <player/Character.h>
 #include <world/World.h>
 
+#include "world/generators/TestGenerator.h"
+
 int main() {
     // Speed added to a character by default
 
@@ -39,7 +41,8 @@ int main() {
     platformer::BlockManager blockManager;
     gf::ActionContainer actions;
     platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
-    platformer::World world(character, blockManager);
+    platformer::TestGenerator generator;
+    platformer::World world(character, blockManager, generator);
 
     // Loading textures
     world.getBlockManager().loadTextures();

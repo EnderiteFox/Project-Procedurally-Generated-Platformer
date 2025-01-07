@@ -1,10 +1,11 @@
 #include <world/World.h>
 #include <player/Character.h>
 #include <blocks/BlockManager.h>
-#include <blocks/BlockTypes.h>
 
 namespace platformer {
-    World::World(Character& player, BlockManager& blockManager): blockManager(blockManager), player(player), playerSpawnPoint() {
+    World::World(Character& player, BlockManager& blockManager, WorldGenerator& generator):
+    generator(generator), blockManager(blockManager), player(player), playerSpawnPoint()
+    {
         entityContainer.addEntity(player);
         entityContainer.addEntity(blockManager);
     }
@@ -22,18 +23,7 @@ namespace platformer {
     }
 
     void World::generate() {
-        for (int i = -5; i <= 5; ++i) {
-            blockManager.setBlockTypeAt(i, 0, BlockTypes::getBlockTypeByName("testBlock"));
-        }
-        for (int i = -5; i <= 5; ++i) {
-            blockManager.setBlockTypeAt(i, -3, BlockTypes::getBlockTypeByName("testBlock"));
-        }
-        for (int i = -9; i <= -6; ++i) {
-            blockManager.setBlockTypeAt(i, -1, BlockTypes::getBlockTypeByName("testBlock"));
-        }
-
-
-        playerSpawnPoint = gf::Vector2f{5.0f,-20.0f};
+        generator.generate(*this);
         player.teleport(playerSpawnPoint);
     }
 
@@ -47,4 +37,9 @@ namespace platformer {
     void World::render(gf::RenderTarget& target, const gf::RenderStates& states) {
         entityContainer.render(target, states);
     }
+
+    void World::setSpawnPoint(const gf::Vector2f spawnPoint) {
+        this->playerSpawnPoint = spawnPoint;
+    }
+
 }
