@@ -11,6 +11,7 @@
 #include <player/Character.h>
 #include <world/World.h>
 
+#include "world/generators/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
 
 int main() {

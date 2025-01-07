@@ -18,5 +18,4 @@ namespace platformer {
 
         world.setSpawnPoint(gf::Vector2f{5.0f, -20.0f});
     }
-
 }

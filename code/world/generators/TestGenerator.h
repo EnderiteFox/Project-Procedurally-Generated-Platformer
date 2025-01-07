@@ -5,10 +5,6 @@
 
 namespace platformer {
     class TestGenerator final : public WorldGenerator {
-        // Placeholder values, will be defined later
-        const int ROOM_WIDTH = 10;
-        const int ROOM_HEIGHT = 10;
-
     public:
         void generate(World& world) override;
     };

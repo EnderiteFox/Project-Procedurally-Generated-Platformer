@@ -20,6 +20,7 @@ add_executable(Platformer
         code/physics/Physics.cpp
         code/world/generators/WorldGenerator.cpp
         code/world/generators/TestGenerator.cpp
+        code/world/generators/BasicWorldGenerator.cpp
 )
 
 target_include_directories(Platformer
