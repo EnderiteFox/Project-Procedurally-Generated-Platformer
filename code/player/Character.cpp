@@ -136,10 +136,10 @@ namespace platformer {
             charSpeed.y += 1;
         }
 
-        if(speed.x + charSpeed.x * ACCELERATION > maxSpeed.x){
+        if (speed.x + charSpeed.x * ACCELERATION > maxSpeed.x){
             charSpeed.x = maxSpeed.x - speed.x;
         }
-        if(speed.y + charSpeed.y * ACCELERATION > maxSpeed.y){
+        if (speed.y + charSpeed.y * ACCELERATION > maxSpeed.y){
             charSpeed.y = maxSpeed.y - speed.y;
         }
 
@@ -157,9 +157,10 @@ namespace platformer {
         if (jumpAction.isActive() && (jumping || isOnGround() || (airjumps < maxAirJumpCount && canDoubleJump)) && jumpStartTime <= MAX_JUMP_TIME) {
             // When starting to jump
             if (!jumping) {
-                if(!isOnGround()){airjumps++;}
+                if (!isOnGround()) airjumps++;
                 lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
                 canDoubleJump = false;
+                speed.y = -INITIAL_JUMP_FACTOR;
             }
 
             // Is jumping

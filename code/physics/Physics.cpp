@@ -77,7 +77,7 @@ namespace platformer {
         return result;
     }
 
-    gf::Vector2f Physics::friction(const gf::Vector2f speed,const gf::Vector2f direction) {
+    gf::Vector2f Physics::friction(const gf::Vector2f speed, const gf::Vector2f direction) {
         const gf::Vector2f resistance {
             speed.x * speed.x,
             speed.y * speed.y
