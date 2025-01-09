@@ -36,11 +36,12 @@ namespace platformer {
         const float ACCELERATION = 3.0f;
         const float INITIAL_JUMP_FACTOR = 10.0f;
         const float JUMP_FACTOR = 2.5f;
-        const float DASH_FACTOR = 50.0f;
+        const float DASH_FACTOR = 20.0f;
         const gf::Vector2f maxSpeed {40.0f, 50.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
         const float MAX_JUMP_TIME = 0.17f; // ~= 8 frames
         const int maxAirJumpCount = 1;
+        const float MAX_DASH_TIME = 1.0f;
 
         BlockManager& blockManager;
         gf::ActionContainer& actionContainer;
@@ -59,9 +60,10 @@ namespace platformer {
         bool groundCollision = false;
         float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
         int airjumps = 0;
-        float jumpStartTime = MAX_JUMP_TIME + 1;
+        float jumpStartTime = 0;
         bool jumping = false;
         bool canDoubleJump = false;
+        float dashStart = 0;
 
     public:
         // Constructor

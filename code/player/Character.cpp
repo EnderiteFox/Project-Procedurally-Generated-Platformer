@@ -60,6 +60,9 @@ namespace platformer {
         // Update jump time
         jumpStartTime += time.asSeconds();
 
+        // Update dash time
+        dashStart += time.asSeconds();
+
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
 
@@ -111,7 +114,7 @@ namespace platformer {
 
         dashAction.addScancodeKeyControl(gf::Scancode::Return);
         dashAction.addScancodeKeyControl(gf::Scancode::RightShift);
-        dashAction.setInstantaneous();
+        dashAction.setContinuous();
         actionContainer.addAction(dashAction);
     }
 
@@ -175,15 +178,16 @@ namespace platformer {
             if (!jumpAction.isActive()) canDoubleJump = true;
         }
 
-        if (dashAction.isActive()) {
-            if (rightAction.isActive() && !leftAction.isActive()) {
+        if (dashAction.isActive() && dashStart<MAX_DASH_TIME) {
+            if (rightAction.isActive() && !leftAction.isActive() ) {
                 jumpSpeed.x += DASH_FACTOR;
             } else if (leftAction.isActive() && !rightAction.isActive()) {
                 jumpSpeed.x -= DASH_FACTOR;
-            } //else if (!leftAction.isActive() && !rightAction.isActive()){
-                //If the shift key is pressed alone, we go to the right by default
-                //jumpSpeed.x += DASH_FACTOR;
-            //}
+            }
+        }else {
+            if (dashStart>=MAX_DASH_TIME){
+                dashStart=0;
+            }
         }
 
 
