@@ -10,6 +10,8 @@ namespace platformer {
         generateRooms();
         fillWorld(world);
         carveRooms(world);
+        generatePath();
+        debugPath(world);
         world.setSpawnPoint(gf::Vector2f(
             (rooms.front().x + ROOM_WIDTH / 2) * world.getBlockManager().BLOCK_SIZE,
             (rooms.front().y + ROOM_HEIGHT) * world.getBlockManager().BLOCK_SIZE
@@ -79,5 +81,18 @@ namespace platformer {
     }
 
 
+    void BasicWorldGenerator::generatePath() {
+        for (const gf::Vector2i room : rooms) {
+            path.push_back(gf::Vector2i{
+                room.x + random.computeUniformInteger(0, ROOM_WIDTH - 1),
+                room.y + random.computeUniformInteger(0, ROOM_HEIGHT - 1)
+            });
+        }
+    }
 
+    void BasicWorldGenerator::debugPath(const World& world) {
+        for (const gf::Vector2i pathPoint : path) {
+            world.getBlockManager().setBlockTypeAt(pathPoint.x, pathPoint.y, BlockTypes::getBlockTypeByName("testBlock"));
+        }
+    }
 } // platformer

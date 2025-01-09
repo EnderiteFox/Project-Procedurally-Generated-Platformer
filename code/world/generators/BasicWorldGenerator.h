@@ -19,10 +19,13 @@ namespace platformer {
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(WALL_BLOCK_NAME);
 
         std::vector<gf::Vector2i> rooms;
+        std::vector<gf::Vector2i> path;
 
         void generateRooms();
         void fillWorld(World& world);
         void carveRooms(const World& world);
+        void generatePath();
+        void debugPath(const World& world);
 
     public:
         void generate(World& world) override;
