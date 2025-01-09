@@ -32,12 +32,12 @@ namespace platformer {
          * maxJumpCount : Number of jumps possible in a row without touching the ground
          */
         const gf::Vector2f size {8.0f, 8.0f};
-        const gf::Vector2f gravity {0.0f, 100.0f};
+        const gf::Vector2f gravity {0.0f, 40.0f};
         const float ACCELERATION = 3.0f;
         const float INITIAL_JUMP_FACTOR = 10.0f;
         const float JUMP_FACTOR = 2.5f;
         const float DASH_FACTOR = 50.0f;
-        const gf::Vector2f maxSpeed {40.0f, 1000.0f};
+        const gf::Vector2f maxSpeed {40.0f, 50.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
         const float MAX_JUMP_TIME = 0.17f; // ~= 8 frames
         const int maxAirJumpCount = 1;
