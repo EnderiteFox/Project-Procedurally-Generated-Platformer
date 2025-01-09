@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <pugixml.hpp>
 
 #include <iostream>
 #include <cassert>

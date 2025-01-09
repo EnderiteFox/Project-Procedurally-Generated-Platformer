@@ -11,6 +11,7 @@ find_package(gf REQUIRED COMPONENTS graphics)
 find_package(Threads)
 
 add_executable(Platformer
+        #Code
         code/Main.cpp
         code/player/Character.cpp
         code/world/World.cpp
@@ -21,14 +22,16 @@ add_executable(Platformer
         code/world/generators/WorldGenerator.cpp
         code/world/generators/TestGenerator.cpp
         code/world/generators/BasicWorldGenerator.cpp
+        #Third party librairies
+        librairies/pugixml-1.14/src/pugixml.cpp
 )
 
 target_include_directories(Platformer
   PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/code"
     ${CMAKE_CURRENT_BINARY_DIR}
-    "${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googletest/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googletest"
+    #"${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googletest/include"
+    #"${CMAKE_CURRENT_SOURCE_DIR}/tests/googletest/googletest"
 )
 
 target_link_libraries(Platformer
