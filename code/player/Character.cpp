@@ -88,7 +88,6 @@ namespace platformer {
     }
 
     void Character::initInput() {
-        leftAction.addScancodeKeyControl(gf::Scancode::Q);
         leftAction.addScancodeKeyControl(gf::Scancode::A);
         leftAction.addScancodeKeyControl(gf::Scancode::Left);
         leftAction.setContinuous();
@@ -99,7 +98,6 @@ namespace platformer {
         rightAction.setContinuous();
         actionContainer.addAction(rightAction);
 
-        jumpAction.addScancodeKeyControl(gf::Scancode::Z);
         jumpAction.addScancodeKeyControl(gf::Scancode::W);
         jumpAction.addScancodeKeyControl(gf::Scancode::Up);
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
@@ -111,7 +109,7 @@ namespace platformer {
         downAction.setContinuous();
         actionContainer.addAction(downAction);
 
-        dashAction.addScancodeKeyControl(gf::Scancode::LeftShift);
+        dashAction.addScancodeKeyControl(gf::Scancode::Return);
         dashAction.addScancodeKeyControl(gf::Scancode::RightShift);
         dashAction.setInstantaneous();
         actionContainer.addAction(dashAction);
