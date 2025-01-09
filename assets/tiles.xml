@@ -1,4 +1,4 @@
 <!-- This xml format is done to easily store all the needed informations with little cost -->
 <tiles gfxpath="assets/tiles">
-    <block type="testBlock" texture="tile_placeholder.png">
+    <block type="testBlock" texture="tile_placeholder.png"/>
 </tiles>

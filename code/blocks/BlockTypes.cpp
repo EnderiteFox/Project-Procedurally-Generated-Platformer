@@ -67,26 +67,15 @@ namespace platformer {
     }
 
     void BlockTypes::parseXML(){
-        // Opening the file
-        std::ifstream file("../assets/tiles.xml");
-        assert(file);
-        std::string texturepaths = "";
+        pugi::xml_document doc;
+        assert(doc.load_file("../assets/tiles.xml"));
+        std::string gfxpath = doc.child("tiles").attribute("gfxpath").value();
 
-        // Reading the file line by line
-        for(std::string line; std::getline(file, line); ){
-            if(line.find("<!--") == 0) continue; // Skipping the line if it's a comment
-
-            auto[tagName,tags] = parseLine(line);
-
-            // First line, which only elements should be gfxpath
-            if(texturepaths == ""){
-                texturepaths = tags["gfxpath"];
-                continue;
-            }
-
-            if (tagName[0] == '/') continue; // Skipping the lines that closes tags. There should be only one : at the end
-
-            BlockTypes::cache.emplace(tags["type"],BlockType(tags["type"],"../"+texturepaths+"/"+tags["texture"]));
+        for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); it++){
+            BlockTypes::cache.emplace(
+                it->attribute("type").value(),
+                BlockType(it->attribute("type").value(),"../"+gfxpath+"/"+it->attribute("texture").value())
+            );
         }
     }
 
