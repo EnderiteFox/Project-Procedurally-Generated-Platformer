@@ -39,7 +39,7 @@ namespace platformer {
     public:
         static constexpr gf::Vector2f AIRRESISTANCE{0.125f,0.0f}; // Coefficient affecting the air direction
         static constexpr float RESTITUTION = 0.1f; // Coefficient giving the strength of the rebound in case one occurs
-        static constexpr float STATICFRICTION = 0.1f;
+        static constexpr float STATICFRICTION = 0.2f;
         static constexpr float KINETICFRICTION = 0.02f;
 
         /**

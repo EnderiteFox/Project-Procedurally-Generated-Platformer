@@ -8,6 +8,8 @@
 #include <physics/Physics.h>
 #include <player/Character.h>
 
+#include <iostream>
+
 
 namespace platformer {
     collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox) {
@@ -38,6 +40,7 @@ namespace platformer {
             if (tangent.x != 0 && tangent.y != 0) {
                 tangent = normalize(tangent);
             }
+
             if (
                 float frictionScalar = -dot(relativeVelocity,tangent);
                 std::abs(frictionScalar) < std::abs(impulseScalar) * STATICFRICTION
@@ -79,9 +82,9 @@ namespace platformer {
 
     gf::Vector2f Physics::friction(const gf::Vector2f speed, const gf::Vector2f direction) {
         const gf::Vector2f resistance {
-            std::min(speed.x * speed.x * AIRRESISTANCE.x, std::abs(speed.x)*0.5f),
-            std::min(speed.y * speed.y * AIRRESISTANCE.y, std::abs(speed.y)*0.5f)
+            speed.x * speed.x * AIRRESISTANCE.x,
+            speed.y * speed.y * AIRRESISTANCE.y
         };
-        return -direction * AIRRESISTANCE * resistance;
+        return -direction * resistance;
     }
 }
