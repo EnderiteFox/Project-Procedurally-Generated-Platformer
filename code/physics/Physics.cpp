@@ -20,7 +20,7 @@ namespace platformer {
             collides(charHB,otherHitbox,p)
         ) {
             // Correction
-            constexpr float correctionCoeff = 0.2f;
+            constexpr float correctionCoeff = 0.3f;
             res.correction = -std::max(p.depth-0.1f,0.0f) * correctionCoeff * p.normal;
             res.hasCorrectionOccured = true;
 
