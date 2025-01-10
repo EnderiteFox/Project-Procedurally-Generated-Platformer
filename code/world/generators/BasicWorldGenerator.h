@@ -22,6 +22,7 @@ namespace platformer {
         std::vector<gf::Vector2i> rooms;
         std::vector<gf::Vector2i> path;
 
+
         void generateRooms();
         void fillWorld(World& world);
         void carveRooms(const World& world);
@@ -32,6 +33,9 @@ namespace platformer {
         std::optional<gf::Vector2f> findValidSpawnpoint(const World& world, gf::Vector2i room) const;
 
     public:
+        BasicWorldGenerator();
+        explicit BasicWorldGenerator(uint64_t forcedSeed);
+
         void generate(World& world) override;
     };
 }

@@ -178,15 +178,15 @@ namespace platformer {
             if (!jumpAction.isActive()) canDoubleJump = true;
         }
 
-        if (dashAction.isActive() && dashStart<MAX_DASH_TIME) {
+        if (dashAction.isActive() && dashStart < MAX_DASH_TIME) {
             if (rightAction.isActive() && !leftAction.isActive() ) {
                 jumpSpeed.x += DASH_FACTOR;
             } else if (leftAction.isActive() && !rightAction.isActive()) {
                 jumpSpeed.x -= DASH_FACTOR;
             }
         }else {
-            if (dashStart>=MAX_DASH_TIME){
-                dashStart=0;
+            if (dashStart>=MAX_DASH_TIME) {
+                dashStart = 0;
             }
         }
 

@@ -31,6 +31,7 @@ namespace platformer {
         std::string getBlockTypeAt(int x, int y) const;
         void setBlockTypeAt(int x, int y, const BlockType& blockType);
         void removeBlockAt(int x, int y);
+        bool isEmptyBlock(int x, int y) const;
 
         // Loads all available blocks textures
         void loadTextures();

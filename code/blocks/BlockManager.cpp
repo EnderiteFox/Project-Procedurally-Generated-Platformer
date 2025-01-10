@@ -21,6 +21,11 @@ namespace platformer {
         blockMap.erase(std::make_pair(x, y));
     }
 
+    bool BlockManager::isEmptyBlock(const int x, const int y) const {
+        return getBlockTypeAt(x, y) == EMPTY_BLOCK;
+    }
+
+
 
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {

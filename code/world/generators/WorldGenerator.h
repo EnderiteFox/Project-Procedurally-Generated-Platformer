@@ -10,6 +10,9 @@ namespace platformer {
     class WorldGenerator {
         gf::Random seedRandom;
     protected:
+        explicit WorldGenerator() = default;
+        explicit WorldGenerator(uint64_t forcedSeed);
+
         uint64_t seed = seedRandom.computeId();
         gf::Random random{seed};
 

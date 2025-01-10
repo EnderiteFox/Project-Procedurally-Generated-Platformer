@@ -5,6 +5,13 @@
 #include <world/World.h>
 
 namespace platformer {
+    BasicWorldGenerator::BasicWorldGenerator(): WorldGenerator() {
+    }
+
+    BasicWorldGenerator::BasicWorldGenerator(const uint64_t forcedSeed): WorldGenerator(forcedSeed) {
+    }
+
+
     void BasicWorldGenerator::generate(World& world) {
         std::cout << "Generating seed " << seed << "\n";
         generateRooms();
@@ -17,11 +24,8 @@ namespace platformer {
                 world.setSpawnPoint(spawnpoint.value());
                 break;
             }
+            std::cout << "Failed to find spawnpoint, trying again\n";
         }
-        world.setSpawnPoint(gf::Vector2f(
-            (rooms.front().x + ROOM_WIDTH / 2) * world.getBlockManager().BLOCK_SIZE,
-            (rooms.front().y + ROOM_HEIGHT) * world.getBlockManager().BLOCK_SIZE
-        ));
     }
 
     void BasicWorldGenerator::generateRooms() {
@@ -102,17 +106,22 @@ namespace platformer {
         }
     }
 
+    bool isValidSpawnpoint(const World& world, const int x, const int y) {
+        const BlockManager& blockManager = world.getBlockManager();
+        return blockManager.isEmptyBlock(x, y) && !blockManager.isEmptyBlock(x, y + 1);
+    }
+
     std::optional<gf::Vector2f> BasicWorldGenerator::findValidSpawnpoint(const World& world, const gf::Vector2i room) const {
         for (int y = room.y + ROOM_HEIGHT - 1; y >= room.y; --y) {
             for (int x = room.x + ROOM_WIDTH / 2; x < room.x + ROOM_WIDTH; ++x) {
-                if (world.getBlockManager().getBlockTypeAt(x, y) == world.getBlockManager().EMPTY_BLOCK) {
+                if (isValidSpawnpoint(world, x, y)) {
                     return std::make_optional(
                         gf::Vector2f{static_cast<float>(x), static_cast<float>(y)} * world.getBlockManager().BLOCK_SIZE
                     );
                 }
             }
             for (int x = room.x + ROOM_WIDTH / 2 - 1; x >= room.x; --x) {
-                if (world.getBlockManager().getBlockTypeAt(x, y) == world.getBlockManager().EMPTY_BLOCK) {
+                if (isValidSpawnpoint(world, x, y)) {
                     return std::make_optional(
                         gf::Vector2f{static_cast<float>(x), static_cast<float>(y)} * world.getBlockManager().BLOCK_SIZE
                     );
