@@ -12,6 +12,12 @@ namespace platformer {
         carveRooms(world);
         generatePath();
         debugPath(world);
+        for (const gf::Vector2i room : rooms) {
+            if (const std::optional<gf::Vector2f> spawnpoint = findValidSpawnpoint(world, room)) {
+                world.setSpawnPoint(spawnpoint.value());
+                break;
+            }
+        }
         world.setSpawnPoint(gf::Vector2f(
             (rooms.front().x + ROOM_WIDTH / 2) * world.getBlockManager().BLOCK_SIZE,
             (rooms.front().y + ROOM_HEIGHT) * world.getBlockManager().BLOCK_SIZE
@@ -95,4 +101,25 @@ namespace platformer {
             world.getBlockManager().setBlockTypeAt(pathPoint.x, pathPoint.y, BlockTypes::getBlockTypeByName("testBlock"));
         }
     }
+
+    std::optional<gf::Vector2f> BasicWorldGenerator::findValidSpawnpoint(const World& world, const gf::Vector2i room) const {
+        for (int y = room.y + ROOM_HEIGHT - 1; y >= room.y; --y) {
+            for (int x = room.x + ROOM_WIDTH / 2; x < room.x + ROOM_WIDTH; ++x) {
+                if (world.getBlockManager().getBlockTypeAt(x, y) == world.getBlockManager().EMPTY_BLOCK) {
+                    return std::make_optional(
+                        gf::Vector2f{static_cast<float>(x), static_cast<float>(y)} * world.getBlockManager().BLOCK_SIZE
+                    );
+                }
+            }
+            for (int x = room.x + ROOM_WIDTH / 2 - 1; x >= room.x; --x) {
+                if (world.getBlockManager().getBlockTypeAt(x, y) == world.getBlockManager().EMPTY_BLOCK) {
+                    return std::make_optional(
+                        gf::Vector2f{static_cast<float>(x), static_cast<float>(y)} * world.getBlockManager().BLOCK_SIZE
+                    );
+                }
+            }
+        }
+        return std::nullopt;
+    }
+
 } // platformer

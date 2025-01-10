@@ -1,5 +1,6 @@
 #ifndef BASICWORLDGENERATOR_H
 #define BASICWORLDGENERATOR_H
+#include <optional>
 #include <vector>
 #include <blocks/BlockType.h>
 #include <blocks/BlockTypes.h>
@@ -24,8 +25,11 @@ namespace platformer {
         void generateRooms();
         void fillWorld(World& world);
         void carveRooms(const World& world);
+
         void generatePath();
         void debugPath(const World& world);
+
+        std::optional<gf::Vector2f> findValidSpawnpoint(const World& world, gf::Vector2i room) const;
 
     public:
         void generate(World& world) override;
