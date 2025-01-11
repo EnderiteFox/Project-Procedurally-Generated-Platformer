@@ -44,7 +44,6 @@ namespace platformer {
             }
 
             if (!generateRoomNextToRoom(rooms.back())) {
-                std::cout << "Failed to generate room, going back\n";
                 rooms.pop_back();
                 i--;
             }
