@@ -27,6 +27,8 @@ namespace platformer {
         // Size of a block sprite (and hitbox)
         const float BLOCK_SIZE = 8.0;
 
+        const int COLLISION_CHECK_MARGIN = 1;
+
         // Getters and setter
         std::string getBlockTypeAt(int x, int y) const;
         void setBlockTypeAt(int x, int y, const BlockType& blockType);

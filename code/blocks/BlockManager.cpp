@@ -69,13 +69,13 @@ namespace platformer {
         std::vector<gf::RectF> res;
 
         for (
-            int x = toBlockSpace(position.x) - 1;
-            x < toBlockSpace(position.x + size.x) + 1;
+            int x = toBlockSpace(position.x) - COLLISION_CHECK_MARGIN;
+            x < toBlockSpace(position.x + size.x) + COLLISION_CHECK_MARGIN;
             ++x
         ) {
             for (
-                int y = toBlockSpace(position.y) - 1;
-                y < toBlockSpace(position.y + size.y) + 1;
+                int y = toBlockSpace(position.y) - COLLISION_CHECK_MARGIN;
+                y < toBlockSpace(position.y + size.y) + COLLISION_CHECK_MARGIN;
                 ++y
             ) {
                 auto found = blockMap.find(std::make_pair(x, y));
