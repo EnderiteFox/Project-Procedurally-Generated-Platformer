@@ -47,7 +47,7 @@ namespace platformer {
         processImpulse();
 
         // Calculating collisions
-        const collisionData collisionVector= Physics::collide(*this, blockManager.getNearbyHitboxes(position));
+        const collisionData collisionVector = Physics::collide(*this, blockManager.getNearbyHitboxes(position, this->size));
         speed += collisionVector.collision + collisionVector.friction;
 
         // Update last time we touched the ground

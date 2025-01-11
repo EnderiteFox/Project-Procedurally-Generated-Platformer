@@ -45,14 +45,50 @@ namespace platformer {
         }
     }
 
-    //TODO : This function returns *all* the hitboxes instead of what it's supposed to do. We'll have to fix it.
-    std::vector<gf::RectF> BlockManager::getNearbyHitboxes(const gf::Vector2f position) const {
+    int BlockManager::toBlockSpace(const float number) const {
+        return static_cast<int>(number / BLOCK_SIZE);
+    }
+
+
+    gf::Vector2i BlockManager::toBlockSpace(const gf::Vector2f vector) const {
+        return gf::Vector2i(toBlockSpace(vector.x), toBlockSpace(vector.y));
+    }
+
+    float BlockManager::toWorldSpace(const int number) const {
+        return number * BLOCK_SIZE;
+    }
+
+
+    gf::Vector2f BlockManager::toWorldSpace(const gf::Vector2i vector) const {
+        return gf::Vector2f(toWorldSpace(vector.x), toWorldSpace(vector.y));
+    }
+
+
+
+    std::vector<gf::RectF> BlockManager::getNearbyHitboxes(const gf::Vector2f position, const gf::Vector2f size) const {
         std::vector<gf::RectF> res;
-        for (const auto& [pos, blockType] : blockMap) {
-            const gf::Vector2f otherPos = gf::Vector2f(pos.first, pos.second)*BLOCK_SIZE;
-            const auto size = gf::Vector2f(BLOCK_SIZE, BLOCK_SIZE);
-            res.push_back(gf::RectF::fromPositionSize(otherPos,size));
+
+        for (
+            int x = toBlockSpace(position.x) - 1;
+            x < toBlockSpace(position.x + size.x) + 1;
+            ++x
+        ) {
+            for (
+                int y = toBlockSpace(position.y) - 1;
+                y < toBlockSpace(position.y + size.y) + 1;
+                ++y
+            ) {
+                auto found = blockMap.find(std::make_pair(x, y));
+                if (found == blockMap.end()) continue;
+                if (found->second == EMPTY_BLOCK) continue;
+
+                res.push_back(gf::RectF::fromPositionSize(
+                    gf::Vector2f(toWorldSpace(x), toWorldSpace(y)),
+                    gf::Vector2f(BLOCK_SIZE)
+                ));
+            }
         }
+
         return res;
     }
 }

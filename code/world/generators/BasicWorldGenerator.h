@@ -10,7 +10,6 @@
 
 namespace platformer {
     class BasicWorldGenerator final : public WorldGenerator {
-        // Placeholder values, will be defined later
         const int ROOM_COUNT = 10;
 
         const int MIN_ROOM_WIDTH = 3;

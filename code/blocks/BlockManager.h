@@ -40,6 +40,17 @@ namespace platformer {
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
 
         // Get and return rectangles symbolising the hitboxes of the blocks located nearby the position passed in parameter
-        std::vector<gf::RectF> getNearbyHitboxes(gf::Vector2f position) const;
+        /**
+         * Gets the hitboxes near the given position. All hitboxes outside of the size parameter will be ignored.
+         * @param position The world position to get the nearby hitboxes of
+         * @param size The size of the selection
+         * @return A vector of rectangles
+         */
+        std::vector<gf::RectF> getNearbyHitboxes(gf::Vector2f position, gf::Vector2f size) const;
+
+        gf::Vector2f toWorldSpace(gf::Vector2i vector) const;
+        float toWorldSpace(int number) const;
+        gf::Vector2i toBlockSpace(gf::Vector2f vector) const;
+        int toBlockSpace(float number) const;
     };
 }
