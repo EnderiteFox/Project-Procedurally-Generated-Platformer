@@ -62,6 +62,8 @@ namespace platformer {
 
         // Update dash time
         dashStart += time.asSeconds();
+        dashStartContinuous-=time.asSeconds();
+        std::cout << dashStartContinuous << "\n";
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
@@ -178,11 +180,14 @@ namespace platformer {
             if (!jumpAction.isActive()) canDoubleJump = true;
         }
 
-        if (dashAction.isActive() && dashStart < MAX_DASH_TIME) {
+
+        if (dashAction.isActive() && dashStart<MAX_DASH_TIME && dashStartContinuous<=0) {
             if (rightAction.isActive() && !leftAction.isActive() ) {
                 jumpSpeed.x += DASH_FACTOR;
+                dashStartContinuous=DELAY_BETWEEN_DASH;
             } else if (leftAction.isActive() && !rightAction.isActive()) {
                 jumpSpeed.x -= DASH_FACTOR;
+                dashStartContinuous=DELAY_BETWEEN_DASH;
             }
         }else {
             if (dashStart>=MAX_DASH_TIME) {
