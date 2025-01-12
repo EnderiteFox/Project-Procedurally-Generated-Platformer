@@ -15,9 +15,6 @@
 #include "world/generators/TestGenerator.h"
 
 int main() {
-    // Speed added to a character by default
-
-
     // Defining useful constants for later
     static constexpr gf::Vector2i ScreenSize(1024, 576);
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
@@ -42,7 +39,7 @@ int main() {
     platformer::BlockManager blockManager;
     gf::ActionContainer actions;
     platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
-    platformer::BasicWorldGenerator generator;
+    platformer::TestGenerator generator;
     platformer::World world(character, blockManager, generator);
 
     // Loading textures

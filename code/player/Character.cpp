@@ -63,7 +63,6 @@ namespace platformer {
         // Update dash time
         dashStart += time.asSeconds();
         dashStartContinuous-=time.asSeconds();
-        std::cout << dashStartContinuous << "\n";
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
