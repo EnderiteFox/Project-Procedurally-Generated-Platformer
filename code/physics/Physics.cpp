@@ -5,36 +5,46 @@
 #include <gf/Vector.h>
 #include <gf/Collision.h>
 #include <vector>
+#include <set>
 #include <physics/Physics.h>
 #include <player/Character.h>
+#include <blocks/BlockTypes.h>
 
 #include <iostream>
 
 
 namespace platformer {
-    collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox) {
+    collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox, const std::string type) {
         collisionData res;
         const gf::RectF charHB = character.getHitbox();
         if (
             gf::Penetration p;
             collides(charHB,otherHitbox,p)
         ) {
+            BlockType otherBlock = BlockTypes::getBlockTypeByName(type);
+
+            // Storing the data of the collision
+            res.hasCollisionOccured = true;
+            res.flags.insert(type);
+            if(!otherBlock.isCollidable){
+                return res;
+            }
+
             // Correction
             constexpr float correctionCoeff = 0.3f;
             res.correction = -std::max(p.depth-0.1f,0.0f) * correctionCoeff * p.normal;
             res.hasCorrectionOccured = true;
 
-            // Collision
+            // Collision resolution
             gf::Vector2f relativeVelocity = -character.getSpeed();
             const float velocityAlongNormal = dot(relativeVelocity, p.normal);
             if (velocityAlongNormal > 0) {
                 return res;
             }
-            const float impulseScalar = (1 + RESTITUTION) * velocityAlongNormal;
+            const float impulseScalar = (1 + otherBlock.restitution) * velocityAlongNormal;
             res.collision = impulseScalar * p.normal;
-            res.hasCollisionOccured = true;
 
-            //Friction
+            // Friction resolution
             relativeVelocity = -(character.getSpeed() + res.collision);
             gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal) * p.normal;
             if (tangent.x != 0 && tangent.y != 0) {
@@ -43,12 +53,12 @@ namespace platformer {
 
             if (
                 float frictionScalar = -dot(relativeVelocity,tangent);
-                std::abs(frictionScalar) < std::abs(impulseScalar) * STATICFRICTION
+                std::abs(frictionScalar) < std::abs(impulseScalar) * otherBlock.staticFriction
             ) {
                 res.friction = frictionScalar * tangent;
             }
             else {
-                res.friction = -impulseScalar * tangent * KINETICFRICTION;
+                res.friction = -impulseScalar * tangent * otherBlock.dynamicFriction;
             }
             // To avoid floating point issues
             if(std::abs(character.getSpeed().x) < 2.5f && std::abs(character.getSpeed().x) > 0){
@@ -60,12 +70,12 @@ namespace platformer {
         return res;
     }
 
-    collisionData Physics::collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes) {
+    collisionData Physics::collide(const Character& character, const std::vector<std::pair<gf::RectF,std::string>>& otherBlocks) {
         collisionData result;
         int collisions = 0;
         int corrections = 0;
-        for (gf::RectF hb: otherHitboxes) {
-            collisionData collisionResult = collide(character, hb);
+        for (auto& hb: otherBlocks) {
+            collisionData collisionResult = collide(character, hb.first,hb.second);
             result += collisionResult;
             if (collisionResult.hasCollisionOccured) {
                 collisions++;

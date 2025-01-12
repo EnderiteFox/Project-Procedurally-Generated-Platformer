@@ -30,7 +30,7 @@ namespace platformer {
         std::string gfxpath = doc.child("tiles").attribute("gfxpath").value();
 
         for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); it++){
-            if(it->attribute("collidable")){
+            if(it->attribute("collidable").as_bool()){
                 BlockType type = BlockType(
                     it->name(),
                     it->attribute("type").value(),

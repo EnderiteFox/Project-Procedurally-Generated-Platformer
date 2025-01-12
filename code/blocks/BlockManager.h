@@ -48,7 +48,7 @@ namespace platformer {
          * @param size The size of the selection
          * @return A vector of rectangles
          */
-        std::vector<gf::RectF> getNearbyHitboxes(gf::Vector2f position, gf::Vector2f size) const;
+        std::vector<std::pair<gf::RectF,std::string>> getNearbyHitboxes(gf::Vector2f position, gf::Vector2f size) const;
 
         gf::Vector2f toWorldSpace(gf::Vector2i vector) const;
         float toWorldSpace(int number) const;

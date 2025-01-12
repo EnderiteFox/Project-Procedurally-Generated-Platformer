@@ -12,6 +12,7 @@
 #include <gf/Vector.h>
 #include <gf/Rect.h>
 #include <vector>
+#include <set>
 #include "player/Character.h"
 
 namespace platformer {
@@ -22,13 +23,15 @@ namespace platformer {
         gf::Vector2f friction{0,0};
         bool hasCollisionOccured = false;
         bool hasCorrectionOccured = false;
+        std::set<std::string> flags{};
 
-        collisionData& operator+=(const collisionData& other) {
+        collisionData& operator+=(collisionData& other) {
             collision += other.collision;
             correction += other.correction;
             friction += other.friction;
             hasCollisionOccured = hasCollisionOccured || other.hasCollisionOccured;
             hasCorrectionOccured = hasCorrectionOccured || other.hasCorrectionOccured;
+            flags.merge(other.flags);
             return *this;
         }
     };
@@ -38,9 +41,6 @@ namespace platformer {
 
     public:
         static constexpr gf::Vector2f AIRRESISTANCE{0.125f,0.0f}; // Coefficient affecting the air direction
-        static constexpr float RESTITUTION = 0.1f; // Coefficient giving the strength of the rebound in case one occurs
-        static constexpr float STATICFRICTION = 0.2f;
-        static constexpr float KINETICFRICTION = 0.02f;
 
         /**
          * Tests the collision between a character and a collidable object, symbolised by it's hitbox
@@ -51,7 +51,7 @@ namespace platformer {
          *                  Vector2f giving a vector corresponding to a correction to prevent the character from sinking in other objects
          *                  Vector2f giving a vector of the collision that occured. If the collision didn't occur, the result is the null vector
          */
-        static collisionData collide(const Character& character, const gf::RectF& otherHitbox);
+        static collisionData collide(const Character& character, const gf::RectF& otherHitbox, const std::string blockType);
 
         /**
          * Tests the collision between a character and multiple objects/hitboxes
@@ -61,7 +61,7 @@ namespace platformer {
          *                  Vector2f giving a vector corresponding to a correction to prevent the character from sinking in other objects
          *                  Vector2f giving a vector of the sum of the vector of the collision that occured.
          */
-        static collisionData collide(const Character& character, const std::vector<gf::RectF>& otherHitboxes);
+        static collisionData collide(const Character& character, const std::vector<std::pair<gf::RectF,std::string>>& otherBlocks);
 
         /**
          *  Determines a moving object's friction with the air in fuction of their current speed

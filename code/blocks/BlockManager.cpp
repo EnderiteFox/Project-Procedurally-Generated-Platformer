@@ -65,8 +65,8 @@ namespace platformer {
 
 
 
-    std::vector<gf::RectF> BlockManager::getNearbyHitboxes(const gf::Vector2f position, const gf::Vector2f size) const {
-        std::vector<gf::RectF> res;
+    std::vector<std::pair<gf::RectF,std::string>> BlockManager::getNearbyHitboxes(const gf::Vector2f position, const gf::Vector2f size) const {
+        std::vector<std::pair<gf::RectF,std::string>> res;
 
         for (
             int x = toBlockSpace(position.x) - COLLISION_CHECK_MARGIN;
@@ -82,10 +82,11 @@ namespace platformer {
                 if (found == blockMap.end()) continue;
                 if (found->second == EMPTY_BLOCK) continue;
 
-                res.push_back(gf::RectF::fromPositionSize(
-                    gf::Vector2f(toWorldSpace(x), toWorldSpace(y)),
-                    gf::Vector2f(BLOCK_SIZE)
-                ));
+                res.push_back({
+                    gf::RectF::fromPositionSize(
+                        gf::Vector2f(toWorldSpace(x), toWorldSpace(y)),
+                        gf::Vector2f(BLOCK_SIZE)),
+                    found->second});
             }
         }
 
