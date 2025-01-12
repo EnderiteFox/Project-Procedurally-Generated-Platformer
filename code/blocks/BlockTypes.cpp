@@ -24,58 +24,31 @@ namespace platformer {
         return res;
     }
 
-    std::pair<std::string,std::map<std::string,std::string>> BlockTypes::parseLine(std::string line){
-        // Finding the beginning of the line
-        std::size_t i = line.find("<")+1;
-        size_t size = line.size();
-        std::string tagName;
-        std::map<std::string,std::string> elements;
-
-        // Reading the tag of the line
-        while(line[i] != '>' && line[i] != ' '){
-            tagName += line[i];
-            i++;
-        }
-
-        // If the line only contains the tag, returns it
-        if(line[i] == '>'){
-            return {tagName,elements};
-        }
-
-        //Reading the elements of the tag
-        i++;
-        while(line[i] != '>' && i < size){
-            while(line[i]==' ') i++;
-            std::string tag;
-            std::string value;
-
-            // First, the key (everything before the =)
-            while (line[i] != '='){
-                tag += line[i];
-                i++;
-            }
-            i+=2;
-            // The value (everything between two quotes, after the equal)
-            while(line[i] != '"'){
-                value += line[i];
-                i++;
-            }
-            elements[tag] = value;
-            i++;
-        }
-        return {tagName,elements};
-    }
-
     void BlockTypes::parseXML(){
         pugi::xml_document doc;
         assert(doc.load_file("../assets/tiles.xml"));
         std::string gfxpath = doc.child("tiles").attribute("gfxpath").value();
 
         for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); it++){
-            BlockTypes::cache.emplace(
-                it->attribute("type").value(),
-                BlockType("block",it->attribute("type").value(),"../"+gfxpath+"/"+it->attribute("texture").value())
-            );
+            if(it->attribute("collidable")){
+                BlockType type = BlockType(
+                    it->name(),
+                    it->attribute("type").value(),
+                    "../"+gfxpath+"/"+it->attribute("texture").value(),
+                    it->attribute("staticFriction").as_float(),
+                    it->attribute("dynamicFriction").as_float(),
+                    it->attribute("restitution").as_float()
+                );
+                BlockTypes::cache.emplace(it->attribute("type").value(),type);
+            }
+            else{
+                BlockType type = BlockType(
+                    it->name(),
+                    it->attribute("type").value(),
+                    "../"+gfxpath+"/"+it->attribute("texture").value()
+                );
+                BlockTypes::cache.emplace(it->attribute("type").value(),type);
+            }
         }
     }
 

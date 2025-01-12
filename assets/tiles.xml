@@ -1,4 +1,5 @@
 <!-- This xml format is done to easily store all the needed informations with little cost -->
 <tiles gfxpath="assets/tiles">
-    <block type="testBlock" texture="tile_placeholder.png"/>
+    <block type="testBlock" texture="tile_placeholder.png" staticFriction="0.2" dynamicFriction="0.02" restitution="0.1" collidable="true"/>
+    <block type="pathBlock" texture="tile_path.png"/>
 </tiles>
