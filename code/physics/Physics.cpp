@@ -61,7 +61,7 @@ namespace platformer {
                 res.friction = -impulseScalar * tangent * otherBlock.dynamicFriction;
             }
             // To avoid floating point issues
-            if(std::abs(character.getSpeed().x) < 2.5f && std::abs(character.getSpeed().x) > 0){
+            if(std::abs(character.getSpeed().x) < 10*otherBlock.staticFriction && std::abs(character.getSpeed().x) > 0){
                 res.friction.x = -character.getSpeed().x;
             }
 
