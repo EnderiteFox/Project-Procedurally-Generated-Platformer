@@ -150,7 +150,7 @@ namespace platformer {
 
     void BasicWorldGenerator::debugPath(const World& world) {
         for (const gf::Vector2i pathPoint : path) {
-            world.getBlockManager().setBlockTypeAt(pathPoint.x, pathPoint.y, BlockTypes::getBlockTypeByName("testBlock"));
+            world.getBlockManager().setBlockTypeAt(pathPoint.x, pathPoint.y, BlockTypes::getBlockTypeByName("pathBlock"));
         }
     }
 
