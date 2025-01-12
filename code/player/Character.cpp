@@ -53,6 +53,10 @@ namespace platformer {
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
+            airjumps = 0;
+            jumping=false;
+            canDoubleJump=true;
+
         } else {
             lastGroundTouchTime += time.asSeconds();
         }

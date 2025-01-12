@@ -108,7 +108,6 @@ namespace platformer {
          * Adds a constant speed to the player, defined by the constants at the top of this file
          * Actions processed by this method are :
          *  - Jump
-         *  - TODO : Dash
          */
         void processImpulse();
     };
