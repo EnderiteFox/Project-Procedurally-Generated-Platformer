@@ -14,7 +14,7 @@ namespace platformer {
     }
 
     void BlockManager::setBlockTypeAt(const int x, const int y, const BlockType& blockType) {
-        blockMap.insert(std::make_pair(std::make_pair(x, y), blockType.getTypeName()));
+        blockMap.insert(std::make_pair(std::make_pair(x, y), blockType.subType));
     }
 
     void BlockManager::removeBlockAt(int x, int y) {
@@ -29,7 +29,7 @@ namespace platformer {
 
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {
-            textureMap.insert(std::make_pair(blockType.getTypeName(), gf::Texture(blockType.getTexturePath())));
+            textureMap.insert(std::make_pair(blockType.subType, gf::Texture(blockType.texturePath)));
         }
     }
 

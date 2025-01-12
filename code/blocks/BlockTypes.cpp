@@ -74,7 +74,7 @@ namespace platformer {
         for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); it++){
             BlockTypes::cache.emplace(
                 it->attribute("type").value(),
-                BlockType(it->attribute("type").value(),"../"+gfxpath+"/"+it->attribute("texture").value())
+                BlockType("block",it->attribute("type").value(),"../"+gfxpath+"/"+it->attribute("texture").value())
             );
         }
     }

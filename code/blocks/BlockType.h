@@ -7,11 +7,22 @@
 
 namespace platformer {
     class BlockType {
-        const std::string typeName;
-        const std::string texturePath;
     public:
-        BlockType(std::string  typeName, std::string  texturePath);
-        std::string getTypeName() const;
-        std::string getTexturePath() const;
+        // Constructor
+        BlockType(std::string  type, std::string subType,std::string  texturePath); // Simple constructor for non-collidable blocks
+        BlockType(std::string  type, std::string subType,std::string  texturePath, float staticFriction, float dynamicFriction, float restitution);
+
+        // Textures and type names
+        const std::string type;
+        const std::string subType;
+        const std::string texturePath;
+
+        // Set to true if the collision should be resolved or not
+        const bool isCollidable;
+
+        // Constants to resolve collisions. Can be ignored if isCollidable is set to false.
+        const float staticFriction = 0.0f;
+        const float dynamicFriction = 0.0f;
+        const float restitution = 0.0f;
     };
 }

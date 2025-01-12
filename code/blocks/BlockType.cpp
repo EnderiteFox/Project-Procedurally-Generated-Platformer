@@ -3,15 +3,19 @@
 #include <utility>
 
 namespace platformer {
-    BlockType::BlockType(std::string  typeName, std::string  texturePath):
-    typeName(std::move(typeName)),
-    texturePath(std::move(texturePath)) {}
 
-    std::string BlockType::getTypeName() const {
-        return typeName;
-    }
+    BlockType::BlockType(std::string type, std::string subType, std::string texturePath):
+        type(std::move(type)),
+        subType(std::move(subType)),
+        texturePath(std::move(texturePath)),
+        isCollidable(false) {}
 
-    std::string BlockType::getTexturePath() const {
-        return texturePath;
-    }
+    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution):
+        type(std::move(type)),
+        subType(std::move(subType)),
+        texturePath(std::move(texturePath)),
+        staticFriction(staticFriction),
+        dynamicFriction(dynamicFriction),
+        restitution(restitution),
+        isCollidable(true) {}
 }
