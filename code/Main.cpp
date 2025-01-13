@@ -12,7 +12,6 @@
 #include <world/World.h>
 
 #include "world/generators/BasicWorldGenerator.h"
-#include "world/generators/TestGenerator.h"
 
 int main() {
     // Defining useful constants for later
@@ -36,11 +35,11 @@ int main() {
 
     // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
-    platformer::BlockManager blockManager;
+    platformer::BlockManager blockManager(&mainView);
     gf::ActionContainer actions;
     platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
-    //platformer::BasicWorldGenerator generator;
-    platformer::TestGenerator generator;
+    platformer::BasicWorldGenerator generator;
+    //platformer::TestGenerator generator;
     platformer::World world(character, blockManager, generator);
 
     // Loading textures

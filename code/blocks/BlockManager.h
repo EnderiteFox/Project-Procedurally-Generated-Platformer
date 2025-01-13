@@ -14,6 +14,7 @@
 #include <gf/Texture.h>
 #include <vector>
 #include <gf/Rect.h>
+#include <gf/View.h>
 
 #include "BlockType.h"
 
@@ -22,7 +23,11 @@ namespace platformer {
         std::map<std::string, gf::Texture> textureMap;
         std::map<std::pair<int, int>, std::string> blockMap; // Associate a position to a block, described by a string
 
+        const gf::View* view;
+
     public:
+        explicit BlockManager(const gf::View* view);
+
         const std::string EMPTY_BLOCK = "empty";
         // Size of a block sprite (and hitbox)
         const float BLOCK_SIZE = 8.0;

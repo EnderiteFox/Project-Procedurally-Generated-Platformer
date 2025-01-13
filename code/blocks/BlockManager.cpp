@@ -7,6 +7,9 @@
 #include <gf/Rect.h>
 
 namespace platformer {
+    BlockManager::BlockManager(const gf::View* view): view(view) {}
+
+
     std::string BlockManager::getBlockTypeAt(const int x, const int y) const {
         const auto found = blockMap.find(std::make_pair(x, y));
         if (found == blockMap.cend()) return EMPTY_BLOCK;
@@ -34,14 +37,22 @@ namespace platformer {
     }
 
     void BlockManager::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-        for (const auto& [pos, blockType] : blockMap) {
-            if (blockType == EMPTY_BLOCK) continue;
-            auto found = textureMap.find(blockType);
-            if (found == textureMap.cend()) continue;
-            gf::Sprite sprite;
-            sprite.setPosition(gf::Vector2f(pos.first, pos.second) * BLOCK_SIZE);
-            sprite.setTexture(found->second,gf::RectF::fromSize({1.0f,1.0f}));
-            target.draw(sprite, states);
+        const gf::Vector2f center = view->getCenter();
+        const gf::Vector2f size = view->getSize();
+
+        for (int x = toBlockSpace(center.x) - toBlockSpace(size.width) - 2; x <= toBlockSpace(center.x) + toBlockSpace(size.width) + 2; ++x) {
+            for (int y = toBlockSpace(center.y) - toBlockSpace(size.height / 2) - 2; y <= toBlockSpace(center.y) + toBlockSpace(size.height) + 2; ++y) {
+                auto found = blockMap.find(std::make_pair(x, y));
+                if (found == blockMap.cend()) continue;
+                std::string blockType = found->second;
+                if (blockType == EMPTY_BLOCK) continue;
+                auto textureFound = textureMap.find(blockType);
+                if (textureFound == textureMap.cend()) continue;
+                gf::Sprite sprite;
+                sprite.setPosition(toWorldSpace(gf::Vector2i(x, y)));
+                sprite.setTexture(textureFound->second, gf::RectF::fromSize({1.0f, 1.0f}));
+                target.draw(sprite, states);
+            }
         }
     }
 
