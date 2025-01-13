@@ -6,26 +6,27 @@
 #include <blocks/BlockTypes.h>
 #include <gf/Vector.h>
 
-#include "WorldGenerator.h"
+#include "PathConnectionType.h"
+#include "../WorldGenerator.h"
 
 namespace platformer {
     class BasicWorldGenerator final : public WorldGenerator {
-        const int ROOM_COUNT = 100;
+        const int ROOM_COUNT = 20;
 
-        const int MIN_ROOM_WIDTH = 3;
-        const int MAX_ROOM_WIDTH = 7;
+        const int MIN_ROOM_WIDTH = 7;
+        const int MAX_ROOM_WIDTH = 15;
 
-        const int MIN_ROOM_HEIGHT = 3;
-        const int MAX_ROOM_HEIGHT = 7;
+        const int MIN_ROOM_HEIGHT = 5;
+        const int MAX_ROOM_HEIGHT = 13;
 
         const int MAX_ROOMGEN_SIZE_TRIES = 10;
         const int MAX_ROOMGEN_DIRECTION_TRIES = 2 * MAX_ROOM_WIDTH + 2 * MAX_ROOM_HEIGHT;
 
         const int MIN_ROOM_ENTRANCE_SIZE = 2;
 
-        const std::string WALL_BLOCK_NAME = "testBlock";
-
-        const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(WALL_BLOCK_NAME);
+        const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
+        const BlockType LADDER_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_LADDER);
+        const BlockType PLATFORM_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
 
         /*
          * The list of rooms
@@ -51,6 +52,8 @@ namespace platformer {
 
         void generatePath();
         void debugPath(const World& world);
+        PathConnectionType getConnectionType(const World& world, gf::Vector2i currentPoint, gf::Vector2i nextPoint);
+        void connectPathPoints(const World& world, gf::Vector2i currentPoint, gf::Vector2i nextPoint);
 
         static std::optional<gf::Vector2f> findValidSpawnpoint(const World& world, gf::Vector4i room);
 

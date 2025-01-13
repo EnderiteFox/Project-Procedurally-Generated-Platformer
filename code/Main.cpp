@@ -11,7 +11,7 @@
 #include <player/Character.h>
 #include <world/World.h>
 
-#include "world/generators/BasicWorldGenerator.h"
+#include "world/generators/basic_generator/BasicWorldGenerator.h"
 
 int main() {
     // Defining useful constants for later

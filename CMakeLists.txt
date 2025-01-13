@@ -21,7 +21,7 @@ add_executable(Platformer
         code/physics/Physics.cpp
         code/world/generators/WorldGenerator.cpp
         code/world/generators/TestGenerator.cpp
-        code/world/generators/BasicWorldGenerator.cpp
+        code/world/generators/basic_generator/BasicWorldGenerator.cpp
         #Third party librairies
         librairies/pugixml-1.14/src/pugixml.cpp
 )

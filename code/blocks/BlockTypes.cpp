@@ -11,6 +11,13 @@
 namespace platformer {
     std::map<std::string,BlockType> BlockTypes::cache;
 
+    std::string BlockTypes::EMPTY_BLOCK = "empty";
+    std::string BlockTypes::TEST_BLOCK = "testBlock";
+    std::string BlockTypes::TEST_LADDER = "testLadder";
+    std::string BlockTypes::PATH = "pathBlock";
+    std::string BlockTypes::ICE = "iceBlock";
+    std::string BlockTypes::JELLY = "jellyBlock";
+
     std::vector<BlockType> BlockTypes::getAllTypes() {
         if(cache.empty()){
             parseXML();
@@ -27,10 +34,10 @@ namespace platformer {
     void BlockTypes::parseXML(){
         pugi::xml_document doc;
         assert(doc.load_file("../assets/tiles.xml"));
-        std::string gfxpath = doc.child("tiles").attribute("gfxpath").value();
+        const std::string gfxpath = doc.child("tiles").attribute("gfxpath").value();
 
-        for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); it++){
-            if(it->attribute("collidable").as_bool()){
+        for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); ++it) {
+            if (it->attribute("collidable").as_bool()) {
                 BlockType type = BlockType(
                     it->name(),
                     it->attribute("type").value(),
@@ -39,21 +46,21 @@ namespace platformer {
                     it->attribute("dynamicFriction").as_float(),
                     it->attribute("restitution").as_float()
                 );
-                BlockTypes::cache.emplace(it->attribute("type").value(),type);
+                cache.emplace(it->attribute("type").value(),type);
             }
             else{
                 BlockType type = BlockType(
                     it->name(),
                     it->attribute("type").value(),
-                    "../"+gfxpath+"/"+it->attribute("texture").value()
+                    "../" + gfxpath + "/" + it->attribute("texture").value()
                 );
-                BlockTypes::cache.emplace(it->attribute("type").value(),type);
+                cache.emplace(it->attribute("type").value(),type);
             }
         }
     }
 
-    BlockType BlockTypes::getBlockTypeByName(std::string name){
-        if(cache.empty()){
+    BlockType BlockTypes::getBlockTypeByName(const std::string& name) {
+        if (cache.empty()) {
             parseXML();
         }
         return cache.find(name)->second;
