@@ -132,7 +132,7 @@ namespace platformer {
                 world.getBlockManager().setBlockTypeAt(x, y, WALL_BLOCK);
             }
         }
-        world.setVoidHeight((maxY + 2) * world.getBlockManager().BLOCK_SIZE);
+        world.setVoidHeight(BlockManager::toWorldSpace(maxY + 2));
     }
 
     void BasicWorldGenerator::carveRooms(const World& world) {
@@ -259,16 +259,12 @@ namespace platformer {
         for (int y = room.y + room.z - 1; y >= room.y; --y) {
             for (int x = room.x + room.w / 2; x < room.x + room.w; ++x) {
                 if (isValidSpawnpoint(world, x, y)) {
-                    return std::make_optional(
-                        gf::Vector2f{static_cast<float>(x), static_cast<float>(y)} * world.getBlockManager().BLOCK_SIZE
-                    );
+                    return std::make_optional(BlockManager::toWorldSpace(gf::Vector2i(x, y)));
                 }
             }
             for (int x = room.x + room.w / 2 - 1; x >= room.x; --x) {
                 if (isValidSpawnpoint(world, x, y)) {
-                    return std::make_optional(
-                        gf::Vector2f{static_cast<float>(x), static_cast<float>(y)} * world.getBlockManager().BLOCK_SIZE
-                    );
+                    return std::make_optional(BlockManager::toWorldSpace(gf::Vector2i(x, y)));
                 }
             }
         }

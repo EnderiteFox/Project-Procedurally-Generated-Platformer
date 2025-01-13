@@ -28,9 +28,8 @@ namespace platformer {
     public:
         explicit BlockManager(const gf::View* view);
 
-        const std::string EMPTY_BLOCK = "empty";
         // Size of a block sprite (and hitbox)
-        const float BLOCK_SIZE = 8.0;
+        static const float BLOCK_SIZE;
 
         const int COLLISION_CHECK_MARGIN = 1;
 
@@ -55,9 +54,9 @@ namespace platformer {
          */
         std::vector<std::pair<gf::RectF,std::string>> getNearbyHitboxes(gf::Vector2f position, gf::Vector2f size) const;
 
-        gf::Vector2f toWorldSpace(gf::Vector2i vector) const;
-        float toWorldSpace(int number) const;
-        gf::Vector2i toBlockSpace(gf::Vector2f vector) const;
-        int toBlockSpace(float number) const;
+        static gf::Vector2f toWorldSpace(gf::Vector2i vector);
+        static float toWorldSpace(int number);
+        static gf::Vector2i toBlockSpace(gf::Vector2f vector);
+        static int toBlockSpace(float number);
     };
 }

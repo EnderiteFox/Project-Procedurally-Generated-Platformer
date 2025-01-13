@@ -9,10 +9,11 @@
 namespace platformer {
     BlockManager::BlockManager(const gf::View* view): view(view) {}
 
+    const float BlockManager::BLOCK_SIZE = 8.0f;
 
     std::string BlockManager::getBlockTypeAt(const int x, const int y) const {
         const auto found = blockMap.find(std::make_pair(x, y));
-        if (found == blockMap.cend()) return EMPTY_BLOCK;
+        if (found == blockMap.cend()) return BlockTypes::EMPTY_BLOCK;
         return found->second;
     }
 
@@ -25,7 +26,7 @@ namespace platformer {
     }
 
     bool BlockManager::isEmptyBlock(const int x, const int y) const {
-        return getBlockTypeAt(x, y) == EMPTY_BLOCK;
+        return getBlockTypeAt(x, y) == BlockTypes::EMPTY_BLOCK;
     }
 
 
@@ -45,7 +46,7 @@ namespace platformer {
                 auto found = blockMap.find(std::make_pair(x, y));
                 if (found == blockMap.cend()) continue;
                 std::string blockType = found->second;
-                if (blockType == EMPTY_BLOCK) continue;
+                if (blockType == BlockTypes::EMPTY_BLOCK) continue;
                 auto textureFound = textureMap.find(blockType);
                 if (textureFound == textureMap.cend()) continue;
                 gf::Sprite sprite;
@@ -56,21 +57,21 @@ namespace platformer {
         }
     }
 
-    int BlockManager::toBlockSpace(const float number) const {
+    int BlockManager::toBlockSpace(const float number) {
         return static_cast<int>(number / BLOCK_SIZE);
     }
 
 
-    gf::Vector2i BlockManager::toBlockSpace(const gf::Vector2f vector) const {
+    gf::Vector2i BlockManager::toBlockSpace(const gf::Vector2f vector) {
         return gf::Vector2i(toBlockSpace(vector.x), toBlockSpace(vector.y));
     }
 
-    float BlockManager::toWorldSpace(const int number) const {
+    float BlockManager::toWorldSpace(const int number) {
         return number * BLOCK_SIZE;
     }
 
 
-    gf::Vector2f BlockManager::toWorldSpace(const gf::Vector2i vector) const {
+    gf::Vector2f BlockManager::toWorldSpace(const gf::Vector2i vector) {
         return gf::Vector2f(toWorldSpace(vector.x), toWorldSpace(vector.y));
     }
 
@@ -91,7 +92,7 @@ namespace platformer {
             ) {
                 auto found = blockMap.find(std::make_pair(x, y));
                 if (found == blockMap.end()) continue;
-                if (found->second == EMPTY_BLOCK) continue;
+                if (found->second == BlockTypes::EMPTY_BLOCK) continue;
 
                 res.push_back({
                     gf::RectF::fromPositionSize(
