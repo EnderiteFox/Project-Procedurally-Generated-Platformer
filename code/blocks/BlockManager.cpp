@@ -6,6 +6,8 @@
 #include <vector>
 #include <gf/Rect.h>
 
+#include <iostream>
+
 namespace platformer {
     BlockManager::BlockManager(const gf::View* view): view(view) {}
 
@@ -33,6 +35,7 @@ namespace platformer {
 
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {
+            if(blockType.texturePath == "../assets/tiles/") continue; // Skipping untextured blocks
             textureMap.insert(std::make_pair(blockType.subType, gf::Texture(blockType.texturePath)));
         }
     }
@@ -46,7 +49,6 @@ namespace platformer {
                 auto found = blockMap.find(std::make_pair(x, y));
                 if (found == blockMap.cend()) continue;
                 std::string blockType = found->second;
-                if (blockType == BlockTypes::EMPTY_BLOCK) continue;
                 auto textureFound = textureMap.find(blockType);
                 if (textureFound == textureMap.cend()) continue;
                 gf::Sprite sprite;
