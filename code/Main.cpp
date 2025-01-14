@@ -38,8 +38,8 @@ int main() {
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager(&mainView);
     gf::ActionContainer actions;
-    platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
-    //platformer::BasicWorldGenerator generator;
+    //platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
+    platformer::BasicWorldGenerator generator;
     platformer::TestGenerator generator;
     platformer::World world(character, blockManager, generator);
 
