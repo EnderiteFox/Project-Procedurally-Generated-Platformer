@@ -24,9 +24,11 @@ namespace platformer {
 
         const int MIN_ROOM_ENTRANCE_SIZE = 2;
 
+        const std::string AIR_TYPE = "empty";
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName("testBlock");
         const BlockType LADDER_BLOCK = BlockTypes::getBlockTypeByName("testLadder");
         const BlockType PLATFORM_BLOCK = BlockTypes::getBlockTypeByName("testBlock");
+        const BlockType PATH = BlockTypes::getBlockTypeByName("pathBlock");
 
         /*
          * The list of rooms

@@ -18,13 +18,12 @@ namespace platformer {
         // Get the data of a type of block by it's name. It's name can be found within the XML file
         static BlockType getBlockTypeByName(const std::string& name);
 
-        /**
         static std::string EMPTY_BLOCK;
         static std::string TEST_LADDER;
         static std::string PATH;
         static std::string ICE;
         static std::string JELLY;
-        static std::string TEST_BLOCK;*/
+        static std::string TEST_BLOCK;
     private:
         // Contains the data stored in the XML file once it has been parsed once, to avoid reading the file again and again.
         // If the file doesn't exists, the game crashes at launch.
