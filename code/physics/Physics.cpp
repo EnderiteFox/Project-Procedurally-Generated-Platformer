@@ -46,7 +46,7 @@ namespace platformer {
 
             // Friction resolution
             relativeVelocity = -(character.getSpeed() + res.collision);
-            gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal) * p.normal;
+            gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal* gf::Vector2f{1,0}) * p.normal;
             if (tangent.x != 0 && tangent.y != 0) {
                 tangent = normalize(tangent);
             }
