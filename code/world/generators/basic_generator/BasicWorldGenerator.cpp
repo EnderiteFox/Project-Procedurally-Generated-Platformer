@@ -168,7 +168,7 @@ namespace platformer {
         bool ladderFirstPossible = true;
         for (int y = currentPoint.y; y != nextPoint.y; y += direction.y) {
             const std::string blockType = world.getBlockManager().getBlockTypeAt(currentPoint.x, y);
-            if (blockType == BlockTypes::EMPTY_BLOCK) continue;
+            if (blockType == "empty") continue;
             if (BlockTypes::getBlockTypeByName(blockType).isCollidable) {
                 ladderFirstPossible = false;
                 break;
@@ -177,7 +177,7 @@ namespace platformer {
         if (ladderFirstPossible) {
             for (int x = currentPoint.x; x != nextPoint.x; x += direction.x) {
                 const std::string blockType = world.getBlockManager().getBlockTypeAt(x, nextPoint.y);
-                if (blockType == BlockTypes::EMPTY_BLOCK) continue;
+                if (blockType == "empty") continue;
                 if (BlockTypes::getBlockTypeByName(blockType).isCollidable) {
                     ladderFirstPossible = false;
                     break;
@@ -189,7 +189,7 @@ namespace platformer {
         bool platformFirstPossible = true;
         for (int x = currentPoint.x; x != nextPoint.x; x += direction.x) {
             const std::string blockType = world.getBlockManager().getBlockTypeAt(x, currentPoint.y);
-            if (blockType == BlockTypes::EMPTY_BLOCK) continue;
+            if (blockType == "empty") continue;
             if (BlockTypes::getBlockTypeByName(blockType).isCollidable) {
                 platformFirstPossible = false;
                 break;
@@ -198,7 +198,7 @@ namespace platformer {
         if (platformFirstPossible) {
             for (int y = currentPoint.y; y != nextPoint.y; y += direction.y) {
                 const std::string blockType = world.getBlockManager().getBlockTypeAt(nextPoint.x, y);
-                if (blockType == BlockTypes::EMPTY_BLOCK) continue;
+                if (blockType == "empty") continue;
                 if (BlockTypes::getBlockTypeByName(blockType).isCollidable) {
                     platformFirstPossible = false;
                     break;

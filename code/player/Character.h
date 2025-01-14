@@ -43,6 +43,7 @@ namespace platformer {
         const int maxAirJumpCount = 1;
         const float MAX_DASH_TIME = 1.0f;
         const float DELAY_BETWEEN_DASH = 0.5f;
+        const float CLIMBSPEED = 20.0f;
 
         BlockManager& blockManager;
         gf::ActionContainer& actionContainer;
@@ -55,6 +56,7 @@ namespace platformer {
         gf::Action leftAction {"Left"};
         gf::Action rightAction {"Right"};
         gf::Action jumpAction {"Jump"};
+        gf::Action upAction {"Up"};
         gf::Action downAction {"Down"};
         gf::Action dashAction {"Dash"};
 
@@ -66,6 +68,7 @@ namespace platformer {
         bool canDoubleJump = false;
         float dashStart = 0;
         float dashStartContinuous = 0;
+        bool isOnLadder = false;
 
     public:
         // Constructor

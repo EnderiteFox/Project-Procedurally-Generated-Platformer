@@ -25,7 +25,7 @@ namespace platformer {
 
             // Storing the data of the collision
             res.hasCollisionOccured = true;
-            res.flags.insert(type);
+            res.flags.insert(otherBlock.type);
             if(!otherBlock.isCollidable){
                 return res;
             }
@@ -46,7 +46,7 @@ namespace platformer {
 
             // Friction resolution
             relativeVelocity = -(character.getSpeed() + res.collision);
-            gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal) * p.normal;
+            gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal* gf::Vector2f{1,0}) * p.normal;
             if (tangent.x != 0 && tangent.y != 0) {
                 tangent = normalize(tangent);
             }

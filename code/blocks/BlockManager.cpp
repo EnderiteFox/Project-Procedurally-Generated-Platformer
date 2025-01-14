@@ -6,6 +6,8 @@
 #include <vector>
 #include <gf/Rect.h>
 
+#include <iostream>
+
 namespace platformer {
     BlockManager::BlockManager(const gf::View* view): view(view) {}
 
@@ -13,7 +15,7 @@ namespace platformer {
 
     std::string BlockManager::getBlockTypeAt(const int x, const int y) const {
         const auto found = blockMap.find(std::make_pair(x, y));
-        if (found == blockMap.cend()) return BlockTypes::EMPTY_BLOCK;
+        if (found == blockMap.cend()) return "empty";
         return found->second;
     }
 
@@ -38,7 +40,7 @@ namespace platformer {
     }
 
     bool BlockManager::isEmptyBlock(const int x, const int y) const {
-        return getBlockTypeAt(x, y) == BlockTypes::EMPTY_BLOCK;
+        return getBlockTypeAt(x, y) == "empty";
     }
 
     bool BlockManager::isEmptyBlock(const gf::Vector2i pos) const {
@@ -48,6 +50,7 @@ namespace platformer {
 
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {
+            if(blockType.texturePath == "../assets/tiles/") continue; // Skipping untextured blocks
             textureMap.insert(std::make_pair(blockType.subType, gf::Texture(blockType.texturePath)));
         }
     }
@@ -61,7 +64,6 @@ namespace platformer {
                 auto found = blockMap.find(std::make_pair(x, y));
                 if (found == blockMap.cend()) continue;
                 std::string blockType = found->second;
-                if (blockType == BlockTypes::EMPTY_BLOCK) continue;
                 auto textureFound = textureMap.find(blockType);
                 if (textureFound == textureMap.cend()) continue;
                 gf::Sprite sprite;
@@ -107,7 +109,7 @@ namespace platformer {
             ) {
                 auto found = blockMap.find(std::make_pair(x, y));
                 if (found == blockMap.end()) continue;
-                if (found->second == BlockTypes::EMPTY_BLOCK) continue;
+                if (found->second == "empty") continue;
 
                 res.push_back({
                     gf::RectF::fromPositionSize(
