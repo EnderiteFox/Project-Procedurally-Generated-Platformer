@@ -11,12 +11,13 @@
 namespace platformer {
     std::map<std::string,BlockType> BlockTypes::cache;
 
+    /**
     std::string BlockTypes::EMPTY_BLOCK = "empty";
     std::string BlockTypes::TEST_BLOCK = "testBlock";
     std::string BlockTypes::TEST_LADDER = "testLadder";
     std::string BlockTypes::PATH = "pathBlock";
     std::string BlockTypes::ICE = "iceBlock";
-    std::string BlockTypes::JELLY = "jellyBlock";
+    std::string BlockTypes::JELLY = "jellyBlock";*/
 
     std::vector<BlockType> BlockTypes::getAllTypes() {
         if(cache.empty()){

@@ -15,7 +15,7 @@ namespace platformer {
 
     std::string BlockManager::getBlockTypeAt(const int x, const int y) const {
         const auto found = blockMap.find(std::make_pair(x, y));
-        if (found == blockMap.cend()) return BlockTypes::EMPTY_BLOCK;
+        if (found == blockMap.cend()) return "empty";
         return found->second;
     }
 
@@ -28,7 +28,7 @@ namespace platformer {
     }
 
     bool BlockManager::isEmptyBlock(const int x, const int y) const {
-        return getBlockTypeAt(x, y) == BlockTypes::EMPTY_BLOCK;
+        return getBlockTypeAt(x, y) == "empty";
     }
 
 
@@ -94,7 +94,7 @@ namespace platformer {
             ) {
                 auto found = blockMap.find(std::make_pair(x, y));
                 if (found == blockMap.end()) continue;
-                if (found->second == BlockTypes::EMPTY_BLOCK) continue;
+                if (found->second == "empty") continue;
 
                 res.push_back({
                     gf::RectF::fromPositionSize(
