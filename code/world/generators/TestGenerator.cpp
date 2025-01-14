@@ -10,9 +10,13 @@ namespace platformer {
         for (int i = -5; i <= 5; ++i) {
             blockManager.setBlockTypeAt(i, 0, BlockTypes::getBlockTypeByName("testBlock"));
         }
-        for (int i = -5; i <= 5; ++i) {
+        for (int i = -5; i <= 0; ++i) {
             blockManager.setBlockTypeAt(i, -3, BlockTypes::getBlockTypeByName("iceBlock"));
         }
+        for (int i=0; i<=5; ++i){
+            blockManager.setBlockTypeAt(i, -3, BlockTypes::getBlockTypeByName("testPlatform"));
+        }
+
         for (int i = -9; i <= -6; ++i) {
             blockManager.setBlockTypeAt(i, -1, BlockTypes::getBlockTypeByName("testBlock"));
         }
@@ -20,7 +24,6 @@ namespace platformer {
             blockManager.setBlockTypeAt(i, 0, BlockTypes::getBlockTypeByName("jellyBlock"));
         }
         for (int i=-2; i>=-4; --i){
-            assert(BlockTypes::getBlockTypeByName("testLadder").type != "");
             blockManager.setBlockTypeAt(-6, i, BlockTypes::getBlockTypeByName("testLadder"));
         }
 

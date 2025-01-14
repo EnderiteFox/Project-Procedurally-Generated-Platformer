@@ -72,5 +72,8 @@ namespace platformer {
          *  @return vector corresponding to the current friction
          */
         static gf::Vector2f friction(gf::Vector2f speed, gf::Vector2f direction);
+
+    private :
+        static bool matchDirection(gf::Vector2i blockDirection, gf::Vector2f characterDirection);
     };
 }

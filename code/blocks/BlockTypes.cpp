@@ -38,15 +38,29 @@ namespace platformer {
 
         for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); ++it) {
             if (it->attribute("collidable").as_bool()) {
-                BlockType type = BlockType(
-                    it->name(),
-                    it->attribute("type").value(),
-                    "../"+gfxpath+"/"+it->attribute("texture").value(),
-                    it->attribute("staticFriction").as_float(),
-                    it->attribute("dynamicFriction").as_float(),
-                    it->attribute("restitution").as_float()
-                );
-                cache.emplace(it->attribute("type").value(),type);
+                if(it->attribute("direction")){
+                    BlockType type = BlockType(
+                        it->name(),
+                        it->attribute("type").value(),
+                        "../"+gfxpath+"/"+it->attribute("texture").value(),
+                        it->attribute("staticFriction").as_float(),
+                        it->attribute("dynamicFriction").as_float(),
+                        it->attribute("restitution").as_float(),
+                        it->attribute("direction").value()
+                    );
+                    cache.emplace(it->attribute("type").value(),type);
+                }
+                else{
+                    BlockType type = BlockType(
+                        it->name(),
+                        it->attribute("type").value(),
+                        "../"+gfxpath+"/"+it->attribute("texture").value(),
+                        it->attribute("staticFriction").as_float(),
+                        it->attribute("dynamicFriction").as_float(),
+                        it->attribute("restitution").as_float()
+                    );
+                    cache.emplace(it->attribute("type").value(),type);
+                }
             }
             else{
                 BlockType type = BlockType(
