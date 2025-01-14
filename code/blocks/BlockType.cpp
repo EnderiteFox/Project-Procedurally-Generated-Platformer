@@ -18,4 +18,15 @@ namespace platformer {
         dynamicFriction(dynamicFriction),
         restitution(restitution),
         isCollidable(true) {}
+
+    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution,std::string direction):
+        type(std::move(type)),
+        subType(std::move(subType)),
+        texturePath(std::move(texturePath)),
+        staticFriction(staticFriction),
+        dynamicFriction(dynamicFriction),
+        restitution(restitution),
+        isCollidable(true),
+        isDirectionnal(true),
+        direction(directionMap[direction]) {}
 }

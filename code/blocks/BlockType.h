@@ -4,13 +4,18 @@
  */
 #pragma once
 #include <string>
+#include <map>
+#include <gf/Vector.h>
 
 namespace platformer {
     class BlockType {
     public:
-        // Constructor
-        BlockType(std::string  type, std::string subType,std::string  texturePath); // Simple constructor for non-collidable blocks
+        // Simple constructor for non-collidable blocks
+        BlockType(std::string  type, std::string subType,std::string  texturePath);
+        // Constructor for normal blocks
         BlockType(std::string  type, std::string subType,std::string  texturePath, float staticFriction, float dynamicFriction, float restitution);
+        // Constructor for directionnal blocks
+        BlockType(std::string  type, std::string subType,std::string  texturePath, float staticFriction, float dynamicFriction, float restitution, std::string direction);
 
         // Textures and type names
         const std::string type;
@@ -24,5 +29,17 @@ namespace platformer {
         const float staticFriction = 0.0f;
         const float dynamicFriction = 0.0f;
         const float restitution = 0.0f;
+
+        // Constants for directionnal blocks
+        const bool isDirectionnal = false;
+        const gf::Vector2i direction{0,0};
+
+    private :
+        std::map<std::string,gf::Vector2i> directionMap{
+            {"up",gf::Vector2i{0,-1}},
+            {"down",gf::Vector2i{0,1}},
+            {"left",gf::Vector2i{-1,0}},
+            {"right",gf::Vector2i{1,0}}
+        };
     };
 }
