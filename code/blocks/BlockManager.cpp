@@ -17,18 +17,33 @@ namespace platformer {
         return found->second;
     }
 
+    std::string BlockManager::getBlockTypeAt(const gf::Vector2i pos) const {
+        return getBlockTypeAt(pos.x, pos.y);
+    }
+
     void BlockManager::setBlockTypeAt(const int x, const int y, const BlockType& blockType) {
         blockMap.insert(std::make_pair(std::make_pair(x, y), blockType.subType));
+    }
+
+    void BlockManager::setBlockTypeAt(const gf::Vector2i pos, const BlockType& blockType) {
+        setBlockTypeAt(pos.x, pos.y, blockType);
     }
 
     void BlockManager::removeBlockAt(int x, int y) {
         blockMap.erase(std::make_pair(x, y));
     }
 
+    void BlockManager::removeBlockAt(gf::Vector2i pos) {
+        removeBlockAt(pos.x, pos.y);
+    }
+
     bool BlockManager::isEmptyBlock(const int x, const int y) const {
         return getBlockTypeAt(x, y) == BlockTypes::EMPTY_BLOCK;
     }
 
+    bool BlockManager::isEmptyBlock(const gf::Vector2i pos) const {
+        return isEmptyBlock(pos.x, pos.y);
+    }
 
 
     void BlockManager::loadTextures() {

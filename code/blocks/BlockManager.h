@@ -35,9 +35,13 @@ namespace platformer {
 
         // Getters and setter
         std::string getBlockTypeAt(int x, int y) const;
+        std::string getBlockTypeAt(gf::Vector2i pos) const;
         void setBlockTypeAt(int x, int y, const BlockType& blockType);
+        void setBlockTypeAt(gf::Vector2i pos, const BlockType& blockType);
         void removeBlockAt(int x, int y);
+        void removeBlockAt(gf::Vector2i pos);
         bool isEmptyBlock(int x, int y) const;
+        bool isEmptyBlock(gf::Vector2i pos) const;
 
         // Loads all available blocks textures
         void loadTextures();
