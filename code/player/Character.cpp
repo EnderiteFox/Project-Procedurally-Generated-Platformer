@@ -33,7 +33,7 @@ namespace platformer {
     }
 
     bool Character::isOnGround() const {
-        return lastGroundTouchTime <= COYOTE_JUMP_TIME;
+        return lastGroundTouchTime <= COYOTE_JUMP_TIME || isOnLadder;
     }
 
     void Character::update(const gf::Time time) {
@@ -60,6 +60,9 @@ namespace platformer {
         } else {
             lastGroundTouchTime += time.asSeconds();
         }
+
+        // Checking if we touched a ladder
+        isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
 
         // Update jump time
         jumpStartTime += time.asSeconds();
@@ -106,11 +109,14 @@ namespace platformer {
         rightAction.setContinuous();
         actionContainer.addAction(rightAction);
 
-        jumpAction.addScancodeKeyControl(gf::Scancode::W);
-        jumpAction.addScancodeKeyControl(gf::Scancode::Up);
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
         jumpAction.setContinuous();
         actionContainer.addAction(jumpAction);
+
+        upAction.addScancodeKeyControl(gf::Scancode::W);
+        upAction.addScancodeKeyControl(gf::Scancode::Up);
+        actionContainer.addAction(upAction);
+        upAction.setContinuous();
 
         downAction.addScancodeKeyControl(gf::Scancode::S);
         downAction.addScancodeKeyControl(gf::Scancode::Down);
@@ -142,15 +148,19 @@ namespace platformer {
             charSpeed.y += 1;
         }
 
-        if (speed.x + charSpeed.x * ACCELERATION > maxSpeed.x){
-            charSpeed.x = maxSpeed.x - speed.x;
+        if (std::abs(speed.x + charSpeed.x * ACCELERATION) > maxSpeed.x){
+            charSpeed.x = getDirection().x * maxSpeed.x - speed.x;
         }
-        if (speed.y + charSpeed.y * ACCELERATION > maxSpeed.y){
-            charSpeed.y = maxSpeed.y - speed.y;
+        if (std::abs(speed.y + charSpeed.y * ACCELERATION) > maxSpeed.y){
+            charSpeed.y = getDirection().y * maxSpeed.y - speed.y;
         }
 
         //Initial speed determination
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
+
+        if(upAction.isActive() && isOnLadder){
+            speed.y = -CLIMBSPEED;
+        }
 
         //actionContainer.reset(); // This prevents dash from being processed, please don't add it back. It's already present at the end of the update method
                                    // And it's useless here since our input actions (except dash) aren't Instantaneous.

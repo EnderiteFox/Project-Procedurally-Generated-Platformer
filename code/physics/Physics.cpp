@@ -25,7 +25,7 @@ namespace platformer {
 
             // Storing the data of the collision
             res.hasCollisionOccured = true;
-            res.flags.insert(type);
+            res.flags.insert(otherBlock.type);
             if(!otherBlock.isCollidable){
                 return res;
             }
