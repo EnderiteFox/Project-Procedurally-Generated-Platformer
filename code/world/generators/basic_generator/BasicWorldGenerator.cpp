@@ -19,12 +19,12 @@ namespace platformer {
         fillWorld(world);
         carveRooms(world);
         generatePath();
-        //debugPath(world);
 
         // Connect path points
         for (int i = 0; i < static_cast<int>(path.size()) - 1; ++i) {
             connectPathPoints(world, path.at(i), path.at(i + 1));
         }
+        //debugPath(world);
 
         // Find spawn point
         for (const gf::Vector4i room : rooms) {
@@ -210,7 +210,7 @@ namespace platformer {
                 for (; checkPos.x != nextPoint.x; checkPos.x += direction.x) {
                     if (
                         BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
                     ) {
                         checkPos.x -= direction.x;
                         break;
@@ -251,23 +251,27 @@ namespace platformer {
 
         gf::Vector2i placePos = currentPoint;
         for (const gf::Vector2i nextPlacePos : connectionPath) {
-            const gf::Vector2i direction = sign(nextPlacePos - placePos);
-            if (direction.x == 0 && direction.y == 0) break;
-
-            if (direction.y != 0) {
-                for (placePos.y += direction.y < 0 ? -1 : 0; placePos.y != nextPlacePos.y + direction.y; placePos.y += direction.y) {
+            if (
+                const gf::Vector2i direction = sign(nextPlacePos - placePos);
+                direction.y != 0
+            ) {
+                if (world.getBlockManager().getBlockTypeAt(placePos) == WALL_BLOCK.subType && direction.y < 0) {
+                    placePos.y += direction.y;
+                }
+                for (; placePos.y != nextPlacePos.y; placePos.y += direction.y) {
                     world.getBlockManager().setBlockTypeAt(placePos, LADDER_BLOCK);
                 }
                 world.getBlockManager().setBlockTypeAt(placePos, LADDER_BLOCK);
-                placePos.y -= direction.y;
             }
             else if (direction.x != 0) {
-                if (world.getBlockManager().getBlockTypeAt(placePos) == LADDER_BLOCK.type) placePos.x += direction.x;
-                for (; placePos.x != nextPlacePos.x + direction.x; placePos.x += direction.x) {
+                if (world.getBlockManager().getBlockTypeAt(placePos) == LADDER_BLOCK.subType
+                    && world.getBlockManager().getBlockTypeAt(placePos.x, placePos.y - 1) != LADDER_BLOCK.subType) {
+                    placePos.x += direction.x;
+                }
+                for (; placePos.x != nextPlacePos.x; placePos.x += direction.x) {
                     world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
                 }
                 world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
-                placePos.x -= direction.x;
             }
             placePos = nextPlacePos;
         }
