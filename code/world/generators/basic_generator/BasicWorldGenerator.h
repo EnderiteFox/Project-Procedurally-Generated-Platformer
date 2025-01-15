@@ -6,7 +6,6 @@
 #include <blocks/BlockTypes.h>
 #include <gf/Vector.h>
 
-#include "PathConnectionType.h"
 #include "../WorldGenerator.h"
 
 namespace platformer {
@@ -54,7 +53,7 @@ namespace platformer {
 
         void generatePath();
         void debugPath(const World& world);
-        PathConnectionType getConnectionType(const World& world, gf::Vector2i currentPoint, gf::Vector2i nextPoint);
+        std::vector<gf::Vector2i> getConnectionPath(const World& world, gf::Vector2i currentPoint, gf::Vector2i nextPoint);
         void connectPathPoints(const World& world, gf::Vector2i currentPoint, gf::Vector2i nextPoint);
 
         static std::optional<gf::Vector2f> findValidSpawnpoint(const World& world, gf::Vector4i room);

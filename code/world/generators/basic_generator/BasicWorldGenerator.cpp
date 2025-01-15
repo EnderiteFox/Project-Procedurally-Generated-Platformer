@@ -161,12 +161,12 @@ namespace platformer {
         }
     }
 
-    PathConnectionType BasicWorldGenerator::getConnectionType(const World& world, const gf::Vector2i currentPoint, const gf::Vector2i nextPoint) {
-        const gf::Vector2i direction = sign(nextPoint - currentPoint);
-        if (direction.x == 0 && direction.y == 0) return CANT_CONNECT;
+    std::vector<gf::Vector2i> BasicWorldGenerator::getConnectionPath(const World& world, gf::Vector2i currentPoint, gf::Vector2i nextPoint) {
+        gf::Vector2i direction = sign(nextPoint - currentPoint);
+        if (direction.x == 0 && direction.y == 0) return std::vector<gf::Vector2i>();
 
         // Checking if starting with a ladder is possible
-        bool ladderFirstPossible = true;
+        std::vector<gf::Vector2i> ladderFirstPath;
         gf::Vector2i checkPos = currentPoint;
         while (checkPos != nextPoint) {
             gf::Vector2i prevCheckPos = checkPos;
@@ -177,6 +177,7 @@ namespace platformer {
                         break;
                     }
                 }
+                ladderFirstPath.push_back(checkPos);
                 if (checkPos == nextPoint) break;
             }
             if (direction.x != 0) {
@@ -186,15 +187,16 @@ namespace platformer {
                         break;
                     }
                 }
+                ladderFirstPath.push_back(checkPos);
             }
             if (prevCheckPos == checkPos) {
-                ladderFirstPossible = false;
+                ladderFirstPath.clear();
                 break;
             }
         }
 
         // Checking if starting with a platform is possible
-        bool platformFirstPossible = true;
+        std::vector<gf::Vector2i> platformFirstPath;
         checkPos = currentPoint;
         while (checkPos != nextPoint) {
             gf::Vector2i prevCheckPoint = checkPos;
@@ -205,6 +207,7 @@ namespace platformer {
                         break;
                     }
                 }
+                platformFirstPath.push_back(checkPos);
                 if (checkPos == nextPoint) break;
             }
             if (direction.y != 0) {
@@ -214,87 +217,43 @@ namespace platformer {
                         break;
                     }
                 }
+                platformFirstPath.push_back(checkPos);
             }
             if (prevCheckPoint == checkPos) {
-                platformFirstPossible = false;
+                platformFirstPath.clear();
                 break;
             }
         }
 
-        if (ladderFirstPossible && platformFirstPossible) return random.computeUniformInteger(0, 1) ? LADDER_FIRST : PLATFORM_FIRST;
-        if (ladderFirstPossible) return LADDER_FIRST;
-        if (platformFirstPossible) return PLATFORM_FIRST;
-        return CANT_CONNECT;
+        if (!ladderFirstPath.empty() && !platformFirstPath.empty()) {
+            if (random.computeUniformInteger(0, 1) == 1) return ladderFirstPath;
+            return platformFirstPath;
+        }
+        if (!ladderFirstPath.empty()) return ladderFirstPath;
+        if (!platformFirstPath.empty()) return platformFirstPath;
+        return std::vector<gf::Vector2i>();
     }
 
     void BasicWorldGenerator::connectPathPoints(const World& world, const gf::Vector2i currentPoint, const gf::Vector2i nextPoint) {
-        const PathConnectionType connectionType = getConnectionType(world, currentPoint, nextPoint);
+        const std::vector<gf::Vector2i> connectionPath = getConnectionPath(world, currentPoint, nextPoint);
 
-        const gf::Vector2i direction = sign(nextPoint - currentPoint);
-        if (direction.x == 0 && direction.y == 0) return;
+        gf::Vector2i placePos = currentPoint;
+        for (const gf::Vector2i nextPlacePos : connectionPath) {
+            const gf::Vector2i direction = sign(nextPlacePos - placePos);
+            if (direction.x == 0 && direction.y == 0) break;
 
-        switch (connectionType) {
-        case LADDER_FIRST: {
-            gf::Vector2i placePos = currentPoint;
-            std::vector<gf::Vector2i> platformPos;
-            std::vector<gf::Vector2i> ladderPos;
-            while (placePos != nextPoint) {
-                if (direction.y != 0) {
-                    for (; placePos.y != nextPoint.y; placePos.y += direction.y) {
-                        if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(placePos)).isCollidable) {
-                            placePos.y -= direction.y;
-                            break;
-                        }
-                        ladderPos.push_back(placePos);
-                    }
-                    if (placePos == nextPoint) break;
-                }
-                if (direction.x != 0) {
-                    for (; placePos.x != nextPoint.x; placePos.x += direction.x) {
-                        if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(placePos)).isCollidable) {
-                            placePos.x -= direction.x;
-                            break;
-                        }
-                        platformPos.push_back(placePos);
-                    }
+            if (direction.y != 0) {
+                for (; placePos.y != nextPlacePos.y; placePos.y += direction.y) {
+                    world.getBlockManager().setBlockTypeAt(placePos, LADDER_BLOCK);
                 }
             }
-            for (gf::Vector2i pos : platformPos) world.getBlockManager().setBlockTypeAt(pos, WALL_BLOCK);
-            for (gf::Vector2i pos : ladderPos) world.getBlockManager().setBlockTypeAt(pos, LADDER_BLOCK);
-            break;
-        }
-        case PLATFORM_FIRST: {
-            gf::Vector2i placePos = currentPoint;
-            std::vector<gf::Vector2i> platformPos;
-            std::vector<gf::Vector2i> ladderPos;
-            while (placePos != nextPoint) {
-                if (direction.x != 0) {
-                    for (; placePos.x != nextPoint.x; placePos.x += direction.x) {
-                        if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(placePos)).isCollidable) {
-                            placePos.x -= direction.x;
-                            break;
-                        }
-                        platformPos.push_back(placePos);
-                    }
-                    if (placePos == nextPoint) break;
-                }
-                if (direction.y != 0) {
-                    for (; placePos.y != nextPoint.y; placePos.y += direction.y) {
-                        if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(placePos)).isCollidable) {
-                            placePos.y -= direction.y;
-                            break;
-                        }
-                        ladderPos.push_back(placePos);
-                    }
+            else if (direction.x != 0) {
+                for (; placePos.x != nextPlacePos.x; placePos.x += direction.x) {
+                    world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
                 }
             }
-            for (gf::Vector2i pos : platformPos) world.getBlockManager().setBlockTypeAt(pos, WALL_BLOCK);
-            for (gf::Vector2i pos : ladderPos) world.getBlockManager().setBlockTypeAt(pos, LADDER_BLOCK);
-            break;
-        }
-        case CANT_CONNECT:
-            // Will do something later, currently fails to connect points
-            break;
+
+            placePos = nextPlacePos;
         }
     }
 
