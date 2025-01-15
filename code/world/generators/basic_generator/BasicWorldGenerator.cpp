@@ -255,14 +255,19 @@ namespace platformer {
             if (direction.x == 0 && direction.y == 0) break;
 
             if (direction.y != 0) {
-                for (placePos.y += direction.y < 0 ? -1 : 0; placePos.y != nextPlacePos.y; placePos.y += direction.y) {
+                for (placePos.y += direction.y < 0 ? -1 : 0; placePos.y != nextPlacePos.y + direction.y; placePos.y += direction.y) {
                     world.getBlockManager().setBlockTypeAt(placePos, LADDER_BLOCK);
                 }
+                world.getBlockManager().setBlockTypeAt(placePos, LADDER_BLOCK);
+                placePos.y -= direction.y;
             }
             else if (direction.x != 0) {
-                for (; placePos.x != nextPlacePos.x; placePos.x += direction.x) {
+                if (world.getBlockManager().getBlockTypeAt(placePos) == LADDER_BLOCK.type) placePos.x += direction.x;
+                for (; placePos.x != nextPlacePos.x + direction.x; placePos.x += direction.x) {
                     world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
                 }
+                world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
+                placePos.x -= direction.x;
             }
             placePos = nextPlacePos;
         }
