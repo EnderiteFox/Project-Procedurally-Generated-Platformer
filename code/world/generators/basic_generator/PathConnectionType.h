@@ -6,7 +6,7 @@ namespace platformer {
 enum PathConnectionType {
     LADDER_FIRST,
     PLATFORM_FIRST,
-    INDIRECT
+    CANT_CONNECT
 };
 
 } // platformer
