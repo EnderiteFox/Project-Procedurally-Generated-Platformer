@@ -150,7 +150,7 @@ namespace platformer {
         for (const gf::Vector4i room : rooms) {
             path.push_back(gf::Vector2i{
                 room.x + random.computeUniformInteger(0, room.w - 1),
-                room.y + random.computeUniformInteger(0, room.z - 1)
+                room.y + random.computeUniformInteger(1, room.z - 1)
             });
         }
     }
@@ -172,7 +172,10 @@ namespace platformer {
             gf::Vector2i prevCheckPos = checkPos;
             if (direction.y != 0) {
                 for (; checkPos.y != nextPoint.y; checkPos.y += direction.y) {
-                    if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable) {
+                    if (
+                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                    ) {
                         checkPos.y -= direction.y;
                         break;
                     }
@@ -182,7 +185,10 @@ namespace platformer {
             }
             if (direction.x != 0) {
                 for (; checkPos.x != nextPoint.x; checkPos.x += direction.x) {
-                    if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable) {
+                    if (
+                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                    ) {
                         checkPos.x -= direction.x;
                         break;
                     }
@@ -202,7 +208,10 @@ namespace platformer {
             gf::Vector2i prevCheckPoint = checkPos;
             if (direction.x != 0) {
                 for (; checkPos.x != nextPoint.x; checkPos.x += direction.x) {
-                    if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable) {
+                    if (
+                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
+                    ) {
                         checkPos.x -= direction.x;
                         break;
                     }
@@ -212,7 +221,10 @@ namespace platformer {
             }
             if (direction.y != 0) {
                 for (; checkPos.y != nextPoint.y; checkPos.y += direction.y) {
-                    if (BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable) {
+                    if (
+                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                    ) {
                         checkPos.y -= direction.y;
                         break;
                     }
@@ -259,7 +271,7 @@ namespace platformer {
 
     bool isValidSpawnpoint(const World& world, const int x, const int y) {
         const BlockManager& blockManager = world.getBlockManager();
-        return blockManager.isEmptyBlock(x, y) && !blockManager.isEmptyBlock(x, y + 1);
+        return blockManager.isEmptyBlock(x, y) && BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(x, y + 1)).isCollidable;
     }
 
     std::optional<gf::Vector2f> BasicWorldGenerator::findValidSpawnpoint(const World& world, const gf::Vector4i room) {
