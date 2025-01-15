@@ -6,8 +6,6 @@
 #include <vector>
 #include <gf/Rect.h>
 
-#include <iostream>
-
 namespace platformer {
     BlockManager::BlockManager(const gf::View* view): view(view) {}
 
@@ -24,7 +22,8 @@ namespace platformer {
     }
 
     void BlockManager::setBlockTypeAt(const int x, const int y, const BlockType& blockType) {
-        blockMap.insert(std::make_pair(std::make_pair(x, y), blockType.subType));
+        if (blockType.type == BlockTypes::EMPTY_BLOCK) return removeBlockAt(x, y);
+        blockMap.insert_or_assign(std::make_pair(x, y), blockType.subType);
     }
 
     void BlockManager::setBlockTypeAt(const gf::Vector2i pos, const BlockType& blockType) {
@@ -35,7 +34,7 @@ namespace platformer {
         blockMap.erase(std::make_pair(x, y));
     }
 
-    void BlockManager::removeBlockAt(gf::Vector2i pos) {
+    void BlockManager::removeBlockAt(const gf::Vector2i pos) {
         removeBlockAt(pos.x, pos.y);
     }
 

@@ -19,7 +19,7 @@ namespace platformer {
         fillWorld(world);
         carveRooms(world);
         generatePath();
-        debugPath(world);
+        //debugPath(world);
 
         // Connect path points
         for (int i = 0; i < static_cast<int>(path.size()) - 1; ++i) {
@@ -255,7 +255,7 @@ namespace platformer {
             if (direction.x == 0 && direction.y == 0) break;
 
             if (direction.y != 0) {
-                for (; placePos.y != nextPlacePos.y; placePos.y += direction.y) {
+                for (placePos.y += direction.y < 0 ? -1 : 0; placePos.y != nextPlacePos.y; placePos.y += direction.y) {
                     world.getBlockManager().setBlockTypeAt(placePos, LADDER_BLOCK);
                 }
             }
@@ -264,7 +264,6 @@ namespace platformer {
                     world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
                 }
             }
-
             placePos = nextPlacePos;
         }
     }
