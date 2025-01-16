@@ -48,7 +48,7 @@ namespace platformer {
          * @return true if the room was successfully generated, false otherwise
          */
         bool generateRoomNextToRoom(gf::Vector4i previousRoom);
-        void fillWorld(World& world);
+        void fillWorld(World& world) const;
         void carveRooms(const World& world);
 
         void generatePath();
@@ -59,6 +59,7 @@ namespace platformer {
         static std::optional<gf::Vector2f> findValidSpawnpoint(const World& world, gf::Vector4i room);
 
         static bool areIntersecting(gf::Vector4i room1, gf::Vector4i room2);
+        gf::Vector<gf::Vector2i, 2> getWorldDimensions() const;
 
     public:
         BasicWorldGenerator();

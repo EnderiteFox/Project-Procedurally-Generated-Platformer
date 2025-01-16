@@ -114,25 +114,15 @@ namespace platformer {
     }
 
 
-    void BasicWorldGenerator::fillWorld(World& world) {
-        int minX = 0;
-        int maxX = 0;
-        int minY = 0;
-        int maxY = 0;
+    void BasicWorldGenerator::fillWorld(World& world) const {
+        const gf::Vector<gf::Vector2i, 2> worldDimensions = getWorldDimensions();
 
-        for (const gf::Vector4i room : rooms) {
-            if (room.x < minX) minX = room.x;
-            if (room.x + room.w > maxX) maxX = room.x + room.w;
-            if (room.y < minY) minY = room.y;
-            if (room.y + room.z > maxY) maxY = room.y + room.z;
-        }
-
-        for (int x = minX - 1; x <= maxX; ++x) {
-            for (int y = minY - 1; y <= maxY; ++y) {
+        for (int x = worldDimensions.x.x; x < worldDimensions.y.x; ++x) {
+            for (int y = worldDimensions.x.y; y < worldDimensions.y.y; ++y) {
                 world.getBlockManager().setBlockTypeAt(x, y, WALL_BLOCK);
             }
         }
-        world.setVoidHeight(BlockManager::toWorldSpace(maxY + 2));
+        world.setVoidHeight(BlockManager::toWorldSpace(worldDimensions.y.y + 1));
     }
 
     void BasicWorldGenerator::carveRooms(const World& world) {
@@ -304,6 +294,25 @@ namespace platformer {
             && room1.y + room1.z > room2.y
             && room1.y < room2.y + room2.z;
     }
+
+    gf::Vector<gf::Vector2i, 2> BasicWorldGenerator::getWorldDimensions() const {
+        int minX = 0;
+        int maxX = 0;
+        int minY = 0;
+        int maxY = 0;
+
+        for (const gf::Vector4i room : rooms) {
+            if (room.x < minX) minX = room.x;
+            if (room.x + room.w > maxX) maxX = room.x + room.w;
+            if (room.y < minY) minY = room.y;
+            if (room.y + room.z > maxY) maxY = room.y + room.z;
+        }
+        return gf::Vector<gf::Vector2i, 2>(
+            gf::Vector2i(minX - 1, minY - 1),
+            gf::Vector2i(maxX + 1, maxY + 1)
+        );
+    }
+
 
 
 } // platformer
