@@ -17,6 +17,7 @@ namespace platformer {
     std::string BlockTypes::PATH = "pathBlock";
     std::string BlockTypes::ICE = "iceBlock";
     std::string BlockTypes::JELLY = "jellyBlock";
+    std::string BlockTypes::PLATFORM_BLOCK = "testPlatform";
 
     std::vector<BlockType> BlockTypes::getAllTypes() {
         if(cache.empty()){

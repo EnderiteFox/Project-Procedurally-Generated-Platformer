@@ -26,7 +26,7 @@ namespace platformer {
         const std::string AIR_TYPE = BlockTypes::EMPTY_BLOCK;
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
         const BlockType LADDER_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_LADDER);
-        const BlockType PLATFORM_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
+        const BlockType PLATFORM_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::PLATFORM_BLOCK);
         const BlockType PATH = BlockTypes::getBlockTypeByName(BlockTypes::PATH);
 
         /*

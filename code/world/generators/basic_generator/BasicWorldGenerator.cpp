@@ -159,16 +159,19 @@ namespace platformer {
         std::vector<gf::Vector2i> ladderFirstPath;
         gf::Vector2i checkPos = currentPoint;
         while (checkPos != nextPoint) {
+            bool firstCheck = true;
             gf::Vector2i prevCheckPos = checkPos;
             if (direction.y != 0) {
                 for (; checkPos.y != nextPoint.y; checkPos.y += direction.y) {
                     if (
-                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        (!world.getBlockManager().isEmptyBlock(checkPos)
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable)
+                        && !firstCheck
                     ) {
                         checkPos.y -= direction.y;
                         break;
                     }
+                    firstCheck = false;
                 }
                 ladderFirstPath.push_back(checkPos);
                 if (checkPos == nextPoint) break;
@@ -176,12 +179,14 @@ namespace platformer {
             if (direction.x != 0) {
                 for (; checkPos.x != nextPoint.x; checkPos.x += direction.x) {
                     if (
-                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        (!world.getBlockManager().isEmptyBlock(checkPos)
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable)
+                        && !firstCheck
                     ) {
                         checkPos.x -= direction.x;
                         break;
                     }
+                    firstCheck = false;
                 }
                 ladderFirstPath.push_back(checkPos);
             }
@@ -195,16 +200,19 @@ namespace platformer {
         std::vector<gf::Vector2i> platformFirstPath;
         checkPos = currentPoint;
         while (checkPos != nextPoint) {
+            bool firstCheck = true;
             gf::Vector2i prevCheckPoint = checkPos;
             if (direction.x != 0) {
                 for (; checkPos.x != nextPoint.x; checkPos.x += direction.x) {
                     if (
-                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        (!world.getBlockManager().isEmptyBlock(checkPos)
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable)
+                        && !firstCheck
                     ) {
                         checkPos.x -= direction.x;
                         break;
                     }
+                    firstCheck = false;
                 }
                 platformFirstPath.push_back(checkPos);
                 if (checkPos == nextPoint) break;
@@ -212,12 +220,13 @@ namespace platformer {
             if (direction.y != 0) {
                 for (; checkPos.y != nextPoint.y; checkPos.y += direction.y) {
                     if (
-                        BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos)).isCollidable
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        (!world.getBlockManager().isEmptyBlock(checkPos)
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable) && !firstCheck
                     ) {
                         checkPos.y -= direction.y;
                         break;
                     }
+                    firstCheck = false;
                 }
                 platformFirstPath.push_back(checkPos);
             }
@@ -245,7 +254,7 @@ namespace platformer {
                 const gf::Vector2i direction = sign(nextPlacePos - placePos);
                 direction.y != 0
             ) {
-                if (world.getBlockManager().getBlockTypeAt(placePos) == WALL_BLOCK.subType && direction.y < 0) {
+                if (world.getBlockManager().getBlockTypeAt(placePos) == PLATFORM_BLOCK.subType && direction.y < 0) {
                     placePos.y += direction.y;
                 }
                 for (; placePos.y != nextPlacePos.y; placePos.y += direction.y) {
@@ -259,9 +268,9 @@ namespace platformer {
                     placePos.x += direction.x;
                 }
                 for (; placePos.x != nextPlacePos.x; placePos.x += direction.x) {
-                    world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
+                    world.getBlockManager().setBlockTypeAt(placePos, PLATFORM_BLOCK);
                 }
-                world.getBlockManager().setBlockTypeAt(placePos, WALL_BLOCK);
+                world.getBlockManager().setBlockTypeAt(placePos, PLATFORM_BLOCK);
             }
             placePos = nextPlacePos;
         }
