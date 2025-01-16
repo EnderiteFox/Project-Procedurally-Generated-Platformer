@@ -1,5 +1,4 @@
 #include <blocks/BlockManager.h>
-#include <blocks/BlockType.h>
 #include <blocks/BlockTypes.h>
 #include <gf/RenderTarget.h>
 #include <gf/Sprite.h>
@@ -110,10 +109,12 @@ namespace platformer {
                 if (found == blockMap.end()) continue;
                 if (found->second == "empty") continue;
 
+                BlockType blockType = BlockTypes::getBlockTypeByName(found->second);
+
                 res.push_back({
                     gf::RectF::fromPositionSize(
-                        gf::Vector2f(toWorldSpace(x), toWorldSpace(y)),
-                        gf::Vector2f(BLOCK_SIZE)),
+                        gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + blockType.hitboxOffset,
+                        blockType.hitboxSize),
                     found->second});
             }
         }

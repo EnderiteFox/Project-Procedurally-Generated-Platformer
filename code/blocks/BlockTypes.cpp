@@ -2,10 +2,8 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <fstream>
 #include <pugixml.hpp>
 
-#include <iostream>
 #include <cassert>
 
 namespace platformer {
@@ -25,7 +23,7 @@ namespace platformer {
         }
 
         std::vector<BlockType> res;
-        for(auto it = cache.begin(); it != cache.end(); it++){
+        for(auto it = cache.begin(); it != cache.end(); ++it){
             res.push_back(it->second);
         }
 
@@ -40,31 +38,47 @@ namespace platformer {
         for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); ++it) {
             if (it->attribute("collidable").as_bool()) {
                 if(it->attribute("direction")){
-                    BlockType type = BlockType(
+                    auto type = BlockType(
                         it->name(),
                         it->attribute("type").value(),
                         "../"+gfxpath+"/"+it->attribute("texture").value(),
                         it->attribute("staticFriction").as_float(),
                         it->attribute("dynamicFriction").as_float(),
                         it->attribute("restitution").as_float(),
+                        gf::Vector2f(
+                            (it->attribute("hitboxWidth") ? it->attribute("hitboxWidth").as_float() : 1) * BlockManager::BLOCK_SIZE,
+                            (it->attribute("hitboxHeight") ? it->attribute("hitboxHeight").as_float() : 1) * BlockManager::BLOCK_SIZE
+                        ),
+                        gf::Vector2f(
+                            (it->attribute("hitboxOffsetX") ? it->attribute("hitboxOffsetX").as_float() : 0) * BlockManager::BLOCK_SIZE,
+                            (it->attribute("hitboxOffsetY") ? it->attribute("hitboxOffsetY").as_float() : 0) * BlockManager::BLOCK_SIZE
+                        ),
                         it->attribute("direction").value()
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
                 else{
-                    BlockType type = BlockType(
+                    auto type = BlockType(
                         it->name(),
                         it->attribute("type").value(),
                         "../"+gfxpath+"/"+it->attribute("texture").value(),
                         it->attribute("staticFriction").as_float(),
                         it->attribute("dynamicFriction").as_float(),
-                        it->attribute("restitution").as_float()
+                        it->attribute("restitution").as_float(),
+                        gf::Vector2f(
+                            (it->attribute("hitboxWidth") ? it->attribute("hitboxWidth").as_float() : 1) * BlockManager::BLOCK_SIZE,
+                            (it->attribute("hitboxHeight") ? it->attribute("hitboxHeight").as_float() : 1) * BlockManager::BLOCK_SIZE
+                        ),
+                        gf::Vector2f(
+                            (it->attribute("hitboxOffsetX") ? it->attribute("hitboxOffsetX").as_float() : 0) * BlockManager::BLOCK_SIZE,
+                            (it->attribute("hitboxOffsetY") ? it->attribute("hitboxOffsetY").as_float() : 0) * BlockManager::BLOCK_SIZE
+                        )
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
             }
             else{
-                BlockType type = BlockType(
+                auto type = BlockType(
                     it->name(),
                     it->attribute("type").value(),
                     "../" + gfxpath + "/" + it->attribute("texture").value()

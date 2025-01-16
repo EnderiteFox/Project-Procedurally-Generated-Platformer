@@ -63,7 +63,7 @@ namespace platformer {
                 res.friction = -impulseScalar * tangent * otherBlock.dynamicFriction;
             }
             // To avoid floating point issues
-            if(std::abs(character.getSpeed().x) < 10*otherBlock.staticFriction && std::abs(character.getSpeed().x) > 0){
+            if (std::abs(character.getSpeed().x) < 10 * otherBlock.staticFriction && std::abs(character.getSpeed().x) > 0) {
                 res.friction.x = -character.getSpeed().x;
             }
 
@@ -100,8 +100,8 @@ namespace platformer {
         return -direction * resistance;
     }
 
-    bool Physics::matchDirection(gf::Vector2i blockDirection, gf::Vector2f characterDirection){
-        gf::Vector2f product = blockDirection*characterDirection;
+    bool Physics::matchDirection(const gf::Vector2i blockDirection, const gf::Vector2f characterDirection) {
+        const gf::Vector2f product = blockDirection * characterDirection;
         return product.x > 0 || product.y > 0;
     }
 }

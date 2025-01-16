@@ -16,9 +16,10 @@
 #include <gf/Rect.h>
 #include <gf/View.h>
 
-#include "BlockType.h"
-
 namespace platformer {
+
+    class BlockType;
+
     class BlockManager final : public gf::Entity {
         std::map<std::string, gf::Texture> textureMap;
         std::map<std::pair<int, int>, std::string> blockMap; // Associate a position to a block, described by a string
