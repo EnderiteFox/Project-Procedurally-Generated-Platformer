@@ -7,6 +7,7 @@
 #include <gf/Rect.h>
 
 #include <iostream>
+#include <blocks/BlockTypes.h>
 
 namespace platformer {
     Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::ActionContainer& actionContainer):
@@ -47,15 +48,23 @@ namespace platformer {
         processImpulse();
 
         // Calculating collisions
-        const collisionData collisionVector = Physics::collide(*this, blockManager.getNearbyHitboxes(position, this->size));
+        std::vector<std::pair<gf::RectF, std::string>> collisionBlocks = blockManager.getNearbyHitboxes(position, this->size);
+        if (goThroughPlatforms) collisionBlocks.erase(std::remove_if(
+            collisionBlocks.begin(),
+            collisionBlocks.end(),
+            [](const std::pair<gf::RectF, std::string>& pair) {
+                return pair.second == BlockTypes::PLATFORM_BLOCK;
+            }
+        ), collisionBlocks.end());
+        const collisionData collisionVector = Physics::collide(*this, collisionBlocks);
         speed += collisionVector.collision + collisionVector.friction;
 
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
             airjumps = 0;
-            jumping=false;
-            canDoubleJump=true;
+            jumping = false;
+            canDoubleJump = true;
 
         } else {
             lastGroundTouchTime += time.asSeconds();
@@ -147,6 +156,8 @@ namespace platformer {
         if (downAction.isActive() && !isOnGround() && !jumping) {
             charSpeed.y += 1;
         }
+
+        goThroughPlatforms = downAction.isActive();
 
         if (std::abs(speed.x + charSpeed.x * ACCELERATION) > maxSpeed.x){
             charSpeed.x = getDirection().x * maxSpeed.x - speed.x;

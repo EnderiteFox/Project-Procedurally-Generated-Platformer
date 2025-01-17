@@ -69,6 +69,7 @@ namespace platformer {
         float dashStart = 0;
         float dashStartContinuous = 0;
         bool isOnLadder = false;
+        bool goThroughPlatforms = false;
 
     public:
         // Constructor
