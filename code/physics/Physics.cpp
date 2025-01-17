@@ -102,6 +102,6 @@ namespace platformer {
 
     bool Physics::matchDirection(const gf::Vector2i blockDirection, const gf::Vector2f characterDirection) {
         const gf::Vector2f product = blockDirection * characterDirection;
-        return product.x > 0 || product.y > 0;
+        return (product.x > 0 || product.y > 0) || (product.x == 0 && product.y == 0);
     }
 }
