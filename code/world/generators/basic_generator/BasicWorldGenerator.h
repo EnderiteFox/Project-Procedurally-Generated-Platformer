@@ -23,6 +23,18 @@ namespace platformer {
 
         const int MIN_ROOM_ENTRANCE_SIZE = 2;
 
+        const int MIN_FAKE_PLATFORM_SIZE = 4;
+        const int MAX_FAKE_PLATFORM_SIZE = 10;
+
+        const int MAX_FAKE_PLATFORM_GEN_TRIES = 3;
+
+        const int MIN_FAKE_PLATFORM_LADDER_COUNT = 1;
+        const int MAX_FAKE_PLATFORM_LADDER_COUNT = 2;
+        const int MAX_FAKE_PLATFORM_LADDER_SIZE = 10;
+
+        const int MIN_FAKE_PLATFORM_AMOUNT = 3;
+        const int MAX_FAKE_PLATFORM_AMOUNT = 6;
+
         const std::string AIR_TYPE = BlockTypes::EMPTY_BLOCK;
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
         const BlockType LADDER_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_LADDER);
@@ -60,6 +72,10 @@ namespace platformer {
 
         static bool areIntersecting(gf::Vector4i room1, gf::Vector4i room2);
         gf::Vector<gf::Vector2i, 2> getWorldDimensions() const;
+
+        void generateFakePlatformsInRoom(const World& world, gf::Vector4i room);
+        void growFakePlatform(const World& world, gf::Vector2i startPos, gf::Vector2i direction);
+        void growLadder(const World& world, gf::Vector2i startPos) const;
 
     public:
         BasicWorldGenerator();

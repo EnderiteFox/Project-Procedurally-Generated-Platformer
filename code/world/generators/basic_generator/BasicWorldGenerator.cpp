@@ -26,6 +26,11 @@ namespace platformer {
         }
         //debugPath(world);
 
+        // Generate fake platforms
+        for (const gf::Vector4i room : rooms) {
+            generateFakePlatformsInRoom(world, room);
+        }
+
         // Find spawn point
         for (const gf::Vector4i room : rooms) {
             if (const std::optional<gf::Vector2f> spawnpoint = findValidSpawnpoint(world, room)) {
@@ -327,6 +332,67 @@ namespace platformer {
         );
     }
 
+    void BasicWorldGenerator::generateFakePlatformsInRoom(const World& world, const gf::Vector4i room) {
+        const int platformsCount = random.computeUniformInteger(MIN_FAKE_PLATFORM_AMOUNT, MAX_FAKE_PLATFORM_AMOUNT);
 
+        for (int i = 0; i < platformsCount; ++i) {
+            for (int tries = 0; tries < MAX_FAKE_PLATFORM_GEN_TRIES; ++tries) {
+                const int side = random.computeUniformInteger(0, 1);
+                const int height = random.computeUniformInteger(room.y + MIN_ROOM_ENTRANCE_SIZE, room.y + room.z - 1 - MIN_ROOM_ENTRANCE_SIZE);
+                const gf::Vector2i platformPos(
+                    side == 0 ? room.x : room.x + room.w - 1,
+                    height
+                );
+                if (
+                    !world.getBlockManager().isEmptyBlock(platformPos)
+                    || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(platformPos.x, platformPos.y - 1)).isCollidable
+                    || world.getBlockManager().getBlockTypeAt(platformPos.x, platformPos.y + 1) == PLATFORM_BLOCK.subType
+                ) continue;
+                growFakePlatform(world, platformPos, gf::Vector2i(side == 0 ? 1 : -1, 0));
+                break;
+            }
+        }
+    }
 
+    void BasicWorldGenerator::growFakePlatform(const World& world, const gf::Vector2i startPos, const gf::Vector2i direction) {
+        const int platformLength = random.computeUniformInteger(MIN_FAKE_PLATFORM_SIZE, MAX_FAKE_PLATFORM_SIZE);
+
+        gf::Vector2i placePos = startPos;
+        int generatedPlatformLength = 0;
+        for (; generatedPlatformLength < platformLength; generatedPlatformLength++) {
+            if (
+                !world.getBlockManager().isEmptyBlock(placePos)
+                || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(placePos.x, placePos.y - 1)).isCollidable
+                || world.getBlockManager().getBlockTypeAt(placePos.x, placePos.y + 1) == PLATFORM_BLOCK.subType
+            ) break;
+            world.getBlockManager().setBlockTypeAt(placePos, PLATFORM_BLOCK);
+            placePos += direction;
+        }
+
+        if (generatedPlatformLength == 0) return;
+
+        const int laddersCount = random.computeUniformInteger(MIN_FAKE_PLATFORM_LADDER_COUNT, MAX_FAKE_PLATFORM_LADDER_COUNT);
+        for (int i = 0; i < laddersCount; ++i) {
+            const gf::Vector2i ladderPos = startPos + direction * random.computeUniformInteger(0, generatedPlatformLength);
+            if (
+                world.getBlockManager().getBlockTypeAt(ladderPos) == LADDER_BLOCK.subType
+                || world.getBlockManager().getBlockTypeAt(ladderPos.x - 1, ladderPos.y) == LADDER_BLOCK.subType
+                || world.getBlockManager().getBlockTypeAt(ladderPos.x + 1, ladderPos.y) == LADDER_BLOCK.subType
+            ) continue;
+            growLadder(world, ladderPos);
+        }
+    }
+
+    void BasicWorldGenerator::growLadder(const World& world, const gf::Vector2i startPos) const {
+        world.getBlockManager().setBlockTypeAt(startPos, LADDER_BLOCK);
+        gf::Vector2i placePos = startPos;
+        placePos.y++;
+        int ladder_size = 0;
+        while (world.getBlockManager().isEmptyBlock(placePos)) {
+            world.getBlockManager().setBlockTypeAt(placePos, LADDER_BLOCK);
+            placePos.y++;
+            ladder_size++;
+            if (ladder_size >= MAX_FAKE_PLATFORM_LADDER_SIZE) break;
+        }
+    }
 } // platformer
