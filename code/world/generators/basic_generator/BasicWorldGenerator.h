@@ -28,7 +28,7 @@ namespace platformer {
 
         const int MAX_FAKE_PLATFORM_GEN_TRIES = 3;
 
-        const int MIN_FAKE_PLATFORM_LADDER_COUNT = 1;
+        const int MIN_FAKE_PLATFORM_LADDER_COUNT = 0;
         const int MAX_FAKE_PLATFORM_LADDER_COUNT = 2;
         const int MAX_FAKE_PLATFORM_LADDER_SIZE = 10;
 
