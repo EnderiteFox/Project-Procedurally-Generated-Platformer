@@ -6,4 +6,5 @@
     <block type="jellyBlock" texture="tile_jelly.png" staticFriction="0.5" dynamicFriction="0.5" restitution="1.2" collidable="true"/>
     <ladder type="testLadder" texture="ladder_default.png"/>
     <platform type="testPlatform" texture="platform_default.png" staticFriction="0.3" dynamicFriction="0.3" restitution="0.01" collidable="true" direction="up" hitboxHeight="0.1"/>
+    <hazard type="basicSpike" texture="spike.png"/>
 </tiles>

@@ -72,6 +72,7 @@ namespace platformer {
 
         // Checking if we touched a ladder
         isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
+        isDead = collisionVector.flags.find("hazard") != collisionVector.flags.end();
 
         // Update jump time
         jumpStartTime += time.asSeconds();

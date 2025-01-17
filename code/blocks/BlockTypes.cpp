@@ -39,6 +39,16 @@ namespace platformer {
 
         // Iteration on the nodes one by one, and adding them to the cache
         for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); ++it) {
+            // Calculating the hitbox position/size
+            gf::Vector2f hitboxOffset{
+                (it->attribute("hitboxOffsetX") ? it->attribute("hitboxOffsetX").as_float() : 0) * BlockManager::BLOCK_SIZE,
+                (it->attribute("hitboxOffsetY") ? it->attribute("hitboxOffsetY").as_float() : 0) * BlockManager::BLOCK_SIZE
+            };
+            gf::Vector2f hitBoxSize{
+                (it->attribute("hitboxWidth") ? it->attribute("hitboxWidth").as_float() : 1) * BlockManager::BLOCK_SIZE,
+                (it->attribute("hitboxHeight") ? it->attribute("hitboxHeight").as_float() : 1) * BlockManager::BLOCK_SIZE
+            };
+
             // Checking which constructor to use depending of the type of block
             if (it->attribute("collidable").as_bool()) {
                 if(it->attribute("direction")){ // The block is directionnal
@@ -49,14 +59,8 @@ namespace platformer {
                         it->attribute("staticFriction").as_float(),
                         it->attribute("dynamicFriction").as_float(),
                         it->attribute("restitution").as_float(),
-                        gf::Vector2f(
-                            (it->attribute("hitboxWidth") ? it->attribute("hitboxWidth").as_float() : 1) * BlockManager::BLOCK_SIZE,
-                            (it->attribute("hitboxHeight") ? it->attribute("hitboxHeight").as_float() : 1) * BlockManager::BLOCK_SIZE
-                        ),
-                        gf::Vector2f(
-                            (it->attribute("hitboxOffsetX") ? it->attribute("hitboxOffsetX").as_float() : 0) * BlockManager::BLOCK_SIZE,
-                            (it->attribute("hitboxOffsetY") ? it->attribute("hitboxOffsetY").as_float() : 0) * BlockManager::BLOCK_SIZE
-                        ),
+                        hitBoxSize,
+                        hitboxOffset,
                         it->attribute("direction").value()
                     );
                     cache.emplace(it->attribute("type").value(),type);
@@ -69,14 +73,8 @@ namespace platformer {
                         it->attribute("staticFriction").as_float(),
                         it->attribute("dynamicFriction").as_float(),
                         it->attribute("restitution").as_float(),
-                        gf::Vector2f(
-                            (it->attribute("hitboxWidth") ? it->attribute("hitboxWidth").as_float() : 1) * BlockManager::BLOCK_SIZE,
-                            (it->attribute("hitboxHeight") ? it->attribute("hitboxHeight").as_float() : 1) * BlockManager::BLOCK_SIZE
-                        ),
-                        gf::Vector2f(
-                            (it->attribute("hitboxOffsetX") ? it->attribute("hitboxOffsetX").as_float() : 0) * BlockManager::BLOCK_SIZE,
-                            (it->attribute("hitboxOffsetY") ? it->attribute("hitboxOffsetY").as_float() : 0) * BlockManager::BLOCK_SIZE
-                        )
+                        hitBoxSize,
+                        hitboxOffset
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
@@ -85,18 +83,16 @@ namespace platformer {
                 auto type = BlockType( // The block is not collidable
                     it->name(),
                     it->attribute("type").value(),
-                    "../" + gfxpath + "/" + it->attribute("texture").value()
+                    "../" + gfxpath + "/" + it->attribute("texture").value(),
+                    hitBoxSize,
+                    hitboxOffset
                 );
                 cache.emplace(it->attribute("type").value(),type);
             }
         }
 
         // Adding the empty block type to the cache
-        BlockType empty = BlockType(
-            "empty",
-            "empty",
-            "../" + gfxpath + "/"
-        );
+        BlockType empty = BlockType();
         cache.emplace("empty",empty);
     }
 

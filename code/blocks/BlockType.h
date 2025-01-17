@@ -30,8 +30,10 @@
 namespace platformer {
     class BlockType {
     public:
+        // Default contructor, creating an empty block
+        BlockType();
         // Simple constructor for non-collidable blocks
-        BlockType(std::string type, std::string subType, std::string texturePath);
+        BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset);
         // Constructor for normal blocks
         BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset);
         // Constructor for directionnal blocks

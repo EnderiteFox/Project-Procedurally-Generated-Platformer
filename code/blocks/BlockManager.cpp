@@ -48,7 +48,7 @@ namespace platformer {
 
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {
-            if(blockType.texturePath == "../assets/tiles/") continue; // Skipping untextured blocks
+            if(blockType.texturePath == "") continue; // Skipping untextured blocks
             textureMap.insert(std::make_pair(blockType.subType, gf::Texture(blockType.texturePath)));
         }
     }

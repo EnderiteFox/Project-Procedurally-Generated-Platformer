@@ -74,6 +74,9 @@ namespace platformer {
         bool goThroughPlatforms = false;
 
     public:
+        // True if the character is dead within the last frame
+        bool isDead;
+
         // Constructor
         Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::ActionContainer& actionContainer);
 
