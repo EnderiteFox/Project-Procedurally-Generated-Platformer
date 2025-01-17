@@ -165,7 +165,8 @@ namespace platformer {
                 for (; checkPos.y != nextPoint.y; checkPos.y += direction.y) {
                     if (
                         (!world.getBlockManager().isEmptyBlock(checkPos)
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable)
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        || world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y + 1) == LADDER_BLOCK.subType)
                         && !firstCheck
                     ) {
                         checkPos.y -= direction.y;
@@ -180,7 +181,8 @@ namespace platformer {
                 for (; checkPos.x != nextPoint.x; checkPos.x += direction.x) {
                     if (
                         (!world.getBlockManager().isEmptyBlock(checkPos)
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable)
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        || world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y + 1) == LADDER_BLOCK.subType)
                         && !firstCheck
                     ) {
                         checkPos.x -= direction.x;
@@ -206,7 +208,8 @@ namespace platformer {
                 for (; checkPos.x != nextPoint.x; checkPos.x += direction.x) {
                     if (
                         (!world.getBlockManager().isEmptyBlock(checkPos)
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable)
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        || world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y + 1) == LADDER_BLOCK.subType)
                         && !firstCheck
                     ) {
                         checkPos.x -= direction.x;
@@ -221,7 +224,9 @@ namespace platformer {
                 for (; checkPos.y != nextPoint.y; checkPos.y += direction.y) {
                     if (
                         (!world.getBlockManager().isEmptyBlock(checkPos)
-                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable) && !firstCheck
+                        || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y - 1)).isCollidable
+                        || world.getBlockManager().getBlockTypeAt(checkPos.x, checkPos.y + 1) == LADDER_BLOCK.subType)
+                        && !firstCheck
                     ) {
                         checkPos.y -= direction.y;
                         break;
