@@ -38,11 +38,11 @@ namespace platformer {
     }
 
     void Character::update(const gf::Time time) {
-        processInput();
-
         // We will need to change this if we want the character to accelerate in other ways than just falling
         acceleration = gravity + Physics::friction(speed, getDirection());
         speed += acceleration * time.asSeconds();
+
+        processInput();
 
         // Adding other impulse such as jump/dash
         processImpulse();
@@ -169,8 +169,16 @@ namespace platformer {
         //Initial speed determination
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
 
-        if(upAction.isActive() && isOnLadder){
-            speed.y = -CLIMBSPEED;
+        if(isOnLadder){
+            if(upAction.isActive()){
+                speed.y = -CLIMBSPEED;
+            }
+            else if(downAction.isActive()){
+                speed.y = CLIMBSPEED;
+            }
+            else{
+                speed.y = 0;
+            }
         }
 
         //actionContainer.reset(); // This prevents dash from being processed, please don't add it back. It's already present at the end of the update method
