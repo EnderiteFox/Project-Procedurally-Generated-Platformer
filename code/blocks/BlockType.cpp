@@ -4,11 +4,19 @@
 
 namespace platformer {
 
-    BlockType::BlockType(std::string type, std::string subType, std::string texturePath):
+    BlockType::BlockType():
+        type("empty"),
+        subType("empty"),
+        texturePath(""),
+        isCollidable(false) {}
+
+    BlockType::BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset):
         type(std::move(type)),
         subType(std::move(subType)),
         texturePath(std::move(texturePath)),
-        isCollidable(false) {}
+        isCollidable(false),
+        hitboxSize(hitboxSize),
+        hitboxOffset(hitboxOffset) {}
 
     BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset):
         type(std::move(type)),

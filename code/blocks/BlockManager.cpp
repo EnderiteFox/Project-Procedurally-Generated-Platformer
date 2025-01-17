@@ -30,7 +30,7 @@ namespace platformer {
     }
 
     void BlockManager::removeBlockAt(int x, int y) {
-        blockMap.erase(std::make_pair(x, y));
+        blockMap.erase({x, y});
     }
 
     void BlockManager::removeBlockAt(const gf::Vector2i pos) {
@@ -48,7 +48,7 @@ namespace platformer {
 
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {
-            if(blockType.texturePath == "../assets/tiles/") continue; // Skipping untextured blocks
+            if(blockType.texturePath == "") continue; // Skipping untextured blocks
             textureMap.insert(std::make_pair(blockType.subType, gf::Texture(blockType.texturePath)));
         }
     }
@@ -57,13 +57,14 @@ namespace platformer {
         const gf::Vector2f center = view->getCenter();
         const gf::Vector2f size = view->getSize();
 
+        // Iteration on the blocks within the view
         for (int x = toBlockSpace(center.x) - toBlockSpace(size.width) - 2; x <= toBlockSpace(center.x) + toBlockSpace(size.width) + 2; ++x) {
             for (int y = toBlockSpace(center.y) - toBlockSpace(size.height / 2) - 2; y <= toBlockSpace(center.y) + toBlockSpace(size.height) + 2; ++y) {
-                auto found = blockMap.find(std::make_pair(x, y));
-                if (found == blockMap.cend()) continue;
+                auto found = blockMap.find({x, y});
+                if (found == blockMap.cend()) continue; // Skipping if the block at the position does not exist on the map
                 std::string blockType = found->second;
                 auto textureFound = textureMap.find(blockType);
-                if (textureFound == textureMap.cend()) continue;
+                if (textureFound == textureMap.cend()) continue; //Skipping untextured blocks
                 gf::Sprite sprite;
                 sprite.setPosition(toWorldSpace(gf::Vector2i(x, y)));
                 sprite.setTexture(textureFound->second, gf::RectF::fromSize({1.0f, 1.0f}));
@@ -75,7 +76,6 @@ namespace platformer {
     int BlockManager::toBlockSpace(const float number) {
         return static_cast<int>(number / BLOCK_SIZE);
     }
-
 
     gf::Vector2i BlockManager::toBlockSpace(const gf::Vector2f vector) {
         return gf::Vector2i(toBlockSpace(vector.x), toBlockSpace(vector.y));

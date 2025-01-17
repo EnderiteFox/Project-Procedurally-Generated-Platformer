@@ -27,7 +27,7 @@ namespace platformer {
             res.hasCollisionOccured = true;
             res.flags.insert(otherBlock.type);
             if(!otherBlock.isCollidable ||
-               (otherBlock.isDirectionnal && matchDirection(otherBlock.direction, character.getDirection()))
+               (otherBlock.isDirectionnal && matchDirection(otherBlock.direction, p.normal))
             ){
                 return res;
             }
@@ -100,8 +100,7 @@ namespace platformer {
         return -direction * resistance;
     }
 
-    bool Physics::matchDirection(const gf::Vector2i blockDirection, const gf::Vector2f characterDirection) {
-        const gf::Vector2f product = blockDirection * characterDirection;
-        return product.x > 0 || product.y > 0;
+    bool Physics::matchDirection(const gf::Vector2i blockDirection, const gf::Vector2f n) {
+        return !((n.x + blockDirection.x == 0) && (n.y + blockDirection.y == 0));
     }
 }

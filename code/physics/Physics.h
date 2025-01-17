@@ -1,11 +1,10 @@
 /**
  * Static class dedicated to physics and interactions between objects
- * Currently handles :
- *  - Collisions between character and a rectangle
- *      TODO : Update this function so it works between 2 rectangles with velocity
- *  - Collisions between character and multiple rectangles
- *      TODO : Same as above
+ * Handles :
+ *  - Collisions between character and a tile with it's type
+ *  - Collisions between character and multiple tiles
  *  - Friction : Determines the air resistance that would affect an object as a function of it's speed and direction
+ *               Proportionnal to v^2 * coefficient
  */
 
 #pragma once
@@ -17,6 +16,14 @@
 
 namespace platformer {
 
+    /**
+     * Data structures allowing to store the data of one or multiple collisions
+     * - collision : Vector giving the impulse to apply to a character to make it go away from the block(s) it collided with
+     * - correction : Vector to move the character away from a block, to avoid floating point error from the previous vector
+     * - friction : Horizontal friction of a character on a block
+     * - hasCollisionOccured/hasCorrectionOccured : Respectively indicates if a collision or a correction with a block has occured
+     * - flags : Stores the types of all the blocks the character has collided with
+     */
     struct collisionData{
         gf::Vector2f collision{0,0};
         gf::Vector2f correction{0,0};
@@ -43,23 +50,18 @@ namespace platformer {
         static constexpr gf::Vector2f AIRRESISTANCE{0.125f,0.0f}; // Coefficient affecting the air direction
 
         /**
-         * Tests the collision between a character and a collidable object, symbolised by it's hitbox
+         * Tests the collision between a character and a collidable block
          * @param character : The moving character
          * @param otherHitbox : The hitbox of the object the character can collide with
+         * @param blockType : The subtype of the block the character can collide with
          *
-         * @return a pair of:
-         *                  Vector2f giving a vector corresponding to a correction to prevent the character from sinking in other objects
-         *                  Vector2f giving a vector of the collision that occured. If the collision didn't occur, the result is the null vector
+         * @return the data of the collision (see the comment on collisionData)
          */
         static collisionData collide(const Character& character, const gf::RectF& otherHitbox, const std::string blockType);
 
         /**
-         * Tests the collision between a character and multiple objects/hitboxes
-         * @params same as above
-         *
-         * @return a pair of:
-         *                  Vector2f giving a vector corresponding to a correction to prevent the character from sinking in other objects
-         *                  Vector2f giving a vector of the sum of the vector of the collision that occured.
+         * Tests the collision between a character and blocks
+         * @params and @return : same as above
          */
         static collisionData collide(const Character& character, const std::vector<std::pair<gf::RectF,std::string>>& otherBlocks);
 

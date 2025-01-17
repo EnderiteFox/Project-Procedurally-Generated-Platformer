@@ -1,3 +1,6 @@
+/**
+ * Generator used for tests. Will be removed when the final game is out
+ */
 #ifndef TESTGENERATOR_H
 #define TESTGENERATOR_H
 #include "WorldGenerator.h"

@@ -3,6 +3,7 @@
  * It acts as a container for the game's main elements (Main block manager and Character)
  *
  * It's final purpose is to generate the grid, giving the initial position of the player and creating the randomly generated world
+ * The generator used by the world is given in the constructor
  */
 
 #pragma once
@@ -44,8 +45,7 @@ namespace platformer {
         void update(gf::Time time) override;
 
         /**
-         * Generates the world
-         * For the time being, will generate a line of blocks
+         * Generates the world using the generator given in parameters
          */
         void generate();
     };

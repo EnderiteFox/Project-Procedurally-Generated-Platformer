@@ -1,3 +1,10 @@
+/**
+ * This class define what a world generator is.
+ * It's more or less an interface, destined to be inherited and not used as it is.
+ *
+ * If the generator is random, it uses a seed. The seed can be random or given as a parameter of the constructor.
+ */
+
 #ifndef WORLDGENERATOR_H
 #define WORLDGENERATOR_H
 
