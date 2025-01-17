@@ -9,6 +9,7 @@
 namespace platformer {
     std::map<std::string,BlockType> BlockTypes::cache;
 
+    //Constant declaration
     std::string BlockTypes::EMPTY_BLOCK = "empty";
     std::string BlockTypes::TEST_BLOCK = "testBlock";
     std::string BlockTypes::TEST_LADDER = "testLadder";
@@ -31,13 +32,16 @@ namespace platformer {
     }
 
     void BlockTypes::parseXML(){
+        //Parsing the file
         pugi::xml_document doc;
         assert(doc.load_file("../assets/tiles.xml"));
         const std::string gfxpath = doc.child("tiles").attribute("gfxpath").value();
 
+        // Iteration on the nodes one by one, and adding them to the cache
         for (auto it = doc.child("tiles").begin(); it != doc.child("tiles").end(); ++it) {
+            // Checking which constructor to use depending of the type of block
             if (it->attribute("collidable").as_bool()) {
-                if(it->attribute("direction")){
+                if(it->attribute("direction")){ // The block is directionnal
                     auto type = BlockType(
                         it->name(),
                         it->attribute("type").value(),
@@ -57,7 +61,7 @@ namespace platformer {
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
-                else{
+                else{ // The block is collidable but not directionnal
                     auto type = BlockType(
                         it->name(),
                         it->attribute("type").value(),
@@ -78,7 +82,7 @@ namespace platformer {
                 }
             }
             else{
-                auto type = BlockType(
+                auto type = BlockType( // The block is not collidable
                     it->name(),
                     it->attribute("type").value(),
                     "../" + gfxpath + "/" + it->attribute("texture").value()
@@ -87,6 +91,7 @@ namespace platformer {
             }
         }
 
+        // Adding the empty block type to the cache
         BlockType empty = BlockType(
             "empty",
             "empty",

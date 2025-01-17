@@ -1,3 +1,10 @@
+/**
+ * A world generator using a random seed to create a World
+ *
+ * TODO : please put more comments about how this class works.
+ *        i **really** don't want to spend my evening trying to guess what is going on in the 400 lines of code of the cpp file.
+ */
+
 #ifndef BASICWORLDGENERATOR_H
 #define BASICWORLDGENERATOR_H
 #include <optional>
@@ -54,6 +61,7 @@ namespace platformer {
 
 
         void generateRooms();
+
         /**
          * Generates a room next to another room
          * @param previousRoom The room to generate a room next to

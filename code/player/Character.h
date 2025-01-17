@@ -5,7 +5,9 @@
  *  - Interacts with blocks, with the collision method from the physics class
  *  - Is affected by air resistance, calculated with the physics class
  *  - Is affected by gravity
- *  - TODO : Has friction with the floor
+ *  - Has friction with the floor
+ *  - Can climb ladders
+ *  - Can fall through platforms
  *
  * Every of those characteristics are processed during the "update" method, using several other methods to make the code clearer
  *
@@ -101,8 +103,9 @@ namespace platformer {
          * Adds speed to the player depending on the actions active during the current frame
          * Action processed by this method are :
          *  - Left
+         *  - Up => Climbing ladders
          *  - Right
-         *  - Down
+         *  - Down => Acceleration thowards the ground on air/ going down ladders/ going through platforms
          * note : right have a priority on left, and left won't be processed if right is active
          */
         void processInput();
@@ -112,6 +115,7 @@ namespace platformer {
          * Adds a constant speed to the player, defined by the constants at the top of this file
          * Actions processed by this method are :
          *  - Jump
+         *  - Dash
          */
         void processImpulse();
     };
