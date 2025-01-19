@@ -9,6 +9,7 @@
 #include <physics/Physics.h>
 #include <player/Character.h>
 #include <blocks/BlockTypes.h>
+#include <math.h>
 
 #include <iostream>
 
@@ -16,18 +17,18 @@
 namespace platformer {
     collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox, const std::string type) {
         collisionData res;
-        const gf::RectF charHB = character.getHitbox();
+        BlockType otherBlock = BlockTypes::getBlockTypeByName(type);
+        const gf::RectF charHB = (otherBlock.isDirectionnal)?character.getSidedHitbox(otherBlock.direction):character.getHitbox();
         if (
             gf::Penetration p;
             collides(charHB,otherHitbox,p)
         ) {
-            BlockType otherBlock = BlockTypes::getBlockTypeByName(type);
 
             // Storing the data of the collision
             res.hasCollisionOccured = true;
             res.flags.insert(otherBlock.type);
             if(!otherBlock.isCollidable ||
-               (otherBlock.isDirectionnal && matchDirection(otherBlock.direction, p.normal))
+               (otherBlock.isDirectionnal && angleTo(p.normal,(gf::Vector2f)otherBlock.direction)+M_PI > 0.1)
             ){
                 return res;
             }
@@ -98,9 +99,5 @@ namespace platformer {
             speed.y * speed.y * AIRRESISTANCE.y
         };
         return -direction * resistance;
-    }
-
-    bool Physics::matchDirection(const gf::Vector2i blockDirection, const gf::Vector2f n) {
-        return !((n.x + blockDirection.x == 0) && (n.y + blockDirection.y == 0));
     }
 }

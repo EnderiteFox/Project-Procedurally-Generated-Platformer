@@ -112,6 +112,15 @@ namespace platformer {
         return gf::RectF::fromPositionSize(this->position, this->size);
     }
 
+    // A hitbox for collisions with directionnal platforms
+    gf::RectF Character::getSidedHitbox(gf::Vector2f direction) const {
+        const float ratio = 0.05f;
+        if(direction == gf::Vector2f{0,-1}) return gf::RectF::fromPositionSize(this->position+this->size*(1-ratio), this->size * gf::Vector2f{1,ratio});
+        if(direction == gf::Vector2f{0,1})  return gf::RectF::fromPositionSize(this->position, this->size* gf::Vector2f{1,ratio});
+        if(direction == gf::Vector2f{1,0})  return gf::RectF::fromPositionSize(this->position, this->size* gf::Vector2f{ratio,1});
+        return gf::RectF::fromPositionSize(this->position+this->size*(1-ratio), this->size*gf::Vector2f{ratio,1});
+    }
+
     void Character::initInput() {
         leftAction.addScancodeKeyControl(gf::Scancode::A);
         leftAction.addScancodeKeyControl(gf::Scancode::Left);

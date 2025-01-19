@@ -90,6 +90,7 @@ namespace platformer {
         gf::Vector2f getPosition() const;
         void setPosition(gf::Vector2f position);
         gf::RectF getHitbox() const;
+        gf::RectF getSidedHitbox(gf::Vector2f direction) const;
         gf::Vector2f getDirection() const;
 
         // Tests if a collision has been detected between the player and the a block beneath it during the current frame
