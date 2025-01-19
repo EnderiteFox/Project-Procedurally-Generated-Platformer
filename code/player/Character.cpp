@@ -66,29 +66,19 @@ namespace platformer {
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
-<<<<<<< HEAD
-            airjumps = 0;
-            jumping = false;
-            canDoubleJump = true;
-
-=======
             jumpCount=0;
->>>>>>> a845fb0 (Resolution of conflict with the dash delay and its duration. And removed the increase in jump height depending on the duration of the press)
         } else {
             lastGroundTouchTime += time.asSeconds();
         }
 
         // Checking if we touched a ladder
         isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
-<<<<<<< HEAD
         isDead = collisionVector.flags.find("hazard") != collisionVector.flags.end();
-=======
         if (isOnLadder){
             canJump=false;
         }else {
             canJump=true;
         }
->>>>>>> a845fb0 (Resolution of conflict with the dash delay and its duration. And removed the increase in jump height depending on the duration of the press)
 
         // Update jump time
         jumpStartTime += time.asSeconds();
@@ -99,8 +89,6 @@ namespace platformer {
             
         }
         dashDelay-=time.asSeconds();
-        
-        std::cout << dashStart << "\n";
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
