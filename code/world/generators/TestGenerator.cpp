@@ -27,6 +27,8 @@ namespace platformer {
             blockManager.setBlockTypeAt(-6, i, BlockTypes::getBlockTypeByName("testLadder"));
         }
 
+        blockManager.setBlockTypeAt(-9,-2,BlockTypes::getBlockTypeByName("basicSpike"));
+
         world.setSpawnPoint(gf::Vector2f{5.0f, -20.0f});
     }
 }

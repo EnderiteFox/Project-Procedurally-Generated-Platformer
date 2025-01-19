@@ -4,6 +4,11 @@
 #include <gf/Sprite.h>
 #include <vector>
 #include <gf/Rect.h>
+#include <gf/Shapes.h>
+
+#include <iostream>
+
+//#define DRAWHITBOXES
 
 namespace platformer {
     BlockManager::BlockManager(const gf::View* view): view(view) {}
@@ -69,9 +74,25 @@ namespace platformer {
                 sprite.setPosition(toWorldSpace(gf::Vector2i(x, y)));
                 sprite.setTexture(textureFound->second, gf::RectF::fromSize({1.0f, 1.0f}));
                 target.draw(sprite, states);
+#ifdef DRAWHITBOXES
+                gf::RectangleShape hitbox;
+                hitbox.setSize(BlockTypes::getBlockTypeByName(found->second).hitboxSize);
+                hitbox.setPosition(gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + BlockTypes::getBlockTypeByName(found->second).hitboxOffset);
+                hitbox.setColor(gf::Color::Opaque(0));
+                hitbox.setOutlineColor(gf::Color::Blue);
+                hitbox.setOutlineThickness(0.2f);
+                target.draw(hitbox);
+#endif
             }
         }
     }
+
+    /**
+     * gf::RectF::fromPositionSize(
+                        gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + blockType.hitboxOffset,
+                        blockType.hitboxSize),
+                    found->second}
+                    */
 
     int BlockManager::toBlockSpace(const float number) {
         return static_cast<int>(number / BLOCK_SIZE);
@@ -109,8 +130,8 @@ namespace platformer {
                 if (found == blockMap.end()) continue;
                 if (found->second == "empty") continue;
 
-                BlockType blockType = BlockTypes::getBlockTypeByName(found->second);
 
+                BlockType blockType = BlockTypes::getBlockTypeByName(found->second);
                 res.push_back({
                     gf::RectF::fromPositionSize(
                         gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + blockType.hitboxOffset,

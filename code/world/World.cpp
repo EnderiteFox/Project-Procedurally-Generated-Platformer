@@ -31,7 +31,7 @@ namespace platformer {
         entityContainer.update(time);
 
         // Teleport player to spawn point if they fall in the void
-        if (player.getPosition().y > voidHeight) player.setPosition(playerSpawnPoint);
+        if (player.getPosition().y > voidHeight || player.died()) player.setPosition(playerSpawnPoint);
     }
 
     void World::render(gf::RenderTarget& target, const gf::RenderStates& states) {

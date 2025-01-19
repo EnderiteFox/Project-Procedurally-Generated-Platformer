@@ -37,6 +37,10 @@ namespace platformer {
         return lastGroundTouchTime <= COYOTE_JUMP_TIME || isOnLadder;
     }
 
+    bool Character::died() const{
+        return isDead;
+    }
+
     void Character::update(const gf::Time time) {
         // We will need to change this if we want the character to accelerate in other ways than just falling
         acceleration = gravity + Physics::friction(speed, getDirection());

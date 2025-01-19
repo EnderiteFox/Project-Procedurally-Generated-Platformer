@@ -73,9 +73,9 @@ namespace platformer {
         bool isOnLadder = false;
         bool goThroughPlatforms = false;
 
-    public:
         // True if the character is dead within the last frame
         bool isDead;
+    public:
 
         // Constructor
         Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::ActionContainer& actionContainer);
@@ -94,6 +94,9 @@ namespace platformer {
 
         // Tests if a collision has been detected between the player and the a block beneath it during the current frame
         bool isOnGround() const;
+
+        // Tests if the player died (collided with a hasard during the current frame)
+        bool died() const;
 
         // Initialize the input action within the player's action container
         void initInput();
