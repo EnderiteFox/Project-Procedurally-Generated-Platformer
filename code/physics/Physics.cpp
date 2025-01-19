@@ -34,7 +34,7 @@ namespace platformer {
             }
 
             // Correction
-            constexpr float correctionCoeff = 0.3f;
+            constexpr float correctionCoeff = 0.5f;
             res.correction = -std::max(p.depth-0.1f,0.0f) * correctionCoeff * p.normal;
             res.hasCorrectionOccured = true;
 

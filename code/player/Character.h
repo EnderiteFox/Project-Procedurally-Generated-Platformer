@@ -34,16 +34,13 @@ namespace platformer {
          * maxJumpCount : Number of jumps possible in a row without touching the ground
          */
         const gf::Vector2f size {8.0f, 8.0f};
-        const gf::Vector2f gravity {0.0f, 40.0f};
+        const gf::Vector2f gravity {0.0f, 200.0f};
         const float ACCELERATION = 3.0f;
-        const float INITIAL_JUMP_FACTOR = 10.0f;
-        const float JUMP_FACTOR = 2.5f;
+        const float JUMP_FACTOR = 100.0f;
         const float DASH_FACTOR = 50.0f;
         const gf::Vector2f maxSpeed {40.0f, 50.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
-        const float MAX_JUMP_TIME = 0.17f; // ~= 8 frames
-        const int maxAirJumpCount = 1;
-        const float MAX_DASH_TIME = 1.0f;
+        const float MAX_DASH_TIME = 0.1f;
         const float DELAY_BETWEEN_DASH = 0.5f;
         const float CLIMBSPEED = 20.0f;
 
@@ -64,14 +61,16 @@ namespace platformer {
 
         bool groundCollision = false;
         float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
-        int airjumps = 0;
+        int jumpCount = 0;
         float jumpStartTime = 0;
-        bool jumping = false;
-        bool canDoubleJump = false;
         float dashStart = 0;
-        float dashStartContinuous = 0;
+        float dashDelay = 0;
         bool isOnLadder = false;
         bool goThroughPlatforms = false;
+
+        bool canJump=true;
+        bool dash=false;
+        float progress = 0.0f;
 
         // True if the character is dead within the last frame
         bool isDead;

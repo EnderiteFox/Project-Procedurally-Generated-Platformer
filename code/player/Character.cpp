@@ -66,24 +66,41 @@ namespace platformer {
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
+<<<<<<< HEAD
             airjumps = 0;
             jumping = false;
             canDoubleJump = true;
 
+=======
+            jumpCount=0;
+>>>>>>> a845fb0 (Resolution of conflict with the dash delay and its duration. And removed the increase in jump height depending on the duration of the press)
         } else {
             lastGroundTouchTime += time.asSeconds();
         }
 
         // Checking if we touched a ladder
         isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
+<<<<<<< HEAD
         isDead = collisionVector.flags.find("hazard") != collisionVector.flags.end();
+=======
+        if (isOnLadder){
+            canJump=false;
+        }else {
+            canJump=true;
+        }
+>>>>>>> a845fb0 (Resolution of conflict with the dash delay and its duration. And removed the increase in jump height depending on the duration of the press)
 
         // Update jump time
         jumpStartTime += time.asSeconds();
 
         // Update dash time
-        dashStart += time.asSeconds();
-        dashStartContinuous-=time.asSeconds();
+        if (dash){
+            dashStart += time.asSeconds();
+            
+        }
+        dashDelay-=time.asSeconds();
+        
+        std::cout << dashStart << "\n";
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
@@ -133,7 +150,7 @@ namespace platformer {
         actionContainer.addAction(rightAction);
 
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
-        jumpAction.setContinuous();
+        jumpAction.setInstantaneous();
         actionContainer.addAction(jumpAction);
 
         upAction.addScancodeKeyControl(gf::Scancode::W);
@@ -148,7 +165,7 @@ namespace platformer {
 
         dashAction.addScancodeKeyControl(gf::Scancode::Return);
         dashAction.addScancodeKeyControl(gf::Scancode::RightShift);
-        dashAction.setContinuous();
+        dashAction.setInstantaneous();
         actionContainer.addAction(dashAction);
     }
 
@@ -167,7 +184,7 @@ namespace platformer {
         } else if (leftAction.isActive()) {
             charSpeed.x -= 1;
         }
-        if (downAction.isActive() && !isOnGround() && !jumping) {
+        if (downAction.isActive() && !isOnGround() /*&& !jumping*/) {
             charSpeed.y += 1;
         }
 
@@ -202,47 +219,42 @@ namespace platformer {
     void Character::processImpulse() {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
 
-        // If jumping and can jump
-        if (jumpAction.isActive() && (jumping || isOnGround() || (airjumps < maxAirJumpCount && canDoubleJump)) && jumpStartTime <= MAX_JUMP_TIME) {
-            // When starting to jump
-            if (!jumping) {
-                if (!isOnGround()) airjumps++;
+        
+        if (jumpAction.isActive() && canJump) {
+            if (isOnGround()){
+                speed.y = -JUMP_FACTOR;
                 lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
-                canDoubleJump = false;
-                speed.y = -INITIAL_JUMP_FACTOR;
+                jumpCount++;
+            }else if (jumpCount<2){
+                speed.y = -JUMP_FACTOR;
+                jumpCount++;
             }
-
-            // Is jumping
-            jumping = true;
-            jumpSpeed.y = -JUMP_FACTOR;
         }
-        // When not jumping
-        else {
-            jumping = false;
-            jumpStartTime = 0;
-            if (isOnGround()) airjumps = 0;
-
-            // Can double jump once we finished jumping and we released the button (so when keeping the button pressed it doesn't keep jumping)
-            if (!jumpAction.isActive()) canDoubleJump = true;
-        }
-
-
-        if (dashAction.isActive() && dashStart<MAX_DASH_TIME && dashStartContinuous<=0) {
+        
+        if (dashAction.isActive() && dashDelay<=0 && !dash){
             if (rightAction.isActive() && !leftAction.isActive() ) {
+                dashStart=0;
+                dash=true;
                 jumpSpeed.x += DASH_FACTOR;
-                dashStartContinuous=DELAY_BETWEEN_DASH;
+                progress=DASH_FACTOR;
             } else if (leftAction.isActive() && !rightAction.isActive()) {
+                dashStart=0;
+                dash=true;
                 jumpSpeed.x -= DASH_FACTOR;
-                dashStartContinuous=DELAY_BETWEEN_DASH;
+                progress=-DASH_FACTOR;
             }
-        }else {
-            if (dashStart>=MAX_DASH_TIME) {
-                dashStart = 0;
-            }
+        }else if (dashStart<MAX_DASH_TIME && dash){
+            speed.x+=progress;
+        }else if(dashStart>=DELAY_BETWEEN_DASH){
+            dashDelay=DELAY_BETWEEN_DASH;
+            dash=false;
+            dashStart=0;
         }
+
 
 
         // Speed resolution
         speed += jumpSpeed;
     }
 }
+
