@@ -129,7 +129,7 @@ namespace platformer {
     // A hitbox for collisions with directionnal platforms
     // This function is horrendous, but i couldn't find a logic between the direction and the resulting hitbox
     gf::RectF Character::getSidedHitbox(const gf::Vector2f direction) const {
-        constexpr float ratio = 0.25f;
+        constexpr float ratio = 0.2f;
         if(direction == gf::Vector2f{0,-1}) return gf::RectF::fromPositionSize(
                                                      this->position+this->size*gf::Vector2f{0.0f,1-ratio},
                                                      this->size * gf::Vector2f{1.0f,ratio});

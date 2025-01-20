@@ -24,10 +24,11 @@ namespace platformer {
         std::map<std::string, gf::Texture> textureMap;       // Associate a block's subtype to it's texture
         std::map<std::pair<int, int>, std::string> blockMap; // Associate a position to the subtype of a block
 
-        const gf::View* view;
+        gf::Vector2f ViewPosition;
+        const gf::Vector2f ViewSize;
 
     public:
-        explicit BlockManager(const gf::View* view);
+        explicit BlockManager(const gf::Vector2f ViewSize);
 
         // Size of a block sprite (and hitbox)
         static const float BLOCK_SIZE;
@@ -43,6 +44,9 @@ namespace platformer {
         void removeBlockAt(gf::Vector2i pos);
         bool isEmptyBlock(int x, int y) const;
         bool isEmptyBlock(gf::Vector2i pos) const;
+
+        // Updating stored view position
+        void setViewPosition(gf::Vector2f ViewPosition);
 
         // Loads all available blocks textures
         void loadTextures();
