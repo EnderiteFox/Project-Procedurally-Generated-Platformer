@@ -14,8 +14,6 @@
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
 
-#define DRAWHITBOXES
-
 int main() {
     // Defining useful constants for later
     static constexpr gf::Vector2i ScreenSize(1024, 576);

@@ -103,6 +103,7 @@ namespace platformer {
 
         //Resetting the actions
         actionContainer.reset();
+
     }
 
     void Character::setSpeed(const gf::Vector2f speed) {
