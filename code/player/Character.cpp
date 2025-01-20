@@ -5,6 +5,7 @@
 #include <gf/Vector.h>
 #include <player/Character.h>
 #include <gf/Rect.h>
+#include <gf/Shapes.h>
 
 #include <iostream>
 #include <blocks/BlockTypes.h>
@@ -118,12 +119,21 @@ namespace platformer {
     }
 
     // A hitbox for collisions with directionnal platforms
+    // This function is horrendous, but i couldn't find a logic between the direction and the resulting hitbox
     gf::RectF Character::getSidedHitbox(const gf::Vector2f direction) const {
-        constexpr float ratio = 0.05f;
-        if(direction == gf::Vector2f{0,-1}) return gf::RectF::fromPositionSize(this->position+this->size*(1-ratio), this->size * gf::Vector2f{1,ratio});
-        if(direction == gf::Vector2f{0,1})  return gf::RectF::fromPositionSize(this->position, this->size* gf::Vector2f{1,ratio});
-        if(direction == gf::Vector2f{1,0})  return gf::RectF::fromPositionSize(this->position, this->size* gf::Vector2f{ratio,1});
-        return gf::RectF::fromPositionSize(this->position+this->size*(1-ratio), this->size*gf::Vector2f{ratio,1});
+        constexpr float ratio = 0.25f;
+        if(direction == gf::Vector2f{0,-1}) return gf::RectF::fromPositionSize(
+                                                     this->position+this->size*gf::Vector2f{0.0f,1-ratio},
+                                                     this->size * gf::Vector2f{1.0f,ratio});
+        if(direction == gf::Vector2f{0,1})  return gf::RectF::fromPositionSize(
+                                                     this->position,
+                                                     this->size* gf::Vector2f{1.0f,ratio});
+        if(direction == gf::Vector2f{1,0})  return gf::RectF::fromPositionSize(
+                                                     this->position,
+                                                     this->size* gf::Vector2f{ratio,1.0f});
+        return gf::RectF::fromPositionSize(
+                this->position+this->size*gf::Vector2f{0.0f,0.75f},
+                this->size*gf::Vector2f{ratio,1.0f});
     }
 
     void Character::initInput() {
