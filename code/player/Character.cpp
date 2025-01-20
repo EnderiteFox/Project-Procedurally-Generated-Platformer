@@ -72,6 +72,13 @@ namespace platformer {
             lastGroundTouchTime += time.asSeconds();
         }
 
+        //Checking if we touched a wall
+        if (collisionVector.collision.x !=0){
+            onWall=true;
+        }else {
+            onWall=false;
+        }
+
         // Checking if we touched a ladder
         isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
         isDead = collisionVector.flags.find("hazard") != collisionVector.flags.end();
@@ -247,6 +254,12 @@ namespace platformer {
             dashDelay=DELAY_BETWEEN_DASH;
             dash=false;
             dashStart=0;
+        }
+
+        if (onWall){
+            jumpCount=1;
+            speed.y = 0;
+            speed.x = 0;
         }
 
 

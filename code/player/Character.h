@@ -67,7 +67,7 @@ namespace platformer {
         float dashDelay = 0;
         bool isOnLadder = false;
         bool goThroughPlatforms = false;
-
+        bool onWall=false;
         bool canJump=true;
         bool dash=false;
         float progress = 0.0f;
