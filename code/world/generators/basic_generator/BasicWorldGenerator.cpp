@@ -141,7 +141,6 @@ namespace platformer {
         double perlinX = (pos.x - worldDimensions.x.x) / static_cast<double>(worldDimensions.y.x);
         double perlinY = (pos.y - worldDimensions.x.y) / static_cast<double>(worldDimensions.y.y);
         double perlinValue = perlinNoise.getValue(perlinX, perlinY);
-        std::cout << "Pos " << pos.x << " " << pos.y << " with lower point " << worldDimensions.x.x << " " << worldDimensions.x.y << " and higher point " << worldDimensions.y.x << " " << worldDimensions.y.y << " is located at " << perlinX << " " << perlinY << " and gives value " << perlinValue << "\n";
         return perlinValue < ICE_BLOCK_THRESHOLD ? ICE_BLOCK : perlinValue > JELLY_BLOCK_THRESHOLD ? JELLY_BLOCK : WALL_BLOCK;
     }
 
