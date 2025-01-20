@@ -8,6 +8,7 @@
  *  - Has friction with the floor
  *  - Can climb ladders
  *  - Can fall through platforms
+ *  - Can hang to walls
  *
  * Every of those characteristics are processed during the "update" method, using several other methods to make the code clearer
  *
@@ -29,9 +30,12 @@ namespace platformer {
          * gravity : Value of the gravity that affects the character
          * ACCELERATION : The speed the character gains from the user's inputs
          * JUMP_FACTOR : Magnitude of the impulsion the character gains during a jump
-         * maxSpeed : Maximum horizontal and vertical speed, not considering jumping
+         * DASH_FACTOR : Dash speed of the character
+         * maxSpeed : Maximum horizontal and vertical speed, not considering jumping or dashing
          * COYOTE_JUMP_TIME : Duration after leaving the ground when jumping is still possible
-         * maxJumpCount : Number of jumps possible in a row without touching the ground
+         * MAW_DASH_TIME : Duratin of the dash, in seconds
+         * DELAY_BETWEEN_DASH : Delay the character must wait after dashing to dash again
+         * CLIMBSPEED : speed at which the character climbs ladders
          */
         const gf::Vector2f size {8.0f, 8.0f};
         const gf::Vector2f gravity {0.0f, 150.0f};
@@ -59,10 +63,23 @@ namespace platformer {
         gf::Action downAction {"Down"};
         gf::Action dashAction {"Dash"};
 
+        /**
+         * Variables used to test the character state :
+         * lastGroundTouchTime : Last time the character collided with the ground
+         * jumpCount : Remaining jump the character can do before landing
+         * dashStart : Frames elapsed since the character began to dash (used during a dash)
+         * dashDelay : Time remaining before the character can dash again
+         * isOnLadder : True if the character is currently colliding with a ladder
+         * goThroughPlatforms : True if the character is currently trying to go through platforms
+         * onWall : True if the character is colliding with a wall
+         * canJump : True if the character can jump (used for ladders)
+         * dash : True if the character is currently dashing. Used to know if we can start the 'dashStart' counter
+         * progress : During a dash, it's direction
+         * isDead : True if the character is dead
+         */
         bool groundCollision = false;
         float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
         int jumpCount = 0;
-        float jumpStartTime = 0;
         float dashStart = 0;
         float dashDelay = 0;
         bool isOnLadder = false;
@@ -71,8 +88,6 @@ namespace platformer {
         bool canJump=true;
         bool dash=false;
         float progress = 0.0f;
-
-        // True if the character is dead within the last frame
         bool isDead;
     public:
 

@@ -27,6 +27,7 @@ namespace platformer {
         target.draw(this->sprite, states);
     }
 
+    // Returns a vector describing the direction the player is currently moving towards
     gf::Vector2f Character::getDirection() const {
         gf::Vector2f direction = {0.0f,0.0f};
         direction.x = speed.x / (std::abs(speed.x) < 0.001 ? 1 : std::abs(speed.x));
@@ -43,17 +44,20 @@ namespace platformer {
     }
 
     void Character::update(const gf::Time time) {
-        // We will need to change this if we want the character to accelerate in other ways than just falling
+        // Calculating acceleration
         acceleration = gravity + Physics::friction(speed, getDirection());
         speed += acceleration * time.asSeconds();
 
+        //Adding the user's main inputs
         processInput();
 
         // Adding other impulse such as jump/dash
         processImpulse();
 
-        // Calculating collisions
+        // Getting blocks the character may collide with
         std::vector<std::pair<gf::RectF, std::string>> collisionBlocks = blockManager.getNearbyHitboxes(position, this->size);
+
+        // Removing platforms from nearby collisions computing if the player is currently trying to go go through platforms
         if (goThroughPlatforms) collisionBlocks.erase(std::remove_if(
             collisionBlocks.begin(),
             collisionBlocks.end(),
@@ -61,6 +65,8 @@ namespace platformer {
                 return pair.second == BlockTypes::PLATFORM_BLOCK;
             }
         ), collisionBlocks.end());
+
+        // Collisions computing
         const collisionData collisionVector = Physics::collide(*this, collisionBlocks);
         speed += collisionVector.collision + collisionVector.friction;
 
@@ -72,36 +78,28 @@ namespace platformer {
             lastGroundTouchTime += time.asSeconds();
         }
 
-        //Checking if we touched a wall
+        // Checking if we touched a wall
         if (collisionVector.collision.x !=0){
             onWall=true;
         }else {
             onWall=false;
         }
 
-        // Checking if we touched a ladder
+        // Checking if we touched a ladder or a hasard
         isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
         isDead = collisionVector.flags.find("hazard") != collisionVector.flags.end();
-        if (isOnLadder){
-            canJump=false;
-        }else {
-            canJump=true;
-        }
-
-        // Update jump time
-        jumpStartTime += time.asSeconds();
+        canJump = !isOnLadder;
 
         // Update dash time
         if (dash){
             dashStart += time.asSeconds();
-            
         }
         dashDelay-=time.asSeconds();
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
 
-        //Resetting the actions
+        // Resetting the actions
         actionContainer.reset();
 
     }
@@ -127,8 +125,9 @@ namespace platformer {
     }
 
     // A hitbox for collisions with directionnal platforms
+    // The hitbox's size is equal to ratio*currentHitbox, and is placed on the side of the collision
     // This function is horrendous, but i couldn't find a logic between the direction and the resulting hitbox
-    gf::RectF Character::getSidedHitbox(const gf::Vector2f direction) const {
+    gf::RectF Character::getSidedHitbox(const gf::Vector2f direction) const
         constexpr float ratio = 0.2f;
         if(direction == gf::Vector2f{0,-1}) return gf::RectF::fromPositionSize(
                                                      this->position+this->size*gf::Vector2f{0.0f,1-ratio},
@@ -196,6 +195,7 @@ namespace platformer {
 
         goThroughPlatforms = downAction.isActive();
 
+        // Lowering speed to prevent the character from going above maximum speed
         if (std::abs(speed.x + charSpeed.x * ACCELERATION) > maxSpeed.x){
             charSpeed.x = getDirection().x * maxSpeed.x - speed.x;
         }
@@ -203,9 +203,10 @@ namespace platformer {
             charSpeed.y = getDirection().y * maxSpeed.y - speed.y;
         }
 
-        //Initial speed determination
+        // Initial speed determination
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
 
+        // Climbing ladders (if the character is colliding with one)
         if(isOnLadder){
             if(upAction.isActive()){
                 speed.y = -CLIMBSPEED;
@@ -225,7 +226,7 @@ namespace platformer {
     void Character::processImpulse() {
         gf::Vector2f jumpSpeed{0.0f,0.0f};
 
-        
+        // Computing jump
         if (jumpAction.isActive() && canJump) {
             if (isOnGround()){
                 speed.y = -JUMP_FACTOR;
@@ -236,7 +237,8 @@ namespace platformer {
                 jumpCount++;
             }
         }
-        
+
+        // Computing dash
         if (dashAction.isActive() && dashDelay<=0 && !dash){
             if (rightAction.isActive() && !leftAction.isActive() ) {
                 dashStart=0;
@@ -257,13 +259,12 @@ namespace platformer {
             dashStart=0;
         }
 
+        // Computing wall jumps
         if (onWall){
             jumpCount=1;
             speed.y = 0;
             speed.x = 0;
         }
-
-
 
         // Speed resolution
         speed += jumpSpeed;
