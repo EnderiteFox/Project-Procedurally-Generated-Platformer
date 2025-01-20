@@ -7,7 +7,7 @@
  *     - If the room is intersecting another room, another direction and position is chosen
  *     - If placing the room fails too much times, another size of room is chosen
  *     - If even after changing size multiple times, the room still can't generate, then the previous room is removed and re-generated
- * - After rooms are generated, the world is filled with blocks
+ * - After rooms are generated, the world is filled with blocks. The type of block is determined using Perlin Noise
  * - The rooms are then carved into the blocks
  * - After that, a path is generated
  * - Then all points from the path are connected, going in zig-zags if necessary
@@ -63,6 +63,12 @@ namespace platformer {
         const int MIN_FAKE_PLATFORM_AMOUNT = 3;
         const int MAX_FAKE_PLATFORM_AMOUNT = 6;
 
+        // The perlin noise threshold to make a block an ice block
+        const double ICE_BLOCK_THRESHOLD = -0.15;
+
+        // The perlin noise threshold to make a block a jelly block
+        const double JELLY_BLOCK_THRESHOLD = 0.35;
+
         // The block type used to generate walls
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
 
@@ -74,6 +80,12 @@ namespace platformer {
 
         // The block used to debug the path
         const BlockType PATH = BlockTypes::getBlockTypeByName(BlockTypes::PATH);
+
+        // The ice block
+        const BlockType ICE_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::ICE);
+
+        // The jelly block
+        const BlockType JELLY_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::JELLY);
 
         /*
          * The list of rooms
@@ -104,7 +116,15 @@ namespace platformer {
          * Fills the world with wall blocks
          * @param world The world to fill
          */
-        void fillWorld(World& world) const;
+        void fillWorld(World& world);
+
+        /**
+         * Chooses which block type to place at the given position using Perlin Noise
+         * @param pos The position of the block
+         * @param worldDimensions The dimensions of the world
+         * @return The block type to place at the position
+         */
+        BlockType getWallBlockType(gf::Vector2i pos, gf::Vector<gf::Vector2i, 2> worldDimensions);
 
         /**
          * Carves all rooms into the blocks

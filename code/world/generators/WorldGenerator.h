@@ -9,6 +9,7 @@
 #define WORLDGENERATOR_H
 
 #include <gf/Random.h>
+#include <gf/Noises.h>
 
 
 namespace platformer {
@@ -22,6 +23,7 @@ namespace platformer {
 
         uint64_t seed = seedRandom.computeId();
         gf::Random random{seed};
+        gf::PerlinNoise2D perlinNoise{random, 1.0};
 
     public:
         virtual ~WorldGenerator() = default;

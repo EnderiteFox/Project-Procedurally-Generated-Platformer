@@ -122,16 +122,29 @@ namespace platformer {
     }
 
 
-    void BasicWorldGenerator::fillWorld(World& world) const {
+    void BasicWorldGenerator::fillWorld(World& world) {
         const gf::Vector<gf::Vector2i, 2> worldDimensions = getWorldDimensions();
 
         for (int x = worldDimensions.x.x; x < worldDimensions.y.x; ++x) {
             for (int y = worldDimensions.x.y; y < worldDimensions.y.y; ++y) {
-                world.getBlockManager().setBlockTypeAt(x, y, WALL_BLOCK);
+                world.getBlockManager().setBlockTypeAt(
+                    x,
+                    y,
+                    getWallBlockType(gf::Vector2i(x, y), worldDimensions)
+                );
             }
         }
         world.setVoidHeight(BlockManager::toWorldSpace(worldDimensions.y.y + 1));
     }
+
+    BlockType BasicWorldGenerator::getWallBlockType(gf::Vector2i pos, gf::Vector<gf::Vector2i, 2> worldDimensions) {
+        double perlinX = (pos.x - worldDimensions.x.x) / static_cast<double>(worldDimensions.y.x);
+        double perlinY = (pos.y - worldDimensions.x.y) / static_cast<double>(worldDimensions.y.y);
+        double perlinValue = perlinNoise.getValue(perlinX, perlinY);
+        std::cout << "Pos " << pos.x << " " << pos.y << " with lower point " << worldDimensions.x.x << " " << worldDimensions.x.y << " and higher point " << worldDimensions.y.x << " " << worldDimensions.y.y << " is located at " << perlinX << " " << perlinY << " and gives value " << perlinValue << "\n";
+        return perlinValue < ICE_BLOCK_THRESHOLD ? ICE_BLOCK : perlinValue > JELLY_BLOCK_THRESHOLD ? JELLY_BLOCK : WALL_BLOCK;
+    }
+
 
     void BasicWorldGenerator::carveRooms(const World& world) {
         for (const gf::Vector4i room : rooms) {
