@@ -34,7 +34,7 @@ namespace platformer {
          * maxJumpCount : Number of jumps possible in a row without touching the ground
          */
         const gf::Vector2f size {8.0f, 8.0f};
-        const gf::Vector2f gravity {0.0f, 300.0f};
+        const gf::Vector2f gravity {0.0f, 150.0f};
         const float ACCELERATION = 5.0f;
         const float JUMP_FACTOR = 100.0f;
         const float DASH_FACTOR = 50.0f;
