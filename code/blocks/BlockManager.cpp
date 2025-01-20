@@ -11,7 +11,7 @@
 //#define DRAWHITBOXES
 
 namespace platformer {
-    BlockManager::BlockManager(const gf::View* view): view(view) {}
+    BlockManager::BlockManager(const gf::Vector2f ViewSize):ViewSize(ViewSize)  {}
 
     const float BlockManager::BLOCK_SIZE = 8.0f;
 
@@ -59,8 +59,8 @@ namespace platformer {
     }
 
     void BlockManager::render(gf::RenderTarget& target, const gf::RenderStates& states) {
-        const gf::Vector2f center = view->getCenter();
-        const gf::Vector2f size = view->getSize();
+        const gf::Vector2f center = ViewPosition;
+        const gf::Vector2f size = ViewSize;
 
         // Iteration on the blocks within the view
         for (int x = toBlockSpace(center.x) - toBlockSpace(size.width) - 2; x <= toBlockSpace(center.x) + toBlockSpace(size.width) + 2; ++x) {
@@ -87,12 +87,9 @@ namespace platformer {
         }
     }
 
-    /**
-     * gf::RectF::fromPositionSize(
-                        gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + blockType.hitboxOffset,
-                        blockType.hitboxSize),
-                    found->second}
-                    */
+    void BlockManager::setViewPosition(gf::Vector2f ViewPosition){
+        this->ViewPosition = ViewPosition;
+    }
 
     int BlockManager::toBlockSpace(const float number) {
         return static_cast<int>(number / BLOCK_SIZE);

@@ -10,13 +10,13 @@
 #include <gf/Window.h>
 #include <player/Character.h>
 #include <world/World.h>
+#include <gf/Scene.h>
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
 
-#define DRAWHITBOXES
-
 int main() {
+
     // Defining useful constants for later
     static constexpr gf::Vector2i ScreenSize(1024, 576);
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
@@ -27,19 +27,20 @@ int main() {
     gf::Window window("Platformer", ScreenSize);
     gf::RenderWindow renderer(window);
 
+    gf::ExtendView WorldView(ViewCenter,ViewSize);
+
     renderer.clear(gf::Color::White);
 
-    // views
-    gf::ViewContainer views;
-
-    gf::ExtendView mainView(ViewCenter, ViewSize);
-    views.addView(mainView);
-
-    views.setInitialFramebufferSize(ScreenSize);
+    // Scene creation and handling
+    gf::Scene defaultScene(ScreenSize);
+    defaultScene.addView(WorldView);
+    defaultScene.setWorldViewCenter(ViewCenter);
+    defaultScene.setWorldViewSize(ViewSize);
 
     // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
-    platformer::BlockManager blockManager(&mainView);
+    platformer::BlockManager blockManager(ViewSize);
+    blockManager.setViewPosition(ViewCenter);
     gf::ActionContainer actions;
     platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
     platformer::BasicWorldGenerator generator;
@@ -60,12 +61,19 @@ int main() {
 
     // View center position
     gf::Vector2f viewPos = character.getPosition();
+    blockManager.setViewPosition(viewPos);
+
+    // Adding elements to the scene
+    defaultScene.addWorldEntity(blockManager);
+    defaultScene.addWorldEntity(character);
+    defaultScene.addWorldEntity(world);
+
 
     // Game loop
     int framesBeforeStart = SAFE_FRAMES;
 
     while (window.isOpen()) {
-        constexpr double CAMERA_EASING = 2;
+        constexpr double CAMERA_EASING = 3.5;
 
         // 1 - inputs
         gf::Event event{};
@@ -82,24 +90,24 @@ int main() {
 
         // 2 - update
         gf::Time time = clock.restart();
-        world.update(time);
+        defaultScene.update(time);
 
         // Update camera
         viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
-        mainView.setCenter(viewPos);
+        defaultScene.setWorldViewCenter(viewPos);
+        blockManager.setViewPosition(viewPos);
 
         // Safe frames
         if (framesBeforeStart > 0) {
             framesBeforeStart--;
             character.teleport(world.getSpawnPoint());
-            mainView.setCenter(world.getSpawnPoint());
+            defaultScene.setWorldViewCenter(world.getSpawnPoint());
         }
 
         // 3 - render
         renderer.clear();
-        renderer.setView(mainView);
 
-        world.render(renderer);
+        defaultScene.render(renderer);
         renderer.display();
     }
 

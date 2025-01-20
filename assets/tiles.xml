@@ -2,9 +2,9 @@
 <tiles gfxpath="assets/tiles">
     <block type="testBlock" texture="tile_placeholder.png" staticFriction="0.3" dynamicFriction="0.3" restitution="0.01" collidable="true"/>
     <block type="pathBlock" texture="tile_path.png"/>
-    <block type="iceBlock" texture="tile_ice.png" staticFriction="0" dynamicFriction="0" restitution="0" collidable="true"/>
-    <block type="jellyBlock" texture="tile_jelly.png" staticFriction="0.5" dynamicFriction="0.5" restitution="1.2" collidable="true"/>
-    <ladder type="testLadder" texture="ladder_default.png"/>
-    <platform type="testPlatform" texture="platform_default.png" staticFriction="0.3" dynamicFriction="0.3" restitution="0.01" collidable="true" direction="up" hitboxHeight="0.175"/>
+    <block type="iceBlock" texture="tile_ice.png" staticFriction="0.01" dynamicFriction="0.01" restitution="0.1" collidable="true"/>
+    <block type="jellyBlock" texture="tile_jelly.png" staticFriction="0.3" dynamicFriction="0.3" restitution="2" collidable="true"/>
+    <ladder type="testLadder" texture="ladder_default.png" hitboxWidth="0.8"/>
+    <platform type="testPlatform" texture="platform_default.png" staticFriction="0.3" dynamicFriction="0.3" restitution="0.01" collidable="true" direction="up" hitboxHeight="0.175" hitboxWidth="1.1"/>
     <hazard type="basicSpike" texture="spike.png" hitboxHeight="0.4" hitboxWidth="0.875" hitboxOffsetY="0.6"/>
 </tiles>
