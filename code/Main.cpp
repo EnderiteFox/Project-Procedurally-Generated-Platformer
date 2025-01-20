@@ -19,6 +19,7 @@ int main() {
     static constexpr gf::Vector2i ScreenSize(1024, 576);
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
     static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f);
+    static constexpr int SAFE_FRAMES = 5;
 
     // Creating window and renderer
     gf::Window window("Platformer", ScreenSize);
@@ -59,6 +60,7 @@ int main() {
     gf::Vector2f viewPos = character.getPosition();
 
     // Game loop
+    int framesBeforeStart = SAFE_FRAMES;
 
     while (window.isOpen()) {
         constexpr double CAMERA_EASING = 2;
@@ -83,6 +85,13 @@ int main() {
         // Update camera
         viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
         mainView.setCenter(viewPos);
+
+        // Safe frames
+        if (framesBeforeStart > 0) {
+            framesBeforeStart--;
+            character.teleport(world.getSpawnPoint());
+            mainView.setCenter(world.getSpawnPoint());
+        }
 
         // 3 - render
         renderer.clear();

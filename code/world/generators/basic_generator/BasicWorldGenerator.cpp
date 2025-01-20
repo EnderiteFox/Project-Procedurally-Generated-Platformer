@@ -20,6 +20,9 @@ namespace platformer {
         carveRooms(world);
         generatePath();
 
+        // Generate a ladder from the first path point
+        growLadder(world, path.at(0));
+
         // Connect path points
         for (int i = 0; i < static_cast<int>(path.size()) - 1; ++i) {
             connectPathPoints(world, path.at(i), path.at(i + 1));

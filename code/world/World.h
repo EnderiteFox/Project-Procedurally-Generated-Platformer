@@ -35,6 +35,7 @@ namespace platformer {
         Character& getPlayer() const;
         BlockManager& getBlockManager() const;
         gf::EntityContainer& getEntityContainer();
+        gf::Vector2f getSpawnPoint() const;
 
         // Setters
         void setSpawnPoint(gf::Vector2f spawnPoint);

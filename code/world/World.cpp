@@ -22,6 +22,11 @@ namespace platformer {
         return this->entityContainer;
     }
 
+    gf::Vector2f World::getSpawnPoint() const {
+        return this->playerSpawnPoint;
+    }
+
+
     void World::generate() {
         generator.generate(*this);
         player.teleport(playerSpawnPoint);
