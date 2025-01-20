@@ -73,7 +73,7 @@ int main() {
     int framesBeforeStart = SAFE_FRAMES;
 
     while (window.isOpen()) {
-        constexpr double CAMERA_EASING = 2;
+        constexpr double CAMERA_EASING = 3.5;
 
         // 1 - inputs
         gf::Event event{};
