@@ -286,6 +286,13 @@ namespace platformer {
         }
     }
 
+    /**
+     * Checks if the given point is a valid spawnpoint
+     * @param world The world position is in
+     * @param x The x coordinate of the point
+     * @param y The y coordinate of the point
+     * @return true if the given position is a valid spawnpoint, false otherwise
+     */
     bool isValidSpawnpoint(const World& world, const int x, const int y) {
         const BlockManager& blockManager = world.getBlockManager();
         return blockManager.isEmptyBlock(x, y) && BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(x, y + 1)).isCollidable;
