@@ -52,7 +52,7 @@ int main() {
 
     gf::ExtendView WorldView(ViewCenter,ViewSize);
 
-    renderer.clear(gf::Color::Black);
+    renderer.clear(gf::Color::White);
 
     /**************
      *   Scenes   *
