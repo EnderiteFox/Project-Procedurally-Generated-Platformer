@@ -6,14 +6,15 @@
 #include <player/Character.h>
 #include <gf/Rect.h>
 #include <gf/Shapes.h>
+#include <gf/Scene.h>
 
 #include <iostream>
 #include <blocks/BlockTypes.h>
 
 namespace platformer {
-    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::ActionContainer& actionContainer):
+    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene& gameScene):
         blockManager(blockManager),
-        actionContainer(actionContainer),
+        gameScene(gameScene),
         position(position),
         speed(),
         acceleration(),
@@ -103,8 +104,8 @@ namespace platformer {
         position += speed * time.asSeconds() + collisionVector.correction;
 
         // Resetting the actions
-        actionContainer.reset();
-
+        jumpAction.reset();
+        dashAction.reset();
     }
 
     void Character::setSpeed(const gf::Vector2f speed) {
@@ -150,37 +151,38 @@ namespace platformer {
         leftAction.addScancodeKeyControl(gf::Scancode::A);
         leftAction.addScancodeKeyControl(gf::Scancode::Left);
         leftAction.setContinuous();
-        actionContainer.addAction(leftAction);
+        gameScene.addAction(leftAction);
 
         rightAction.addScancodeKeyControl(gf::Scancode::D);
         rightAction.addScancodeKeyControl(gf::Scancode::Right);
         rightAction.setContinuous();
-        actionContainer.addAction(rightAction);
+        gameScene.addAction(rightAction);
 
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
         jumpAction.setInstantaneous();
-        actionContainer.addAction(jumpAction);
+        gameScene.addAction(jumpAction);
 
         upAction.addScancodeKeyControl(gf::Scancode::W);
         upAction.addScancodeKeyControl(gf::Scancode::Up);
-        actionContainer.addAction(upAction);
+        gameScene.addAction(upAction);
         upAction.setContinuous();
 
         downAction.addScancodeKeyControl(gf::Scancode::S);
         downAction.addScancodeKeyControl(gf::Scancode::Down);
         downAction.setContinuous();
-        actionContainer.addAction(downAction);
+        gameScene.addAction(downAction);
 
         dashAction.addScancodeKeyControl(gf::Scancode::Return);
         dashAction.addScancodeKeyControl(gf::Scancode::RightShift);
         dashAction.setInstantaneous();
-        actionContainer.addAction(dashAction);
+        gameScene.addAction(dashAction);
     }
 
     void Character::teleport(const gf::Vector2f newPosition){
         position = newPosition;
         speed = gf::Vector2f{0.0f,0.0f};
-        actionContainer.reset();
+        jumpAction.reset();
+        dashAction.reset();
     }
 
     // Determining initial basic inputs (left/right/down)

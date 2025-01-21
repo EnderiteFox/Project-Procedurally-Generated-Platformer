@@ -32,17 +32,16 @@ int main() {
     renderer.clear(gf::Color::White);
 
     // Scene creation and handling
-    gf::Scene defaultScene(ScreenSize);
-    defaultScene.addView(WorldView);
-    defaultScene.setWorldViewCenter(ViewCenter);
-    defaultScene.setWorldViewSize(ViewSize);
+    gf::Scene gameScene(ScreenSize);
+    gameScene.addView(WorldView);
+    gameScene.setWorldViewCenter(ViewCenter);
+    gameScene.setWorldViewSize(ViewSize);
 
     // Create world
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager(ViewSize);
     blockManager.setViewPosition(ViewCenter);
-    gf::ActionContainer actions;
-    platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, actions);
+    platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, gameScene);
     platformer::BasicWorldGenerator generator;
     //platformer::TestGenerator generator;
     platformer::World world(character, blockManager, generator);
@@ -64,9 +63,9 @@ int main() {
     blockManager.setViewPosition(viewPos);
 
     // Adding elements to the scene
-    defaultScene.addWorldEntity(blockManager);
-    defaultScene.addWorldEntity(character);
-    defaultScene.addWorldEntity(world);
+    gameScene.addWorldEntity(blockManager);
+    gameScene.addWorldEntity(character);
+    gameScene.addWorldEntity(world);
 
 
     // Game loop
@@ -84,30 +83,30 @@ int main() {
                     window.close();
                     break;
                 default:
-                    actions.processEvent(event);
+                    gameScene.processEvent(event);
             }
         }
 
         // 2 - update
         gf::Time time = clock.restart();
-        defaultScene.update(time);
+        gameScene.update(time);
 
         // Update camera
         viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
-        defaultScene.setWorldViewCenter(viewPos);
+        gameScene.setWorldViewCenter(viewPos);
         blockManager.setViewPosition(viewPos);
 
         // Safe frames
         if (framesBeforeStart > 0) {
             framesBeforeStart--;
             character.teleport(world.getSpawnPoint());
-            defaultScene.setWorldViewCenter(world.getSpawnPoint());
+            gameScene.setWorldViewCenter(world.getSpawnPoint());
         }
 
         // 3 - render
         renderer.clear();
 
-        defaultScene.render(renderer);
+        gameScene.render(renderer);
         renderer.display();
     }
 

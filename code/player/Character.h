@@ -21,6 +21,7 @@
 #include <gf/Vector.h>
 #include <gf/Rect.h>
 #include <world/World.h>
+#include <gf/Scene.h>
 
 namespace platformer {
     class Character final : public gf::Entity {
@@ -50,7 +51,7 @@ namespace platformer {
         const float LADDER_FRICTION = 0.075;
 
         BlockManager& blockManager;
-        gf::ActionContainer& actionContainer;
+        gf::Scene& gameScene;
 
         gf::Vector2f position;
         gf::Vector2f speed;
@@ -93,7 +94,7 @@ namespace platformer {
     public:
 
         // Constructor
-        Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::ActionContainer& actionContainer);
+        Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene& gameScene);
 
         // GF's render and update methods
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
