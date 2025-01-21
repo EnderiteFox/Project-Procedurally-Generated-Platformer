@@ -16,8 +16,8 @@ namespace platformer {
         actionContainer(actionContainer),
         position(position),
         speed(),
-        acceleration()
-    {
+        acceleration(),
+        isDead(false) {
         this->sprite.setTexture(texture);
         sprite.setPosition(position);
     }
@@ -73,16 +73,16 @@ namespace platformer {
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {
             lastGroundTouchTime = 0;
-            jumpCount=0;
+            jumpCount = 0;
         } else {
             lastGroundTouchTime += time.asSeconds();
         }
 
         // Checking if we touched a wall
-        if (collisionVector.collision.x !=0){
-            onWall=true;
-        }else {
-            onWall=false;
+        if (collisionVector.collision.x != 0) {
+            onWall = true;
+        } else {
+            onWall = false;
         }
 
         // Checking if we touched a ladder or a hasard
@@ -90,11 +90,14 @@ namespace platformer {
         isDead = collisionVector.flags.find("hazard") != collisionVector.flags.end();
         canJump = !isOnLadder;
 
+        // Friction if we are touching a ladder
+        if (isOnLadder) speed.x *= 1 - LADDER_FRICTION;
+
         // Update dash time
-        if (dash){
+        if (dash) {
             dashStart += time.asSeconds();
         }
-        dashDelay-=time.asSeconds();
+        dashDelay -= time.asSeconds();
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
@@ -207,14 +210,14 @@ namespace platformer {
         speed += (charSpeed.x != 0 || charSpeed.y != 0 ? normalize(charSpeed) : charSpeed) * ACCELERATION;
 
         // Climbing ladders (if the character is colliding with one)
-        if(isOnLadder){
-            if(upAction.isActive()){
+        if (isOnLadder) {
+            if (upAction.isActive()) {
                 speed.y = -CLIMBSPEED;
             }
-            else if(downAction.isActive()){
+            else if (downAction.isActive()) {
                 speed.y = CLIMBSPEED;
             }
-            else{
+            else {
                 speed.y = 0;
             }
         }

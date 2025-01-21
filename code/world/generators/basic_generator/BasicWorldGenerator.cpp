@@ -352,8 +352,8 @@ namespace platformer {
             if (room.y + room.z > maxY) maxY = room.y + room.z;
         }
         return gf::Vector<gf::Vector2i, 2>(
-            gf::Vector2i(minX - 1, minY - 1),
-            gf::Vector2i(maxX + 1, maxY + 1)
+            gf::Vector2i(minX - 2, minY - 2),
+            gf::Vector2i(maxX + 2, maxY + 2)
         );
     }
 

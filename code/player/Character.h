@@ -47,6 +47,7 @@ namespace platformer {
         const float MAX_DASH_TIME = 0.1f;
         const float DELAY_BETWEEN_DASH = 0.5f;
         const float CLIMBSPEED = 20.0f;
+        const float LADDER_FRICTION = 0.075;
 
         BlockManager& blockManager;
         gf::ActionContainer& actionContainer;
@@ -84,9 +85,9 @@ namespace platformer {
         float dashDelay = 0;
         bool isOnLadder = false;
         bool goThroughPlatforms = false;
-        bool onWall=false;
-        bool canJump=true;
-        bool dash=false;
+        bool onWall = false;
+        bool canJump = true;
+        bool dash = false;
         float progress = 0.0f;
         bool isDead;
     public:
