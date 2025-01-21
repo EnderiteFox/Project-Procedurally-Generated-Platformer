@@ -11,9 +11,28 @@
 #include <player/Character.h>
 #include <world/World.h>
 #include <gf/Scene.h>
+#include <gf/Text.h>
+#include <gf/Font.h>
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
+
+void drawPauseText(gf::RenderWindow& renderer, int charSize, gf::Font& font, gf::ExtendView& WorldView, gf::Vector2i ScreenSize){
+    gf::Text firstLine("The game is paused !",font);
+    firstLine.setCharacterSize(charSize);
+    firstLine.setColor(gf::Color::Green);
+    firstLine.setPosition(WorldView.getCenter()+ScreenSize/2 -
+        gf::Vector2f{firstLine.getString().size()/4*charSize,charSize}
+    );
+    renderer.draw(firstLine);
+
+    gf::Text secondLine("Press P or Escape to resume !",font);
+    secondLine.setColor(gf::Color::Green);
+    secondLine.setPosition(WorldView.getCenter()+ScreenSize/2 -
+        gf::Vector2f{secondLine.getString().size()/4*charSize,0}
+    );
+    renderer.draw(secondLine);
+}
 
 int main() {
 
@@ -22,22 +41,44 @@ int main() {
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
     static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f);
     static constexpr int SAFE_FRAMES = 5;
+    static constexpr gf::Keycode pauseKey1 = gf::Keycode::P;
+    static constexpr gf::Keycode pauseKey2 = gf::Keycode::Escape;
+    static constexpr int charSize = 30;
+    static gf::Font font("../assets/fonts/Waffle Cake.otf");
 
-    // Creating window and renderer
+    // Window and renderer
     gf::Window window("Platformer", ScreenSize);
     gf::RenderWindow renderer(window);
 
     gf::ExtendView WorldView(ViewCenter,ViewSize);
 
-    renderer.clear(gf::Color::White);
+    renderer.clear(gf::Color::Black);
+
+    /**************
+     *   Scenes   *
+     **************/
+
+    gf::Action pauseAction {"Pause"};
+    pauseAction.addKeycodeKeyControl(pauseKey1);
+    pauseAction.addKeycodeKeyControl(pauseKey2);
+    pauseAction.setInstantaneous();
 
     // Game scene creation
     gf::Scene gameScene(ScreenSize);
     gameScene.addView(WorldView);
     gameScene.setWorldViewCenter(ViewCenter);
     gameScene.setWorldViewSize(ViewSize);
+    gameScene.addAction(pauseAction);
 
-    // Create world
+    // Pause scene creation
+    gf::Scene pauseScene(ScreenSize);
+    pauseScene.addView(WorldView);
+    pauseScene.hide();
+
+    /**************
+     *    World   *
+     **************/
+
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager(ViewSize);
     blockManager.setViewPosition(ViewCenter);
@@ -68,7 +109,10 @@ int main() {
     gameScene.addWorldEntity(world);
     gameScene.setActive();
 
-    // Game loop
+    /**************
+     *  Game Loop *
+     **************/
+
     int framesBeforeStart = SAFE_FRAMES;
     constexpr double CAMERA_EASING = 3.5;
 
@@ -89,6 +133,20 @@ int main() {
             }
 
             // 2 - update
+
+            // Pause
+            if(pauseAction.isActive()){
+                if(pauseScene.isHidden()){
+                    pauseScene.show();
+                    gameScene.pause();
+                }
+                else{
+                    pauseScene.hide();
+                    gameScene.resume();
+                }
+            }
+
+            // Game scene updating
             gf::Time time = clock.restart();
             gameScene.update(time);
 
@@ -108,7 +166,11 @@ int main() {
             renderer.clear();
 
             gameScene.render(renderer);
+            if(!pauseScene.isHidden()){
+                drawPauseText(renderer, charSize, font, WorldView, ScreenSize);
+            }
             renderer.display();
+            pauseAction.reset();
         }
     }
 
