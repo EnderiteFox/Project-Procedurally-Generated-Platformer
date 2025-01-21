@@ -69,6 +69,9 @@ namespace platformer {
         // The perlin noise threshold to make a block a jelly block
         const double JELLY_BLOCK_THRESHOLD = 0.35;
 
+        // The chance that a room spawns with spikes at the bottom
+        const double DANGEROUS_ROOM_CHANCE = 0.3;
+
         // The block type used to generate walls
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
 
@@ -86,6 +89,9 @@ namespace platformer {
 
         // The jelly block
         const BlockType JELLY_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::JELLY);
+
+        // The spike block
+        const BlockType SPIKE_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::SPIKE);
 
         /*
          * The list of rooms
@@ -203,6 +209,19 @@ namespace platformer {
          * @param startPos The start position of the ladder
          */
         void growLadder(const World& world, gf::Vector2i startPos) const;
+
+        /**
+         * Makes some random rooms dangerous
+         * @param world The world to place blocks in
+         */
+        void makeSomeRoomsDangerous(const World& world);
+
+        /**
+         * Makes a room dangerous, placing spikes at the bottom of the room
+         * @param world The world to place blocks in
+         * @param room The room to make dangerous
+         */
+        void makeRoomDangerous(const World& world, gf::Vector4i room) const;
 
     public:
         /**

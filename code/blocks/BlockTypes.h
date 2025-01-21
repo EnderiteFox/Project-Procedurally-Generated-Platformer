@@ -25,6 +25,7 @@ namespace platformer {
         static std::string JELLY;
         static std::string TEST_BLOCK;
         static std::string PLATFORM_BLOCK;
+        static std::string SPIKE;
     private:
         // Contains the data stored in the XML file once it has been parsed once, to avoid reading the file again and again.
         // If the file doesn't exists, the game crashes at launch.

@@ -34,6 +34,9 @@ namespace platformer {
             generateFakePlatformsInRoom(world, room);
         }
 
+        // Place spikes
+        makeSomeRoomsDangerous(world);
+
         // Find spawn point
         for (const gf::Vector4i room : rooms) {
             if (const std::optional<gf::Vector2f> spawnpoint = findValidSpawnpoint(world, room)) {
@@ -417,4 +420,21 @@ namespace platformer {
             if (ladder_size >= MAX_FAKE_PLATFORM_LADDER_SIZE) break;
         }
     }
+
+    void BasicWorldGenerator::makeSomeRoomsDangerous(const World& world) {
+        for (const gf::Vector4i room : rooms) {
+            if (random.computeUniformFloat(0.0, 1.0) <= DANGEROUS_ROOM_CHANCE) makeRoomDangerous(world, room);
+        }
+    }
+
+
+    void BasicWorldGenerator::makeRoomDangerous(const World& world, const gf::Vector4i room) const {
+        const int y = room.y + room.z;
+        for (int x = room.x; x < room.x + room.w; ++x) {
+            if (world.getBlockManager().getBlockTypeAt(x, y) == WALL_BLOCK.subType) {
+                world.getBlockManager().setBlockTypeAt(x, y, SPIKE_BLOCK);
+            }
+        }
+    }
+
 } // platformer
