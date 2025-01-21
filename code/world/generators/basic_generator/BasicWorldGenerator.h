@@ -11,7 +11,9 @@
  * - The rooms are then carved into the blocks
  * - After that, a path is generated
  * - Then all points from the path are connected, going in zig-zags if necessary
- * - Finally fake platforms are generated in all rooms
+ * - Fake platforms are generated in all rooms
+ * - Some rooms are chosen to be dangerous, and spikes are generated to replace the floor of the room
+ * - The exit block is placed at the last path point
  */
 
 #ifndef BASICWORLDGENERATOR_H
@@ -92,6 +94,9 @@ namespace platformer {
 
         // The spike block
         const BlockType SPIKE_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::SPIKE);
+
+        // The exit block
+        const BlockType EXIT_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::EXIT);
 
         /*
          * The list of rooms

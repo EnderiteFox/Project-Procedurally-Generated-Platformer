@@ -8,4 +8,5 @@
     <platform type="testPlatform" texture="platform_default.png" staticFriction="0.3" dynamicFriction="0.3" restitution="0.01" collidable="true" direction="up" hitboxHeight="0.175" hitboxWidth="1.1"/>
     <hazard type="basicSpike" texture="spike.png" hitboxHeight="0.4" hitboxWidth="0.875" hitboxOffsetY="0.6"/>
     <pick_up type="nut" texture="nut.png"/>
+    <block type="exit" texture="exit.png" hitboxHeight="0.75" hitboxWidth="0.75" hitboxOffsetX="0.125" hitboxOffsetY="0.125"/>
 </tiles>

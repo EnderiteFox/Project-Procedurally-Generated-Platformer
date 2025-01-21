@@ -18,6 +18,7 @@ namespace platformer {
     std::string BlockTypes::JELLY = "jellyBlock";
     std::string BlockTypes::PLATFORM_BLOCK = "testPlatform";
     std::string BlockTypes::SPIKE = "basicSpike";
+    std::string BlockTypes::EXIT = "exit";
 
     std::vector<BlockType> BlockTypes::getAllTypes() {
         if(cache.empty()){

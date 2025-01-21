@@ -44,6 +44,9 @@ namespace platformer {
                 break;
             }
         }
+
+        // Place the exit at the last path point
+        world.getBlockManager().setBlockTypeAt(path.back(), EXIT_BLOCK);
     }
 
     void BasicWorldGenerator::generateRooms() {
