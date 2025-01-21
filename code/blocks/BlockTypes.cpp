@@ -51,6 +51,8 @@ namespace platformer {
                 (it->attribute("hitboxHeight") ? it->attribute("hitboxHeight").as_float() : 1) * BlockManager::BLOCK_SIZE
             };
 
+            float scale = (it->attribute("scale")? it->attribute("scale").as_float() : 1);
+
             // Checking which constructor to use depending of the type of block
             if (it->attribute("collidable").as_bool()) {
                 if(it->attribute("direction")){ // The block is directionnal
@@ -63,7 +65,8 @@ namespace platformer {
                         it->attribute("restitution").as_float(),
                         hitBoxSize,
                         hitboxOffset,
-                        it->attribute("direction").value()
+                        it->attribute("direction").value(),
+                        scale
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
@@ -76,7 +79,8 @@ namespace platformer {
                         it->attribute("dynamicFriction").as_float(),
                         it->attribute("restitution").as_float(),
                         hitBoxSize,
-                        hitboxOffset
+                        hitboxOffset,
+                        scale
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
@@ -87,7 +91,8 @@ namespace platformer {
                     it->attribute("type").value(),
                     "../" + gfxpath + "/" + it->attribute("texture").value(),
                     hitBoxSize,
-                    hitboxOffset
+                    hitboxOffset,
+                    scale
                 );
                 cache.emplace(it->attribute("type").value(),type);
             }

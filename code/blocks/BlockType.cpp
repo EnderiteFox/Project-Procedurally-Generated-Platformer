@@ -10,15 +10,16 @@ namespace platformer {
         texturePath(""),
         isCollidable(false) {}
 
-    BlockType::BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset):
+    BlockType::BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale):
         type(std::move(type)),
         subType(std::move(subType)),
         texturePath(std::move(texturePath)),
         isCollidable(false),
         hitboxSize(hitboxSize),
-        hitboxOffset(hitboxOffset) {}
+        hitboxOffset(hitboxOffset),
+        scale(scale){}
 
-    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset):
+    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale):
         type(std::move(type)),
         subType(std::move(subType)),
         texturePath(std::move(texturePath)),
@@ -27,9 +28,10 @@ namespace platformer {
         dynamicFriction(dynamicFriction),
         restitution(restitution),
         hitboxSize(hitboxSize),
-        hitboxOffset(hitboxOffset) {}
+        hitboxOffset(hitboxOffset),
+        scale(scale){}
 
-    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction):
+    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction, float scale):
         type(std::move(type)),
         subType(std::move(subType)),
         texturePath(std::move(texturePath)),
@@ -40,5 +42,6 @@ namespace platformer {
         isDirectionnal(true),
         hitboxSize(hitboxSize),
         hitboxOffset(hitboxOffset),
-        direction(directionMap[direction]) {}
+        direction(directionMap[direction]),
+        scale(scale){}
 }

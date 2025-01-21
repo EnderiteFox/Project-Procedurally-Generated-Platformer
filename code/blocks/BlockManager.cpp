@@ -73,6 +73,7 @@ namespace platformer {
                 gf::Sprite sprite;
                 sprite.setPosition(toWorldSpace(gf::Vector2i(x, y)));
                 sprite.setTexture(textureFound->second, gf::RectF::fromSize({1.0f, 1.0f}));
+                sprite.scale(BlockTypes::getBlockTypeByName(blockType).scale);
                 target.draw(sprite, states);
 #ifdef DRAWHITBOXES
                 gf::RectangleShape hitbox;

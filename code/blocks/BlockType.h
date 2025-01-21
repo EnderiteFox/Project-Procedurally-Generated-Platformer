@@ -5,13 +5,14 @@
  *  - Type : The main type of the tile. tiles of the same type are intented to have a similar behaviour
  *  - subType : The name of the tile
  *  - texturePath : the path to the texture supposed to represent the tile
+ *  - scale : scale of the texture of the tile
+ *  - hitboxSize/hitboxOffset : Define data about the hitbox of the tile
  *
  * isCollidable : Define if the collision with a tile should be resolved or not
  *                if the tile is not collidable, the collision will still be detected, but won't be resolved and won't affect the player
  *                if the tile is not collidable, the following attributes can be ignored.
  *  - staticFriction/dynamicFriction : Friction coefficients used by the tile.
  *  - restitution : The restitution coefficient of the tile. The player will bounce on the tile proportionally to this coefficient
- *  - hitboxSize/hitboxOffset : Define data about the hitbox of the tile
  *
  * isDirectionnal : Define if the tile is directionnal or not
  *                  A collision with a directionnal tile will only be resolved if the character colliding with it is coming from a specific direction.
@@ -33,16 +34,17 @@ namespace platformer {
         // Default contructor, creating an empty block
         BlockType();
         // Simple constructor for non-collidable blocks
-        BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset);
+        BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale);
         // Constructor for normal blocks
-        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset);
+        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale);
         // Constructor for directionnal blocks
-        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction);
+        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction, float scale);
 
         // Textures and type names
         const std::string type;
         const std::string subType;
         const std::string texturePath;
+        const float scale = 1.0f;
 
         // Set to true if the collision should be resolved or not
         const bool isCollidable;
