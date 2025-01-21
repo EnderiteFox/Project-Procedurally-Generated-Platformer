@@ -31,7 +31,7 @@ int main() {
 
     renderer.clear(gf::Color::White);
 
-    // Scene creation and handling
+    // Game scene creation
     gf::Scene gameScene(ScreenSize);
     gameScene.addView(WorldView);
     gameScene.setWorldViewCenter(ViewCenter);
@@ -62,52 +62,54 @@ int main() {
     gf::Vector2f viewPos = character.getPosition();
     blockManager.setViewPosition(viewPos);
 
-    // Adding elements to the scene
+    // Adding elements to the game scene
     gameScene.addWorldEntity(blockManager);
     gameScene.addWorldEntity(character);
     gameScene.addWorldEntity(world);
-
+    gameScene.setActive();
 
     // Game loop
     int framesBeforeStart = SAFE_FRAMES;
+    constexpr double CAMERA_EASING = 3.5;
 
     while (window.isOpen()) {
-        constexpr double CAMERA_EASING = 3.5;
+        if(gameScene.isActive()){
 
-        // 1 - inputs
-        gf::Event event{};
+            // 1 - inputs
+            gf::Event event{};
 
-        while (window.pollEvent(event)) {
-            switch (event.type) {
-                case gf::EventType::Closed:
-                    window.close();
-                    break;
-                default:
-                    gameScene.processEvent(event);
+            while (window.pollEvent(event)) {
+                switch (event.type) {
+                    case gf::EventType::Closed:
+                        window.close();
+                        break;
+                    default:
+                        gameScene.processEvent(event);
+                }
             }
+
+            // 2 - update
+            gf::Time time = clock.restart();
+            gameScene.update(time);
+
+            // Update camera
+            viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
+            gameScene.setWorldViewCenter(viewPos);
+            blockManager.setViewPosition(viewPos);
+
+            // Safe frames
+            if (framesBeforeStart > 0) {
+                framesBeforeStart--;
+                character.teleport(world.getSpawnPoint());
+                gameScene.setWorldViewCenter(world.getSpawnPoint());
+            }
+
+            // 3 - render
+            renderer.clear();
+
+            gameScene.render(renderer);
+            renderer.display();
         }
-
-        // 2 - update
-        gf::Time time = clock.restart();
-        gameScene.update(time);
-
-        // Update camera
-        viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
-        gameScene.setWorldViewCenter(viewPos);
-        blockManager.setViewPosition(viewPos);
-
-        // Safe frames
-        if (framesBeforeStart > 0) {
-            framesBeforeStart--;
-            character.teleport(world.getSpawnPoint());
-            gameScene.setWorldViewCenter(world.getSpawnPoint());
-        }
-
-        // 3 - render
-        renderer.clear();
-
-        gameScene.render(renderer);
-        renderer.display();
     }
 
     return 0;
