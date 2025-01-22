@@ -5,7 +5,6 @@
 #include <gf/Event.h>
 #include <gf/RenderWindow.h>
 #include <gf/Texture.h>
-#include <gf/ViewContainer.h>
 #include <gf/Views.h>
 #include <gf/Window.h>
 #include <player/Character.h>
@@ -17,19 +16,19 @@
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
 
-void drawPauseText(gf::RenderWindow& renderer, int charSize, gf::Font& font, gf::ExtendView& WorldView, gf::Vector2i ScreenSize){
+void drawPauseText(gf::RenderWindow& renderer, const int charSize, gf::Font& font, const gf::ExtendView& WorldView, const gf::Vector2i ScreenSize) {
     gf::Text firstLine("The game is paused !",font);
     firstLine.setCharacterSize(charSize);
     firstLine.setColor(gf::Color::Green);
-    firstLine.setPosition(WorldView.getCenter()+ScreenSize/2 -
-        gf::Vector2f{firstLine.getString().size()/4*charSize,charSize}
+    firstLine.setPosition(WorldView.getCenter() + ScreenSize / 2 -
+        gf::Vector2f{static_cast<float>(firstLine.getString().size() / 4 * charSize),static_cast<float>(charSize)}
     );
     renderer.draw(firstLine);
 
     gf::Text secondLine("Press P or Escape to resume !",font);
     secondLine.setColor(gf::Color::Green);
-    secondLine.setPosition(WorldView.getCenter()+ScreenSize/2 -
-        gf::Vector2f{secondLine.getString().size()/4*charSize,0}
+    secondLine.setPosition(WorldView.getCenter() + ScreenSize / 2 -
+        gf::Vector2f{static_cast<float>(secondLine.getString().size() / 4 * charSize),0}
     );
     renderer.draw(secondLine);
 }
@@ -41,8 +40,8 @@ int main() {
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
     static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f);
     static constexpr int SAFE_FRAMES = 5;
-    static constexpr gf::Keycode pauseKey1 = gf::Keycode::P;
-    static constexpr gf::Keycode pauseKey2 = gf::Keycode::Escape;
+    static constexpr auto pauseKey1 = gf::Keycode::P;
+    static constexpr auto pauseKey2 = gf::Keycode::Escape;
     static constexpr int charSize = 30;
     static gf::Font font("../assets/fonts/Waffle Cake.otf");
 
@@ -117,7 +116,7 @@ int main() {
     constexpr double CAMERA_EASING = 3.5;
 
     while (window.isOpen()) {
-        if(gameScene.isActive()){
+        if (gameScene.isActive()) {
 
             // 1 - inputs
             gf::Event event{};
@@ -135,12 +134,12 @@ int main() {
             // 2 - update
 
             // Pause
-            if(pauseAction.isActive()){
-                if(pauseScene.isHidden()){
+            if (pauseAction.isActive()) {
+                if (pauseScene.isHidden()) {
                     pauseScene.show();
                     gameScene.pause();
                 }
-                else{
+                else {
                     pauseScene.hide();
                     gameScene.resume();
                 }
@@ -166,7 +165,7 @@ int main() {
             renderer.clear();
 
             gameScene.render(renderer);
-            if(!pauseScene.isHidden()){
+            if (!pauseScene.isHidden()) {
                 drawPauseText(renderer, charSize, font, WorldView, ScreenSize);
             }
             renderer.display();
