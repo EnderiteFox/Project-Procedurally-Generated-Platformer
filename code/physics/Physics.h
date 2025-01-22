@@ -47,7 +47,7 @@ namespace platformer {
         Physics() = delete; //Prevent users from creating an instance of physics, as it only has static functions
 
     public:
-        static constexpr gf::Vector2f AIRRESISTANCE{0.01f,0.0f}; // Coefficient affecting the air direction
+        static constexpr gf::Vector2f AIRRESISTANCE{0.01f,0.02f}; // Coefficient affecting the air direction
 
         /**
          * Tests the collision between a character and a collidable block

@@ -12,6 +12,7 @@
 #include <gf/Scene.h>
 #include <gf/Text.h>
 #include <gf/Font.h>
+#include <camera/Camera.h>
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
@@ -80,11 +81,11 @@ int main() {
 
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager(ViewSize);
-    blockManager.setViewPosition(ViewCenter);
     platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, gameScene);
     platformer::BasicWorldGenerator generator;
     //platformer::TestGenerator generator;
     platformer::World world(character, blockManager, generator);
+    platformer::Camera camera(gameScene,character,blockManager);
 
     // Loading textures
     world.getBlockManager().loadTextures();
@@ -98,14 +99,11 @@ int main() {
     // clock
     gf::Clock clock;
 
-    // View center position
-    gf::Vector2f viewPos = character.getPosition();
-    blockManager.setViewPosition(viewPos);
-
     // Adding elements to the game scene
     gameScene.addWorldEntity(blockManager);
     gameScene.addWorldEntity(character);
     gameScene.addWorldEntity(world);
+    gameScene.addWorldEntity(camera);
     gameScene.setActive();
 
     /**************
@@ -113,7 +111,6 @@ int main() {
      **************/
 
     int framesBeforeStart = SAFE_FRAMES;
-    constexpr double CAMERA_EASING = 3.5;
 
     while (window.isOpen()) {
         if (gameScene.isActive()) {
@@ -149,10 +146,9 @@ int main() {
             gf::Time time = clock.restart();
             gameScene.update(time);
 
-            // Update camera
-            viewPos += (character.getPosition() - viewPos) * CAMERA_EASING * time.asSeconds();
-            gameScene.setWorldViewCenter(viewPos);
-            blockManager.setViewPosition(viewPos);
+            if(character.died()){
+                framesBeforeStart = SAFE_FRAMES;
+            }
 
             // Safe frames
             if (framesBeforeStart > 0) {

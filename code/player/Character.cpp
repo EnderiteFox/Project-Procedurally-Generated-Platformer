@@ -7,9 +7,9 @@
 #include <gf/Rect.h>
 #include <gf/Shapes.h>
 #include <gf/Scene.h>
+#include <blocks/BlockTypes.h>
 
 #include <iostream>
-#include <blocks/BlockTypes.h>
 
 namespace platformer {
     Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene& gameScene):
