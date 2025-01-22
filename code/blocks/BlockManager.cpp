@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-//#define DRAWHITBOXES
+#define DRAWHITBOXES
 
 namespace platformer {
     BlockManager::BlockManager(const gf::Vector2f ViewSize): ViewSize(ViewSize)  {}
