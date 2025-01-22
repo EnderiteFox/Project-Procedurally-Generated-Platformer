@@ -434,7 +434,8 @@ namespace platformer {
     void BasicWorldGenerator::makeRoomDangerous(const World& world, const gf::Vector4i room) const {
         const int y = room.y + room.z;
         for (int x = room.x; x < room.x + room.w; ++x) {
-            if (world.getBlockManager().getBlockTypeAt(x, y) == WALL_BLOCK.subType) {
+            if (world.getBlockManager().getBlockTypeAt(x, y) == WALL_BLOCK.subType
+                && world.getBlockManager().getBlockTypeAt(x, y + 1) == WALL_BLOCK.subType) {
                 world.getBlockManager().setBlockTypeAt(x, y, SPIKE_BLOCK);
             }
         }
