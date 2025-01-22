@@ -11,7 +11,7 @@
 //#define DRAWHITBOXES
 
 namespace platformer {
-    BlockManager::BlockManager(const gf::Vector2f ViewSize):ViewSize(ViewSize)  {}
+    BlockManager::BlockManager(const gf::Vector2f ViewSize): ViewSize(ViewSize)  {}
 
     const float BlockManager::BLOCK_SIZE = 8.0f;
 
