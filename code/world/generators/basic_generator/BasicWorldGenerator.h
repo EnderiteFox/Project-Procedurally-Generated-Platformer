@@ -98,6 +98,13 @@ namespace platformer {
         // The exit block
         const BlockType EXIT_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::EXIT);
 
+        // Blocks spikes can spawn on
+        const std::vector<BlockType> SPIKE_SUPPORTS{
+            WALL_BLOCK,
+            ICE_BLOCK,
+            JELLY_BLOCK
+        };
+
         /*
          * The list of rooms
          * The coordinate of the room is at the top left of the room
@@ -227,6 +234,13 @@ namespace platformer {
          * @param room The room to make dangerous
          */
         void makeRoomDangerous(const World& world, gf::Vector4i room) const;
+
+        /**
+         * Checks if a block can support a spike
+         * @param blockType The block type to check
+         * @return true if the block type supports spikes, false otherwise
+         */
+        bool blockSupportsSpike(const std::string& blockType) const;
 
     public:
         /**
