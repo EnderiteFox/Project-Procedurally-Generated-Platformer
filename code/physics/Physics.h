@@ -23,6 +23,7 @@ namespace platformer {
      * - friction : Horizontal friction of a character on a block
      * - hasCollisionOccured/hasCorrectionOccured : Respectively indicates if a collision or a correction with a block has occured
      * - flags : Stores the types of all the blocks the character has collided with
+     * - collidedBlocks : Vector made of pairs of each blocks the character have collided with and their coordinates
      */
     struct collisionData{
         gf::Vector2f collision{0,0};
@@ -31,6 +32,7 @@ namespace platformer {
         bool hasCollisionOccured = false;
         bool hasCorrectionOccured = false;
         std::set<std::string> flags{};
+        std::vector<std::pair<gf::Vector2f,std::string>> collidedBlocks;
 
         collisionData& operator+=(collisionData& other) {
             collision += other.collision;
@@ -39,6 +41,9 @@ namespace platformer {
             hasCollisionOccured = hasCollisionOccured || other.hasCollisionOccured;
             hasCorrectionOccured = hasCorrectionOccured || other.hasCorrectionOccured;
             flags.merge(other.flags);
+            for(std::pair<gf::Vector2f,std::string> element : other.collidedBlocks){
+                collidedBlocks.push_back(element);
+            }
             return *this;
         }
     };
