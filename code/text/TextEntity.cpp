@@ -70,7 +70,7 @@ namespace platformer{
             line.setColor(getColor());
             line.setPosition(
                 center -
-                gf::Vector2f{static_cast<float>(text.size() / 4 * charSize),static_cast<float>(charSize) * (linecount - middle)}
+                gf::Vector2f{static_cast<float>(text.size() / 4 * charSize),static_cast<float>(charSize) * (middle - linecount)}
             );
             target.draw(line);
         }
