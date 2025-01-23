@@ -17,18 +17,21 @@
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
 
-void drawPauseText(gf::RenderWindow& renderer, const int charSize, gf::Font& font, const gf::ExtendView& WorldView, const gf::Vector2i ScreenSize) {
+void drawPauseText(gf::RenderWindow& renderer, const int baseCharSize ,gf::Font& font, const gf::ExtendView& WorldView, const gf::Vector2i ScreenSize) {
+    int charSize = ((float)renderer.getSize().x / ScreenSize.x) * baseCharSize;
+
     gf::Text firstLine("The game is paused !",font);
     firstLine.setCharacterSize(charSize);
     firstLine.setColor(gf::Color::Green);
-    firstLine.setPosition(WorldView.getCenter() + ScreenSize / 2 -
+    firstLine.setPosition(WorldView.getCenter() + renderer.getSize() / 2 -
         gf::Vector2f{static_cast<float>(firstLine.getString().size() / 4 * charSize),static_cast<float>(charSize)}
     );
     renderer.draw(firstLine);
 
     gf::Text secondLine("Press P or Escape to resume !",font);
+    secondLine.setCharacterSize(charSize);
     secondLine.setColor(gf::Color::Green);
-    secondLine.setPosition(WorldView.getCenter() + ScreenSize / 2 -
+    secondLine.setPosition(WorldView.getCenter() + renderer.getSize() / 2 -
         gf::Vector2f{static_cast<float>(secondLine.getString().size() / 4 * charSize),0}
     );
     renderer.draw(secondLine);
