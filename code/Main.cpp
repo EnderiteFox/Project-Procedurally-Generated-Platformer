@@ -13,6 +13,7 @@
 #include <gf/Text.h>
 #include <gf/Font.h>
 #include <camera/Camera.h>
+#include <text/TextEntity.h>
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
