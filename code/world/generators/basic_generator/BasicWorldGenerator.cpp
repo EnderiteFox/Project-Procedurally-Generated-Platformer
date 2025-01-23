@@ -376,13 +376,18 @@ namespace platformer {
                     || BlockTypes::getBlockTypeByName(world.getBlockManager().getBlockTypeAt(platformPos.x, platformPos.y - 1)).isCollidable
                     || world.getBlockManager().getBlockTypeAt(platformPos.x, platformPos.y + 1) == PLATFORM_BLOCK.subType
                 ) continue;
-                growFakePlatform(world, platformPos, gf::Vector2i(side == 0 ? 1 : -1, 0));
+                growFakePlatform(
+                    world,
+                    platformPos,
+                    gf::Vector2i(side == 0 ? 1 : -1, 0),
+                    random.computeUniformInteger(MIN_COLLECTIBLE_AMOUNT, MAX_COLLECTIBLE_AMOUNT)
+                );
                 break;
             }
         }
     }
 
-    void BasicWorldGenerator::growFakePlatform(const World& world, const gf::Vector2i startPos, const gf::Vector2i direction) {
+    void BasicWorldGenerator::growFakePlatform(const World& world, const gf::Vector2i startPos, const gf::Vector2i direction, const int collectibleAmount) {
         const int platformLength = random.computeUniformInteger(MIN_FAKE_PLATFORM_SIZE, MAX_FAKE_PLATFORM_SIZE);
 
         gf::Vector2i placePos = startPos;
@@ -398,6 +403,22 @@ namespace platformer {
         }
 
         if (generatedPlatformLength == 0) return;
+
+        if (collectibleAmount >= generatedPlatformLength) {
+            for (int i = 0; i < generatedPlatformLength; ++i) {
+                world.getBlockManager().setBlockTypeAt(startPos.x + direction.x * i, startPos.y - 1, COLLECTIBLE_BLOCK);
+            }
+        }
+        else {
+            for (int i = 0; i < collectibleAmount; ++i) {
+                const int xPos = random.computeUniformInteger(0, generatedPlatformLength - 1);
+                if (world.getBlockManager().getBlockTypeAt(startPos.x + direction.x * xPos, startPos.y - 1) == COLLECTIBLE_BLOCK.subType) {
+                    --i;
+                    continue;
+                }
+                world.getBlockManager().setBlockTypeAt(startPos.x + direction.x * xPos, startPos.y - 1, COLLECTIBLE_BLOCK);
+            }
+        }
 
         const int laddersCount = random.computeUniformInteger(MIN_FAKE_PLATFORM_LADDER_COUNT, MAX_FAKE_PLATFORM_LADDER_COUNT);
         for (int i = 0; i < laddersCount; ++i) {

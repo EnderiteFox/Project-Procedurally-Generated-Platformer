@@ -146,7 +146,7 @@ int main() {
             gf::Time time = clock.restart();
             gameScene.update(time);
 
-            if(character.died()){
+            if (character.died()) {
                 framesBeforeStart = SAFE_FRAMES;
             }
 

@@ -11,7 +11,7 @@
  * - The rooms are then carved into the blocks
  * - After that, a path is generated
  * - Then all points from the path are connected, going in zig-zags if necessary
- * - Fake platforms are generated in all rooms
+ * - Fake platforms are generated in all rooms. Fake platforms also generate with ladders and collectibles
  * - Some rooms are chosen to be dangerous, and spikes are generated to replace the floor of the room
  * - The exit block is placed at the last path point
  */
@@ -74,6 +74,10 @@ namespace platformer {
         // The chance that a room spawns with spikes at the bottom
         const double DANGEROUS_ROOM_CHANCE = 0.3;
 
+        // The minimum and maximum amount of collectibles to generate in each room
+        const int MIN_COLLECTIBLE_AMOUNT = 0;
+        const int MAX_COLLECTIBLE_AMOUNT = 1;
+
         // The block type used to generate walls
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
 
@@ -97,6 +101,9 @@ namespace platformer {
 
         // The exit block
         const BlockType EXIT_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::EXIT);
+
+        // The collectible block
+        const BlockType COLLECTIBLE_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::NUT);
 
         // Blocks spikes can spawn on
         const std::vector<BlockType> SPIKE_SUPPORTS{
@@ -213,7 +220,7 @@ namespace platformer {
          * @param startPos The start position of the platform
          * @param direction The direction where the platform will grow
          */
-        void growFakePlatform(const World& world, gf::Vector2i startPos, gf::Vector2i direction);
+        void growFakePlatform(const World& world, gf::Vector2i startPos, gf::Vector2i direction, int collectibleAmount);
 
         /**
          * Grows a ladder, from top to bottom, until either the ladder reaches a maximum size, or the ladder hits something

@@ -6,12 +6,10 @@
 #include <gf/Rect.h>
 #include <gf/Shapes.h>
 
-#include <iostream>
-
-#define DRAWHITBOXES
+//#define DRAWHITBOXES
 
 namespace platformer {
-    BlockManager::BlockManager(const gf::Vector2f ViewSize): ViewSize(ViewSize)  {}
+    BlockManager::BlockManager(const gf::Vector2f ViewSize): ViewPosition(), ViewSize(ViewSize) {}
 
     const float BlockManager::BLOCK_SIZE = 8.0f;
 
