@@ -17,27 +17,6 @@
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
-
-void drawPauseText(gf::RenderWindow& renderer, const int baseCharSize ,gf::Font& font, const gf::ExtendView& WorldView, const gf::Vector2i ScreenSize) {
-    int charSize = ((float)renderer.getSize().x / ScreenSize.x) * baseCharSize;
-
-    gf::Text firstLine("The game is paused !",font);
-    firstLine.setCharacterSize(charSize);
-    firstLine.setColor(gf::Color::Green);
-    firstLine.setPosition(WorldView.getCenter() + renderer.getSize() / 2 -
-        gf::Vector2f{static_cast<float>(firstLine.getString().size() / 4 * charSize),static_cast<float>(charSize)}
-    );
-    renderer.draw(firstLine);
-
-    gf::Text secondLine("Press P or Escape to resume !",font);
-    secondLine.setCharacterSize(charSize);
-    secondLine.setColor(gf::Color::Green);
-    secondLine.setPosition(WorldView.getCenter() + renderer.getSize() / 2 -
-        gf::Vector2f{static_cast<float>(secondLine.getString().size() / 4 * charSize),0}
-    );
-    renderer.draw(secondLine);
-}
-
 int main() {
 
     // Defining useful constants for later
@@ -107,8 +86,13 @@ int main() {
     gameScene.addWorldEntity(blockManager);
     gameScene.addWorldEntity(character);
     gameScene.addWorldEntity(world);
-    gameScene.addWorldEntity(camera);
+    gameScene.addHudEntity(camera);
     gameScene.setActive();
+
+    // Adding elements to the pause scene
+    platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !", font, ScreenSize, charSize);
+    pauseText.setColor(gf::Color::Green);
+    pauseScene.addHudEntity(pauseText);
 
     /**************
      *  Game Loop *
@@ -139,6 +123,7 @@ int main() {
                 if (pauseScene.isHidden()) {
                     pauseScene.show();
                     gameScene.pause();
+                    pauseText.setPosition(renderer.getSize()/2);
                 }
                 else {
                     pauseScene.hide();
@@ -165,9 +150,7 @@ int main() {
             renderer.clear();
 
             gameScene.render(renderer);
-            if (!pauseScene.isHidden()) {
-                drawPauseText(renderer, charSize, font, WorldView, ScreenSize);
-            }
+            pauseScene.render(renderer);
             renderer.display();
             pauseAction.reset();
         }
