@@ -58,19 +58,18 @@ namespace platformer{
     }
 
     void TextEntity::render (gf::RenderTarget &target, const gf::RenderStates &states){
-        unsigned int charSize = ((float)target.getSize().x / baseScreenSize.x) * getCharacterSize();
         gf::Vector2f center = getPosition();
         float middle = lines.size()/2;
         int linecount = 0;
-        gf::View WorldView = target.getView();
 
         for(std::string& text : lines){
             linecount++;
             gf::Text line = gf::Text(text,font);
             line.setColor(getColor());
+            gf::Vector2f bounds = line.getLocalBounds().getSize();
             line.setPosition(
                 center -
-                gf::Vector2f{static_cast<float>(text.size() / 4 * charSize),static_cast<float>(charSize) * (middle - linecount)}
+                gf::Vector2f{bounds.x/2,bounds.y*(middle-linecount)}
             );
             target.draw(line);
         }

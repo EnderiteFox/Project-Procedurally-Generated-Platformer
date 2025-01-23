@@ -14,6 +14,7 @@
 #include <gf/Font.h>
 #include <camera/Camera.h>
 #include <text/TextEntity.h>
+#include <gf/Coordinates.h>
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
@@ -123,7 +124,7 @@ int main() {
                 if (pauseScene.isHidden()) {
                     pauseScene.show();
                     gameScene.pause();
-                    pauseText.setPosition(renderer.getSize()/2);
+                    pauseText.setPosition(gf::Coordinates(renderer).getCenter());
                 }
                 else {
                     pauseScene.hide();
