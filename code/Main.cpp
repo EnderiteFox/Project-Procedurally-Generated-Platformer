@@ -21,7 +21,7 @@
 int main() {
 
     // Defining useful constants for later
-    static constexpr gf::Vector2i ScreenSize(1024, 576);
+    static constexpr gf::Vector2i ScreenSize(1920, 1080);
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
     static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f);
     static constexpr int SAFE_FRAMES = 5;
@@ -91,8 +91,9 @@ int main() {
     gameScene.setActive();
 
     // Adding elements to the pause scene
-    platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !", font, ScreenSize, charSize);
+    platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !", font, gf::Coordinates(renderer).getCenter(), charSize);
     pauseText.setColor(gf::Color::Green);
+    pauseText.setAnchor(gf::Anchor::Center);
     pauseScene.addHudEntity(pauseText);
 
     /**************
