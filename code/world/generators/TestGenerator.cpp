@@ -29,6 +29,12 @@ namespace platformer {
 
         blockManager.setBlockTypeAt(-9,-2,BlockTypes::getBlockTypeByName("basicSpike"));
 
+        blockManager.setBlockTypeAt(2,-1,BlockTypes::getBlockTypeByName("nut"));
+
+        blockManager.setBlockTypeAt(4,-2,BlockTypes::getBlockTypeByName("nut"));
+
+        blockManager.setBlockTypeAt(2,-6,BlockTypes::getBlockTypeByName("nut"));
+
         world.setSpawnPoint(gf::Vector2f{5.0f, -20.0f});
     }
 }

@@ -27,7 +27,7 @@ namespace platformer {
             // Storing the data of the collision
             res.hasCollisionOccured = true;
             res.flags.insert(otherBlock.type);
-            res.collidedBlocks.push_back({otherHitbox.getCenter(),type});
+            res.collidedBlocks.push_back({otherHitbox.getPosition(),type});
             if(!otherBlock.isCollidable ||
                (otherBlock.isDirectionnal && angleTo(p.normal,(gf::Vector2f)otherBlock.direction)+M_PI > 0.1)
             ){

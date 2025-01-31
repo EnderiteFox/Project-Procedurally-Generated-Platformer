@@ -22,6 +22,8 @@
 #include <gf/Rect.h>
 #include <world/World.h>
 #include <gf/Scene.h>
+#include <set>
+
 
 namespace platformer {
     class Character final : public gf::Entity {
@@ -65,6 +67,18 @@ namespace platformer {
         gf::Action downAction {"Down"};
         gf::Action dashAction {"Dash"};
 
+        //vector2i comparator for collected objects set
+        struct Vector2iComparator {
+            bool operator()(const gf::Vector2i& a, const gf::Vector2i& b) const {
+                if (a.x != b.x){
+                    return (a.x < b.x);
+                }
+                if(a.x == b.x){
+                    return (a.y < b.y);
+                }
+            }
+        };
+
         /**
          * Variables used to test the character state :
          * lastGroundTouchTime : Last time the character collided with the ground
@@ -78,6 +92,8 @@ namespace platformer {
          * dash : True if the character is currently dashing. Used to know if we can start the 'dashStart' counter
          * progress : During a dash, it's direction
          * isDead : True if the character is dead
+         * score : character score, increases when he picks up a nut
+         * collectedNuts : set that stores the coordinates of picked up objects
          */
         bool groundCollision = false;
         float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
@@ -91,6 +107,9 @@ namespace platformer {
         bool dash = false;
         float progress = 0.0f;
         bool isDead;
+        int score=0;
+        std::set<gf::Vector2i, Vector2iComparator> collectedNuts;
+
     public:
 
         // Constructor
