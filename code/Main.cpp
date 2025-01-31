@@ -91,7 +91,7 @@ int main() {
     gameScene.setActive();
 
     // Adding elements to the pause scene
-    platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !", font, gf::Coordinates(renderer).getCenter(), charSize);
+    platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !", font, gf::Coordinates(renderer).getCenter(),charSize);
     pauseText.setColor(gf::Color::Green);
     pauseText.setAnchor(gf::Anchor::Center);
     pauseScene.addHudEntity(pauseText);
