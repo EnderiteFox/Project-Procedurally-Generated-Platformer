@@ -14,7 +14,6 @@
 #include <gf/Texture.h>
 #include <vector>
 #include <gf/Rect.h>
-#include <gf/View.h>
 
 namespace platformer {
 

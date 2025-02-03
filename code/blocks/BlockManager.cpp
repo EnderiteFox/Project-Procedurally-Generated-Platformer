@@ -65,14 +65,17 @@ namespace platformer {
             for (int y = toBlockSpace(center.y) - toBlockSpace(size.height / 2) - 2; y <= toBlockSpace(center.y) + toBlockSpace(size.height) + 2; ++y) {
                 auto found = blockMap.find({x, y});
                 if (found == blockMap.cend()) continue; // Skipping if the block at the position does not exist on the map
+
                 std::string blockType = found->second;
                 auto textureFound = textureMap.find(blockType);
                 if (textureFound == textureMap.cend()) continue; //Skipping untextured blocks
+
                 gf::Sprite sprite;
                 sprite.setPosition(toWorldSpace(gf::Vector2i(x, y)));
                 sprite.setTexture(textureFound->second, gf::RectF::fromSize({1.0f, 1.0f}));
                 sprite.scale(BlockTypes::getBlockTypeByName(blockType).scale);
                 target.draw(sprite, states);
+
 #ifdef DRAWHITBOXES
                 gf::RectangleShape hitbox;
                 hitbox.setSize(BlockTypes::getBlockTypeByName(found->second).hitboxSize);
@@ -86,7 +89,7 @@ namespace platformer {
         }
     }
 
-    void BlockManager::setViewPosition(gf::Vector2f ViewPosition){
+    void BlockManager::setViewPosition(const gf::Vector2f ViewPosition) {
         this->ViewPosition = ViewPosition;
     }
 

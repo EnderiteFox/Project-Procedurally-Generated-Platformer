@@ -15,13 +15,14 @@
 #include <camera/Camera.h>
 #include <text/TextEntity.h>
 #include <gf/Coordinates.h>
+#include <gf/Monitor.h>
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
 int main() {
 
     // Defining useful constants for later
-    static constexpr gf::Vector2i ScreenSize(1920, 1080);
+    static gf::Vector2i ScreenSize = gf::Monitor::getPrimaryMonitor().getPhysicalSize();
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
     static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f);
     static constexpr int SAFE_FRAMES = 5;
