@@ -1,29 +1,30 @@
 #include <gf/Vector.h>
 #include <gf/Action.h>
 #include <gf/SceneManager.h>
-#include <scenes/gameScene.h>
+#include <scenes/GameScene.h>
 #include <player/Character.h>
 #include <world/World.h>
 #include <gf/Scene.h>
 #include <camera/Camera.h>
-#include <text/TextEntity.h>
 #include <gf/Coordinates.h>
+#include <text/TextEntity.h>
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 
 
 namespace platformer{
-    GameScene::GameScene(gf::Vector2i initialSize, gf::SceneManager& manager, gf::Scene& pauseScene):
+
+    GameScene::GameScene(gf::Vector2i initialSize, gf::SceneManager& manager):
         gf::Scene(initialSize),
         manager(manager),
-        pauseScene(pauseScene){}
+        pauseScene(initialSize){}
 
-    void GameScene::init(){
+    void GameScene::init(TextEntity& pauseText){
         // Creating the pause actions
-        gf::Action pauseAction {"Pause"};
         pauseAction.addKeycodeKeyControl(pauseKey1);
         pauseAction.addKeycodeKeyControl(pauseKey2);
         pauseAction.setInstantaneous();
         addAction(pauseAction);
+        pauseScene.addHudEntity(pauseText);
 
         // Loading the textures
         gf::Texture characterTexture("../assets/character_placeholder.png");
@@ -52,15 +53,18 @@ namespace platformer{
     }
 
     void GameScene::doUpdate(gf::Time& time) {
-        if (isActive()) {
-            // Pause
-            if (pauseAction.isActive()) {
+        // Pause
+        if (pauseAction.isActive()) {
+            if(isActive()){
                 manager.pushScene(pauseScene);
             }
-            //Rest of the calls
-            else{
-                gf::Scene::doUpdate(time);
+            else {
+                manager.popScene();
             }
+        }
+        if (isActive()) {
+            //Rest of the calls
+            gf::Scene::doUpdate(time);
         }
     }
 }

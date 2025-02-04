@@ -24,7 +24,8 @@ add_executable(Platformer
         code/world/generators/basic_generator/BasicWorldGenerator.cpp
         code/camera/Camera.cpp
         code/text/TextEntity.cpp
-        code/scenes/gameScene.cpp
+        code/scenes/GameScene.cpp
+        code/scenes/Menu.cpp
         #Third party librairies
         librairies/pugixml-1.14/src/pugixml.cpp
 )
