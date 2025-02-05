@@ -29,54 +29,54 @@
 namespace platformer {
     class BasicWorldGenerator final : public WorldGenerator {
         // The amount of rooms to generate
-        const int ROOM_COUNT = 20;
+        static constexpr int ROOM_COUNT = 20;
 
         // The minimum and maximum width of a room
-        const int MIN_ROOM_WIDTH = 7;
-        const int MAX_ROOM_WIDTH = 15;
+        static constexpr int MIN_ROOM_WIDTH = 7;
+        static constexpr int MAX_ROOM_WIDTH = 15;
 
         // The minimum and maximum height of a room
-        const int MIN_ROOM_HEIGHT = 5;
-        const int MAX_ROOM_HEIGHT = 13;
+        static constexpr int MIN_ROOM_HEIGHT = 5;
+        static constexpr int MAX_ROOM_HEIGHT = 13;
 
         // The number of times the generator is allowed to change the size of a room before backtracking
-        const int MAX_ROOMGEN_SIZE_TRIES = 10;
+        static constexpr int MAX_ROOMGEN_SIZE_TRIES = 10;
         // The amount of positions the generator is allowed to place a room at before trying to change size
-        const int MAX_ROOMGEN_DIRECTION_TRIES = 2 * MAX_ROOM_WIDTH + 2 * MAX_ROOM_HEIGHT;
+        static constexpr int MAX_ROOMGEN_DIRECTION_TRIES = 2 * MAX_ROOM_WIDTH + 2 * MAX_ROOM_HEIGHT;
 
         // The minimum size for the entrance of a room
-        const int MIN_ROOM_ENTRANCE_SIZE = 2;
+        static constexpr int MIN_ROOM_ENTRANCE_SIZE = 2;
 
         // The minimum and maximum size of a fake platform
-        const int MIN_FAKE_PLATFORM_SIZE = 4;
-        const int MAX_FAKE_PLATFORM_SIZE = 10;
+        static constexpr int MIN_FAKE_PLATFORM_SIZE = 4;
+        static constexpr int MAX_FAKE_PLATFORM_SIZE = 10;
 
         // The amount tries the generator has to place a fake platform, before skipping the platform
-        const int MAX_FAKE_PLATFORM_GEN_TRIES = 3;
+        static constexpr int MAX_FAKE_PLATFORM_GEN_TRIES = 3;
 
         // The minimum and maximum amount of ladders on a fake platform
-        const int MIN_FAKE_PLATFORM_LADDER_COUNT = 0;
-        const int MAX_FAKE_PLATFORM_LADDER_COUNT = 2;
+        static constexpr int MIN_FAKE_PLATFORM_LADDER_COUNT = 0;
+        static constexpr int MAX_FAKE_PLATFORM_LADDER_COUNT = 2;
 
         // The max size of a fake platform ladder
-        const int MAX_FAKE_PLATFORM_LADDER_SIZE = 10;
+        static constexpr int MAX_FAKE_PLATFORM_LADDER_SIZE = 10;
 
         // The minimum and maximum amount of fake platforms per room
-        const int MIN_FAKE_PLATFORM_AMOUNT = 3;
-        const int MAX_FAKE_PLATFORM_AMOUNT = 6;
+        static constexpr int MIN_FAKE_PLATFORM_AMOUNT = 3;
+        static constexpr int MAX_FAKE_PLATFORM_AMOUNT = 6;
 
         // The perlin noise threshold to make a block an ice block
-        const double ICE_BLOCK_THRESHOLD = -0.15;
+        static constexpr double ICE_BLOCK_THRESHOLD = -0.15;
 
         // The perlin noise threshold to make a block a jelly block
-        const double JELLY_BLOCK_THRESHOLD = 0.35;
+        static constexpr double JELLY_BLOCK_THRESHOLD = 0.35;
 
         // The chance that a room spawns with spikes at the bottom
-        const double DANGEROUS_ROOM_CHANCE = 0.3;
+        static constexpr double DANGEROUS_ROOM_CHANCE = 0.3;
 
         // The minimum and maximum amount of collectibles to generate in each room
-        const int MIN_COLLECTIBLE_AMOUNT = 0;
-        const int MAX_COLLECTIBLE_AMOUNT = 1;
+        static constexpr int MIN_COLLECTIBLE_AMOUNT = 0;
+        static constexpr int MAX_COLLECTIBLE_AMOUNT = 1;
 
         // The block type used to generate walls
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
