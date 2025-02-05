@@ -10,21 +10,23 @@
 #include <text/TextEntity.h>
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 
+#include <iostream>
+
 
 namespace platformer{
 
-    GameScene::GameScene(gf::Vector2i initialSize, gf::SceneManager& manager):
+    GameScene::GameScene(gf::Vector2i initialSize, PlatformerManager& manager):
         gf::Scene(initialSize),
-        manager(manager),
-        pauseScene(initialSize){}
+        manager(manager){
+            init();
+        }
 
-    void GameScene::init(TextEntity& pauseText){
+    void GameScene::init(){
         // Creating the pause actions
         pauseAction.addKeycodeKeyControl(pauseKey1);
         pauseAction.addKeycodeKeyControl(pauseKey2);
         pauseAction.setInstantaneous();
         addAction(pauseAction);
-        pauseScene.addHudEntity(pauseText);
 
         // Loading the textures
         gf::Texture characterTexture("../assets/character_placeholder.png");
@@ -35,6 +37,10 @@ namespace platformer{
         platformer::BasicWorldGenerator generator;
         platformer::World world(character, blockManager, generator);
         platformer::Camera camera(*this,character,blockManager);
+
+        // Adding the main entities to the map
+        mainEntities.emplace("world",&world);
+        mainEntities.emplace("character",&character);
 
         // Loading textures
         blockManager.loadTextures();
@@ -52,11 +58,17 @@ namespace platformer{
         addHudEntity(camera);
     }
 
+    void GameScene::reset(){
+        dynamic_cast<platformer::World*>(mainEntities["world"])->generate();
+        dynamic_cast<platformer::Character*>(mainEntities["character"])->resetScore();
+    }
+
     void GameScene::doUpdate(gf::Time& time) {
+
         // Pause
         if (pauseAction.isActive()) {
             if(isActive()){
-                manager.pushScene(pauseScene);
+                manager.loadScene("pause");
             }
             else {
                 manager.popScene();

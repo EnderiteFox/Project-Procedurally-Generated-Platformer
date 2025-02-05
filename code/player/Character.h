@@ -127,6 +127,7 @@ namespace platformer {
         gf::RectF getHitbox() const;
         gf::RectF getSidedHitbox(gf::Vector2f direction) const;
         gf::Vector2f getDirection() const;
+        void resetScore(); // Puts the score back to 0
 
         // Tests if a collision has been detected between the player and the a block beneath it during the current frame
         bool isOnGround() const;

@@ -26,6 +26,7 @@ add_executable(Platformer
         code/text/TextEntity.cpp
         code/scenes/GameScene.cpp
         code/scenes/Menu.cpp
+        code/scenes/PlatformerManager.cpp
         #Third party librairies
         librairies/pugixml-1.14/src/pugixml.cpp
 )

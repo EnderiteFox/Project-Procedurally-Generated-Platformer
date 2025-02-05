@@ -154,6 +154,10 @@ namespace platformer {
         return gf::RectF::fromPositionSize(this->position, this->size);
     }
 
+    void Character::resetScore(){
+        score = 0;
+    }
+
     // A hitbox for collisions with directionnal platforms
     // The hitbox's size is equal to ratio*currentHitbox, and is placed on the side of the collision
     // This function is horrendous, but i couldn't find a logic between the direction and the resulting hitbox

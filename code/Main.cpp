@@ -16,6 +16,8 @@
 #include <text/TextEntity.h>
 #include <gf/Coordinates.h>
 #include <gf/Monitor.h>
+#include <scenes/Menu.h>
+#include <scenes/PlatformerManager.h>
 
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include "world/generators/TestGenerator.h"
@@ -26,23 +28,75 @@ int main() {
     static constexpr gf::Vector2f ViewSize(100.0f, 100.0f);
     static constexpr gf::Vector2f ViewCenter(0.0f, 0.0f);
     static constexpr int SAFE_FRAMES = 5;
-    static constexpr auto pauseKey1 = gf::Keycode::P;
-    static constexpr auto pauseKey2 = gf::Keycode::Escape;
+    //static constexpr auto pauseKey1 = gf::Keycode::P;
+    //static constexpr auto pauseKey2 = gf::Keycode::Escape;
     static constexpr int charSize = 30;
     static gf::Font font("../assets/fonts/Waffle Cake.otf");
 
     // Window and renderer
-    gf::Window window("Platformer", ScreenSize);
+    /*gf::Window window("Platformer", ScreenSize);
     gf::RenderWindow renderer(window);
 
-    gf::ExtendView WorldView(ViewCenter,ViewSize);
+    gf::ExtendView WorldView(ViewCenter,ViewSize);*/
 
-    renderer.clear(gf::Color::White);
+    // Creation of the manager
+    std::string gameTitle{"Twisted Dreams and Pain"};
+
+    platformer::PlatformerManager manager(gameTitle,ScreenSize);
+
+    //=================================
+    // Creating and loading the scenes
+    //=================================
+    //PlatformerManager::storeScene(std::string& sceneName, gf::Scene* scene)
+    // Menu
+    platformer::TextEntity tooltipText("Press space to start",
+                                       font,
+                                       gf::Coordinates(ScreenSize).getCenter() * gf::Vector2f{1.0f,1.2f},
+                                       charSize);
+    tooltipText.setColor(gf::Color::Green);
+    tooltipText.setAnchor(gf::Anchor::Center);
+
+    platformer::TextEntity titleText(gameTitle,
+                                     font,
+                                     gf::Coordinates(ScreenSize).getCenter() * gf::Vector2f{1.0f,0.5f},
+                                     charSize*3);
+    titleText.setColor(gf::Color::Green);
+    titleText.setAnchor(gf::Anchor::Center);
+
+    platformer::Menu menu(ScreenSize, manager);
+
+    menu.addHudEntity(titleText);
+    menu.addHudEntity(tooltipText);
+    menu.setClearColor(gf::Color::Black);
+    manager.storeScene("menu",&menu);
+
+    // GameScene
+    platformer::GameScene gameScene(ScreenSize,manager);
+    manager.storeScene("game",&gameScene);
+
+    //pauseScene
+    platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !",
+                                     font,
+                                     gf::Coordinates(ScreenSize).getCenter(),
+                                     charSize);
+    pauseText.setColor(gf::Color::Green);
+    pauseText.setAnchor(gf::Anchor::Center);
+    gf::Scene pauseScene(ScreenSize);
+    pauseScene.addHudEntity(pauseText);
+    manager.storeScene("pause",&pauseScene);
+
+    //=====================
+    // Running the manager
+    //=====================
+    manager.loadScene("menu");
+    manager.run();
+
+    //renderer.clear(gf::Color::White);
 
     /**************
      *   Scenes   *
      **************/
-
+    /*
     gf::Action pauseAction {"Pause"};
     pauseAction.addKeycodeKeyControl(pauseKey1);
     pauseAction.addKeycodeKeyControl(pauseKey2);
@@ -58,44 +112,45 @@ int main() {
     // Pause scene creation
     gf::Scene pauseScene(ScreenSize);
     pauseScene.addView(WorldView);
-    pauseScene.hide();
+    pauseScene.hide();*/
 
     /**************
      *    World   *
      **************/
-
+    /*
     gf::Texture characterTexture("../assets/character_placeholder.png");
     platformer::BlockManager blockManager(ViewSize);
     platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, gameScene);
     platformer::BasicWorldGenerator generator;
     //platformer::TestGenerator generator;
     platformer::World world(character, blockManager, generator);
-    platformer::Camera camera(gameScene,character,blockManager);
+    platformer::Camera camera(gameScene,character,blockManager);*/
 
     // Loading textures
-    world.getBlockManager().loadTextures();
+    //world.getBlockManager().loadTextures();
 
     // Generate world
-    world.generate();
+    //world.generate();
 
     // actions
-    character.initInput();
+    //character.initInput();
 
     // clock
-    gf::Clock clock;
+    //gf::Clock clock;
 
+    /*
     // Adding elements to the game scene
     gameScene.addWorldEntity(blockManager);
     gameScene.addWorldEntity(character);
     gameScene.addWorldEntity(world);
     gameScene.addHudEntity(camera);
-    gameScene.setActive();
+    gameScene.setActive();*/
 
-    // Adding elements to the pause scene
+    /*// Adding elements to the pause scene
     platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !", font, gf::Coordinates(renderer).getCenter(),charSize);
     pauseText.setColor(gf::Color::Green);
     pauseText.setAnchor(gf::Anchor::Center);
-    pauseScene.addHudEntity(pauseText);
+    pauseScene.addHudEntity(pauseText);*/
 
     /**************
      *  Game Loop *
@@ -103,7 +158,7 @@ int main() {
 
     int framesBeforeStart = SAFE_FRAMES;
 
-    while (window.isOpen()) {
+    /*while (window.isOpen()) {
         if (gameScene.isActive()) {
 
             // 1 - inputs
@@ -157,7 +212,7 @@ int main() {
             renderer.display();
             pauseAction.reset();
         }
-    }
+    }*/
 
     return 0;
 }
