@@ -56,7 +56,7 @@ namespace platformer {
 
         // The minimum and maximum amount of ladders on a fake platform
         static constexpr int MIN_FAKE_PLATFORM_LADDER_COUNT = 0;
-        static constexpr int MAX_FAKE_PLATFORM_LADDER_COUNT = 2;
+        static constexpr int MAX_FAKE_PLATFORM_LADDER_COUNT = 1;
 
         // The max size of a fake platform ladder
         static constexpr int MAX_FAKE_PLATFORM_LADDER_SIZE = 10;
