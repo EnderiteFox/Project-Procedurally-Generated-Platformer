@@ -78,6 +78,9 @@ namespace platformer {
         static constexpr int MIN_COLLECTIBLE_AMOUNT = 0;
         static constexpr int MAX_COLLECTIBLE_AMOUNT = 1;
 
+        // The minimum consecutive ice blocks required before placing a spike at the end
+        static constexpr int ICE_TRAP_THRESHOLD = 3;
+
         // The block type used to generate walls
         const BlockType WALL_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_BLOCK);
 
@@ -230,10 +233,18 @@ namespace platformer {
         void growLadder(const World& world, gf::Vector2i startPos) const;
 
         /**
-         * Makes some random rooms dangerous
+         * Makes some random rooms dangerous by calling the makeRoomDangerous function.
+         * Is also responsible for the creation of small traps with placeSmallTraps.
          * @param world The world to place blocks in
          */
         void makeSomeRoomsDangerous(const World& world);
+
+        /**
+         * Places some small traps, like spikes at the end of an ice floor
+         * @param world The world to place blocks in
+         * @param room The room to place the traps in
+         */
+        void placeSmallTraps(const World& world, gf::Vector4i room) const;
 
         /**
          * Makes a room dangerous, placing spikes at the bottom of the room

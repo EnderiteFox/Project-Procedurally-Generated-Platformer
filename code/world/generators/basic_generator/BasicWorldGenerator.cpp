@@ -448,8 +448,49 @@ namespace platformer {
     void BasicWorldGenerator::makeSomeRoomsDangerous(const World& world) {
         for (const gf::Vector4i room : rooms) {
             if (random.computeUniformFloat(0.0, 1.0) <= DANGEROUS_ROOM_CHANCE) makeRoomDangerous(world, room);
+            placeSmallTraps(world, room);
         }
     }
+
+    void BasicWorldGenerator::placeSmallTraps(const World& world, const gf::Vector4i room) const {
+        gf::Vector2i pos{room.x, room.y + room.z - 1};
+
+        int consecutiveIceBlocks = 0;
+        int direction = 1;
+
+        // Scan the ground once in each direction
+        for (int i = 0; i < 2; ++i) {
+            while (direction == 1 ? pos.x < room.x + room.w : pos.x >= room.x) {
+                // Don't handle non-empty blocks
+                if (!world.getBlockManager().isEmptyBlock(pos)) {
+                    consecutiveIceBlocks = 0;
+                    pos.x += direction;
+                    continue;
+                }
+
+                if (
+                    std::string blockType = world.getBlockManager().getBlockTypeAt(pos.x, pos.y + 1);
+                    blockType == ICE_BLOCK.subType
+                ) {
+                    consecutiveIceBlocks++;
+                }
+                else if (consecutiveIceBlocks >= ICE_TRAP_THRESHOLD && blockType != BlockTypes::EMPTY_BLOCK) {
+                    // Reached the end of the ice line, place spike
+                    world.getBlockManager().setBlockTypeAt(pos, SPIKE_BLOCK);
+                    break;
+                }
+                else consecutiveIceBlocks = 0;
+
+                // Move position
+                pos.x += direction;
+            }
+
+            direction *= -1;
+            consecutiveIceBlocks = 0;
+            pos.x = room.x + room.w - 1;
+        }
+    }
+
 
     bool BasicWorldGenerator::blockSupportsSpike(const std::string& blockType) const {
         return std::any_of(
