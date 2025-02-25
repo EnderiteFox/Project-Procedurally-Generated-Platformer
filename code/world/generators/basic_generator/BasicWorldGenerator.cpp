@@ -34,6 +34,9 @@ namespace platformer {
             generateFakePlatformsInRoom(world, room);
         }
 
+        // Transform blocks into ice or jelly
+        transformBlocks(world);
+
         // Place spikes
         makeSomeRoomsDangerous(world);
 
@@ -128,7 +131,7 @@ namespace platformer {
     }
 
 
-    void BasicWorldGenerator::fillWorld(World& world) {
+    void BasicWorldGenerator::fillWorld(World& world) const {
         const gf::Vector<gf::Vector2i, 2> worldDimensions = getWorldDimensions();
 
         for (int x = worldDimensions.x.x; x < worldDimensions.y.x; ++x) {
@@ -136,18 +139,24 @@ namespace platformer {
                 world.getBlockManager().setBlockTypeAt(
                     x,
                     y,
-                    getWallBlockType(gf::Vector2i(x, y), worldDimensions)
+                    WALL_BLOCK
                 );
             }
         }
         world.setVoidHeight(BlockManager::toWorldSpace(worldDimensions.y.y + 1));
     }
 
-    BlockType BasicWorldGenerator::getWallBlockType(gf::Vector2i pos, gf::Vector<gf::Vector2i, 2> worldDimensions) {
+    BlockType BasicWorldGenerator::getBlockCounterpart(const std::string& blockType, gf::Vector2i pos, gf::Vector<gf::Vector2i, 2> worldDimensions) {
         double perlinX = (pos.x - worldDimensions.x.x) / static_cast<double>(worldDimensions.y.x);
         double perlinY = (pos.y - worldDimensions.x.y) / static_cast<double>(worldDimensions.y.y);
         double perlinValue = perlinNoise.getValue(perlinX, perlinY);
-        return perlinValue < ICE_BLOCK_THRESHOLD ? ICE_BLOCK : perlinValue > JELLY_BLOCK_THRESHOLD ? JELLY_BLOCK : WALL_BLOCK;
+        if (blockType == WALL_BLOCK.subType) {
+            return perlinValue < ICE_BLOCK_THRESHOLD ? ICE_BLOCK : perlinValue > JELLY_BLOCK_THRESHOLD ? JELLY_BLOCK : WALL_BLOCK;
+        }
+        if (blockType == PLATFORM_BLOCK.subType) {
+            return perlinValue < ICE_BLOCK_THRESHOLD ? ICE_PLATFORM : perlinValue > JELLY_BLOCK_THRESHOLD ? JELLY_PLATFORM : PLATFORM_BLOCK;
+        }
+        return BlockTypes::getBlockTypeByName(blockType);
     }
 
 
@@ -442,6 +451,24 @@ namespace platformer {
             placePos.y++;
             ladder_size++;
             if (ladder_size >= MAX_FAKE_PLATFORM_LADDER_SIZE) break;
+        }
+    }
+
+    void BasicWorldGenerator::transformBlocks(const World& world) {
+        const gf::Vector<gf::Vector2i, 2> worldDimensions = getWorldDimensions();
+
+        for (int x = worldDimensions.x.x; x < worldDimensions.y.x; ++x) {
+            for (int y = worldDimensions.x.y; y < worldDimensions.y.y; ++y) {
+                world.getBlockManager().setBlockTypeAt(
+                    x,
+                    y,
+                    getBlockCounterpart(
+                        world.getBlockManager().getBlockTypeAt(x, y),
+                        gf::Vector2i(x, y),
+                        worldDimensions
+                    )
+                );
+            }
         }
     }
 

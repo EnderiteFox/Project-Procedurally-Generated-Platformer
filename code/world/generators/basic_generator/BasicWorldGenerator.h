@@ -12,6 +12,7 @@
  * - After that, a path is generated
  * - Then all points from the path are connected, going in zig-zags if necessary
  * - Fake platforms are generated in all rooms. Fake platforms also generate with ladders and collectibles
+ * - Some wall blocks and platforms are turned into their ice and jelly counterparts, based on a perlin noise
  * - Some rooms are chosen to be dangerous, and spikes are generated to replace the floor of the room
  * - The exit block is placed at the last path point
  */
@@ -87,8 +88,10 @@ namespace platformer {
         // The ladder block type
         const BlockType LADDER_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::TEST_LADDER);
 
-        // The platform block type
+        // The platform block types
         const BlockType PLATFORM_BLOCK = BlockTypes::getBlockTypeByName(BlockTypes::PLATFORM_BLOCK);
+        const BlockType ICE_PLATFORM = BlockTypes::getBlockTypeByName(BlockTypes::ICE_PLATFORM);
+        const BlockType JELLY_PLATFORM = BlockTypes::getBlockTypeByName(BlockTypes::JELLY_PLATFORM);
 
         // The block used to debug the path
         const BlockType PATH = BlockTypes::getBlockTypeByName(BlockTypes::PATH);
@@ -144,15 +147,17 @@ namespace platformer {
          * Fills the world with wall blocks
          * @param world The world to fill
          */
-        void fillWorld(World& world);
+        void fillWorld(World& world) const;
 
         /**
-         * Chooses which block type to place at the given position using Perlin Noise
+         * Chooses which block type to place at the given position using Perlin Noise.
+         * Walls and platforms may be transformed into their ice or jelly counterpart, other block types are simply returned
+         * @param blockType The type of the block
          * @param pos The position of the block
          * @param worldDimensions The dimensions of the world
          * @return The block type to place at the position
          */
-        BlockType getWallBlockType(gf::Vector2i pos, gf::Vector<gf::Vector2i, 2> worldDimensions);
+        BlockType getBlockCounterpart(const std::string& blockType, gf::Vector2i pos, gf::Vector<gf::Vector2i, 2> worldDimensions);
 
         /**
          * Carves all rooms into the blocks
@@ -233,7 +238,13 @@ namespace platformer {
         void growLadder(const World& world, gf::Vector2i startPos) const;
 
         /**
-         * Makes some random rooms dangerous by calling the makeRoomDangerous function.
+         * Turns some blocks into their ice and jelly counterparts, based on a Perlin Noise
+         * @param world The world containing the blocks
+         */
+        void transformBlocks(const World& world);
+
+        /**
+         * Makes some random rooms dangerous by calling the makeRoomDangerous method.
          * Is also responsible for the creation of small traps with placeSmallTraps.
          * @param world The world to place blocks in
          */

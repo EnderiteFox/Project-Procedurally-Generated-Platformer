@@ -15,8 +15,10 @@ namespace platformer {
         // Returns all the existing types of block
         static std::vector<BlockType> getAllTypes();
 
-        // Get the data of a type of block by it's subtype name. It's name can be found within the XML file
+        // Get the data of a type of block by it's subtype name. Its name can be found within the XML file
         static BlockType getBlockTypeByName(const std::string& name);
+
+        static std::string PLATFORM_TYPE;
 
         static std::string EMPTY_BLOCK;
         static std::string TEST_LADDER;
@@ -25,6 +27,8 @@ namespace platformer {
         static std::string JELLY;
         static std::string TEST_BLOCK;
         static std::string PLATFORM_BLOCK;
+        static std::string ICE_PLATFORM;
+        static std::string JELLY_PLATFORM;
         static std::string SPIKE;
         static std::string EXIT;
         static std::string NUT;

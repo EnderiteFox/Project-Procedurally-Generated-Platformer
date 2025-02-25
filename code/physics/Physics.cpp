@@ -29,7 +29,7 @@ namespace platformer {
             res.flags.insert(otherBlock.type);
             res.collidedBlocks.push_back({otherHitbox.getPosition(),type});
             if(!otherBlock.isCollidable ||
-               (otherBlock.isDirectionnal && angleTo(p.normal,(gf::Vector2f)otherBlock.direction)+M_PI > 0.1)
+               (otherBlock.isDirectionnal && angleTo(p.normal,static_cast<gf::Vector2f>(otherBlock.direction)) + M_PI > 0.1)
             ){
                 return res;
             }
@@ -78,8 +78,8 @@ namespace platformer {
         collisionData result;
         int collisions = 0;
         int corrections = 0;
-        for (auto& hb: otherBlocks) {
-            collisionData collisionResult = collide(character, hb.first,hb.second);
+        for (const auto& [hitbox, blockType]: otherBlocks) {
+            collisionData collisionResult = collide(character, hitbox,blockType);
             result += collisionResult;
             if (collisionResult.hasCollisionOccured) {
                 collisions++;

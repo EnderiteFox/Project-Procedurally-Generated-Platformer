@@ -63,7 +63,7 @@ namespace platformer {
             collisionBlocks.begin(),
             collisionBlocks.end(),
             [](const std::pair<gf::RectF, std::string>& pair) {
-                return pair.second == BlockTypes::PLATFORM_BLOCK;
+                return BlockTypes::getBlockTypeByName(pair.second).type == BlockTypes::PLATFORM_TYPE;
             }
         ), collisionBlocks.end());
 
@@ -259,40 +259,44 @@ namespace platformer {
 
         // Computing jump
         if (jumpAction.isActive() && canJump) {
-            if (isOnGround()){
+            if (isOnGround()) {
                 speed.y = -JUMP_FACTOR;
                 lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
                 jumpCount++;
-            }else if (jumpCount<2){
+            }
+            else if (jumpCount < 2) {
                 speed.y = -JUMP_FACTOR;
                 jumpCount++;
             }
         }
 
         // Computing dash
-        if (dashAction.isActive() && dashDelay<=0 && !dash){
-            if (rightAction.isActive() && !leftAction.isActive() ) {
-                dashStart=0;
-                dash=true;
+        if (dashAction.isActive() && dashDelay <= 0 && !dash){
+            if (rightAction.isActive() && !leftAction.isActive()) {
+                dashStart = 0;
+                dash = true;
                 jumpSpeed.x += DASH_FACTOR;
-                progress=DASH_FACTOR;
-            } else if (leftAction.isActive() && !rightAction.isActive()) {
-                dashStart=0;
-                dash=true;
-                jumpSpeed.x -= DASH_FACTOR;
-                progress=-DASH_FACTOR;
+                progress = DASH_FACTOR;
             }
-        }else if (dashStart<MAX_DASH_TIME && dash){
-            speed.x+=progress;
-        }else if(dashStart>=DELAY_BETWEEN_DASH){
-            dashDelay=DELAY_BETWEEN_DASH;
-            dash=false;
-            dashStart=0;
+            else if (leftAction.isActive() && !rightAction.isActive()) {
+                dashStart = 0;
+                dash = true;
+                jumpSpeed.x -= DASH_FACTOR;
+                progress =- DASH_FACTOR;
+            }
+        }
+        else if (dashStart < MAX_DASH_TIME && dash) {
+            speed.x += progress;
+        }
+        else if (dashStart >= DELAY_BETWEEN_DASH) {
+            dashDelay = DELAY_BETWEEN_DASH;
+            dash = false;
+            dashStart = 0;
         }
 
         // Computing wall jumps
-        if (onWall){
-            jumpCount=1;
+        if (onWall) {
+            jumpCount = 1;
             speed.y = 0;
             speed.x = 0;
         }

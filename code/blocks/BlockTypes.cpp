@@ -10,6 +10,8 @@ namespace platformer {
     std::map<std::string,BlockType> BlockTypes::cache;
 
     //Constant declaration
+    std::string BlockTypes::PLATFORM_TYPE = "platform";
+
     std::string BlockTypes::EMPTY_BLOCK = "empty";
     std::string BlockTypes::TEST_BLOCK = "testBlock";
     std::string BlockTypes::TEST_LADDER = "testLadder";
@@ -20,6 +22,8 @@ namespace platformer {
     std::string BlockTypes::SPIKE = "basicSpike";
     std::string BlockTypes::EXIT = "exit";
     std::string BlockTypes::NUT = "nut";
+    std::string BlockTypes::ICE_PLATFORM = "icePlatform";
+    std::string BlockTypes::JELLY_PLATFORM = "jellyPlatform";
 
     std::vector<BlockType> BlockTypes::getAllTypes() {
         if(cache.empty()){
@@ -100,7 +104,7 @@ namespace platformer {
         }
 
         // Adding the empty block type to the cache
-        BlockType empty = BlockType();
+        auto empty = BlockType();
         cache.emplace("empty",empty);
     }
 
