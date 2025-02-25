@@ -9,13 +9,14 @@
 #include <gf/Coordinates.h>
 #include <text/TextEntity.h>
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
+#include <scenes/PlatformerManager.h>
 
 #include <iostream>
 
 
 namespace platformer{
 
-    GameScene::GameScene(gf::Vector2i initialSize, PlatformerManager& manager):
+    GameScene::GameScene(gf::Vector2i initialSize, platformer::PlatformerManager* manager):
         gf::Scene(initialSize),
         manager(manager){
             init();
@@ -68,10 +69,10 @@ namespace platformer{
         // Pause
         if (pauseAction.isActive()) {
             if(isActive()){
-                manager.loadScene("pause");
+                manager->loadPause();
             }
             else {
-                manager.popScene();
+                manager->popScene();
             }
         }
         if (isActive()) {

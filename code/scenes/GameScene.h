@@ -5,11 +5,13 @@
 #include <gf/Scene.h>
 #include <text/TextEntity.h>
 #include <player/Character.h>
-#include <scenes/PlatformerManager.h>
 #include <world/World.h>
 #include <map>
 
 namespace platformer{
+
+    class PlatformerManager; // It fixes issues with cyclic dependancies
+
     struct MainEntities{
         platformer::World& world;
         platformer::Character& character;
@@ -19,7 +21,7 @@ namespace platformer{
     private :
         static constexpr auto pauseKey1 = gf::Keycode::P;
         static constexpr auto pauseKey2 = gf::Keycode::Escape;
-        PlatformerManager& manager;
+        platformer::PlatformerManager* manager;
         gf::Action pauseAction {"Pause"};
 
         // Storing the scene's main entities
@@ -34,7 +36,7 @@ namespace platformer{
     public :
 
         GameScene (gf::Vector2i initialSize) = delete;
-        GameScene (gf::Vector2i initialSize, PlatformerManager& manager);
+        GameScene (gf::Vector2i initialSize, platformer::PlatformerManager* manager);
 
         // Create a new world and reset the main entities
         void reset();
