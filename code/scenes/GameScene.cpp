@@ -10,6 +10,7 @@
 #include <text/TextEntity.h>
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 #include <scenes/PlatformerManager.h>
+#include <gf/Window.h>
 
 #include <iostream>
 
@@ -18,7 +19,14 @@ namespace platformer{
 
     GameScene::GameScene(gf::Vector2i initialSize, platformer::PlatformerManager* manager):
         gf::Scene(initialSize),
-        manager(manager){
+        manager(manager),
+        characterTexture("../assets/character_placeholder.png"),
+        blockManager(initialSize),
+        character({0.0f, 0.0f}, characterTexture, blockManager, this),
+        world(character, blockManager, generator),
+        camera(this,character,blockManager)
+        {
+            setWorldViewSize(initialSize);
             init();
         }
 
@@ -28,20 +36,6 @@ namespace platformer{
         pauseAction.addKeycodeKeyControl(pauseKey2);
         pauseAction.setInstantaneous();
         addAction(pauseAction);
-
-        // Loading the textures
-        gf::Texture characterTexture("../assets/character_placeholder.png");
-
-        // Creating the main entities
-        platformer::BlockManager blockManager(getWorldView().getSize());
-        platformer::Character character({0.0f, 0.0f}, characterTexture, blockManager, *this);
-        platformer::BasicWorldGenerator generator;
-        platformer::World world(character, blockManager, generator);
-        platformer::Camera camera(*this,character,blockManager);
-
-        // Adding the main entities to the map
-        mainEntities.emplace("world",&world);
-        mainEntities.emplace("character",&character);
 
         // Loading textures
         blockManager.loadTextures();
@@ -60,12 +54,11 @@ namespace platformer{
     }
 
     void GameScene::reset(){
-        dynamic_cast<platformer::World*>(mainEntities["world"])->generate();
-        dynamic_cast<platformer::Character*>(mainEntities["character"])->resetScore();
+        world.generate();
+        character.resetScore();
     }
 
     void GameScene::doUpdate(gf::Time& time) {
-
         // Pause
         if (pauseAction.isActive()) {
             if(isActive()){
@@ -74,10 +67,20 @@ namespace platformer{
             else {
                 manager->popScene();
             }
-        }
+        }/*
         if (isActive()) {
             //Rest of the calls
             gf::Scene::doUpdate(time);
-        }
+        }*/
+    }
+
+    void GameScene::doHandleActions(gf::Window&  window){
+        character.processAcceleration();
+
+        //Adding the user's main inputs
+        character.processInput();
+
+        // Adding other impulse such as jump/dash
+        character.processImpulse();
     }
 }

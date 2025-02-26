@@ -7,15 +7,12 @@
 #include <player/Character.h>
 #include <world/World.h>
 #include <map>
+#include <camera/Camera.h>
+#include "world/generators/basic_generator/BasicWorldGenerator.h"
 
 namespace platformer{
 
     class PlatformerManager; // It fixes issues with cyclic dependancies
-
-    struct MainEntities{
-        platformer::World& world;
-        platformer::Character& character;
-    };
 
     class GameScene : public gf::Scene{
     private :
@@ -24,14 +21,22 @@ namespace platformer{
         platformer::PlatformerManager* manager;
         gf::Action pauseAction {"Pause"};
 
-        // Storing the scene's main entities
-        std::map<std::string,gf::Entity*> mainEntities;
+        // Textures
+        gf::Texture characterTexture;
+
+        // Entities
+        platformer::BlockManager blockManager;
+        platformer::Character character;
+        platformer::BasicWorldGenerator generator;
+        platformer::World world;
+        platformer::Camera camera;
 
         // Initialize the scene and it's main entities
         void init();
 
     protected:
         virtual void doUpdate(gf::Time& time);
+        virtual void doHandleActions(gf::Window&  window);
 
     public :
 

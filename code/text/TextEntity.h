@@ -23,5 +23,7 @@ namespace platformer{
         void setPosition(gf::Vector2f position);
 
         void render (gf::RenderTarget &target, const gf::RenderStates &states) override;
+
+        void update(gf::Time time) override;
     };
 }

@@ -4,7 +4,7 @@
 #include <blocks/BlockManager.h>
 
 namespace platformer{
-    Camera::Camera(gf::Scene& scene, Character& character, BlockManager& blockManager):
+    Camera::Camera(gf::Scene* scene, Character& character, BlockManager& blockManager):
         scene(scene),
         character(character),
         blockManager(blockManager){
@@ -14,7 +14,7 @@ namespace platformer{
 
     void Camera::update(gf::Time time){
         viewPos += (character.getPosition() - viewPos) * EASING * time.asSeconds();
-        scene.setWorldViewCenter(viewPos);
+        scene->setWorldViewCenter(viewPos);
         blockManager.setViewPosition(viewPos);
     }
 

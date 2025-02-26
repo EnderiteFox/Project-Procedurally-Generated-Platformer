@@ -1,3 +1,4 @@
+#pragma once
 #include <gf/Entity.h>
 #include <player/Character.h>
 #include <blocks/BlockManager.h>
@@ -10,14 +11,14 @@ namespace platformer{
     class Camera : public gf::Entity{
     private :
         const double EASING = 3.5;
-        gf::Scene& scene;
+        gf::Scene* scene;
         Character& character;
         BlockManager& blockManager;
 
         gf::Vector2f viewPos;
 
     public :
-        Camera(gf::Scene& scene, Character& character, BlockManager& blockManager);
+        Camera(gf::Scene* scene, Character& character, BlockManager& blockManager);
 
         void update(gf::Time time) override;
     };

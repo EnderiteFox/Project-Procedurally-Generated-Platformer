@@ -17,12 +17,19 @@ namespace platformer{
 
     class Menu : public gf::Scene{
     private:
+        // Main attributes
         static constexpr auto gameStartKey = gf::Scancode::Space;
         platformer::PlatformerManager* manager;
         static constexpr uint charSize = 30;
         bool do_start=false;
 
         gf::Action startAction{"Start"};
+
+        // Texts
+        platformer::TextEntity tooltipText;
+        platformer::TextEntity titleText;
+
+
     protected:
         virtual void doHandleActions (gf::Window& window) override;
         virtual void doUpdate (gf::Time time) override;

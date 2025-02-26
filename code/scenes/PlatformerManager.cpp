@@ -14,8 +14,9 @@ namespace platformer{
         replaceScene(gameScene);
     }
 
-    void PlatformerManager::loadMenu(){
-        replaceScene(menu);
+    void PlatformerManager::loadMenu(bool replace){
+        if (replace ) replaceScene(menu);
+        else pushScene(menu);
     }
 
     void PlatformerManager::loadPause(){
@@ -26,15 +27,14 @@ namespace platformer{
     void PlatformerManager::loadDeathScreen(){}
 
     PlatformerManager::PlatformerManager(const std::string &title, gf::Vector2i size, gf::Flags<gf::WindowHints> hints):
-        charSize(30),
+        gf::SceneManager(title,size,hints),
         font("../assets/fonts/Waffle Cake.otf"),
         gameTitle(title),
-        gf::SceneManager(title,size,hints),
-        gameScene(size, this),
-        menu(size, this),
-        pause(size){
-            gf::Vector2i ScreenSize = gf::Monitor::getPrimaryMonitor().getPhysicalSize();
-
+        charSize(30),
+        ScreenSize(gf::Monitor::getPrimaryMonitor().getPhysicalSize()),
+        gameScene(gameViewSize, this),
+        menu(gameViewSize, this),
+        pause(gameViewSize){
             // Adding the text to the pause scene
             platformer::TextEntity pauseText("The game is Paused!\nPress P or Escape to resume !",
                                      font,
@@ -44,6 +44,6 @@ namespace platformer{
             pauseText.setAnchor(gf::Anchor::Center);
             pause.addHudEntity(pauseText);
 
-            pushScene(gameScene);
+            loadMenu(false);
         }
 }

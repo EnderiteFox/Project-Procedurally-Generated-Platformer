@@ -53,7 +53,7 @@ namespace platformer {
         const float LADDER_FRICTION = 0.075;
 
         BlockManager& blockManager;
-        gf::Scene& gameScene;
+        gf::Scene* gameScene;
 
         gf::Vector2f position;
         gf::Vector2f speed;
@@ -113,7 +113,7 @@ namespace platformer {
     public:
 
         // Constructor
-        Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene& gameScene);
+        Character(gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene* gameScene);
 
         // GF's render and update methods
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;
@@ -140,6 +140,9 @@ namespace platformer {
 
         // Teleports the character to a location given in parameter
         void teleport(gf::Vector2f newPosition);
+
+        // Process the gravity and the air resistance
+        void processAcceleration();
 
         /**
          * Processed the user's inputs.

@@ -33,10 +33,12 @@ namespace platformer{
         prefix.setPosition(getPosition() - getLocalBounds().getSize()/2 - prefix.getLocalBounds().getSize()*gf::Vector2i{1,0});
     }
 
-
-
     void TextEntity::render (gf::RenderTarget &target, const gf::RenderStates &states){
         target.draw(prefix,states);
         target.draw(*this,states);
+    }
+
+    void TextEntity::update(const gf::Time time) {
+        return;
     }
 }

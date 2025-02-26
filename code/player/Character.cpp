@@ -12,7 +12,7 @@
 #include <iostream>
 
 namespace platformer {
-    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene& gameScene):
+    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene* gameScene):
         blockManager(blockManager),
         gameScene(gameScene),
         position(position),
@@ -45,15 +45,15 @@ namespace platformer {
     }
 
     void Character::update(const gf::Time time) {
-        // Calculating acceleration
-        acceleration = gravity + Physics::friction(speed, getDirection());
-        speed += acceleration * time.asSeconds();
+        processAcceleration();
 
         //Adding the user's main inputs
         processInput();
 
         // Adding other impulse such as jump/dash
         processImpulse();
+
+        speed += acceleration * time.asSeconds();
 
         // Getting blocks the character may collide with
         std::vector<std::pair<gf::RectF, std::string>> collisionBlocks = blockManager.getNearbyHitboxes(position, this->size);
@@ -128,10 +128,6 @@ namespace platformer {
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
-
-        // Resetting the actions
-        jumpAction.reset();
-        dashAction.reset();
     }
 
     void Character::setSpeed(const gf::Vector2f speed) {
@@ -181,38 +177,41 @@ namespace platformer {
         leftAction.addScancodeKeyControl(gf::Scancode::A);
         leftAction.addScancodeKeyControl(gf::Scancode::Left);
         leftAction.setContinuous();
-        gameScene.addAction(leftAction);
+        gameScene->addAction(leftAction);
 
         rightAction.addScancodeKeyControl(gf::Scancode::D);
         rightAction.addScancodeKeyControl(gf::Scancode::Right);
         rightAction.setContinuous();
-        gameScene.addAction(rightAction);
+        gameScene->addAction(rightAction);
 
         jumpAction.addScancodeKeyControl(gf::Scancode::Space);
         jumpAction.setInstantaneous();
-        gameScene.addAction(jumpAction);
+        gameScene->addAction(jumpAction);
 
         upAction.addScancodeKeyControl(gf::Scancode::W);
         upAction.addScancodeKeyControl(gf::Scancode::Up);
-        gameScene.addAction(upAction);
+        gameScene->addAction(upAction);
         upAction.setContinuous();
 
         downAction.addScancodeKeyControl(gf::Scancode::S);
         downAction.addScancodeKeyControl(gf::Scancode::Down);
         downAction.setContinuous();
-        gameScene.addAction(downAction);
+        gameScene->addAction(downAction);
 
         dashAction.addScancodeKeyControl(gf::Scancode::Return);
         dashAction.addScancodeKeyControl(gf::Scancode::RightShift);
         dashAction.setInstantaneous();
-        gameScene.addAction(dashAction);
+        gameScene->addAction(dashAction);
     }
 
     void Character::teleport(const gf::Vector2f newPosition){
         position = newPosition;
         speed = gf::Vector2f{0.0f,0.0f};
-        jumpAction.reset();
-        dashAction.reset();
+        acceleration = gf::Vector2f{0.0f,0.0f};
+    }
+
+    void Character::processAcceleration(){
+        acceleration = gravity + Physics::friction(speed, getDirection());
     }
 
     // Determining initial basic inputs (left/right/down)
@@ -251,6 +250,7 @@ namespace platformer {
             }
             else {
                 speed.y = 0;
+                acceleration.y = 0;
             }
         }
 
@@ -302,6 +302,7 @@ namespace platformer {
         if (onWall) {
             jumpCount = 1;
             speed.y = 0;
+            acceleration.y = 0;
             speed.x = 0;
         }
 

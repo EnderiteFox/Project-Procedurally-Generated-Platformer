@@ -10,5 +10,5 @@ cmake ..
 if make
 then
 	clear
-	valgrind ./Platformer
+	./Platformer
 fi
