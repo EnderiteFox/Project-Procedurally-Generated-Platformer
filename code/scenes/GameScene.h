@@ -3,49 +3,44 @@
  */
 #pragma once
 #include <gf/Scene.h>
-#include <text/TextEntity.h>
-#include <player/Character.h>
-#include <world/World.h>
-#include <map>
-#include <camera/Camera.h>
+
+#include "camera/Camera.h"
+#include "player/Character.h"
+#include "text/TextEntity.h"
+#include "world/World.h"
 #include "world/generators/basic_generator/BasicWorldGenerator.h"
 
-namespace platformer{
-
+namespace platformer {
     class PlatformerManager; // It fixes issues with cyclic dependancies
 
-    class GameScene : public gf::Scene{
-    private :
+    class GameScene final : public gf::Scene {
         static constexpr auto pauseKey1 = gf::Keycode::P;
         static constexpr auto pauseKey2 = gf::Keycode::Escape;
-        platformer::PlatformerManager* manager;
+        PlatformerManager* manager;
         gf::Action pauseAction {"Pause"};
 
         // Textures
         gf::Texture characterTexture;
 
         // Entities
-        platformer::BlockManager blockManager;
-        platformer::Character character;
-        platformer::BasicWorldGenerator generator;
-        platformer::World world;
-        platformer::Camera camera;
+        BlockManager blockManager;
+        Character character;
+        BasicWorldGenerator generator;
+        World world;
+        Camera camera;
 
         // Initialize the scene and it's main entities
         void init();
 
     protected:
-        virtual void doUpdate(gf::Time& time);
-        virtual void doHandleActions(gf::Window&  window);
+        void doUpdate(gf::Time& time) const;
+        void doHandleActions(gf::Window& window) override;
 
-    public :
-
-        GameScene (gf::Vector2i initialSize) = delete;
-        GameScene (gf::Vector2i initialSize, platformer::PlatformerManager* manager);
+    public:
+        explicit GameScene(gf::Vector2i initialSize) = delete;
+        GameScene(gf::Vector2i initialSize, PlatformerManager* manager);
 
         // Create a new world and reset the main entities
         void reset();
-
     };
-
 }

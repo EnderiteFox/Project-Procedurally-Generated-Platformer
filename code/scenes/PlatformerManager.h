@@ -5,10 +5,12 @@
 #include <gf/Vector.h>
 #include <scenes/Menu.h>
 
-namespace platformer{
+namespace platformer {
 
-    class PlatformerManager : public gf::SceneManager{
+    class PlatformerManager final : public gf::SceneManager {
     public:
+        virtual ~PlatformerManager() = default;
+
         // Constants used within the other classes
         static constexpr int baseCharacterSize = 30;
         static constexpr gf::Vector2f gameViewSize{100.0f, 100.0f};
@@ -18,7 +20,7 @@ namespace platformer{
         gf::Vector2i ScreenSize;
 
         void loadGame();
-        void loadMenu(bool replace = true);
+        void loadMenu(bool replace=true);
         void loadPause();
         void loadEndScreen();
         void loadDeathScreen();
@@ -26,8 +28,8 @@ namespace platformer{
         PlatformerManager(const std::string &title, gf::Vector2i size, gf::Flags<gf::WindowHints> hints=gf::All);
 
     private:
-        platformer::GameScene gameScene;
-        platformer::Menu menu;
+        GameScene gameScene;
+        Menu menu;
         gf::Scene pause;
     };
 }
