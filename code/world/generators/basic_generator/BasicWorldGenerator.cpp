@@ -30,7 +30,6 @@ namespace platformer {
         for (int i = 0; i < static_cast<int>(path.size()) - 1; ++i) {
             connectPathPoints(world, path.at(i), path.at(i + 1));
         }
-        //debugPath(world);
 
         // Generate fake platforms
         for (const gf::Vector4i room : rooms) {
@@ -53,6 +52,9 @@ namespace platformer {
 
         // Place the exit at the last path point
         world.getBlockManager().setBlockTypeAt(path.back(), EXIT_BLOCK);
+
+        // Debug the path
+        //debugPath(world);
     }
 
     void BasicWorldGenerator::generateRooms() {
@@ -192,7 +194,7 @@ namespace platformer {
             }
             else {
                 path.push_back(gf::Vector2i{
-                    random.computeUniformInteger(0, room.w - 1),
+                    room.x + random.computeUniformInteger(0, room.w - 1),
                     room.y + random.computeUniformInteger(1, room.z - 1)
                 });
             }
