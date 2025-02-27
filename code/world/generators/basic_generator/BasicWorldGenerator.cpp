@@ -493,6 +493,9 @@ namespace platformer {
 
     void BasicWorldGenerator::makeSomeRoomsDangerous(const World& world) {
         for (const gf::Vector4i room : rooms) {
+            // Skip last room to make it always safe
+            if (room == rooms.back()) continue;
+
             if (random.computeUniformFloat(0.0, 1.0) <= DANGEROUS_ROOM_CHANCE) makeRoomDangerous(world, room);
             placeSmallTraps(world, room);
         }
