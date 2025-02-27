@@ -6,7 +6,7 @@
 #include <player/Character.h>
 #include <gf/Rect.h>
 #include <gf/Shapes.h>
-#include <gf/Scene.h>
+#include <scenes/GameScene.h>
 #include <blocks/BlockTypes.h>
 
 #include <iostream>
@@ -19,8 +19,8 @@ namespace platformer {
         speed(),
         acceleration(),
         isDead(false) {
-        this->sprite.setTexture(texture);
-        sprite.setPosition(position);
+            this->sprite.setTexture(texture);
+            sprite.setPosition(position);
     }
 
     void Character::render(gf::RenderTarget& target, const gf::RenderStates& states) {
@@ -34,6 +34,10 @@ namespace platformer {
         direction.x = speed.x / (std::abs(speed.x) < 0.001 ? 1 : std::abs(speed.x));
         direction.y = speed.y / (std::abs(speed.y) < 0.001 ? 1 : std::abs(speed.y));
         return direction;
+    }
+
+    int Character::getScore() const{
+        return score;
     }
 
     bool Character::isOnGround() const {
@@ -70,6 +74,11 @@ namespace platformer {
         // Collisions computing
         const collisionData collisionVector = Physics::collide(*this, collisionBlocks);
         speed += collisionVector.collision + collisionVector.friction;
+
+        // Checking if we touched the exit
+        if(collisionVector.flags.find("exit") != collisionVector.flags.end()){
+            static_cast<platformer::GameScene*>(gameScene)->endGame();
+        }
 
         // Update last time we touched the ground
         if (collisionVector.collision.y < 0) {

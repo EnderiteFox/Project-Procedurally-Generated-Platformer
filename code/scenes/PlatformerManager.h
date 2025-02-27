@@ -5,6 +5,7 @@
 #include <gf/Vector.h>
 #include <scenes/Menu.h>
 #include <scenes/PauseScene.h>
+#include <scenes/EndScene.h>
 
 namespace platformer {
 
@@ -24,8 +25,7 @@ namespace platformer {
         void loadMenu(bool replace=true);
         void loadPause();
         void unPause();
-        void loadEndScreen();
-        void loadDeathScreen();
+        void loadEndScreen(int score, bool isVictory);
 
         PlatformerManager(const std::string &title, gf::Vector2i size, gf::Flags<gf::WindowHints> hints=gf::All);
 
@@ -33,5 +33,6 @@ namespace platformer {
         GameScene gameScene;
         Menu menu;
         PauseScene pause;
+        EndScene endScreen;
     };
 }

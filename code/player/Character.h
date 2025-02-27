@@ -19,13 +19,14 @@
 #include <gf/Entity.h>
 #include <gf/Sprite.h>
 #include <gf/Vector.h>
-#include <gf/Rect.h>
 #include <world/World.h>
+#include <gf/Rect.h>
 #include <gf/Scene.h>
 #include <set>
 
 
 namespace platformer {
+
     class Character final : public gf::Entity {
         /**
          * Main constants relating to the physics of the character :
@@ -76,6 +77,7 @@ namespace platformer {
                 if(a.x == b.x){
                     return (a.y < b.y);
                 }
+                return false;
             }
         };
 
@@ -127,6 +129,7 @@ namespace platformer {
         gf::RectF getHitbox() const;
         gf::RectF getSidedHitbox(gf::Vector2f direction) const;
         gf::Vector2f getDirection() const;
+        int getScore() const;
         void resetScore(); // Puts the score back to 0
 
         // Tests if a collision has been detected between the player and the a block beneath it during the current frame

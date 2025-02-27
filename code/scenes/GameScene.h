@@ -42,5 +42,7 @@ namespace platformer {
 
         // Create a new world and reset the main entities
         void reset();
+
+        void endGame();
     };
 }

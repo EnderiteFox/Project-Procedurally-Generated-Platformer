@@ -20,6 +20,7 @@ namespace platformer {
     , characterTexture("../assets/character_placeholder.png")
     , blockManager(initialSize)
     , character({0.0f, 0.0f}, characterTexture, blockManager, this)
+    , generator()//(22715912219893775u) // forced seed
     , world(character, blockManager, generator)
     , camera(this,character,blockManager)
     {
@@ -69,5 +70,9 @@ namespace platformer {
 
         // Adding other impulse such as jump/dash
         character.processImpulse();
+    }
+
+    void GameScene::endGame(){
+        manager->loadEndScreen(character.getScore(),true);
     }
 }

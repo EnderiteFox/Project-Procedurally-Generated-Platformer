@@ -13,6 +13,7 @@
 #include "generators/WorldGenerator.h"
 
 namespace platformer {
+
     class Character;
 
     class World final : public gf::Entity {

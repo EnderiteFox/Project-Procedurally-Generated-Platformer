@@ -10,5 +10,5 @@
     <platform type="jellyPlatform" texture="platform_jelly.png" staticFriction="0.8" dynamicFriction="0.8" restitution="2" collidable="true" direction="up" hitboxHeight="0.175" hitboxWidth="1.05"/>
     <hazard type="basicSpike" texture="spike.png" hitboxHeight="0.4" hitboxWidth="0.875" hitboxOffsetY="0.6"/>
     <pick_up type="nut" texture="nut.png" scale="0.02" hitboxHeight="0.4" hitboxWidth="0.4" hitboxOffsetY="0.15" hitboxOffsetX="0.1"/>
-    <block type="exit" texture="exit.png" hitboxHeight="0.75" hitboxWidth="0.75" hitboxOffsetX="0.125" hitboxOffsetY="0.125"/>
+    <exit type="exit" texture="exit.png" hitboxHeight="0.75" hitboxWidth="0.75" hitboxOffsetX="0.125" hitboxOffsetY="0.125"/>
 </tiles>

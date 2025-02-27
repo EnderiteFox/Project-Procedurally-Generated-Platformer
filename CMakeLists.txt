@@ -28,6 +28,7 @@ add_executable(Platformer
         code/scenes/GameScene.cpp
         code/scenes/Menu.cpp
         code/scenes/PauseScene.cpp
+        code/scenes/EndScene.cpp
         #Third party librairies
         librairies/pugixml-1.14/src/pugixml.cpp
 )

@@ -27,8 +27,11 @@ namespace platformer{
         popScene();
     }
 
-    void PlatformerManager::loadEndScreen() {}
-    void PlatformerManager::loadDeathScreen() {}
+    void PlatformerManager::loadEndScreen(int score, bool isVictory) {
+        endScreen.load(score,isVictory);
+        replaceScene(endScreen);
+        gameScene.reset();
+    }
 
     PlatformerManager::PlatformerManager(const std::string &title, const gf::Vector2i size, const gf::Flags<gf::WindowHints> hints)
     : SceneManager(title, size, hints)
@@ -39,6 +42,7 @@ namespace platformer{
     , gameScene(gameViewSize, this)
     , menu(gameViewSize, this)
     , pause(ScreenSize, this)
+    , endScreen(gameViewSize,this)
     {
         loadMenu(false);
     }
