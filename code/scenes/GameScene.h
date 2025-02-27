@@ -14,8 +14,6 @@ namespace platformer {
     class PlatformerManager; // It fixes issues with cyclic dependancies
 
     class GameScene final : public gf::Scene {
-        static constexpr auto pauseKey1 = gf::Keycode::P;
-        static constexpr auto pauseKey2 = gf::Keycode::Escape;
         PlatformerManager* manager;
         gf::Action pauseAction {"Pause"};
 
@@ -33,10 +31,12 @@ namespace platformer {
         void init();
 
     protected:
-        void doUpdate(gf::Time& time) const;
         void doHandleActions(gf::Window& window) override;
 
     public:
+        static constexpr auto pauseKey1 = gf::Keycode::P;
+        static constexpr auto pauseKey2 = gf::Keycode::Escape;
+
         explicit GameScene(gf::Vector2i initialSize) = delete;
         GameScene(gf::Vector2i initialSize, PlatformerManager* manager);
 

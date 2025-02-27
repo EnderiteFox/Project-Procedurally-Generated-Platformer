@@ -4,6 +4,7 @@
 #include <gf/SceneManager.h>
 #include <gf/Vector.h>
 #include <scenes/Menu.h>
+#include <scenes/PauseScene.h>
 
 namespace platformer {
 
@@ -22,6 +23,7 @@ namespace platformer {
         void loadGame();
         void loadMenu(bool replace=true);
         void loadPause();
+        void unPause();
         void loadEndScreen();
         void loadDeathScreen();
 
@@ -30,6 +32,6 @@ namespace platformer {
     private:
         GameScene gameScene;
         Menu menu;
-        gf::Scene pause;
+        PauseScene pause;
     };
 }
