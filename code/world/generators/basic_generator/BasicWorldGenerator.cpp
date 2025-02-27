@@ -5,20 +5,23 @@
 #include <world/World.h>
 
 namespace platformer {
-    BasicWorldGenerator::BasicWorldGenerator(): WorldGenerator() {
-    }
+    BasicWorldGenerator::BasicWorldGenerator()
+    : WorldGenerator()
+    {}
 
-    BasicWorldGenerator::BasicWorldGenerator(const uint64_t forcedSeed): WorldGenerator(forcedSeed) {
-    }
+    BasicWorldGenerator::BasicWorldGenerator(const uint64_t forcedSeed)
+    : WorldGenerator(forcedSeed)
+    {}
 
 
     void BasicWorldGenerator::generate(World& world) {
         std::cout << "Generating seed " << seed << "\n";
+
         generateRooms();
         if (rooms.empty()) return;
         fillWorld(world);
         carveRooms(world);
-        generatePath();
+        generatePath(world);
 
         // Generate a ladder from the first path point
         growLadder(world, path.at(0));
@@ -171,12 +174,28 @@ namespace platformer {
     }
 
 
-    void BasicWorldGenerator::generatePath() {
+    void BasicWorldGenerator::generatePath(const World& world) {
         for (const gf::Vector4i room : rooms) {
-            path.push_back(gf::Vector2i{
-                room.x + random.computeUniformInteger(0, room.w - 1),
-                room.y + random.computeUniformInteger(1, room.z - 1)
-            });
+
+            // Make the last path point generate on the ground
+            if (room == rooms.back()) {
+                // To generate the path on the ground, find a valid spawnpoint
+                // The point will generate on the ground if possible, otherwise it will find another safe spot to place the point on
+                // If no safe spot can be found, the room will be skipped and no path point will be added
+                // In the case of generating the exit in the last room, the new last room will be the previous room
+                if (
+                    std::optional<gf::Vector2f> posOpt = findValidSpawnpoint(world, room);
+                    posOpt.has_value()
+                ) {
+                    path.push_back(BlockManager::toBlockSpace(posOpt.value()));
+                }
+            }
+            else {
+                path.push_back(gf::Vector2i{
+                    random.computeUniformInteger(0, room.w - 1),
+                    room.y + random.computeUniformInteger(1, room.z - 1)
+                });
+            }
         }
     }
 

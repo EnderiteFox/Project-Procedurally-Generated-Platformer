@@ -128,7 +128,7 @@ namespace platformer {
          */
         std::vector<gf::Vector4i> rooms;
 
-        // The point of the path
+        // The points of the path
         std::vector<gf::Vector2i> path;
 
         /**
@@ -167,8 +167,9 @@ namespace platformer {
 
         /**
          * Generates the path for the level
+         * @param world The world to generate the path in
          */
-        void generatePath();
+        void generatePath(const World& world);
 
         /**
          * Places blocks where the path points are for debugging purposes
