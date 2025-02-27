@@ -6,7 +6,7 @@ int main() {
     static gf::Vector2i ScreenSize = gf::Monitor::getPrimaryMonitor().getPhysicalSize();
 
     // Creation of the manager
-    platformer::PlatformerManager manager("Twisted Dreams and Pain", ScreenSize);
+    platformer::PlatformerManager manager("Ladder climbing simulator", ScreenSize);
 
     manager.run();
 
