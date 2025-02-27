@@ -19,6 +19,12 @@ namespace platformer{
 
     void PlatformerManager::loadPause() {
         pushScene(pause);
+        pause.show();
+    }
+
+    void PlatformerManager::unPause(){
+        gameScene.resume();
+        popScene();
     }
 
     void PlatformerManager::loadEndScreen() {}
@@ -32,18 +38,8 @@ namespace platformer{
     , ScreenSize(gf::Monitor::getPrimaryMonitor().getPhysicalSize())
     , gameScene(gameViewSize, this)
     , menu(gameViewSize, this)
-    , pause(gameViewSize)
+    , pause(ScreenSize, this)
     {
-        // Adding the text to the pause scene
-        TextEntity pauseText(
-            "The game is Paused!\nPress P or Escape to resume !",
-            font,
-            gf::Coordinates(ScreenSize).getCenter(),
-            charSize);
-        pauseText.setColor(gf::Color::Green);
-        pauseText.setAnchor(gf::Anchor::Center);
-        pause.addHudEntity(pauseText);
-
         loadMenu(false);
     }
 }

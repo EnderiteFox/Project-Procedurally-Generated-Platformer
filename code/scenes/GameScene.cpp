@@ -55,19 +55,13 @@ namespace platformer {
         character.resetScore();
     }
 
-    void GameScene::doUpdate(gf::Time& time) const {
-        // Pause
-        if (pauseAction.isActive()) {
-            if (isActive()) {
-                manager->loadPause();
-            }
-            else {
-                manager->popScene();
-            }
-        }
-    }
-
     void GameScene::doHandleActions(gf::Window& window) {
+        if(pauseAction.isActive() && !isPaused()){
+            manager->loadPause();
+            pause();
+            return;
+        }
+
         character.processAcceleration();
 
         //Adding the user's main inputs
