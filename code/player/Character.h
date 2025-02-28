@@ -40,6 +40,7 @@ namespace platformer {
          * MAW_DASH_TIME : Duratin of the dash, in seconds
          * DELAY_BETWEEN_DASH : Delay the character must wait after dashing to dash again
          * CLIMBSPEED : speed at which the character climbs ladders
+         * MAX_LIVES : Number of times the player can die before the game deciding the player has lost
          */
         const gf::Vector2f size {8.0f, 8.0f};
         const gf::Vector2f gravity {0.0f, 150.0f};
@@ -52,6 +53,7 @@ namespace platformer {
         const float DELAY_BETWEEN_DASH = 0.5f;
         const float CLIMBSPEED = 20.0f;
         const float LADDER_FRICTION = 0.075;
+        const int MAX_LIVES = 5;
 
         BlockManager& blockManager;
         gf::Scene* gameScene;
@@ -96,6 +98,7 @@ namespace platformer {
          * isDead : True if the character is dead
          * score : character score, increases when he picks up a nut
          * lives : the number of times the character can die before the game can be considered to be lost (TBA)
+         * immmunityFrames : Time during which the character is not updated
          * collectedNuts : set that stores the coordinates of picked up objects
          */
         bool groundCollision = false;
@@ -111,7 +114,8 @@ namespace platformer {
         float progress = 0.0f;
         bool isDead;
         int score=0;
-        int lives=5;
+        int lives=MAX_LIVES;
+        int immunityFrames=10;
         std::set<gf::Vector2i, Vector2iComparator> collectedNuts;
 
     public:
@@ -134,6 +138,8 @@ namespace platformer {
         int getScore() const;
         int getLives() const;
         void resetScore(); // Puts the score back to 0
+        void resetLives(); // Puts the lives back to 5
+        void addImmunityFrames(int frames);
 
         // Tests if a collision has been detected between the player and the a block beneath it during the current frame
         bool isOnGround() const;

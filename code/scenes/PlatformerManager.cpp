@@ -28,9 +28,9 @@ namespace platformer{
     }
 
     void PlatformerManager::loadEndScreen(int score, bool isVictory) {
+        gameScene.reset();
         endScreen.load(score,isVictory);
         replaceScene(endScreen);
-        gameScene.reset();
     }
 
     PlatformerManager::PlatformerManager(const std::string &title, const gf::Vector2i size, const gf::Flags<gf::WindowHints> hints)

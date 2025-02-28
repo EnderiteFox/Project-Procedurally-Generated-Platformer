@@ -83,6 +83,7 @@ namespace platformer {
     void GameScene::reset() {
         world.generate();
         character.resetScore();
+        character.resetLives();
     }
 
     void GameScene::doHandleActions(gf::Window& window) {
@@ -107,6 +108,6 @@ namespace platformer {
     }
 
     void GameScene::endGame(){
-        manager->loadEndScreen(character.getScore(),true);
+        manager->loadEndScreen(character.getScore(),character.getLives()>0);
     }
 }

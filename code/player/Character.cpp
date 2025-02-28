@@ -53,6 +53,11 @@ namespace platformer {
     }
 
     void Character::update(const gf::Time time) {
+        if(immunityFrames>0){
+            immunityFrames--;
+            return;
+        }
+
         processAcceleration();
 
         //Adding the user's main inputs
@@ -122,11 +127,17 @@ namespace platformer {
             }
         }
 
-
-
-        // Checking if we touched a ladder or a hasard
+        // Checking if we touched a ladder
         isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
-        isDead = collisionVector.flags.find("hazard") != collisionVector.flags.end();
+
+        // Checking if the character died
+        if(collisionVector.flags.find("hazard") != collisionVector.flags.end()){
+            isDead = true;
+            lives--;
+            addImmunityFrames(10); // Prevents the character to die multiple time from touching a single hazard
+            if(lives == 0) static_cast<platformer::GameScene*>(gameScene)->endGame();
+        }
+        else isDead = false;
         canJump = !isOnLadder;
 
         // Friction if we are touching a ladder
@@ -164,6 +175,14 @@ namespace platformer {
 
     void Character::resetScore(){
         score = 0;
+    }
+
+    void Character::resetLives(){
+        lives = MAX_LIVES;
+    }
+
+    void Character::addImmunityFrames(int frames){
+        immunityFrames += frames;
     }
 
     // A hitbox for collisions with directionnal platforms
