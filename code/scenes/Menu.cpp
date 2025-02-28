@@ -28,6 +28,10 @@ namespace platformer{
             startAction.setInstantaneous();
             addAction(startAction);
 
+            quitAction.addScancodeKeyControl(quitKey);
+            quitAction.setInstantaneous();
+            addAction(quitAction);
+
             // Parameters of the texts
             tooltipText.setColor(gf::Color::Green);
             tooltipText.setAnchor(gf::Anchor::Center);
@@ -42,6 +46,9 @@ namespace platformer{
     void Menu::doHandleActions(gf::Window& window) {
         if (startAction.isActive()) {
             do_start = true;
+        }
+        if (quitAction.isActive()){
+            window.close();
         }
     }
 

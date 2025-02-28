@@ -19,11 +19,13 @@ namespace platformer{
     private:
         // Main attributes
         static constexpr auto gameStartKey = gf::Scancode::Space;
+        static constexpr auto quitKey = gf::Scancode::Escape;
         platformer::PlatformerManager* manager;
         static constexpr uint charSize = 30;
         bool do_start=false;
 
         gf::Action startAction{"Start"};
+        gf::Action quitAction{"Quit"};
 
         // Texts
         platformer::TextEntity tooltipText;
