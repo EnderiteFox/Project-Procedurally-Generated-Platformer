@@ -29,12 +29,20 @@ namespace platformer {
                    manager->font,
                    gf::Coordinates(initialSize).getAbsolutePoint({0,0},gf::Anchor::TopLeft),
                    manager->charSize)
+    , lifeDisplay ("x0",
+                   manager->font,
+                   gf::Coordinates(initialSize).getAbsolutePoint({0,40},gf::Anchor::TopLeft),
+                   characterTexture,
+                   manager->charSize)
     {
         setWorldViewSize(initialSize);
 
         // Parameters of the texts
         scoreDisplay.setColor(gf::Color::Green);
         scoreDisplay.setAnchor(gf::Anchor::TopLeft);
+
+        lifeDisplay.setColor(gf::Color::Green);
+        lifeDisplay.setAnchor(gf::Anchor::TopLeft);
 
         init();
     }
@@ -58,7 +66,10 @@ namespace platformer {
         // Texts displayed
         scoreDisplay.setPrefix(scoreTexture);
         scoreDisplay.setPosition(scoreDisplay.getPosition()+
-                                 gf::Vector2f{1.2*scoreDisplay.getPrefixBounds().getWidth()*scoreDisplay.getPrefixScale(),3});
+                                 gf::Vector2f{1.3*scoreDisplay.getPrefixBounds().getWidth()*scoreDisplay.getPrefixScale(),3});
+        lifeDisplay.setPrefixScale(1.5);
+        lifeDisplay.setPosition(lifeDisplay.getPosition()+
+                                 gf::Vector2f{1.3*lifeDisplay.getPrefixBounds().getWidth()*lifeDisplay.getPrefixScale(),0});
 
         // Adding entities
         addWorldEntity(blockManager);
@@ -66,6 +77,7 @@ namespace platformer {
         addWorldEntity(world);
         addHudEntity(camera);
         addHudEntity(scoreDisplay);
+        addHudEntity(lifeDisplay);
     }
 
     void GameScene::reset() {
@@ -91,6 +103,7 @@ namespace platformer {
 
     void GameScene::doUpdate(gf::Time time){
         scoreDisplay.setString("x"+std::to_string(character.getScore()));
+        lifeDisplay.setString("x"+std::to_string(character.getLives()));
     }
 
     void GameScene::endGame(){

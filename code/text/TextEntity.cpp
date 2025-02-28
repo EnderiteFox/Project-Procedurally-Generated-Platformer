@@ -45,7 +45,7 @@ namespace platformer{
 
     void TextEntity::setString(std::string string){
         Text::setString(string);
-        if(showPrefix) Text::setParagraphWidth ((getString().length()*2/3)*getCharacterSize());
+        if(showPrefix) Text::setParagraphWidth ((getString().length()*3/5)*getCharacterSize());
         else Text::setParagraphWidth ((getString().length()/2)*getCharacterSize());
     }
 
@@ -68,5 +68,9 @@ namespace platformer{
 
     float TextEntity::getPrefixScale() const{
         return (1.5*getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y);
+    }
+
+    void TextEntity::setPrefixScale(float scale){
+        prefix.scale(scale);
     }
 }

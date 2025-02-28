@@ -30,6 +30,7 @@ namespace platformer {
 
         // Texts
         platformer::TextEntity scoreDisplay;
+        platformer::TextEntity lifeDisplay;
 
         // Initialize the scene and it's main entities
         void init();

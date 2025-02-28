@@ -37,6 +37,8 @@ namespace platformer{
 
         gf::RectF getPrefixBounds() const;
 
+        void setPrefixScale(float scale);
+
         float getPrefixScale() const;
     };
 }

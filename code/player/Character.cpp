@@ -40,6 +40,10 @@ namespace platformer {
         return score;
     }
 
+    int Character::getLives() const{
+        return lives;
+    }
+
     bool Character::isOnGround() const {
         return lastGroundTouchTime <= COYOTE_JUMP_TIME || isOnLadder;
     }
@@ -114,7 +118,6 @@ namespace platformer {
                     collectedNuts.insert(pos);
                     blockManager.removeBlockAt(pos);
                     score++;
-                    std::cout << "Score: " << score << std::endl;
                 }
             }
         }

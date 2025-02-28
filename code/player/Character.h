@@ -95,6 +95,7 @@ namespace platformer {
          * progress : During a dash, it's direction
          * isDead : True if the character is dead
          * score : character score, increases when he picks up a nut
+         * lives : the number of times the character can die before the game can be considered to be lost (TBA)
          * collectedNuts : set that stores the coordinates of picked up objects
          */
         bool groundCollision = false;
@@ -110,6 +111,7 @@ namespace platformer {
         float progress = 0.0f;
         bool isDead;
         int score=0;
+        int lives=5;
         std::set<gf::Vector2i, Vector2iComparator> collectedNuts;
 
     public:
@@ -130,6 +132,7 @@ namespace platformer {
         gf::RectF getSidedHitbox(gf::Vector2f direction) const;
         gf::Vector2f getDirection() const;
         int getScore() const;
+        int getLives() const;
         void resetScore(); // Puts the score back to 0
 
         // Tests if a collision has been detected between the player and the a block beneath it during the current frame
