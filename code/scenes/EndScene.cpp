@@ -55,7 +55,7 @@ namespace platformer{
     }
 
     void EndScene::load(int score, bool isVictory){
-        scoreText.setString("Votre score : " + std::to_string(score));
+        scoreText.setString("Your score : " + std::to_string(score));
         if(isVictory){
             deathText.kill();
             victoryText.setAlive();

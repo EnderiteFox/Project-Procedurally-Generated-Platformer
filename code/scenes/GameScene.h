@@ -19,6 +19,7 @@ namespace platformer {
 
         // Textures
         gf::Texture characterTexture;
+        gf::Texture scoreTexture;
 
         // Entities
         BlockManager blockManager;
@@ -27,11 +28,15 @@ namespace platformer {
         World world;
         Camera camera;
 
+        // Texts
+        platformer::TextEntity scoreDisplay;
+
         // Initialize the scene and it's main entities
         void init();
 
     protected:
         void doHandleActions(gf::Window& window) override;
+        void doUpdate(gf::Time time) override;
 
     public:
         static constexpr auto pauseKey1 = gf::Keycode::P;

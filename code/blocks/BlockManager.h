@@ -43,6 +43,7 @@ namespace platformer {
         void removeBlockAt(gf::Vector2i pos);
         bool isEmptyBlock(int x, int y) const;
         bool isEmptyBlock(gf::Vector2i pos) const;
+        const gf::Texture& getBlockTextureByName(std::string name) const;
 
         // Updating stored view position
         void setViewPosition(gf::Vector2f ViewPosition);

@@ -5,6 +5,7 @@
 #include <gf/Scene.h>
 #include <gf/SceneManager.h>
 #include <gf/Vector.h>
+#include <gf/Coordinates.h>
 
 #include "camera/Camera.h"
 #include "player/Character.h"
@@ -18,13 +19,23 @@ namespace platformer {
     : Scene(initialSize)
     , manager(manager)
     , characterTexture("../assets/character_placeholder.png")
+    , scoreTexture("../assets/tiles/nut.png")
     , blockManager(initialSize)
     , character({0.0f, 0.0f}, characterTexture, blockManager, this)
     , generator()//(22715912219893775u) // forced seed
     , world(character, blockManager, generator)
     , camera(this,character,blockManager)
+    , scoreDisplay("x0",
+                   manager->font,
+                   gf::Coordinates(initialSize).getAbsolutePoint({0,0},gf::Anchor::TopLeft),
+                   manager->charSize)
     {
         setWorldViewSize(initialSize);
+
+        // Parameters of the texts
+        scoreDisplay.setColor(gf::Color::Green);
+        scoreDisplay.setAnchor(gf::Anchor::TopLeft);
+
         init();
     }
 
@@ -44,11 +55,17 @@ namespace platformer {
         // Character's actions
         character.initInput();
 
+        // Texts displayed
+        scoreDisplay.setPrefix(scoreTexture);
+        scoreDisplay.setPosition(scoreDisplay.getPosition()+
+                                 gf::Vector2f{1.2*scoreDisplay.getPrefixBounds().getWidth()*scoreDisplay.getPrefixScale(),3});
+
         // Adding entities
         addWorldEntity(blockManager);
         addWorldEntity(character);
         addWorldEntity(world);
         addHudEntity(camera);
+        addHudEntity(scoreDisplay);
     }
 
     void GameScene::reset() {
@@ -70,6 +87,10 @@ namespace platformer {
 
         // Adding other impulse such as jump/dash
         character.processImpulse();
+    }
+
+    void GameScene::doUpdate(gf::Time time){
+        scoreDisplay.setString("x"+std::to_string(character.getScore()));
     }
 
     void GameScene::endGame(){

@@ -14,6 +14,9 @@
 namespace platformer{
     class TextEntity : public gf::Entity, public gf::Text{
         gf::Sprite prefix;
+
+        bool showPrefix=false;
+
     public:
 
         TextEntity(std::string string, gf::Font &font, gf::Vector2f position ,unsigned characterSize=30);
@@ -25,5 +28,15 @@ namespace platformer{
         void render (gf::RenderTarget &target, const gf::RenderStates &states) override;
 
         void update(gf::Time time) override;
+
+        void setPrefix(const gf::Texture& texture);
+
+        void setAnchor(gf::Anchor anchor);
+
+        void setString(std::string string);
+
+        gf::RectF getPrefixBounds() const;
+
+        float getPrefixScale() const;
     };
 }

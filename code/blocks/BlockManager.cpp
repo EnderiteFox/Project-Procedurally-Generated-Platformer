@@ -48,6 +48,10 @@ namespace platformer {
         return isEmptyBlock(pos.x, pos.y);
     }
 
+    const gf::Texture& BlockManager::getBlockTextureByName(std::string name) const{
+        return textureMap.find(name)->second;
+    }
+
 
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {

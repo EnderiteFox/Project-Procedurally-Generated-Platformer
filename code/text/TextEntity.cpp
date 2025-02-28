@@ -25,20 +25,48 @@ namespace platformer{
             Text::setAlignment(gf::Alignment::Center);
             Text::setParagraphWidth ((getString().length()*2/3)*characterSize);
             prefix.scale(getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y);
-            prefix.setPosition(getPosition() - getLocalBounds().getSize()/2 - prefix.getLocalBounds().getSize()*gf::Vector2i{1,0});
+            prefix.setPosition(getPosition() - prefix.getLocalBounds().getSize()*gf::Vector2i{1,0});
+            showPrefix=true;
     }
 
     void TextEntity::setPosition(gf::Vector2f position){
         Text::setPosition(position);
-        prefix.setPosition(getPosition() - getLocalBounds().getSize()/2 - prefix.getLocalBounds().getSize()*gf::Vector2i{1,0});
+        prefix.setPosition(getPosition() - getLocalBounds().getSize()/gf::Vector2f{0.8,4});
     }
 
     void TextEntity::render (gf::RenderTarget &target, const gf::RenderStates &states){
-        target.draw(prefix,states);
+        if(showPrefix) target.draw(prefix,states);
         target.draw(*this,states);
     }
 
     void TextEntity::update(const gf::Time time) {
         return;
+    }
+
+    void TextEntity::setString(std::string string){
+        Text::setString(string);
+        if(showPrefix) Text::setParagraphWidth ((getString().length()*2/3)*getCharacterSize());
+        else Text::setParagraphWidth ((getString().length()/2)*getCharacterSize());
+    }
+
+    void TextEntity::setPrefix(const gf::Texture& texture){
+        prefix.setTexture(texture);
+        prefix.scale(1.5*getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y);
+        prefix.setPosition(getPosition());
+        showPrefix=true;
+    }
+
+    gf::RectF TextEntity::getPrefixBounds() const{
+        if(showPrefix) return prefix.getLocalBounds();
+        return gf::RectF::fromPositionSize({0,0},{0,0});
+    }
+
+    void TextEntity::setAnchor(gf::Anchor anchor){
+        Text::setAnchor(anchor);
+        prefix.setAnchor(anchor);
+    }
+
+    float TextEntity::getPrefixScale() const{
+        return (1.5*getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y);
     }
 }
