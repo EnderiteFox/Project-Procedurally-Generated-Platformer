@@ -16,6 +16,7 @@ namespace platformer {
     class GameScene final : public gf::Scene {
         PlatformerManager* manager;
         gf::Action pauseAction {"Pause"};
+        gf::Action FullScreenAction{"FullScreen"};
 
         // Textures
         gf::Texture characterTexture;

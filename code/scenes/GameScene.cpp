@@ -54,6 +54,11 @@ namespace platformer {
         pauseAction.setInstantaneous();
         addAction(pauseAction);
 
+        // Creating the fullscreen action
+        FullScreenAction.addScancodeKeyControl(platformer::Menu::FullScreenKey);
+        FullScreenAction.setInstantaneous();
+        addAction(FullScreenAction);
+
         // Loading textures
         blockManager.loadTextures();
 
@@ -91,6 +96,10 @@ namespace platformer {
             manager->loadPause();
             pause();
             return;
+        }
+
+        if(FullScreenAction.isActive()){
+            window.toggleFullscreen();
         }
 
         character.processAcceleration();

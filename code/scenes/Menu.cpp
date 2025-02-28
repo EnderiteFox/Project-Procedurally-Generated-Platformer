@@ -32,6 +32,10 @@ namespace platformer{
             quitAction.setInstantaneous();
             addAction(quitAction);
 
+            FullScreenAction.addScancodeKeyControl(FullScreenKey);
+            FullScreenAction.setInstantaneous();
+            addAction(FullScreenAction);
+
             // Parameters of the texts
             tooltipText.setColor(gf::Color::Green);
             tooltipText.setAnchor(gf::Anchor::Center);
@@ -49,6 +53,9 @@ namespace platformer{
         }
         if (quitAction.isActive()){
             window.close();
+        }
+        if(FullScreenAction.isActive()){
+            window.toggleFullscreen();
         }
     }
 

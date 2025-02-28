@@ -26,6 +26,7 @@ namespace platformer{
 
         gf::Action startAction{"Start"};
         gf::Action quitAction{"Quit"};
+        gf::Action FullScreenAction{"FullScreen"};
 
         // Texts
         platformer::TextEntity tooltipText;
@@ -36,6 +37,8 @@ namespace platformer{
         virtual void doHandleActions (gf::Window& window) override;
         virtual void doUpdate (gf::Time time) override;
     public :
+        static constexpr auto FullScreenKey = gf::Scancode::F;
+
         Menu (gf::Vector2i initialSize) = delete;
         Menu (gf::Vector2i initialSize, platformer::PlatformerManager* manager);
 
