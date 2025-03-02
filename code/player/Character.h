@@ -37,16 +37,17 @@ namespace platformer {
          * DASH_FACTOR : Dash speed of the character
          * maxSpeed : Maximum horizontal and vertical speed, not considering jumping or dashing
          * COYOTE_JUMP_TIME : Duration after leaving the ground when jumping is still possible
-         * MAW_DASH_TIME : Duratin of the dash, in seconds
+         * MAX_DASH_TIME : Duratin of the dash, in seconds
          * DELAY_BETWEEN_DASH : Delay the character must wait after dashing to dash again
          * CLIMBSPEED : speed at which the character climbs ladders
          * MAX_LIVES : Number of times the player can die before the game deciding the player has lost
+         * TAP_DELAY : Maximum delay between the 2 presses for the dash
          */
         const gf::Vector2f size {8.0f, 8.0f};
         const gf::Vector2f gravity {0.0f, 150.0f};
         const float ACCELERATION = 5.0f;
         const float JUMP_FACTOR = 100.0f;
-        const float DASH_FACTOR = 50.0f;
+        const float DASH_FACTOR = 20.0f;
         const gf::Vector2f maxSpeed {40.0f, 80.0f};
         const float COYOTE_JUMP_TIME = 0.1f;
         const float MAX_DASH_TIME = 0.1f;
@@ -54,6 +55,7 @@ namespace platformer {
         const float CLIMBSPEED = 20.0f;
         const float LADDER_FRICTION = 0.075;
         const int MAX_LIVES = 5;
+        const float TAP_DELAY=0.5f;
 
         BlockManager& blockManager;
         gf::Scene* gameScene;
@@ -68,7 +70,6 @@ namespace platformer {
         gf::Action jumpAction {"Jump"};
         gf::Action upAction {"Up"};
         gf::Action downAction {"Down"};
-        gf::Action dashAction {"Dash"};
 
         //vector2i comparator for collected objects set
         struct Vector2iComparator {
@@ -87,36 +88,46 @@ namespace platformer {
          * Variables used to test the character state :
          * lastGroundTouchTime : Last time the character collided with the ground
          * jumpCount : Remaining jump the character can do before landing
-         * dashStart : Frames elapsed since the character began to dash (used during a dash)
-         * dashDelay : Time remaining before the character can dash again
          * isOnLadder : True if the character is currently colliding with a ladder
          * goThroughPlatforms : True if the character is currently trying to go through platforms
          * onWall : True if the character is colliding with a wall
          * canJump : True if the character can jump (used for ladders)
-         * dash : True if the character is currently dashing. Used to know if we can start the 'dashStart' counter
          * progress : During a dash, it's direction
          * isDead : True if the character is dead
          * score : character score, increases when he picks up a nut
          * lives : the number of times the character can die before the game can be considered to be lost (TBA)
          * immmunityFrames : Time during which the character is not updated
          * collectedNuts : set that stores the coordinates of picked up objects
+         * rightPressed : True if right is pressed
+         * leftPressed : True if left is pressed
+         * tapDelay : Time time to press right/left again (decrease)
+         * betweenDash :Time remaining before the character can dash again (decrease)
+         * dashStart : Frames elapsed since the character began to dash (decrease)
+         * dash :True if the character is currently dashing
+         * direction : direction for the dash
+         * release : if right/left is released
          */
         bool groundCollision = false;
         float lastGroundTouchTime = COYOTE_JUMP_TIME + 1;
         int jumpCount = 0;
-        float dashStart = 0;
-        float dashDelay = 0;
         bool isOnLadder = false;
         bool goThroughPlatforms = false;
         bool onWall = false;
         bool canJump = true;
-        bool dash = false;
         float progress = 0.0f;
         bool isDead;
         int score=0;
         int lives=MAX_LIVES;
         int immunityFrames=10;
         std::set<gf::Vector2i, Vector2iComparator> collectedNuts;
+        bool rightPressed=false;
+        bool leftPressed=false;
+        float tapDelay=0.0f;
+        float betweenDash=0.0f;
+        float dashStart=0.0f;
+        bool dash=false;
+        float direction;
+        bool release=false;
 
     public:
 

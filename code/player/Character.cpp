@@ -144,10 +144,9 @@ namespace platformer {
         if (isOnLadder) speed.x *= 1 - LADDER_FRICTION;
 
         // Update dash time
-        if (dash) {
-            dashStart += time.asSeconds();
-        }
-        dashDelay -= time.asSeconds();
+        tapDelay -= time.asSeconds();
+        betweenDash -= time.asSeconds();
+        dashStart -= time.asSeconds();
 
         // Adding the speed to the position
         position += speed * time.asSeconds() + collisionVector.correction;
@@ -229,10 +228,6 @@ namespace platformer {
         downAction.setContinuous();
         gameScene->addAction(downAction);
 
-        dashAction.addScancodeKeyControl(gf::Scancode::Return);
-        dashAction.addScancodeKeyControl(gf::Scancode::RightShift);
-        dashAction.setInstantaneous();
-        gameScene->addAction(dashAction);
     }
 
     void Character::teleport(const gf::Vector2f newPosition){
@@ -249,9 +244,9 @@ namespace platformer {
     // "Immediate" inputs such as dash or jump are treated in "processImpulse"
     void Character::processInput() {
         gf::Vector2f charSpeed{0.0f,0.0f};
-        if (rightAction.isActive()) {
+        if (rightAction.isActive() && !dash) {
             charSpeed.x += 1;
-        } else if (leftAction.isActive()) {
+        } else if (leftAction.isActive() && !dash) {
             charSpeed.x -= 1;
         }
         if (downAction.isActive() && !isOnGround() /*&& !jumping*/) {
@@ -306,27 +301,45 @@ namespace platformer {
         }
 
         // Computing dash
-        if (dashAction.isActive() && dashDelay <= 0 && !dash){
-            if (rightAction.isActive() && !leftAction.isActive()) {
-                dashStart = 0;
-                dash = true;
-                jumpSpeed.x += DASH_FACTOR;
-                progress = DASH_FACTOR;
+        if (rightAction.isActive()){
+            leftPressed=false;
+            if (!rightPressed && betweenDash<=0) {
+                rightPressed=true;
+                tapDelay=TAP_DELAY;
+                release=false;
+            }else if (rightPressed && tapDelay>0 && release && betweenDash<=0){
+                dash =true;
+                betweenDash=DELAY_BETWEEN_DASH;
+                dashStart=MAX_DASH_TIME;
+                direction = DASH_FACTOR;
             }
-            else if (leftAction.isActive() && !rightAction.isActive()) {
-                dashStart = 0;
-                dash = true;
-                jumpSpeed.x -= DASH_FACTOR;
-                progress =- DASH_FACTOR;
+        }else if(leftAction.isActive()){
+            rightPressed=false;
+            if (!leftPressed && betweenDash<=0) {
+                leftPressed=true;
+                tapDelay=TAP_DELAY;
+                release=false;
+            }else if (leftPressed && tapDelay>0 && release && betweenDash<=0){
+                dash =true;
+                betweenDash=DELAY_BETWEEN_DASH;
+                dashStart=MAX_DASH_TIME;
+                direction = -DASH_FACTOR;
             }
         }
-        else if (dashStart < MAX_DASH_TIME && dash) {
-            speed.x += progress;
+        if(rightPressed && !rightAction.isActive()){
+            release=true;
+        }else if (leftPressed && !leftAction.isActive()){
+            release=true;
         }
-        else if (dashStart >= DELAY_BETWEEN_DASH) {
-            dashDelay = DELAY_BETWEEN_DASH;
-            dash = false;
-            dashStart = 0;
+        if(dash && dashStart>0){
+            jumpSpeed.x += direction;
+        }
+        if(tapDelay<0){
+            rightPressed=false;
+            leftPressed=false;
+        }
+        if(dashStart<0){
+            dash=false;
         }
 
         // Computing wall jumps
