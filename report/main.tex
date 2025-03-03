@@ -1,0 +1,118 @@
+\documentclass[10pt]{report}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+\usepackage[french]{babel}
+\usepackage[a4paper, left=30mm,right=20mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[T1]{fontenc}
+
+\title{Rapport CO (TCPP2)}
+\date{November 2024}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+\newcommand{\hsp}{\hspace{20pt}}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\renewcommand\thesection{\arabic{section}}
+
+\begin{document}
+
+\begin{titlepage}
+  %\begin{sffamily}
+  \begin{center}
+    \includegraphics[height=25mm]{gfx/OIP.jpg}~\\[3cm]
+
+    \textsc{\LARGE UFR Sciences et technique}\\
+    \textsc{\Large Université de Marine Le pen }\\
+    \textsc{\Large \textbf{Projet}}\\
+    \textsc{\Large L3 Informatique}\\[2.5cm]
+
+    \HRule \\[0.4cm]
+    { \huge \bfseries Jeu de plate-formes avec génération procédurale\\[0.4cm] } % C'est le titre donné par jube, j'y suis pour rien
+
+    \HRule \\[0.6cm]\renewcommand\thesection{\arabic{section}}
+    \textsc{\Large \textbf{Rapport de projet}}\\[1.5cm]
+    \begin{minipage}{\textwidth}
+      \begin{center}\LARGE
+        Kilian \textsc{Jelic} \\
+        Laura \textsc{Jacqueson} \\
+        Théo \textsc{Pariney} \\
+      \end{center}
+    \end{minipage}
+    \vfill
+    % Bottom of the page
+    {\large \ avril 2025}
+
+  \end{center}
+  %\end{sffamily}
+\end{titlepage}
+
+\normalsize
+\pagenumbering{arabic}
+\tableofcontents
+\pagebreak
+\listoffigures
+\pagebreak
+
+\section{Introduction}
+%Le sujet du projet
+%Pourquoi ce projet
+%Qui a réalisé le projet
+%Présentation du plan
+
+\section{Présentation du jeu}
+\subsection{Présentation générale}
+\subsection{Les objectifs du joueur}
+\subsubsection{Les écrous}
+\subsubsection{La sortie}
+\subsection{Les scènes}
+
+\section{Les blocks et entités du monde}
+\subsection{La définition dynamique des blocks}
+% Fichier XML et récupération dans une classe dédiée
+\subsection{Le stockage des blocks}
+% Récupération dans le blockmanager utilisé par le monde
+
+\section{La génération procédurale}
+% Je sais pas trop comment ça se passe, faudrait le remplir
+% Faudra penser à préciser qu'on a commencé par faire un monde "test" avant d'arriver à notre générateur actuel
+% Et aussi à donner les étapes/difficultés avant d'en arriver à un truc qui marche correctement
+
+\section{Le personnage}
+\subsection{Les contrôles de base}
+\subsection{Le saut}
+\subsubsection{Le saut modulable}
+%ça fait partie des choix qu'on a fait puis abandonné, c'est important à mentionner
+\subsubsection{Le double saut}
+\subsection{Le dash}
+%Faudra aussi mentionner qu'on a eu du mal à trouver des contrôles convenables
+\subsection{Le score et les vies}
+
+\section{La physique}
+\subsection{La gestion des collisions}
+\subsubsection{Les propriétés des blocks}
+\subsection{Calcul de la résistance de l'air}
+
+\section{Notre organisation}
+\subsection{La définition des tâches}
+\subsubsection{La répartition du travail}
+\subsection{Les outils utilisés}
+% ça serait important de mentionner qu'on a mis un peu de temps à avoir un trello
+% je pense aussi que l'ordre dans lequel on a mis les outils en place peut être interessant à rajouter
+\subsubsection{Discord}
+\subsubsection{Google Docs} %Pour les idées à la base
+\subsubsection{Trello}
+\subsubsection{Git et Github}
+\subsubsection{IDE}
+% Cette section là elle est marrante parse que personne utilise le même
+\newpage
+
+\section{Conclusion}
+% On a quand même une conclusion ici avant les autres points
+\subsection{Points d'amélioration}
+\subsubsection{Ce qu'on aurait voulu ajouter}
+%c.f le gdoc
+\subsubsection{Wave Function Collapse}
+\subsubsection{Pathfinding amélioré}
+\subsubsection{La physique} % ;-;
+
+
+\end{document}
