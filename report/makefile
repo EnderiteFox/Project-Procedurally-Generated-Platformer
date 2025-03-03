@@ -1,6 +1,9 @@
-all : main.pdf clean
+all : document clean
 
-main.pdf : main.tex
+document : main.dvi
+	pdflatex main.tex main.lof main.toc main.aux > /dev/null
+
+main.dvi : main.tex
 	pdflatex main.tex
 
 clean :
