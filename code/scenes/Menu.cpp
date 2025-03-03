@@ -42,10 +42,10 @@ namespace platformer{
 
         // Parameters of the texts
         tooltipText.setColor(gf::Color::Green);
-        tooltipText.setAnchor(gf::Anchor::Center);
+        tooltipText.setTextAnchor(gf::Anchor::Center);
 
         titleText.setColor(gf::Color::Green);
-        titleText.setAnchor(gf::Anchor::Center);
+        titleText.setTextAnchor(gf::Anchor::Center);
 
         addWorldEntity(titleText);
         addWorldEntity(tooltipText);

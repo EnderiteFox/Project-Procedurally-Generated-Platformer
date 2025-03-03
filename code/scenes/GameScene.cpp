@@ -43,10 +43,10 @@ namespace platformer {
 
         // Parameters of the texts
         scoreDisplay.setColor(gf::Color::Green);
-        scoreDisplay.setAnchor(gf::Anchor::TopLeft);
+        scoreDisplay.setTextAnchor(gf::Anchor::TopLeft);
 
         lifeDisplay.setColor(gf::Color::Green);
-        lifeDisplay.setAnchor(gf::Anchor::TopLeft);
+        lifeDisplay.setTextAnchor(gf::Anchor::TopLeft);
 
         init();
     }
@@ -74,14 +74,14 @@ namespace platformer {
 
         // Texts displayed
         scoreDisplay.setPrefix(scoreTexture);
-        scoreDisplay.setPosition(
+        scoreDisplay.setTextPosition(
             scoreDisplay.getPosition() + gf::Vector2f{
                 static_cast<float>(1.3 * scoreDisplay.getPrefixBounds().getWidth() * scoreDisplay.getPrefixScale()),
                 3
             }
         );
         lifeDisplay.setPrefixScale(1.5);
-        lifeDisplay.setPosition(
+        lifeDisplay.setTextPosition(
             lifeDisplay.getPosition() + gf::Vector2f{
                 static_cast<float>(1.3 * lifeDisplay.getPrefixBounds().getWidth() * lifeDisplay.getPrefixScale()),
                 0

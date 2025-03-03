@@ -1,4 +1,5 @@
 #pragma once
+#include <gf/Font.h>
 #include <scenes/GameScene.h>
 #include <gf/SceneManager.h>
 #include <gf/Vector.h>

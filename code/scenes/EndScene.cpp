@@ -45,16 +45,16 @@ namespace platformer{
 
         // Parameter of the texts
         victoryText.setColor(gf::Color::Green);
-        victoryText.setAnchor(gf::Anchor::Center);
+        victoryText.setTextAnchor(gf::Anchor::Center);
 
         deathText.setColor(gf::Color::Green);
-        deathText.setAnchor(gf::Anchor::Center);
+        deathText.setTextAnchor(gf::Anchor::Center);
 
         scoreText.setColor(gf::Color::Green);
-        scoreText.setAnchor(gf::Anchor::Center);
+        scoreText.setTextAnchor(gf::Anchor::Center);
 
         tooltipText.setColor(gf::Color::Green);
-        tooltipText.setAnchor(gf::Anchor::Center);
+        tooltipText.setTextAnchor(gf::Anchor::Center);
 
         addWorldEntity(victoryText);
         addWorldEntity(scoreText);

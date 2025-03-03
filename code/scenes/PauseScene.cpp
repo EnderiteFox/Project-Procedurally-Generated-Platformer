@@ -19,7 +19,7 @@ namespace platformer {
     {
         // Parameters of the text
         pauseText.setColor(gf::Color::Green);
-        pauseText.setAnchor(gf::Anchor::Center);
+        pauseText.setTextAnchor(gf::Anchor::Center);
         addHudEntity(pauseText);
 
         // Adding the actions

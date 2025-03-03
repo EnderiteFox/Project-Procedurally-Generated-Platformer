@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace platformer{
+namespace platformer {
 
     TextEntity::TextEntity(
         std::string string,
@@ -16,9 +16,9 @@ namespace platformer{
         const gf::Vector2f position,
         const unsigned characterSize
     )
-    : Text(std::move(string),font,characterSize)
+    : Text(std::move(string), font, characterSize)
     {
-        Text::setPosition(position);
+        setTextPosition(position);
         setAlignment(gf::Alignment::Center);
         setParagraphWidth(getString().length() / 2 * characterSize);
     }
@@ -30,9 +30,9 @@ namespace platformer{
         const gf::Texture& texture,
         const unsigned characterSize
     )
-    : Text(std::move(string),font,characterSize)
+    : Text(std::move(string),font, characterSize)
     {
-        Text::setPosition(position);
+        setTextPosition(position);
         prefix.setTexture(texture);
         setAlignment(gf::Alignment::Center);
         setParagraphWidth(getString().length() * 2/3 * characterSize);
@@ -41,8 +41,8 @@ namespace platformer{
         showPrefix = true;
     }
 
-    void TextEntity::setPosition(const gf::Vector2f position) {
-        Text::setPosition(position);
+    void TextEntity::setTextPosition(const gf::Vector2f position) {
+        setPosition(position);
         prefix.setPosition(getPosition() - getLocalBounds().getSize() / gf::Vector2f{0.8,4});
     }
 
@@ -71,8 +71,8 @@ namespace platformer{
         return gf::RectF::fromPositionSize({0,0},{0,0});
     }
 
-    void TextEntity::setAnchor(const gf::Anchor anchor) {
-        Text::setAnchor(anchor);
+    void TextEntity::setTextAnchor(const gf::Anchor anchor) {
+        setAnchor(anchor);
         prefix.setAnchor(anchor);
     }
 

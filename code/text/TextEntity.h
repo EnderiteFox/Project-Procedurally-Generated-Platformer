@@ -20,15 +20,15 @@ namespace platformer {
 
         TextEntity(std::string string, gf::Font &font, gf::Vector2f position, const gf::Texture& texture, unsigned characterSize=30);
 
-        void setPosition(gf::Vector2f position);
+        void setTextPosition(gf::Vector2f position);
 
-        void render (gf::RenderTarget &target, const gf::RenderStates &states) override;
+        void render(gf::RenderTarget &target, const gf::RenderStates &states) override;
 
         void update(gf::Time time) override;
 
         void setPrefix(const gf::Texture& texture);
 
-        void setAnchor(gf::Anchor anchor);
+        void setTextAnchor(gf::Anchor anchor);
 
         void setString(const std::string& string);
 
