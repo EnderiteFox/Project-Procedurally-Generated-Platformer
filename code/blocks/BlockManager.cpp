@@ -9,7 +9,10 @@
 //#define DRAWHITBOXES
 
 namespace platformer {
-    BlockManager::BlockManager(const gf::Vector2f ViewSize): ViewPosition(), ViewSize(ViewSize) {}
+    BlockManager::BlockManager(const gf::Vector2f ViewSize)
+    : ViewPosition()
+    , ViewSize(ViewSize)
+    {}
 
     const float BlockManager::BLOCK_SIZE = 8.0f;
 
@@ -48,14 +51,13 @@ namespace platformer {
         return isEmptyBlock(pos.x, pos.y);
     }
 
-    const gf::Texture& BlockManager::getBlockTextureByName(std::string name) const{
+    const gf::Texture& BlockManager::getBlockTextureByName(const std::string& name) const{
         return textureMap.find(name)->second;
     }
 
-
     void BlockManager::loadTextures() {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {
-            if(blockType.texturePath == "") continue; // Skipping untextured blocks
+            if (blockType.texturePath == "") continue; // Skipping untextured blocks
             textureMap.insert(std::make_pair(blockType.subType, gf::Texture(blockType.texturePath)));
         }
     }

@@ -7,7 +7,7 @@
 #include <cassert>
 
 namespace platformer {
-    std::map<std::string,BlockType> BlockTypes::cache;
+    std::map<std::string, BlockType> BlockTypes::cache;
 
     //Constant declaration
     std::string BlockTypes::PLATFORM_TYPE = "platform";
@@ -26,22 +26,23 @@ namespace platformer {
     std::string BlockTypes::JELLY_PLATFORM = "jellyPlatform";
 
     std::vector<BlockType> BlockTypes::getAllTypes() {
-        if(cache.empty()){
+        if (cache.empty()) {
             parseXML();
         }
 
         std::vector<BlockType> res;
-        for(auto it = cache.begin(); it != cache.end(); ++it){
+        for (auto it = cache.cbegin(); it != cache.cend(); ++it) {
             res.push_back(it->second);
         }
 
         return res;
     }
 
-    void BlockTypes::parseXML(){
+    void BlockTypes::parseXML() {
         //Parsing the file
         pugi::xml_document doc;
-        assert(doc.load_file("../assets/tiles.xml"));
+        const pugi::xml_parse_result parse_result = doc.load_file("../assets/tiles.xml");
+        assert(parse_result);
         const std::string gfxpath = doc.child("tiles").attribute("gfxpath").value();
 
         // Iteration on the nodes one by one, and adding them to the cache
@@ -51,16 +52,17 @@ namespace platformer {
                 (it->attribute("hitboxOffsetX") ? it->attribute("hitboxOffsetX").as_float() : 0) * BlockManager::BLOCK_SIZE,
                 (it->attribute("hitboxOffsetY") ? it->attribute("hitboxOffsetY").as_float() : 0) * BlockManager::BLOCK_SIZE
             };
+
             gf::Vector2f hitBoxSize{
                 (it->attribute("hitboxWidth") ? it->attribute("hitboxWidth").as_float() : 1) * BlockManager::BLOCK_SIZE,
                 (it->attribute("hitboxHeight") ? it->attribute("hitboxHeight").as_float() : 1) * BlockManager::BLOCK_SIZE
             };
 
-            float scale = (it->attribute("scale")? it->attribute("scale").as_float() : 1);
+            float scale = it->attribute("scale")? it->attribute("scale").as_float() : 1;
 
             // Checking which constructor to use depending of the type of block
             if (it->attribute("collidable").as_bool()) {
-                if(it->attribute("direction")){ // The block is directionnal
+                if (it->attribute("direction")) { // The block is directionnal
                     auto type = BlockType(
                         it->name(),
                         it->attribute("type").value(),
@@ -75,11 +77,11 @@ namespace platformer {
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
-                else{ // The block is collidable but not directionnal
+                else { // The block is collidable but not directionnal
                     auto type = BlockType(
                         it->name(),
                         it->attribute("type").value(),
-                        "../"+gfxpath+"/"+it->attribute("texture").value(),
+                        "../" + gfxpath + "/" + it->attribute("texture").value(),
                         it->attribute("staticFriction").as_float(),
                         it->attribute("dynamicFriction").as_float(),
                         it->attribute("restitution").as_float(),
@@ -90,7 +92,7 @@ namespace platformer {
                     cache.emplace(it->attribute("type").value(),type);
                 }
             }
-            else{
+            else {
                 auto type = BlockType( // The block is not collidable
                     it->name(),
                     it->attribute("type").value(),

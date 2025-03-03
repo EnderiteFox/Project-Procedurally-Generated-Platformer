@@ -12,15 +12,17 @@
 #include <iostream>
 
 namespace platformer {
-    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene* gameScene):
-        blockManager(blockManager),
-        gameScene(gameScene),
-        position(position),
-        speed(),
-        acceleration(),
-        isDead(false) {
-            this->sprite.setTexture(texture);
-            sprite.setPosition(position);
+    Character::Character(const gf::Vector2f position, const gf::Texture& texture, BlockManager& blockManager, gf::Scene* gameScene)
+    : blockManager(blockManager)
+    , gameScene(gameScene)
+    , position(position)
+    , speed()
+    , acceleration()
+    , isDead(false)
+    , direction(0)
+    {
+        this->sprite.setTexture(texture);
+        sprite.setPosition(position);
     }
 
     void Character::render(gf::RenderTarget& target, const gf::RenderStates& states) {
@@ -36,11 +38,11 @@ namespace platformer {
         return direction;
     }
 
-    int Character::getScore() const{
+    int Character::getScore() const {
         return score;
     }
 
-    int Character::getLives() const{
+    int Character::getLives() const {
         return lives;
     }
 
@@ -48,12 +50,12 @@ namespace platformer {
         return lastGroundTouchTime <= COYOTE_JUMP_TIME || isOnLadder;
     }
 
-    bool Character::died() const{
+    bool Character::died() const {
         return isDead;
     }
 
     void Character::update(const gf::Time time) {
-        if(immunityFrames>0){
+        if (immunityFrames>0) {
             immunityFrames--;
             return;
         }
@@ -72,21 +74,26 @@ namespace platformer {
         std::vector<std::pair<gf::RectF, std::string>> collisionBlocks = blockManager.getNearbyHitboxes(position, this->size);
 
         // Removing platforms from nearby collisions computing if the player is currently trying to go go through platforms
-        if (goThroughPlatforms) collisionBlocks.erase(std::remove_if(
-            collisionBlocks.begin(),
-            collisionBlocks.end(),
-            [](const std::pair<gf::RectF, std::string>& pair) {
-                return BlockTypes::getBlockTypeByName(pair.second).type == BlockTypes::PLATFORM_TYPE;
-            }
-        ), collisionBlocks.end());
+        if (goThroughPlatforms) {
+            collisionBlocks.erase(
+                std::remove_if(
+                    collisionBlocks.begin(),
+                    collisionBlocks.end(),
+                    [](const std::pair<gf::RectF, std::string>& pair) {
+                        return BlockTypes::getBlockTypeByName(pair.second).type == BlockTypes::PLATFORM_TYPE;
+                    }
+                ),
+                collisionBlocks.end()
+            );
+        }
 
         // Collisions computing
         const collisionData collisionVector = Physics::collide(*this, collisionBlocks);
         speed += collisionVector.collision + collisionVector.friction;
 
         // Checking if we touched the exit
-        if(collisionVector.flags.find("exit") != collisionVector.flags.end()){
-            static_cast<platformer::GameScene*>(gameScene)->endGame();
+        if (collisionVector.flags.find("exit") != collisionVector.flags.end()) {
+            static_cast<GameScene*>(gameScene)->endGame();
         }
 
         // Update last time we touched the ground
@@ -110,7 +117,6 @@ namespace platformer {
             if (collisionVector.collidedBlocks[i].second == "nut") {
                 gf::Vector2i pos = blockManager.toBlockSpace(gf::Vector2f{collisionVector.collidedBlocks[i].first.x, collisionVector.collidedBlocks[i].first.y});
 
-
                 //position correction
                 if (pos.x < 0) {
                     pos.x--;
@@ -131,11 +137,11 @@ namespace platformer {
         isOnLadder = collisionVector.flags.find("ladder") != collisionVector.flags.end();
 
         // Checking if the character died
-        if(collisionVector.flags.find("hazard") != collisionVector.flags.end()){
+        if (collisionVector.flags.find("hazard") != collisionVector.flags.end()) {
             isDead = true;
             lives--;
             addImmunityFrames(10); // Prevents the character to die multiple time from touching a single hazard
-            if(lives == 0) static_cast<platformer::GameScene*>(gameScene)->endGame();
+            if (lives == 0) static_cast<GameScene*>(gameScene)->endGame();
         }
         else isDead = false;
         canJump = !isOnLadder;
@@ -172,15 +178,15 @@ namespace platformer {
         return gf::RectF::fromPositionSize(this->position, this->size);
     }
 
-    void Character::resetScore(){
+    void Character::resetScore() {
         score = 0;
     }
 
-    void Character::resetLives(){
+    void Character::resetLives() {
         lives = MAX_LIVES;
     }
 
-    void Character::addImmunityFrames(int frames){
+    void Character::addImmunityFrames(const int frames) {
         immunityFrames += frames;
     }
 
@@ -189,18 +195,28 @@ namespace platformer {
     // This function is horrendous, but i couldn't find a logic between the direction and the resulting hitbox
     gf::RectF Character::getSidedHitbox(const gf::Vector2f direction) const {
         constexpr float ratio = 0.35f;
-        if(direction == gf::Vector2f{0,-1}) return gf::RectF::fromPositionSize(
-                                                     this->position+this->size*gf::Vector2f{0.0f,1-ratio},
-                                                     this->size * gf::Vector2f{1.0f,ratio});
-        if(direction == gf::Vector2f{0,1})  return gf::RectF::fromPositionSize(
-                                                     this->position,
-                                                     this->size* gf::Vector2f{1.0f,ratio});
-        if(direction == gf::Vector2f{1,0})  return gf::RectF::fromPositionSize(
-                                                     this->position,
-                                                     this->size* gf::Vector2f{ratio,1.0f});
+        if (direction == gf::Vector2f{0,-1}) {
+            return gf::RectF::fromPositionSize(
+                this->position + this->size * gf::Vector2f{0.0f,1-ratio},
+                this->size * gf::Vector2f{1.0f,ratio}
+            );
+        }
+        if (direction == gf::Vector2f{0,1}) {
+            return gf::RectF::fromPositionSize(
+                this->position,
+                this->size * gf::Vector2f{1.0f,ratio}
+            );
+        }
+        if (direction == gf::Vector2f{1,0}) {
+            return gf::RectF::fromPositionSize(
+                this->position,
+                this->size * gf::Vector2f{ratio,1.0f}
+            );
+        }
         return gf::RectF::fromPositionSize(
-                this->position+this->size*gf::Vector2f{0.0f,0.75f},
-                this->size*gf::Vector2f{ratio,1.0f});
+            this->position + this->size * gf::Vector2f{0.0f,0.75f},
+            this->size * gf::Vector2f{ratio,1.0f}
+        );
     }
 
     void Character::initInput() {
@@ -230,13 +246,13 @@ namespace platformer {
 
     }
 
-    void Character::teleport(const gf::Vector2f newPosition){
+    void Character::teleport(const gf::Vector2f newPosition) {
         position = newPosition;
         speed = gf::Vector2f{0.0f,0.0f};
         acceleration = gf::Vector2f{0.0f,0.0f};
     }
 
-    void Character::processAcceleration(){
+    void Character::processAcceleration() {
         acceleration = gravity + Physics::friction(speed, getDirection());
     }
 
@@ -256,10 +272,10 @@ namespace platformer {
         goThroughPlatforms = downAction.isActive();
 
         // Lowering speed to prevent the character from going above maximum speed
-        if (std::abs(speed.x + charSpeed.x * ACCELERATION) > maxSpeed.x){
+        if (std::abs(speed.x + charSpeed.x * ACCELERATION) > maxSpeed.x) {
             charSpeed.x = getDirection().x * maxSpeed.x - speed.x;
         }
-        if (std::abs(speed.y + charSpeed.y * ACCELERATION) > maxSpeed.y){
+        if (std::abs(speed.y + charSpeed.y * ACCELERATION) > maxSpeed.y) {
             charSpeed.y = getDirection().y * maxSpeed.y - speed.y;
         }
 
@@ -301,45 +317,49 @@ namespace platformer {
         }
 
         // Computing dash
-        if (rightAction.isActive()){
-            leftPressed=false;
+        if (rightAction.isActive()) {
+            leftPressed = false;
             if (!rightPressed && betweenDash<=0) {
-                rightPressed=true;
-                tapDelay=TAP_DELAY;
-                release=false;
-            }else if (rightPressed && tapDelay>0 && release && betweenDash<=0){
-                dash =true;
-                betweenDash=DELAY_BETWEEN_DASH;
-                dashStart=MAX_DASH_TIME;
+                rightPressed = true;
+                tapDelay = TAP_DELAY;
+                release = false;
+            }
+            else if (rightPressed && tapDelay > 0 && release && betweenDash <= 0) {
+                dash = true;
+                betweenDash = DELAY_BETWEEN_DASH;
+                dashStart = MAX_DASH_TIME;
                 direction = DASH_FACTOR;
             }
-        }else if(leftAction.isActive()){
-            rightPressed=false;
-            if (!leftPressed && betweenDash<=0) {
-                leftPressed=true;
-                tapDelay=TAP_DELAY;
-                release=false;
-            }else if (leftPressed && tapDelay>0 && release && betweenDash<=0){
-                dash =true;
-                betweenDash=DELAY_BETWEEN_DASH;
-                dashStart=MAX_DASH_TIME;
+        }
+        else if (leftAction.isActive()) {
+            rightPressed = false;
+            if (!leftPressed && betweenDash <= 0) {
+                leftPressed = true;
+                tapDelay = TAP_DELAY;
+                release = false;
+            }
+            else if (leftPressed && tapDelay > 0 && release && betweenDash <= 0) {
+                dash = true;
+                betweenDash = DELAY_BETWEEN_DASH;
+                dashStart = MAX_DASH_TIME;
                 direction = -DASH_FACTOR;
             }
         }
-        if(rightPressed && !rightAction.isActive()){
-            release=true;
-        }else if (leftPressed && !leftAction.isActive()){
-            release=true;
+        if (rightPressed && !rightAction.isActive()) {
+            release = true;
         }
-        if(dash && dashStart>0){
+        else if (leftPressed && !leftAction.isActive()) {
+            release = true;
+        }
+        if (dash && dashStart > 0) {
             jumpSpeed.x += direction;
         }
-        if(tapDelay<0){
-            rightPressed=false;
-            leftPressed=false;
+        if (tapDelay < 0) {
+            rightPressed = false;
+            leftPressed = false;
         }
-        if(dashStart<0){
-            dash=false;
+        if (dashStart < 0) {
+            dash = false;
         }
 
         // Computing wall jumps

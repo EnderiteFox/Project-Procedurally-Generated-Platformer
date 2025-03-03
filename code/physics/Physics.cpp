@@ -15,10 +15,13 @@
 
 
 namespace platformer {
-    collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox, const std::string type) {
+    collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox, const std::string& type) {
         collisionData res;
         BlockType otherBlock = BlockTypes::getBlockTypeByName(type);
-        const gf::RectF charHB = (otherBlock.isDirectionnal)?character.getSidedHitbox(otherBlock.direction):character.getHitbox();
+        const gf::RectF charHB = otherBlock.isDirectional
+            ? character.getSidedHitbox(otherBlock.direction)
+            : character.getHitbox();
+
         if (
             gf::Penetration p;
             collides(charHB,otherHitbox,p)
@@ -28,11 +31,13 @@ namespace platformer {
             res.hasCollisionOccured = true;
             res.flags.insert(otherBlock.type);
             res.collidedBlocks.push_back({otherHitbox.getPosition(),type});
-            if(!otherBlock.isCollidable ||
-               (otherBlock.isDirectionnal && angleTo(p.normal,static_cast<gf::Vector2f>(otherBlock.direction)) + M_PI > 0.1)
-            ){
-                return res;
-            }
+            if (
+                !otherBlock.isCollidable
+                || (
+                    otherBlock.isDirectional
+                    && angleTo(p.normal,static_cast<gf::Vector2f>(otherBlock.direction)) + M_PI > 0.1
+                )
+            ) return res;
 
             // Correction
             constexpr float correctionCoeff = 0.8f;

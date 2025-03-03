@@ -1,7 +1,6 @@
 .idea
 cmake/
 build/
-cmake/
 CMakeFiles/
 docs/
 examples/

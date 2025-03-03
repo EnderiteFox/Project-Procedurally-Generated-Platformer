@@ -22,18 +22,22 @@ namespace platformer {
     , scoreTexture("../assets/tiles/nut.png")
     , blockManager(initialSize)
     , character({0.0f, 0.0f}, characterTexture, blockManager, this)
-    , generator()//(22715912219893775u) // forced seed
+    , generator()
     , world(character, blockManager, generator)
     , camera(this,character,blockManager)
-    , scoreDisplay("x0",
-                   manager->font,
-                   gf::Coordinates(initialSize).getAbsolutePoint({0,0},gf::Anchor::TopLeft),
-                   manager->charSize)
-    , lifeDisplay ("x0",
-                   manager->font,
-                   gf::Coordinates(initialSize).getAbsolutePoint({0,40},gf::Anchor::TopLeft),
-                   characterTexture,
-                   manager->charSize)
+    , scoreDisplay(
+        "x0",
+        manager->font,
+        gf::Coordinates(initialSize).getAbsolutePoint({0,0},gf::Anchor::TopLeft),
+        manager->charSize
+    )
+    , lifeDisplay(
+        "x0",
+        manager->font,
+        gf::Coordinates(initialSize).getAbsolutePoint({0,40},gf::Anchor::TopLeft),
+        characterTexture,
+        manager->charSize
+    )
     {
         setWorldViewSize(initialSize);
 
@@ -55,7 +59,7 @@ namespace platformer {
         addAction(pauseAction);
 
         // Creating the fullscreen action
-        FullScreenAction.addScancodeKeyControl(platformer::Menu::FullScreenKey);
+        FullScreenAction.addScancodeKeyControl(Menu::FullScreenKey);
         FullScreenAction.setInstantaneous();
         addAction(FullScreenAction);
 
@@ -70,11 +74,19 @@ namespace platformer {
 
         // Texts displayed
         scoreDisplay.setPrefix(scoreTexture);
-        scoreDisplay.setPosition(scoreDisplay.getPosition()+
-                                 gf::Vector2f{1.3*scoreDisplay.getPrefixBounds().getWidth()*scoreDisplay.getPrefixScale(),3});
+        scoreDisplay.setPosition(
+            scoreDisplay.getPosition() + gf::Vector2f{
+                static_cast<float>(1.3 * scoreDisplay.getPrefixBounds().getWidth() * scoreDisplay.getPrefixScale()),
+                3
+            }
+        );
         lifeDisplay.setPrefixScale(1.5);
-        lifeDisplay.setPosition(lifeDisplay.getPosition()+
-                                 gf::Vector2f{1.3*lifeDisplay.getPrefixBounds().getWidth()*lifeDisplay.getPrefixScale(),0});
+        lifeDisplay.setPosition(
+            lifeDisplay.getPosition() + gf::Vector2f{
+                static_cast<float>(1.3 * lifeDisplay.getPrefixBounds().getWidth() * lifeDisplay.getPrefixScale()),
+                0
+            }
+        );
 
         // Adding entities
         addWorldEntity(blockManager);
@@ -92,13 +104,13 @@ namespace platformer {
     }
 
     void GameScene::doHandleActions(gf::Window& window) {
-        if(pauseAction.isActive() && !isPaused()){
+        if (pauseAction.isActive() && !isPaused()) {
             manager->loadPause();
             pause();
             return;
         }
 
-        if(FullScreenAction.isActive()){
+        if (FullScreenAction.isActive()) {
             window.toggleFullscreen();
         }
 
@@ -111,12 +123,12 @@ namespace platformer {
         character.processImpulse();
     }
 
-    void GameScene::doUpdate(gf::Time time){
-        scoreDisplay.setString("x"+std::to_string(character.getScore()));
-        lifeDisplay.setString("x"+std::to_string(character.getLives()));
+    void GameScene::doUpdate(gf::Time time) {
+        scoreDisplay.setString("x" + std::to_string(character.getScore()));
+        lifeDisplay.setString("x" + std::to_string(character.getLives()));
     }
 
-    void GameScene::endGame(){
+    void GameScene::endGame() const {
         manager->loadEndScreen(character.getScore(),character.getLives()>0);
     }
 }

@@ -228,6 +228,7 @@ namespace platformer {
          * @param world The world to place blocks in
          * @param startPos The start position of the platform
          * @param direction The direction where the platform will grow
+         * @param collectibleAmount The amount of collectibles to generate on the platform
          */
         void growFakePlatform(const World& world, gf::Vector2i startPos, gf::Vector2i direction, int collectibleAmount);
 

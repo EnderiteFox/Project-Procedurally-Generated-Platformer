@@ -25,7 +25,7 @@ namespace platformer {
      * - flags : Stores the types of all the blocks the character has collided with
      * - collidedBlocks : Vector made of pairs of each blocks the character have collided with and their coordinates
      */
-    struct collisionData{
+    struct collisionData {
         gf::Vector2f collision{0,0};
         gf::Vector2f correction{0,0};
         gf::Vector2f friction{0,0};
@@ -41,7 +41,7 @@ namespace platformer {
             hasCollisionOccured = hasCollisionOccured || other.hasCollisionOccured;
             hasCorrectionOccured = hasCorrectionOccured || other.hasCorrectionOccured;
             flags.merge(other.flags);
-            for(std::pair<gf::Vector2f,std::string> element : other.collidedBlocks){
+            for(std::pair element : other.collidedBlocks) {
                 collidedBlocks.push_back(element);
             }
             return *this;
@@ -62,7 +62,7 @@ namespace platformer {
          *
          * @return the data of the collision (see the comment on collisionData)
          */
-        static collisionData collide(const Character& character, const gf::RectF& otherHitbox, const std::string blockType);
+        static collisionData collide(const Character& character, const gf::RectF& otherHitbox, const std::string& blockType);
 
         /**
          * Tests the collision between a character and blocks

@@ -1,5 +1,4 @@
 #pragma once
-#include <gf/Scene.h>
 #include <scenes/GameScene.h>
 #include <gf/SceneManager.h>
 #include <gf/Vector.h>
@@ -10,6 +9,11 @@
 namespace platformer {
 
     class PlatformerManager final : public gf::SceneManager {
+        GameScene gameScene;
+        Menu menu;
+        PauseScene pause;
+        EndScene endScreen;
+
     public:
         virtual ~PlatformerManager() = default;
 
@@ -24,15 +28,9 @@ namespace platformer {
         void loadGame();
         void loadMenu(bool replace=true);
         void loadPause();
-        void unPause();
+        void unpause();
         void loadEndScreen(int score, bool isVictory);
 
         PlatformerManager(const std::string &title, gf::Vector2i size, gf::Flags<gf::WindowHints> hints=gf::All);
-
-    private:
-        GameScene gameScene;
-        Menu menu;
-        PauseScene pause;
-        EndScene endScreen;
     };
 }

@@ -2,18 +2,20 @@
 
 #include <blocks/BlockTypes.h>
 #include <world/World.h>
-#include <iostream>
 
 namespace platformer {
     void TestGenerator::generate(World& world) {
         BlockManager& blockManager = world.getBlockManager();
+
         for (int i = -5; i <= 5; ++i) {
             blockManager.setBlockTypeAt(i, 0, BlockTypes::getBlockTypeByName("testBlock"));
         }
+
         for (int i = -5; i <= 0; ++i) {
             blockManager.setBlockTypeAt(i, -3, BlockTypes::getBlockTypeByName("iceBlock"));
         }
-        for (int i=0; i<=5; ++i){
+
+        for (int i = 0; i <= 5; ++i) {
             blockManager.setBlockTypeAt(i, -3, BlockTypes::getBlockTypeByName("testPlatform"));
         }
 
@@ -23,7 +25,7 @@ namespace platformer {
         for (int i = 6; i <= 10; ++i) {
             blockManager.setBlockTypeAt(i, 0, BlockTypes::getBlockTypeByName("jellyBlock"));
         }
-        for (int i=-2; i>=-4; --i){
+        for (int i = -2; i >= -4; --i) {
             blockManager.setBlockTypeAt(-6, i, BlockTypes::getBlockTypeByName("testLadder"));
         }
 

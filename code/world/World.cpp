@@ -3,8 +3,11 @@
 #include <blocks/BlockManager.h>
 
 namespace platformer {
-    World::World(Character& player, BlockManager& blockManager, WorldGenerator& generator):
-    generator(generator), blockManager(blockManager), player(player), playerSpawnPoint()
+    World::World(Character& player, BlockManager& blockManager, WorldGenerator& generator)
+    : generator(generator)
+    , blockManager(blockManager)
+    , player(player)
+    , playerSpawnPoint()
     {
         entityContainer.addEntity(blockManager);
         entityContainer.addEntity(player);

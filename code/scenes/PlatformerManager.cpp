@@ -1,12 +1,11 @@
 #include "scenes/PlatformerManager.h"
 
-#include <gf/Coordinates.h>
 #include <gf/Monitor.h>
 #include <gf/Scene.h>
 #include <gf/SceneManager.h>
 #include <gf/Vector.h>
 
-namespace platformer{
+namespace platformer {
 
     void PlatformerManager::loadGame() {
         replaceScene(gameScene);
@@ -22,27 +21,31 @@ namespace platformer{
         pause.show();
     }
 
-    void PlatformerManager::unPause(){
+    void PlatformerManager::unpause() {
         gameScene.resume();
         popScene();
     }
 
-    void PlatformerManager::loadEndScreen(int score, bool isVictory) {
+    void PlatformerManager::loadEndScreen(const int score, const bool isVictory) {
         gameScene.reset();
         endScreen.load(score,isVictory);
         replaceScene(endScreen);
     }
 
-    PlatformerManager::PlatformerManager(const std::string &title, const gf::Vector2i size, const gf::Flags<gf::WindowHints> hints)
+    PlatformerManager::PlatformerManager(
+        const std::string &title,
+        const gf::Vector2i size,
+        const gf::Flags<gf::WindowHints> hints
+    )
     : SceneManager(title, size, hints)
-    , font("../assets/fonts/Waffle Cake.otf")
-    , gameTitle(title)
-    , charSize(30)
-    , ScreenSize(gf::Monitor::getPrimaryMonitor().getPhysicalSize())
     , gameScene(gameViewSize, this)
     , menu(gameViewSize, this)
     , pause(ScreenSize, this)
     , endScreen(gameViewSize,this)
+    , font("../assets/fonts/Waffle Cake.otf")
+    , gameTitle(title)
+    , charSize(30)
+    , ScreenSize(gf::Monitor::getPrimaryMonitor().getPhysicalSize())
     {
         loadMenu(false);
     }

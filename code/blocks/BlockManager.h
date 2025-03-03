@@ -27,7 +27,7 @@ namespace platformer {
         const gf::Vector2f ViewSize;
 
     public:
-        explicit BlockManager(const gf::Vector2f ViewSize);
+        explicit BlockManager(gf::Vector2f ViewSize);
 
         // Size of a block sprite (and hitbox)
         static const float BLOCK_SIZE;
@@ -43,7 +43,7 @@ namespace platformer {
         void removeBlockAt(gf::Vector2i pos);
         bool isEmptyBlock(int x, int y) const;
         bool isEmptyBlock(gf::Vector2i pos) const;
-        const gf::Texture& getBlockTextureByName(std::string name) const;
+        const gf::Texture& getBlockTextureByName(const std::string& name) const;
 
         // Updating stored view position
         void setViewPosition(gf::Vector2f ViewPosition);
@@ -63,7 +63,7 @@ namespace platformer {
          *           - a rectangle corresponding to the block's hitbox
          *           - The subtype of the block, defined by a string
          */
-        std::vector<std::pair<gf::RectF,std::string>> getNearbyHitboxes(gf::Vector2f position, gf::Vector2f size) const;
+        std::vector<std::pair<gf::RectF, std::string>> getNearbyHitboxes(gf::Vector2f position, gf::Vector2f size) const;
 
         // Converts coordinates data to data usable by the block manager
         static gf::Vector2f toWorldSpace(gf::Vector2i vector);

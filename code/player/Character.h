@@ -55,7 +55,7 @@ namespace platformer {
         const float CLIMBSPEED = 20.0f;
         const float LADDER_FRICTION = 0.075;
         const int MAX_LIVES = 5;
-        const float TAP_DELAY=0.5f;
+        const float TAP_DELAY = 0.5f;
 
         BlockManager& blockManager;
         gf::Scene* gameScene;
@@ -75,10 +75,10 @@ namespace platformer {
         struct Vector2iComparator {
             bool operator()(const gf::Vector2i& a, const gf::Vector2i& b) const {
                 if (a.x != b.x){
-                    return (a.x < b.x);
+                    return a.x < b.x;
                 }
                 if(a.x == b.x){
-                    return (a.y < b.y);
+                    return a.y < b.y;
                 }
                 return false;
             }
@@ -116,18 +116,18 @@ namespace platformer {
         bool canJump = true;
         float progress = 0.0f;
         bool isDead;
-        int score=0;
-        int lives=MAX_LIVES;
-        int immunityFrames=10;
+        int score = 0;
+        int lives = MAX_LIVES;
+        int immunityFrames = 10;
         std::set<gf::Vector2i, Vector2iComparator> collectedNuts;
-        bool rightPressed=false;
-        bool leftPressed=false;
-        float tapDelay=0.0f;
-        float betweenDash=0.0f;
-        float dashStart=0.0f;
-        bool dash=false;
+        bool rightPressed = false;
+        bool leftPressed = false;
+        float tapDelay = 0.0f;
+        float betweenDash = 0.0f;
+        float dashStart = 0.0f;
+        bool dash = false;
         float direction;
-        bool release=false;
+        bool release = false;
 
     public:
 

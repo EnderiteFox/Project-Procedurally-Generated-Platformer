@@ -15,7 +15,7 @@ namespace platformer {
 
     class GameScene final : public gf::Scene {
         PlatformerManager* manager;
-        gf::Action pauseAction {"Pause"};
+        gf::Action pauseAction{"Pause"};
         gf::Action FullScreenAction{"FullScreen"};
 
         // Textures
@@ -30,8 +30,8 @@ namespace platformer {
         Camera camera;
 
         // Texts
-        platformer::TextEntity scoreDisplay;
-        platformer::TextEntity lifeDisplay;
+        TextEntity scoreDisplay;
+        TextEntity lifeDisplay;
 
         // Initialize the scene and it's main entities
         void init();
@@ -50,6 +50,6 @@ namespace platformer {
         // Create a new world and reset the main entities
         void reset();
 
-        void endGame();
+        void endGame() const;
     };
 }

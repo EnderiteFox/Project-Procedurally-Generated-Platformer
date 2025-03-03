@@ -57,12 +57,12 @@ namespace platformer {
         const gf::Vector2f hitboxOffset = BlockManager::toWorldSpace(gf::Vector2i(0, 0));
 
         // Constants for directionnal blocks
-        const bool isDirectionnal = false;
+        const bool isDirectional = false;
         const gf::Vector2i direction{0,0};
 
     private:
         // Map indicating the direction of a directionnal block depending of a string used within the XML file
-        std::map<std::string,gf::Vector2i> directionMap{
+        std::map<std::string, gf::Vector2i> directionMap{
             {"up",gf::Vector2i{0,-1}},
             {"down",gf::Vector2i{0,1}},
             {"left",gf::Vector2i{-1,0}},

@@ -3,13 +3,12 @@
 #include <player/Character.h>
 #include <blocks/BlockManager.h>
 #include <gf/Vector.h>
+
 /**
  * Simple class to handle the camera movements to avoid having it in the Main.cpp file
  */
-
 namespace platformer{
-    class Camera : public gf::Entity{
-    private :
+    class Camera final : public gf::Entity {
         const double EASING = 3.5;
         gf::Scene* scene;
         Character& character;

@@ -4,44 +4,76 @@
 
 namespace platformer {
 
-    BlockType::BlockType():
-        type("empty"),
-        subType("empty"),
-        texturePath(""),
-        isCollidable(false) {}
+    BlockType::BlockType()
+    : type("empty")
+    , subType("empty")
+    , texturePath("")
+    , isCollidable(false)
+    {}
 
-    BlockType::BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale):
-        type(std::move(type)),
-        subType(std::move(subType)),
-        texturePath(std::move(texturePath)),
-        isCollidable(false),
-        hitboxSize(hitboxSize),
-        hitboxOffset(hitboxOffset),
-        scale(scale){}
+    BlockType::BlockType(
+        std::string type,
+        std::string subType,
+        std::string texturePath,
+        gf::Vector2f hitboxSize,
+        gf::Vector2f hitboxOffset,
+        float scale
+    )
+    : type(std::move(type))
+    , subType(std::move(subType))
+    , texturePath(std::move(texturePath))
+    , scale(scale)
+    , isCollidable(false)
+    , hitboxSize(hitboxSize)
+    , hitboxOffset(hitboxOffset)
+    {}
 
-    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale):
-        type(std::move(type)),
-        subType(std::move(subType)),
-        texturePath(std::move(texturePath)),
-        isCollidable(true),
-        staticFriction(staticFriction),
-        dynamicFriction(dynamicFriction),
-        restitution(restitution),
-        hitboxSize(hitboxSize),
-        hitboxOffset(hitboxOffset),
-        scale(scale){}
+    BlockType::BlockType(
+        std::string type,
+        std::string subType,
+        std::string texturePath,
+        float staticFriction,
+        float dynamicFriction,
+        float restitution,
+        gf::Vector2f hitboxSize,
+        gf::Vector2f hitboxOffset,
+        float scale
+    )
+    : type(std::move(type))
+    , subType(std::move(subType))
+    , texturePath(std::move(texturePath))
+    , scale(scale)
+    , isCollidable(true)
+    , staticFriction(staticFriction)
+    , dynamicFriction(dynamicFriction)
+    , restitution(restitution)
+    , hitboxSize(hitboxSize)
+    , hitboxOffset(hitboxOffset)
+    {}
 
-    BlockType::BlockType(std::string type, std::string subType ,std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction, float scale):
-        type(std::move(type)),
-        subType(std::move(subType)),
-        texturePath(std::move(texturePath)),
-        isCollidable(true),
-        staticFriction(staticFriction),
-        dynamicFriction(dynamicFriction),
-        restitution(restitution),
-        isDirectionnal(true),
-        hitboxSize(hitboxSize),
-        hitboxOffset(hitboxOffset),
-        direction(directionMap[direction]),
-        scale(scale){}
+    BlockType::BlockType(
+        std::string type,
+        std::string subType,
+        std::string texturePath,
+        float staticFriction,
+        float dynamicFriction,
+        float restitution,
+        gf::Vector2f hitboxSize,
+        gf::Vector2f hitboxOffset,
+        std::string direction,
+        float scale
+    )
+    : type(std::move(type))
+    , subType(std::move(subType))
+    , texturePath(std::move(texturePath))
+    , scale(scale)
+    , isCollidable(true)
+    , staticFriction(staticFriction)
+    , dynamicFriction(dynamicFriction)
+    , restitution(restitution)
+    , hitboxSize(hitboxSize)
+    , hitboxOffset(hitboxOffset)
+    , isDirectional(true)
+    , direction(directionMap[direction])
+    {}
 }
