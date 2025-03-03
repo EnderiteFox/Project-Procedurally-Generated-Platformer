@@ -10,6 +10,17 @@
 namespace platformer {
 
     class PlatformerManager final : public gf::SceneManager {
+    public:
+        gf::Font font;
+
+        // Constants used within the other classes
+        static constexpr int baseCharacterSize = 30;
+        static constexpr gf::Vector2f gameViewSize{100.0f, 100.0f};
+        const std::string gameTitle;
+        int charSize;
+        gf::Vector2i ScreenSize;
+
+    private:
         GameScene gameScene;
         Menu menu;
         PauseScene pause;
@@ -17,14 +28,6 @@ namespace platformer {
 
     public:
         virtual ~PlatformerManager() = default;
-
-        // Constants used within the other classes
-        static constexpr int baseCharacterSize = 30;
-        static constexpr gf::Vector2f gameViewSize{100.0f, 100.0f};
-        gf::Font font;
-        const std::string gameTitle;
-        int charSize;
-        gf::Vector2i ScreenSize;
 
         void loadGame();
         void loadMenu(bool replace=true);

@@ -11,12 +11,12 @@
 namespace platformer {
 
     TextEntity::TextEntity(
-        std::string string,
-        gf::Font &font,
+        const std::string& string,
+        gf::Font& font,
         const gf::Vector2f position,
         const unsigned characterSize
     )
-    : Text(std::move(string), font, characterSize)
+    : Text(string, font, characterSize)
     {
         setTextPosition(position);
         setAlignment(gf::Alignment::Center);

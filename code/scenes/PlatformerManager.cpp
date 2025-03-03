@@ -38,14 +38,14 @@ namespace platformer {
         const gf::Flags<gf::WindowHints> hints
     )
     : SceneManager(title, size, hints)
-    , gameScene(gameViewSize, this)
-    , menu(gameViewSize, this)
-    , pause(ScreenSize, this)
-    , endScreen(gameViewSize,this)
     , font("../assets/fonts/Waffle Cake.otf")
     , gameTitle(title)
     , charSize(30)
     , ScreenSize(gf::Monitor::getPrimaryMonitor().getPhysicalSize())
+    , gameScene(gameViewSize, this)
+    , menu(gameViewSize, this)
+    , pause(ScreenSize, this)
+    , endScreen(gameViewSize,this)
     {
         loadMenu(false);
     }

@@ -16,7 +16,7 @@ namespace platformer {
         bool showPrefix = false;
 
     public:
-        TextEntity(std::string string, gf::Font &font, gf::Vector2f position, unsigned characterSize=30);
+        TextEntity(const std::string& string, gf::Font &font, gf::Vector2f position, unsigned characterSize=30);
 
         TextEntity(std::string string, gf::Font &font, gf::Vector2f position, const gf::Texture& texture, unsigned characterSize=30);
 
