@@ -15,9 +15,9 @@
 
 
 namespace platformer {
-    collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox, const std::string& type) {
+    collisionData Physics::collide(const Character& character, const gf::RectF& otherHitbox, const std::string& blockType) {
         collisionData res;
-        BlockType otherBlock = BlockTypes::getBlockTypeByName(type);
+        BlockType otherBlock = BlockTypes::getBlockTypeByName(blockType);
         const gf::RectF charHB = otherBlock.isDirectional
             ? character.getSidedHitbox(otherBlock.direction)
             : character.getHitbox();
@@ -30,7 +30,7 @@ namespace platformer {
             // Storing the data of the collision
             res.hasCollisionOccured = true;
             res.flags.insert(otherBlock.type);
-            res.collidedBlocks.push_back({otherHitbox.getPosition(),type});
+            res.collidedBlocks.push_back({otherHitbox.getPosition(),blockType});
             if (
                 !otherBlock.isCollidable
                 || (
@@ -55,7 +55,7 @@ namespace platformer {
 
             // Friction resolution
             relativeVelocity = -(character.getSpeed() + res.collision);
-            gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal* gf::Vector2f{1,0}) * p.normal;
+            gf::Vector2f tangent = relativeVelocity - dot(relativeVelocity, p.normal * gf::Vector2f{1,0}) * p.normal;
             if (tangent.x != 0 && tangent.y != 0) {
                 tangent = normalize(tangent);
             }

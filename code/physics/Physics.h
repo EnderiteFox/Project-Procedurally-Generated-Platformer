@@ -31,8 +31,8 @@ namespace platformer {
         gf::Vector2f friction{0,0};
         bool hasCollisionOccured = false;
         bool hasCorrectionOccured = false;
-        std::set<std::string> flags{};
-        std::vector<std::pair<gf::Vector2f,std::string>> collidedBlocks;
+        std::set<std::string> flags;
+        std::vector<std::pair<gf::Vector2f, std::string>> collidedBlocks;
 
         collisionData& operator+=(collisionData& other) {
             collision += other.collision;
@@ -41,7 +41,7 @@ namespace platformer {
             hasCollisionOccured = hasCollisionOccured || other.hasCollisionOccured;
             hasCorrectionOccured = hasCorrectionOccured || other.hasCorrectionOccured;
             flags.merge(other.flags);
-            for(std::pair element : other.collidedBlocks) {
+            for (std::pair element : other.collidedBlocks) {
                 collidedBlocks.push_back(element);
             }
             return *this;
