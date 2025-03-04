@@ -115,16 +115,7 @@ namespace platformer {
         // Checking if we touched a nut
         for (size_t i = 0; i < collisionVector.collidedBlocks.size(); i++) {
             if (collisionVector.collidedBlocks[i].second == "nut") {
-                gf::Vector2i pos = blockManager.toBlockSpace(gf::Vector2f{collisionVector.collidedBlocks[i].first.x, collisionVector.collidedBlocks[i].first.y});
-
-                /*position correction
-                if (pos.x < 0) {
-                    pos.x--;
-                }
-                if (pos.y < 0) {
-                    pos.y--;
-                }*/
-
+                gf::Vector2i pos = blockManager.toBlockSpace(gf::Vector2f{std::round(collisionVector.collidedBlocks[i].first.x), std::round(collisionVector.collidedBlocks[i].first.y)});
                 if (collectedNuts.find(pos) == collectedNuts.end()) {
                     collectedNuts.insert(pos);
                     blockManager.removeBlockAt(pos);
