@@ -7,7 +7,7 @@
  *     - If the room is intersecting another room, another direction and position is chosen
  *     - If placing the room fails too much times, another size of room is chosen
  *     - If even after changing size multiple times, the room still can't generate, then the previous room is removed and re-generated
- * - After rooms are generated, the world is filled with blocks. The type of block is determined using Perlin Noise
+ * - After rooms are generated, the world is filled with blocks.
  * - The rooms are then carved into the blocks
  * - After that, a path is generated
  * - Then all points from the path are connected, going in zig-zags if necessary
