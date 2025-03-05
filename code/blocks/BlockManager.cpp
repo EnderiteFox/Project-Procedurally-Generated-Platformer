@@ -100,7 +100,7 @@ namespace platformer {
     }
 
     int BlockManager::toBlockSpace(const float number) {
-        return static_cast<int>(number / BLOCK_SIZE);
+        return std::round(number / BLOCK_SIZE);
     }
 
     gf::Vector2i BlockManager::toBlockSpace(const gf::Vector2f vector) {

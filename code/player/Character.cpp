@@ -117,13 +117,13 @@ namespace platformer {
             if (collisionVector.collidedBlocks[i].second == "nut") {
                 gf::Vector2i pos = blockManager.toBlockSpace(gf::Vector2f{collisionVector.collidedBlocks[i].first.x, collisionVector.collidedBlocks[i].first.y});
 
-                //position correction
+                /*position correction
                 if (pos.x < 0) {
                     pos.x--;
                 }
                 if (pos.y < 0) {
                     pos.y--;
-                }
+                }*/
 
                 if (collectedNuts.find(pos) == collectedNuts.end()) {
                     collectedNuts.insert(pos);
