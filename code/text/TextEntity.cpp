@@ -5,6 +5,7 @@
 #include <gf/Font.h>
 #include <text/TextEntity.h>
 #include <gf/Sprite.h>
+#include <gf/Coordinates.h>
 
 #include <iostream>
 
@@ -14,13 +15,14 @@ namespace platformer {
         const std::string& string,
         gf::Font& font,
         const gf::Vector2f position,
-        const unsigned characterSize
+        const float characterDimension
     )
-    : Text(string, font, characterSize)
+    : Text(string, font, 30u)
+    , characterDimension(characterDimension)
     {
         setTextPosition(position);
         setAlignment(gf::Alignment::Center);
-        setParagraphWidth(getString().length() / 2 * characterSize);
+        setParagraphWidth(getString().length() / 2 * getCharacterSize());
     }
 
     TextEntity::TextEntity(
@@ -28,14 +30,15 @@ namespace platformer {
         gf::Font &font,
         const gf::Vector2f position,
         const gf::Texture& texture,
-        const unsigned characterSize
+        const float characterDimension
     )
-    : Text(std::move(string),font, characterSize)
+    : Text(string, font, 30u)
+    , characterDimension(characterDimension)
     {
         setTextPosition(position);
         prefix.setTexture(texture);
         setAlignment(gf::Alignment::Center);
-        setParagraphWidth(getString().length() * 2/3 * characterSize);
+        setParagraphWidth(getString().length() * 2/3 * getCharacterSize());
         prefix.scale(getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y);
         prefix.setPosition(getPosition() - prefix.getLocalBounds().getSize() * gf::Vector2i{1,0});
         showPrefix = true;
@@ -48,6 +51,12 @@ namespace platformer {
 
     void TextEntity::render(gf::RenderTarget &target, const gf::RenderStates &states) {
         if(!isHidden){
+            // Updating the character size in function of the context
+            setCharacterSize(gf::Coordinates(target).getRelativeCharacterSize(characterDimension));
+            // Updating the dimension in function of the context
+            if (showPrefix) setParagraphWidth(getString().length() * 3/5 * getCharacterSize());
+            else setParagraphWidth(getString().length() / 2 * getCharacterSize());
+            // Drawing
             if (showPrefix) target.draw(prefix, states);
             target.draw(*this, states);
         }
@@ -57,8 +66,6 @@ namespace platformer {
 
     void TextEntity::setString(const std::string& string) {
         Text::setString(string);
-        if (showPrefix) setParagraphWidth(getString().length() * 3/5 * getCharacterSize());
-        else setParagraphWidth(getString().length() / 2 * getCharacterSize());
     }
 
     void TextEntity::setPrefix(const gf::Texture& texture) {
@@ -94,3 +101,4 @@ namespace platformer {
         isHidden = true;
     }
 }
+

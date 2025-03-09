@@ -21,7 +21,7 @@ namespace platformer{
     , titleText(
         manager->gameTitle,
         manager->font,
-        gf::Coordinates(initialSize).getCenter() * gf::Vector2f{1.0f,-1.0f}, // Don't ask me why it works, i don't fucking know
+        gf::Coordinates(initialSize).getCenter() * gf::Vector2f{-5.0f,-1.0f}, // Don't ask me why it works, i don't fucking know
         manager->charSize * 3
     )
     {

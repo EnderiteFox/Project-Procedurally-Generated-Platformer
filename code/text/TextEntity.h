@@ -4,6 +4,7 @@
 #include <gf/RenderTarget.h>
 #include <gf/Vector.h>
 #include <gf/Sprite.h>
+#include <gf/Vector.h>
 
 /**
  * An entity created to be able to add texts to entity containers
@@ -17,10 +18,12 @@ namespace platformer {
 
         bool isHidden = false;
 
-    public:
-        TextEntity(const std::string& string, gf::Font &font, gf::Vector2f position, unsigned characterSize=30);
+        float characterDimension;
 
-        TextEntity(std::string string, gf::Font &font, gf::Vector2f position, const gf::Texture& texture, unsigned characterSize=30);
+    public:
+        TextEntity(const std::string& string, gf::Font &font, gf::Vector2f position, float characterDimension=5.0f);
+
+        TextEntity(std::string string, gf::Font &font, gf::Vector2f position, const gf::Texture& texture, float characterDimension=5.0f);
 
         void setTextPosition(gf::Vector2f position);
 

@@ -40,7 +40,7 @@ namespace platformer {
     : SceneManager(title, size, hints)
     , font("../assets/fonts/Waffle Cake.otf")
     , gameTitle(title)
-    , charSize(30)
+    , charSize(0.025f)
     , ScreenSize(gf::Monitor::getPrimaryMonitor().getPhysicalSize())
     , gameScene(gameViewSize, this)
     , menu(gameViewSize, this)
