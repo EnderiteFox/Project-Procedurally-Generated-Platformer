@@ -41,10 +41,10 @@ namespace platformer{
         addAction(FullScreenAction);
 
         // Parameters of the texts
-        tooltipText.setColor(gf::Color::Green);
+        tooltipText.setColor(gf::Color::Yellow);
         tooltipText.setTextAnchor(gf::Anchor::Center);
 
-        titleText.setColor(gf::Color::Green);
+        titleText.setColor(gf::Color::Yellow);
         titleText.setTextAnchor(gf::Anchor::Center);
 
         addWorldEntity(titleText);

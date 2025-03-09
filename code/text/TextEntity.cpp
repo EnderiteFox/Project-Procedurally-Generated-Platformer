@@ -47,8 +47,10 @@ namespace platformer {
     }
 
     void TextEntity::render(gf::RenderTarget &target, const gf::RenderStates &states) {
-        if (showPrefix) target.draw(prefix, states);
-        target.draw(*this, states);
+        if(!isHidden){
+            if (showPrefix) target.draw(prefix, states);
+            target.draw(*this, states);
+        }
     }
 
     void TextEntity::update(const gf::Time time) {}
@@ -82,5 +84,13 @@ namespace platformer {
 
     void TextEntity::setPrefixScale(const float scale) {
         prefix.scale(scale);
+    }
+
+    void TextEntity::show(){
+        isHidden = false;
+    }
+
+    void TextEntity::hide(){
+        isHidden = true;
     }
 }

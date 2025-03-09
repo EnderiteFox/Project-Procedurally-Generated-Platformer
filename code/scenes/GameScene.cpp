@@ -42,10 +42,10 @@ namespace platformer {
         setWorldViewSize(initialSize);
 
         // Parameters of the texts
-        scoreDisplay.setColor(gf::Color::Green);
+        scoreDisplay.setColor(gf::Color::Yellow);
         scoreDisplay.setTextAnchor(gf::Anchor::TopLeft);
 
-        lifeDisplay.setColor(gf::Color::Green);
+        lifeDisplay.setColor(gf::Color::Yellow);
         lifeDisplay.setTextAnchor(gf::Anchor::TopLeft);
 
         init();

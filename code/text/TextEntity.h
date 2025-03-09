@@ -15,6 +15,8 @@ namespace platformer {
 
         bool showPrefix = false;
 
+        bool isHidden = false;
+
     public:
         TextEntity(const std::string& string, gf::Font &font, gf::Vector2f position, unsigned characterSize=30);
 
@@ -37,5 +39,9 @@ namespace platformer {
         void setPrefixScale(float scale);
 
         float getPrefixScale() const;
+
+        void show();
+
+        void hide();
     };
 }

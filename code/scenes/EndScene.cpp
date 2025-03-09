@@ -6,6 +6,7 @@
 #include <gf/Vector.h>
 #include <scenes/GameScene.h>
 #include <gf/Monitor.h>
+#include <iostream>
 
 namespace platformer{
     EndScene::EndScene (const gf::Vector2i initialSize, PlatformerManager* manager):
@@ -44,16 +45,16 @@ namespace platformer{
         addAction(menuAction);
 
         // Parameter of the texts
-        victoryText.setColor(gf::Color::Green);
+        victoryText.setColor(gf::Color::Yellow);
         victoryText.setTextAnchor(gf::Anchor::Center);
 
-        deathText.setColor(gf::Color::Green);
+        deathText.setColor(gf::Color::Yellow);
         deathText.setTextAnchor(gf::Anchor::Center);
 
-        scoreText.setColor(gf::Color::Green);
+        scoreText.setColor(gf::Color::Yellow);
         scoreText.setTextAnchor(gf::Anchor::Center);
 
-        tooltipText.setColor(gf::Color::Green);
+        tooltipText.setColor(gf::Color::Yellow);
         tooltipText.setTextAnchor(gf::Anchor::Center);
 
         addWorldEntity(victoryText);
@@ -65,12 +66,12 @@ namespace platformer{
     void EndScene::load(const int score, const bool isVictory) {
         scoreText.setString("Your score : " + std::to_string(score));
         if (isVictory) {
-            deathText.kill();
-            victoryText.setAlive();
+            deathText.hide();
+            victoryText.show();
         }
         else {
-            deathText.setAlive();
-            victoryText.kill();
+            deathText.show();
+            victoryText.hide();
         }
     }
 
