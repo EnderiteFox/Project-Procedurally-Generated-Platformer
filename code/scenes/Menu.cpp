@@ -7,6 +7,9 @@
 #include <scenes/GameScene.h>
 #include <iostream>
 #include <gf/Monitor.h>
+#include <gf/Rect.h>
+#include <gf/Shapes.h>
+
 
 namespace platformer{
     Menu::Menu(const gf::Vector2i initialSize, PlatformerManager* manager)
@@ -15,13 +18,13 @@ namespace platformer{
     , tooltipText(
         "Press space to start",
         manager->font,
-        gf::Coordinates(initialSize).getCenter() * gf::Vector2f{1.0f,1.5f},
+        gf::Vector2f{0.0f,0.0f},
         manager->charSize
         )
     , titleText(
         manager->gameTitle,
         manager->font,
-        gf::Coordinates(initialSize).getCenter() * gf::Vector2f{-5.0f,-1.0f}, // Don't ask me why it works, i don't fucking know
+        gf::Vector2f{0.0f,0.0f},
         manager->charSize * 3
     )
     {
@@ -42,10 +45,12 @@ namespace platformer{
 
         // Parameters of the texts
         tooltipText.setColor(gf::Color::Yellow);
-        tooltipText.setTextAnchor(gf::Anchor::Center);
+        //tooltipText.setTextAnchor(gf::Anchor::Center);
+        tooltipText.setAlignment(gf::Alignment::Center);
 
         titleText.setColor(gf::Color::Yellow);
-        titleText.setTextAnchor(gf::Anchor::Center);
+        //titleText.setTextAnchor(gf::Anchor::Center);
+        titleText.setAlignment(gf::Alignment::Center);
 
         addWorldEntity(titleText);
         addWorldEntity(tooltipText);

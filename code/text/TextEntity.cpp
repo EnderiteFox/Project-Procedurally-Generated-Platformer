@@ -6,6 +6,8 @@
 #include <text/TextEntity.h>
 #include <gf/Sprite.h>
 #include <gf/Coordinates.h>
+#include <gf/Rect.h>
+#include <gf/Shapes.h>
 
 #include <iostream>
 
@@ -19,11 +21,8 @@ namespace platformer {
     )
     : Text(string, font, 30u)
     , characterDimension(characterDimension)
-    {
-        setTextPosition(position);
-        setAlignment(gf::Alignment::Center);
-        setParagraphWidth(getString().length() / 2 * getCharacterSize());
-    }
+    , scalePosition(position)
+    {}
 
     TextEntity::TextEntity(
         std::string string,
@@ -33,32 +32,42 @@ namespace platformer {
         const float characterDimension
     )
     : Text(string, font, 30u)
+    , prefix(texture)
     , characterDimension(characterDimension)
+    , scalePosition(position)
     {
-        setTextPosition(position);
-        prefix.setTexture(texture);
-        setAlignment(gf::Alignment::Center);
-        setParagraphWidth(getString().length() * 2/3 * getCharacterSize());
-        prefix.scale(getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y);
-        prefix.setPosition(getPosition() - prefix.getLocalBounds().getSize() * gf::Vector2i{1,0});
         showPrefix = true;
     }
 
     void TextEntity::setTextPosition(const gf::Vector2f position) {
-        setPosition(position);
-        prefix.setPosition(getPosition() - getLocalBounds().getSize() / gf::Vector2f{0.8,4});
+        scalePosition = position;
     }
 
     void TextEntity::render(gf::RenderTarget &target, const gf::RenderStates &states) {
         if(!isHidden){
-            // Updating the character size in function of the context
-            setCharacterSize(gf::Coordinates(target).getRelativeCharacterSize(characterDimension));
-            // Updating the dimension in function of the context
+            gf::Coordinates coordinatesSystem(target);
+
+            // Calculating the relative character size
+            setCharacterSize(coordinatesSystem.getRelativeCharacterSize(characterDimension));
+
+            // Computing the size of the paragraph with the new relative position and size
             if (showPrefix) setParagraphWidth(getString().length() * 3/5 * getCharacterSize());
-            else setParagraphWidth(getString().length() / 2 * getCharacterSize());
-            // Drawing
-            if (showPrefix) target.draw(prefix, states);
-            target.draw(*this, states);
+            else setParagraphWidth(getString().length() /2 * getCharacterSize());
+
+            // Calculating the relative position
+            setPosition(coordinatesSystem.getRelativePoint(scalePosition));
+
+            // Calculating the prefix's position if necessary
+            if(showPrefix){
+                prefix.setPosition(getPosition() - getLocalBounds().getSize() / gf::Vector2f{0.8,4});
+            }
+
+            // Drawing everything
+            if(showPrefix){
+                target.draw(prefix,states);
+            }
+            target.draw(*this,states);
+
         }
     }
 
@@ -70,23 +79,19 @@ namespace platformer {
 
     void TextEntity::setPrefix(const gf::Texture& texture) {
         prefix.setTexture(texture);
-        prefix.scale(1.5 * getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y);
-        prefix.setPosition(getPosition());
         showPrefix = true;
     }
 
     gf::RectF TextEntity::getPrefixBounds() const {
-        if (showPrefix) return prefix.getLocalBounds();
-        return gf::RectF::fromPositionSize({0,0},{0,0});
+        if(showPrefix) return prefix.getLocalBounds();
     }
 
     void TextEntity::setTextAnchor(const gf::Anchor anchor) {
         setAnchor(anchor);
-        prefix.setAnchor(anchor);
     }
 
     float TextEntity::getPrefixScale() const {
-        return 1.5 * getLocalBounds().getSize().y / prefix.getLocalBounds().getSize().y;
+        return prefix.getScale().x;
     }
 
     void TextEntity::setPrefixScale(const float scale) {

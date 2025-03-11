@@ -20,6 +20,8 @@ namespace platformer {
 
         float characterDimension;
 
+        gf::Vector2f scalePosition;
+
     public:
         TextEntity(const std::string& string, gf::Font &font, gf::Vector2f position, float characterDimension=5.0f);
 
