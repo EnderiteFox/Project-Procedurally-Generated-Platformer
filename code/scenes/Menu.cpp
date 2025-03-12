@@ -18,13 +18,13 @@ namespace platformer{
     , tooltipText(
         "Press space to start",
         manager->font,
-        gf::Vector2f{0.0f,0.0f},
+        gf::Vector2f{0.5f,0.6f},
         manager->charSize
         )
     , titleText(
         manager->gameTitle,
         manager->font,
-        gf::Vector2f{0.0f,0.0f},
+        gf::Vector2f{0.5f,0.4f},
         manager->charSize * 3
     )
     {
@@ -45,15 +45,11 @@ namespace platformer{
 
         // Parameters of the texts
         tooltipText.setColor(gf::Color::Yellow);
-        //tooltipText.setTextAnchor(gf::Anchor::Center);
-        tooltipText.setAlignment(gf::Alignment::Center);
 
         titleText.setColor(gf::Color::Yellow);
-        //titleText.setTextAnchor(gf::Anchor::Center);
-        titleText.setAlignment(gf::Alignment::Center);
 
-        addWorldEntity(titleText);
-        addWorldEntity(tooltipText);
+        addHudEntity(titleText);
+        addHudEntity(tooltipText);
     }
 
     void Menu::doHandleActions(gf::Window& window) {

@@ -22,6 +22,10 @@ namespace platformer {
 
         gf::Vector2f scalePosition;
 
+        gf::Vector2f prefixRelativePosition{0.0f,0.0f};
+
+        gf::Anchor anchor = gf::Anchor::Center;
+
     public:
         TextEntity(const std::string& string, gf::Font &font, gf::Vector2f position, float characterDimension=5.0f);
 
@@ -31,15 +35,13 @@ namespace platformer {
 
         void render(gf::RenderTarget &target, const gf::RenderStates &states) override;
 
-        void update(gf::Time time) override;
+        void updateAnchor(gf::Anchor anchor);
 
         void setPrefix(const gf::Texture& texture);
 
-        void setTextAnchor(gf::Anchor anchor);
+        void setPrefixRelativePosition(const gf::Vector2f position);
 
         void setString(const std::string& string);
-
-        gf::RectF getPrefixBounds() const;
 
         void setPrefixScale(float scale);
 

@@ -15,25 +15,25 @@ namespace platformer{
         victoryText(
             "You win !",
             manager->font,
-            gf::Coordinates(initialSize).getCenter() * gf::Vector2f{1.0f,-1.8f},
+            gf::Vector2f{0.5f,0.4f},
             manager->charSize * 3
         ),
         deathText(
             "You died",
             manager->font,
-            gf::Coordinates(initialSize).getCenter() * gf::Vector2f{1.0f,-1.8f},
+            gf::Vector2f{0.5f,0.4f},
             manager->charSize * 3
         ),
         scoreText(
             "Your score : 0",
             manager->font,
-            gf::Coordinates(initialSize).getCenter() * gf::Vector2f{1.0f,1.0f}, // Don't ask me why it works, i don't fucking know
+            gf::Vector2f{0.5f,0.6f},
             manager->charSize
         ),
         tooltipText(
             "Press space to play again",
             manager->font,
-            gf::Coordinates(initialSize).getCenter() * gf::Vector2f{1.0f,3.0f},
+            gf::Vector2f{0.5f,0.65f},
             manager->charSize*1.2
         )
     {
@@ -46,21 +46,17 @@ namespace platformer{
 
         // Parameter of the texts
         victoryText.setColor(gf::Color::Yellow);
-        victoryText.setTextAnchor(gf::Anchor::Center);
 
         deathText.setColor(gf::Color::Yellow);
-        deathText.setTextAnchor(gf::Anchor::Center);
 
         scoreText.setColor(gf::Color::Yellow);
-        scoreText.setTextAnchor(gf::Anchor::Center);
 
         tooltipText.setColor(gf::Color::Yellow);
-        tooltipText.setTextAnchor(gf::Anchor::Center);
 
-        addWorldEntity(victoryText);
-        addWorldEntity(scoreText);
-        addWorldEntity(deathText);
-        addWorldEntity(tooltipText);
+        addHudEntity(victoryText);
+        addHudEntity(scoreText);
+        addHudEntity(deathText);
+        addHudEntity(tooltipText);
     }
 
     void EndScene::load(const int score, const bool isVictory) {

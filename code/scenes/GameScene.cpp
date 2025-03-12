@@ -28,13 +28,13 @@ namespace platformer {
     , scoreDisplay(
         "x0",
         manager->font,
-        gf::Coordinates(initialSize).getAbsolutePoint({0,0},gf::Anchor::TopLeft),
+        gf::Vector2f{0.015f,0.0070f},
         manager->charSize
     )
     , lifeDisplay(
         "x0",
         manager->font,
-        gf::Coordinates(initialSize).getAbsolutePoint({0,40},gf::Anchor::TopLeft),
+        gf::Vector2f{0.015f,0.040f},
         characterTexture,
         manager->charSize
     )
@@ -43,10 +43,10 @@ namespace platformer {
 
         // Parameters of the texts
         scoreDisplay.setColor(gf::Color::Yellow);
-        scoreDisplay.setTextAnchor(gf::Anchor::TopLeft);
+        scoreDisplay.updateAnchor(gf::Anchor::TopLeft);
 
         lifeDisplay.setColor(gf::Color::Yellow);
-        lifeDisplay.setTextAnchor(gf::Anchor::TopLeft);
+        lifeDisplay.updateAnchor(gf::Anchor::TopLeft);
 
         init();
     }
@@ -74,19 +74,9 @@ namespace platformer {
 
         // Texts displayed
         scoreDisplay.setPrefix(scoreTexture);
-        scoreDisplay.setTextPosition(
-            scoreDisplay.getPosition() + gf::Vector2f{
-                static_cast<float>(1.3 * scoreDisplay.getPrefixBounds().getWidth() * scoreDisplay.getPrefixScale()),
-                3
-            }
-        );
-        lifeDisplay.setPrefixScale(1.5);
-        lifeDisplay.setTextPosition(
-            lifeDisplay.getPosition() + gf::Vector2f{
-                static_cast<float>(1.3 * lifeDisplay.getPrefixBounds().getWidth() * lifeDisplay.getPrefixScale()),
-                0
-            }
-        );
+        scoreDisplay.setPrefixScale(0.12f);
+        lifeDisplay.setPrefixScale(3);
+        lifeDisplay.setPrefixRelativePosition(gf::Vector2f{0.002f,0.0375f});
 
         // Adding entities
         addWorldEntity(blockManager);

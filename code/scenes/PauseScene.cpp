@@ -13,13 +13,14 @@ namespace platformer {
     , pauseText(
         "The game is Paused!\nPress P or Escape to resume !",
         manager->font,
-        gf::Coordinates(initialSize).getCenter(),
-        manager->charSize
+        gf::Vector2f{0.5f,0.5f},
+        manager->charSize*1.5
     )
     {
         // Parameters of the text
         pauseText.setColor(gf::Color::Yellow);
-        pauseText.setTextAnchor(gf::Anchor::Center);
+        pauseText.setAlignment(gf::Alignment::Center);
+        pauseText.setParagraphWidth(650);
         addHudEntity(pauseText);
 
         // Adding the actions
