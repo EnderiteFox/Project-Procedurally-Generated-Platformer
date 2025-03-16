@@ -113,8 +113,8 @@ namespace platformer {
 
 #ifdef DRAWHITBOXES
                 gf::RectangleShape hitbox;
-                hitbox.setSize(BlockTypes::getBlockTypeByName(found->second).hitboxSize);
-                hitbox.setPosition(gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + BlockTypes::getBlockTypeByName(found->second).hitboxOffset);
+                hitbox.setSize(BlockTypes::getBlockTypeByName(found->second.blockType).hitboxSize);
+                hitbox.setPosition(gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + BlockTypes::getBlockTypeByName(found->second.blockType).hitboxOffset);
                 hitbox.setColor(gf::Color::Opaque(0));
                 hitbox.setOutlineColor(gf::Color::Blue);
                 hitbox.setOutlineThickness(0.2f);

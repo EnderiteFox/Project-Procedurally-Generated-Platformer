@@ -78,9 +78,10 @@ namespace platformer {
 
         // Texts displayed
         scoreDisplay.setPrefix(scoreTexture);
-        scoreDisplay.setPrefixScale(0.12f);
-        lifeDisplay.setPrefixScale(3);
-        lifeDisplay.setPrefixRelativePosition(gf::Vector2f{0.002f,0.0375f});
+        scoreDisplay.setPrefixScale(1.4f);
+        scoreDisplay.setPrefixRelativePosition(gf::Vector2f{-0.004f,-0.007f});
+        lifeDisplay.setPrefixScale(0.6f);
+        lifeDisplay.setPrefixRelativePosition(gf::Vector2f{-0.004f,0.025f});
 
         // Adding entities
         addWorldEntity(blockManager);
@@ -93,6 +94,7 @@ namespace platformer {
 
     void GameScene::reset() {
         world.generate();
+        blockManager.updateTextureOffset();
         character.resetScore();
         character.resetLives();
     }
