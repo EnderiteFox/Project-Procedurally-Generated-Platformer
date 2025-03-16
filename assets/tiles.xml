@@ -1,9 +1,9 @@
 <!-- This xml format is done to easily store all the needed informations with little cost -->
 <tiles gfxpath="assets/tiles">
-    <block type="testBlock" texture="tile_classic.png" scale="0.25" staticFriction="0.8" dynamicFriction="0.8" restitution="0.01" collidable="true"/>
+    <block type="testBlock" texture="tile_classic.png" scale="0.25" staticFriction="0.8" dynamicFriction="0.8" restitution="0.01" collidable="true" connected="true"/>
     <block type="pathBlock" texture="tile_path.png"/>
-    <block type="iceBlock" texture="tile_ice.png" scale="0.25" staticFriction="0" dynamicFriction="0" restitution="0.1" collidable="true"/>
-    <block type="jellyBlock" texture="tile_jelly.png" scale="0.25" staticFriction="0.8" dynamicFriction="0.8" restitution="2" collidable="true"/>
+    <block type="iceBlock" texture="tile_ice.png" scale="0.25" staticFriction="0" dynamicFriction="0" restitution="0.1" collidable="true" connected="true"/>
+    <block type="jellyBlock" texture="tile_jelly.png" scale="0.25" staticFriction="0.8" dynamicFriction="0.8" restitution="2" collidable="true" connected="true"/>
     <ladder type="testLadder" texture="ladder.png" scale="0.25" hitboxWidth="0.5" hitboxOffsetX="0.25"/>
     <platform type="testPlatform" texture="platform_classic.png" scale="0.25" staticFriction="0.8" dynamicFriction="0.8" restitution="0.01" collidable="true" direction="up" hitboxHeight="0.175" hitboxWidth="1.05"/>
     <platform type="icePlatform" texture="platform_ice.png" scale="0.25" staticFriction="0" dynamicFriction="0" restitution="0.01" collidable="true" direction="up" hitboxHeight="0.175" hitboxWidth="1.05"/>

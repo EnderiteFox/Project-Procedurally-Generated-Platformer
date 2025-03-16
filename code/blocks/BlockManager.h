@@ -19,9 +19,14 @@ namespace platformer {
 
     class BlockType;
 
+    struct internalBlockData{
+        std::string blockType;
+        uint8_t offset;
+    };
+
     class BlockManager final : public gf::Entity {
-        std::map<std::string, gf::Texture> textureMap;       // Associate a block's subtype to it's texture
-        std::map<std::pair<int, int>, std::string> blockMap; // Associate a position to the subtype of a block
+        std::map<std::string, gf::Texture> textureMap;             // Associate a block's subtype to it's texture
+        std::map<std::pair<int, int>, internalBlockData> blockMap; // Associate a position to the subtype of a block
 
         gf::Vector2f ViewPosition;
         const gf::Vector2f ViewSize;

@@ -73,7 +73,8 @@ namespace platformer {
                         hitBoxSize,
                         hitboxOffset,
                         it->attribute("direction").value(),
-                        scale
+                        scale,
+                        it->attribute("connected").as_bool()
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
@@ -87,7 +88,8 @@ namespace platformer {
                         it->attribute("restitution").as_float(),
                         hitBoxSize,
                         hitboxOffset,
-                        scale
+                        scale,
+                        it->attribute("connected").as_bool()
                     );
                     cache.emplace(it->attribute("type").value(),type);
                 }
@@ -99,7 +101,8 @@ namespace platformer {
                     "../" + gfxpath + "/" + it->attribute("texture").value(),
                     hitBoxSize,
                     hitboxOffset,
-                    scale
+                    scale,
+                    it->attribute("connected").as_bool()
                 );
                 cache.emplace(it->attribute("type").value(),type);
             }

@@ -17,7 +17,8 @@ namespace platformer {
         std::string texturePath,
         gf::Vector2f hitboxSize,
         gf::Vector2f hitboxOffset,
-        float scale
+        float scale,
+        bool isConnected
     )
     : type(std::move(type))
     , subType(std::move(subType))
@@ -26,6 +27,7 @@ namespace platformer {
     , isCollidable(false)
     , hitboxSize(hitboxSize)
     , hitboxOffset(hitboxOffset)
+    , isConnected(isConnected)
     {}
 
     BlockType::BlockType(
@@ -37,7 +39,8 @@ namespace platformer {
         float restitution,
         gf::Vector2f hitboxSize,
         gf::Vector2f hitboxOffset,
-        float scale
+        float scale,
+        bool isConnected
     )
     : type(std::move(type))
     , subType(std::move(subType))
@@ -49,6 +52,7 @@ namespace platformer {
     , restitution(restitution)
     , hitboxSize(hitboxSize)
     , hitboxOffset(hitboxOffset)
+    , isConnected(isConnected)
     {}
 
     BlockType::BlockType(
@@ -61,7 +65,8 @@ namespace platformer {
         gf::Vector2f hitboxSize,
         gf::Vector2f hitboxOffset,
         std::string direction,
-        float scale
+        float scale,
+        bool isConnected
     )
     : type(std::move(type))
     , subType(std::move(subType))
@@ -75,5 +80,6 @@ namespace platformer {
     , hitboxOffset(hitboxOffset)
     , isDirectional(true)
     , direction(directionMap[direction])
+    , isConnected(isConnected)
     {}
 }

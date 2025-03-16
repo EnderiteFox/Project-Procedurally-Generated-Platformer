@@ -34,17 +34,16 @@ namespace platformer {
         // Default contructor, creating an empty block
         BlockType();
         // Simple constructor for non-collidable blocks
-        BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale);
+        BlockType(std::string type, std::string subType, std::string texturePath, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale, bool isConnected);
         // Constructor for normal blocks
-        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale);
+        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, float scale, bool isConnected);
         // Constructor for directionnal blocks
-        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction, float scale);
+        BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction, float scale, bool isConnected);
 
         // Textures and type names
         const std::string type;
         const std::string subType;
         const std::string texturePath;
-        const float scale = 1.0f;
 
         // Set to true if the collision should be resolved or not
         const bool isCollidable;
@@ -59,6 +58,12 @@ namespace platformer {
         // Constants for directionnal blocks
         const bool isDirectional = false;
         const gf::Vector2i direction{0,0};
+
+        // Constant for scaling
+        const float scale = 1.0f;
+
+        // Constant for blocks using spritesheets
+        const bool isConnected = false;
 
     private:
         // Map indicating the direction of a directionnal block depending of a string used within the XML file

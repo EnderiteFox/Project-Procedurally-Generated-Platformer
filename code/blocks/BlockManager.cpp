@@ -19,7 +19,7 @@ namespace platformer {
     std::string BlockManager::getBlockTypeAt(const int x, const int y) const {
         const auto found = blockMap.find(std::make_pair(x, y));
         if (found == blockMap.cend()) return "empty";
-        return found->second;
+        return found->second.blockType;
     }
 
     std::string BlockManager::getBlockTypeAt(const gf::Vector2i pos) const {
@@ -28,7 +28,7 @@ namespace platformer {
 
     void BlockManager::setBlockTypeAt(const int x, const int y, const BlockType& blockType) {
         if (blockType.type == BlockTypes::EMPTY_BLOCK) return removeBlockAt(x, y);
-        blockMap.insert_or_assign(std::make_pair(x, y), blockType.subType);
+        blockMap.insert_or_assign(std::make_pair(x, y), internalBlockData{blockType.subType,0});
     }
 
     void BlockManager::setBlockTypeAt(const gf::Vector2i pos, const BlockType& blockType) {
@@ -72,7 +72,7 @@ namespace platformer {
                 auto found = blockMap.find({x, y});
                 if (found == blockMap.cend()) continue; // Skipping if the block at the position does not exist on the map
 
-                std::string blockType = found->second;
+                std::string blockType = found->second.blockType;
                 auto textureFound = textureMap.find(blockType);
                 if (textureFound == textureMap.cend()) continue; //Skipping untextured blocks
 
@@ -133,15 +133,15 @@ namespace platformer {
             ) {
                 auto found = blockMap.find(std::make_pair(x, y));
                 if (found == blockMap.end()) continue;
-                if (found->second == "empty") continue;
+                if (found->second.blockType == "empty") continue;
 
 
-                BlockType blockType = BlockTypes::getBlockTypeByName(found->second);
+                BlockType blockType = BlockTypes::getBlockTypeByName(found->second.blockType);
                 res.push_back({
                     gf::RectF::fromPositionSize(
                         gf::Vector2f(toWorldSpace(x), toWorldSpace(y)) + blockType.hitboxOffset,
                         blockType.hitboxSize),
-                    found->second});
+                    found->second.blockType});
             }
         }
 
