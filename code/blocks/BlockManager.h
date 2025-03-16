@@ -56,6 +56,9 @@ namespace platformer {
         // Loads all available blocks textures
         void loadTextures();
 
+        // Updates the texture offset based on the other blocks stored in the blockmap
+        void updateTextureOffset();
+
         // GF render function. Draws the texture corresponding to all the blocks on the map
         // Only the blocks within the current view will be rendered
         void render(gf::RenderTarget& target, const gf::RenderStates& states) override;

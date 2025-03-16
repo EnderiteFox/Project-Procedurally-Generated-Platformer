@@ -62,6 +62,22 @@ namespace platformer {
         }
     }
 
+    void BlockManager::updateTextureOffset(){
+        for(auto& it : blockMap){
+            std::string blockType = it.second.blockType;
+            if(BlockTypes::getBlockTypeByName(blockType).isConnected){
+                std::pair<int,int> position = it.first;
+                uint8_t offset = 0;
+
+                if(getBlockTypeAt(position.first,position.second-1) == blockType) offset+= 1;
+                if(getBlockTypeAt(position.first-1,position.second) == blockType) offset+= 2;
+                if(getBlockTypeAt(position.first+1,position.second) == blockType) offset+= 4;
+                if(getBlockTypeAt(position.first,position.second+1) == blockType) offset+= 8;
+                it.second.offset = offset;
+            }
+        }
+    }
+
     void BlockManager::render(gf::RenderTarget& target, const gf::RenderStates& states) {
         const gf::Vector2f center = ViewPosition;
         const gf::Vector2f size = ViewSize;
@@ -73,12 +89,25 @@ namespace platformer {
                 if (found == blockMap.cend()) continue; // Skipping if the block at the position does not exist on the map
 
                 std::string blockType = found->second.blockType;
+                uint8_t offset = found->second.offset;
                 auto textureFound = textureMap.find(blockType);
                 if (textureFound == textureMap.cend()) continue; //Skipping untextured blocks
 
                 gf::Sprite sprite;
                 sprite.setPosition(toWorldSpace(gf::Vector2i(x, y)));
-                sprite.setTexture(textureFound->second, gf::RectF::fromSize({1.0f, 1.0f}));
+
+                // Using a different position in the spritesheet if the sprite uses a connected texture
+                if(BlockTypes::getBlockTypeByName(blockType).isConnected){
+                    gf::RectF textureplace = gf::RectF::fromPositionSize(
+                        gf::Vector2f{0.0625f,0}*offset,
+                        gf::Vector2f{0.0625f,1.0f}
+                    );
+                    sprite.setTexture(textureFound->second, textureplace);
+                }
+                else{
+                    sprite.setTexture(textureFound->second, gf::RectF::fromSize(gf::Vector2f{1.0f,1.0f}));
+                }
+
                 sprite.scale(BlockTypes::getBlockTypeByName(blockType).scale);
                 target.draw(sprite, states);
 

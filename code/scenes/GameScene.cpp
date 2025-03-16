@@ -70,6 +70,9 @@ namespace platformer {
         // Generate world
         world.generate();
 
+        // Connecting textures
+        blockManager.updateTextureOffset();
+
         // Character's actions
         character.initInput();
 
