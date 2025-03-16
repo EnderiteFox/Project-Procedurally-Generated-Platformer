@@ -27,6 +27,7 @@ namespace platformer {
 
     void Character::render(gf::RenderTarget& target, const gf::RenderStates& states) {
         sprite.setPosition(this->position);
+        sprite.setScale(0.125);
         target.draw(this->sprite, states);
     }
 
