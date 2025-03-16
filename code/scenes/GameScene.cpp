@@ -39,6 +39,7 @@ namespace platformer {
         manager->charSize
     )
     {
+    	setClearColor(gf::Color::Black);
         setWorldViewSize(initialSize);
 
         // Parameters of the texts
