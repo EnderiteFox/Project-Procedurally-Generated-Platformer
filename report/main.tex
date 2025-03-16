@@ -6,8 +6,6 @@
 \usepackage{graphicx} % Required for inserting images
 \usepackage[T1]{fontenc}
 
-\title{Rapport CO (TCPP2)}
-\date{November 2024}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \newcommand{\hsp}{\hspace{20pt}}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
@@ -53,10 +51,15 @@
 \pagebreak
 
 \section{Introduction}
-%Le sujet du projet
-%Pourquoi ce projet
-%Qui a réalisé le projet
-%Présentation du plan
+
+Dans le cadre de notre projet semestriel en L3 Informatique à l'Université Marie et Louis Pasteur, nous avons travaillé sur le développement d’un jeu de plate-formes avec génération procédurale en C++. 
+
+Les jeux de plate-formes sont un genre qui repose sur le contrôle d'un personnage avec des mécaniques comme les sauts et les obstacles, l’objectif étant généralement de rejoindre une sortie pour terminer le niveau. L’ajout de la génération procédurale introduit une caractéristique supplémentaire : plutôt que de concevoir chaque niveau à la main, un algorithme est chargé de créer les niveaux du jeu, permettant ainsi une expérience unique à chaque partie.
+
+L'objectif principal de ce projet était de concevoir un jeu de plate-formes dont les niveaux seraient générés de manière procédurale, offrant ainsi une rejouabilité infinie. En parallèle, nous avons dû concevoir un jeu intégrant plusieurs mécaniques de jeu, incluant des déplacements, des sauts, un dash, ainsi qu’un objectif centré sur la récolte d’objets, tout en assurant la gestion des collisions et la physique du jeu.
+
+Dans ce rapport, nous commencerons par une présentation générale du jeu, en exposant les objectifs du joueur et les scènes du jeu. Ensuite, nous détaillerons la conception des blocs et entités qui composent le monde et leur gestion dynamique. Par la suite, nous aborderons la génération procédurale, en expliquant la méthode utilisée ainsi que les détails d'implémentation. Nous discuterons ensuite des contrôles du personnage et des différentes mécaniques de jeu, telles que le saut, le dash, etc. La partie suivante sera consacrée à la physique, notamment la gestion des collisions et des propriétés physiques comme la résistance de l'air. Enfin, nous reviendrons sur l’organisation du travail, la répartition des tâches et les outils utilisés pour mener à bien ce projet. Le rapport se conclura par un bilan du projet et les améliorations possibles.
+
 
 \section{Présentation du jeu}
 \subsection{Présentation générale}
