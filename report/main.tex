@@ -90,7 +90,7 @@ plateformes, de façon à ce que chaque niveau soit possible, en partant du
 début jusqu'à la fin. Des blocs et plateformes de glace et de slime sont 
 également générés, et le joueur doit donc faire attention aux changements 
 que cela implique sur ses déplacements.
-%ajout d'une petite présentation de l'algo de génération%
+%ajout d'une petite présentation de l'algo de génération
 
 
 \subsection{Les objectifs du joueur}
@@ -115,7 +115,7 @@ que cela implique sur ses déplacements.
 \subsection{Aléatoire et graine de génération}
 
 À des fins de débuggage, la possibilité de pouvoir générer le même monde
-plusieurs fois est important. Pour cela, les niveaux sont générés à l'aide
+plusieurs fois est importante. Pour cela, les niveaux sont générés à l'aide
 d'un générateur de nombres pseudo-aléatoire. Ce générateur peut utiliser
 un entier codé sur 64 bits, et générera la même séquence de nombres
 aléatoires tant que la même graine est utilisée. 
@@ -126,6 +126,76 @@ donnée au générateur, alors cette graine sera utilisée lors de la création
 du niveau. Sinon, une graine aléatoire est choisie, et est affichée dans
 la console. Cela permet, en cas de problème, de facilement noter et partager
 une graine, permettant de reproduire le problème plus facilement.
+
+\subsection{Étapes de génération}
+\subsubsection{Génération des salles}
+
+Les salles sont générées de manière à ce qu'elles soient connectées entre
+elles, sans jamais se chevaucher. Pour cela, l'algorithme suivant est 
+appliqué:
+
+\begin{itemize}
+  \item Générer une salle de départ.
+  \item Tant que le nombre de salles voulu n'est pas atteint:
+  \begin{itemize}
+    \item Choisir aléatoirement la taille de la salle.
+    \item Choisir une direction (haut, bas, gauche ou droite)
+    \item Créer une nouvelle salle, placée à côté de la salle précédente,
+    aléatoirement le long du mur correspondant à la direction choisie.
+    \item Si la salle chevauche une autre salle, la regénérer.
+    \item Si, au bout d'un certain nombre d'essais, la salle n'a pas réussi
+    à se générer, réessayer en changeant la taille de la salle.
+    \item Si la salle n'arrive toujours pas à se générer, supprimer la
+    salle ainsi que la salle précédente, et regénérer la salle précédente.
+  \end{itemize}
+\end{itemize}
+
+Certains cas spéciaux se présentent avec cet algorithme:
+\begin{itemize}
+  \item \textbf{La salle de départ}: La salle de départ, étant la première
+  salle, ne peut pas se générer à la suite d'une autre salle. Elle se 
+  génère donc simplement aux coordonnées (0, 0)
+  \item \textbf{Retour en arrière}: Dans certains cas, une salle peut se 
+  retrouver encerclée par d'autre salles. Dans ce cas, aucune salle ne 
+  pourra se générer par la suite. Afin d'éviter ces situations, l'
+  algorithme décide, si une salle n'arrive pas à se générer, de réessayer 
+  d'abord avec une salle de différente taille, car une salle plus petite
+  peut éventuellement réussir à se générer. Mais, au bout d'un certain 
+  nombre d'essais, l'algorithme décide de retourner en arrière. Dans ce
+  cas, la salle précédente est supprimée, et, en prenant un autre chemin,
+  le générateur réussira à générer l'ensemble des salles.
+  \item \textbf{Taille minimale d'entrée}: La génération de plateformes et 
+  de pièges pourrait rendre l'entrée dans une salle impossible dans des cas
+  où l'entrée d'une salle serait trop petite. Afin d'éviter cela,
+  lorsqu'elles se placent le long d'un mur, les coordonnées aléatoires ont
+  été restreintes afin que l'entrée vers la salle suivante aie toujours
+  une taille minimale. Cette taille a été définie à 2 blocs. Dans la
+  figure \ref{fig:room_placement}, on peut voir que peu importe où se génère la
+  salle, l'entrée de la salle verte vers la salle bleue aura toujours une
+  taille d'au moins 2 blocs.
+\end{itemize}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/room_placement.png}
+  \caption{Un exemple de placement de salle.}
+  Une salle est représentée en vert.\\ 
+  Si la direction haut est choisie, une salle de taille 3x3 peut\\
+  se générer n'importe où dans la zone bleue.
+  \label{fig:room_placement}
+\end{figure}
+
+\subsubsection{Génération des murs}
+
+\subsubsection{Génération du chemin}
+
+\subsubsection{Fausses plateformes et échelles}
+
+\subsubsection{Placement des blocs spéciaux}
+
+\subsubsection{Placement des pièges}
+
+\subsubsection{Placement de la sortie}
 
 \section{Le personnage}
 \subsection{Les contrôles de base}

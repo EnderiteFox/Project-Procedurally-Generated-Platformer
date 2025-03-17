@@ -14,7 +14,7 @@
  * - Fake platforms are generated in all rooms. Fake platforms also generate with ladders and collectibles
  * - Some wall blocks and platforms are turned into their ice and jelly counterparts, based on a perlin noise
  * - Some rooms are chosen to be dangerous, and spikes are generated to replace the floor of the room
- * - The exit block is placed at the last path point
+ * - The exit block is placed in the last room, at a valid spawn position
  */
 
 #ifndef BASICWORLDGENERATOR_H
