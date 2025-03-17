@@ -9,3 +9,5 @@ main.dvi : main.tex
 clean :
 	rm main.aux main.lof main.log main.toc 2>/dev/null
 	 
+start : all
+	evince main.pdf

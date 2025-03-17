@@ -5,6 +5,7 @@
 \usepackage[a4paper, left=30mm,right=20mm,top=25mm,bottom=25mm]{geometry}
 \usepackage{graphicx} % Required for inserting images
 \usepackage[T1]{fontenc}
+\usepackage{amstext}
 
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \newcommand{\hsp}{\hspace{20pt}}
@@ -257,9 +258,71 @@ nous voulons tester (voir figure~\ref{fig:test_world}).
 \subsection{Le score et les vies}
 
 \section{La physique}
+Lorsque nous avons commencé le projet, nous avions le choix entre réaliser la physique nous-même, et nous appuyer sur un moteur physique déjà existant.
+En suivant les conseils de notre responsable de projet, nous avons finalement choisi d'implementer notre propre moteur physique.\par
+
+Nous avons pris la décision de réaliser une physique basée sur les impulsions.
+Ainsi, les déplacements et les collisions sont calculées comme des vecteurs, qui sont ensuite appliqués aux divers éléments du jeu.\\
+Pour cela, le moteur physique a pour tâche de pouvoir gérer :
+\begin{itemize}
+  \item[-] La détection de collisions entre le personnage et les éléments du décor
+  \item[-] La résolution de ces collisions
+  \item[-] La friction entre le personnage et le sol
+  \item[-] La résistance de l'air, ralentissant la chute du personnage.
+\end{itemize}
+
+
 \subsection{La gestion des collisions}
-\subsubsection{Les propriétés des blocks}
-\subsection{Calcul de la résistance de l'air}
+La première étape de la réalisation du moteur physique a été la gestion des collisions.\\
+Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont celles entre le personnage et les éléments du décor.\\
+Nous avons choisi de représenter les éléments du décor et le personnage par des formes rectangulaires, ce qui simplifie la tâche, les collisions rectangle-rectangle étant les plus simples à gérer.
+De plus, le décor étant stoqué sur une grille de blocks de même taille, seuls les blocks se trouvant dans les cases adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui, ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
+les 8 entourant le joueur et celle sur laquelle il se trouve.\par
+
+La détection des collisions n'a pas été un problème, celle si étant gérée par la classe \emph{collide} de gamedev framework.\\
+La première difficulté que nous avons rencontré a été lors de la résolution des collisions, ceci restant une étape complexe dans la création d'un moteur physique même lorsqu'uniquement des rectangles sont impliqués.\par
+
+Une fois une collision détectée entre un block du décor et le joueur, on commence par déterminer la vélocité relative \(V\) entre les éléments.
+Etant donné que le block est immobile, cette vélocité est donnée par :
+\[ V =  - V_{P} \]
+Où \(V_{P}\) est la vitesse du joueur.\\
+Une fois cette vitesse déterminée, on peut l'utiliser pour calculer la vitesse \(V_{n}\) par rapport à la normale de collision \(n\), donnée par la détection de collisions de gamedev framework :
+\[ V_{n} = V \cdot n \]
+Si \(V_{n}\) est négative, cela signifie que le joueur ne se déplace pas en direction du block, et la collision n'a pas à être résolue.\\
+Cette vitesse nous permet de calculer la magnitude de l'impulsion \(C_{i}\) à appliquer au joueur :\\
+\[ C_{i} = (1 + e) \times V_{n} \]
+Où e est le \emph{coefficient de restitution} du block avec lequel le joueur est entré en collision.\\
+Ce coefficient permet de déterminer la puissance du "rebond" que le joueur subira après avoir quitté le block.\\
+Dans un moteur physique classique, il serait nécessaire de prendre en compte le coefficient de restitution des deux entités entrant en collision, mais le joueur étant le seul élément entrant en collision, nous avons simplifié le modèle en ne prenant que celui du block.\\
+Finalement, nous pouvons calculer le vecteur de résolution de collision \(V_{res}\) à appliquer au joueur :
+\[V_{res} = C_{i} \times n \]
+
+\subsection{Correction positionnelle}
+Dans le modèle que nous avons choisi, chacun des objets possède une masse infinie, ce qui explique qu'elle n'apparaisse pas dans les calculs. Cependant, les imprécisions causées par les flottants amènent le joueur à s'enfoncer dans les blocks lorsqu'il est immobile dessus.\\
+Pour résoudre cela, nous pouvons appliquer en plus du vecteur de résolution de collision, un second vecteur de correction positionnel \(V_{corr}\) donné par :
+\[V_{corr} = -max(d-0.1,0) \times C_{corr} \times n\]
+Avec :\\
+\begin{itemize}
+  \item[-] \emph{d} : La profondeur de collision, c'est-à-dire la distance dans laquelle le joueur s'est enfoncé dans le block
+  \item[-] \(C_{corr}\) : Le coefficient de correction, indiquant la force de correction qu'il est nécessaire d'appliquer. Nous avons choisi d'avoir \(C_{corr}=0.8\)
+\end{itemize}
+
+\subsection{Resolution de la friction}
+Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en se déplaçant sur les blocks au sol.\\
+Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au block après l'application de \(V_{res}\) :
+\[V =  - (V_{P} + V_{corr}\]
+Cette fois, nous avons besoin de la tangente \(t\) pour connaître la direction sur laquelle appliquer la friction, qu'on peut déterminer par :
+\[t = V - relativeVelocity \cdot (n \times (0,1)) \times n\]
+Une fois la tangente connue, il est possible de calculer le coefficient de friction \(C_{f}\), correspondant à la vélocité relative à la tangente :
+\[C_{f} = - V \dot t\]
+D'après la loi de Coulomb sur la friction, la force de friction est toujours inferieure à la force normale multipliée par le coefficient de friction statique \(\mu_{s}\) des materiaux entrant en friction. Nous pouvons donc déterminer le vecteur de friction \(C_{f}\) à appliquer grâce à l'équation :
+\[
+V_{f} = \left\{\begin{array}{lr}
+           C_{f} \times t & \text{si } |C_{f}| < |C_{i}| \times \mu_{s}\\
+          -C_{i} \times t * \mu_{d} & \text{si } |C_{f}| \geq |C_{i}| \times \mu_{s}
+        \end{array}\right\}
+\]
+Où \(\mu_{s}\) et \(\mu_{d}\) sont respectivement le coefficient de friction statique et dynamique du block avec lequel le joueur entrant en friction.
 
 \section{Notre organisation}
 \subsection{La définition des tâches}
@@ -274,7 +337,7 @@ nous voulons tester (voir figure~\ref{fig:test_world}).
 \subsubsection{Trello}
 \subsubsection{Git et Github}
 \subsubsection{IDE}
-% Cette section là elle est marrante parse que personne utilise le même
+% Cette section là elle est marrante parce que personne utilise le même
 \newpage
 
 \section{Conclusion}
