@@ -67,7 +67,7 @@ Dans ce rapport, nous commencerons par une présentation générale du jeu, en e
 \section{Présentation du jeu}
 \subsection{Présentation générale}
 
-Ce projet consiste à développer un jeu de plate-forme en 2D intégrant un système de génération procédurale de niveau. L’objectif est d’offrir une expérience où chaque partie est unique : au lieu d’avoir des niveaux prédéfinis, ceux-ci sont générés aléatoirement à chaque nouvellepartie. Contrairement aux jeux de plate-forme classiques où l'on peut apprendre les niveaux par cœur, ici, aucun parcours ne peut être rejoué à l’identique. Cette approche permet non seulement une rejouabilité infinie, mais aussi un défi constant, obligeant le joueur à s’adapter à chaque nouvelle configuration de niveau.
+Ce projet consiste à développer un jeu de plate-forme en 2D intégrant un système de génération procédurale de niveau. L’objectif est d’offrir une expérience où chaque partie est unique : au lieu d’avoir des niveaux prédéfinis, ceux-ci sont générés aléatoirement à chaque nouvelle partie. Contrairement aux jeux de plate-forme classiques où l'on peut apprendre les niveaux par cœur, ici, aucun parcours ne peut être rejoué à l’identique. Cette approche permet non seulement une rejouabilité infinie, mais aussi un défi constant, obligeant le joueur à s’adapter à chaque nouvelle configuration de niveau.
 
 Le joueur incarne un petit robot, dont la mission principale est de récolter un maximum d’écrous avant d’atteindre la sortie du niveau. Ces écrous sont disposés aléatoirement dans l’environnement, incitant le joueur à explorer avant de pouvoir terminer la partie.
 
@@ -84,6 +84,10 @@ Ces mécaniques offrent une grande liberté de mouvement, permettant aux joueurs
 
 Comme mentionné précédemment, tous les niveaux sont générés de manière procédurale, cela signifie qu'à chaque lancement de partie c'est un algorithme qui se charge de créer un environnement en plaçant des blocs, plateformes, échelles, écrous, piques et une sortie. Cette méthode permet de générer de manière presque infinie des mondes différents. 
 
+Ces différent niveaux sont composés de salles générées de manière 
+contiguës, et les salles sont reliées entre elles par des échelles et des
+plateformes, de façon à ce que chaque niveau soit possible, en partant du
+début jusqu'à la fin.
 %ajout d'une petite présentation de l'algo de génération%
 
 
