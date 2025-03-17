@@ -10,7 +10,7 @@ include-priv/
 library/
 tests/
 tools/
-.pdf
+*.pdf
 *.toc
 report/main.synctex.gz
 *.log
