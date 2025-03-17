@@ -11,3 +11,11 @@ library/
 tests/
 tools/
 .pdf
+*.toc
+report/main.synctex.gz
+*.log
+*.lof
+*.fls
+*.fdb_latexmk
+*.aux
+report/main.pdf
