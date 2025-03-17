@@ -22,7 +22,6 @@ namespace platformer {
     , scoreTexture("../assets/tiles/nut.png")
     , blockManager(initialSize)
     , character({0.0f, 0.0f}, characterTexture, blockManager, this)
-    , generator()
     , world(character, blockManager, generator)
     , camera(this,character,blockManager)
     , scoreDisplay(
