@@ -271,7 +271,6 @@ Pour cela, le moteur physique a pour tâche de pouvoir gérer :
   \item[-] La résistance de l'air, ralentissant la chute du personnage.
 \end{itemize}
 
-
 \subsection{La gestion des collisions}
 La première étape de la réalisation du moteur physique a été la gestion des collisions.\\
 Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont celles entre le personnage et les éléments du décor.\\
@@ -310,9 +309,9 @@ Avec :\\
 \subsection{Resolution de la friction}
 Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en se déplaçant sur les blocks au sol.\\
 Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au block après l'application de \(V_{res}\) :
-\[V =  - (V_{P} + V_{corr}\]
+\[V =  - (V_{P} + V_{corr})\]
 Cette fois, nous avons besoin de la tangente \(t\) pour connaître la direction sur laquelle appliquer la friction, qu'on peut déterminer par :
-\[t = V - relativeVelocity \cdot (n \times (0,1)) \times n\]
+\[t = V - relativeVelocity \cdot (n \times (1,0)) \times n\]
 Une fois la tangente connue, il est possible de calculer le coefficient de friction \(C_{f}\), correspondant à la vélocité relative à la tangente :
 \[C_{f} = - V \dot t\]
 D'après la loi de Coulomb sur la friction, la force de friction est toujours inferieure à la force normale multipliée par le coefficient de friction statique \(\mu_{s}\) des materiaux entrant en friction. Nous pouvons donc déterminer le vecteur de friction \(C_{f}\) à appliquer grâce à l'équation :
@@ -323,6 +322,41 @@ V_{f} = \left\{\begin{array}{lr}
         \end{array}\right\}
 \]
 Où \(\mu_{s}\) et \(\mu_{d}\) sont respectivement le coefficient de friction statique et dynamique du block avec lequel le joueur entrant en friction.
+
+\subsection{Collisions avec des platformes directionnelles}
+En plus des blocks classiques, nous avons fait le choix d'ajouter des platformes directionnelles, à travers lesquelles le joueur passe à moins de venir d'une direction particulière.\\
+Leur particularité implique l'implémentation de caractéristiques supplémentaires lors de la détection et la résolution de collisions.\\
+Premièrement, une fois la collision détectée, on teste la direction de mouvement du joueur par rapport à la normale de collision, donnée par :
+\[
+  angle(n,Dir_{block}) + \pi
+\]
+Où \(Dir_{block}\) correspond à un vecteur donnant la direction attendue du joueur pour avoir une collision (\((0,-1)\) pour un block orienté vers le haut), et \(angle\) une fonction retournant l'angle entre 2 vecteurs.\\
+Si cet angle est superieur à un seuil, que nous avons choisi comme étant \(0.1\), alors on considère que le joueur ne se trouve pas dans la bonne direction, et la collision n'a pas lieu.\par
+Secondement, dans le but d'éviter que la collision soit résolue dans le cas où le joueur soit en train de tomber à travers la platforme, la collision est détectée avec des hitbox de taille réduite, orientées dans la direction de la collision. Ainsi, pour les collisions entre entre une platforme orientée vers le haut, le joueur et la platforme disposent d'une hitbox d'un huitième de block, respectivement placée en haut et en bas des hitbox classiques.\par
+Ces deux algorithmes ne permettent pas de complètement effacer le problème, mais celui-ci est suffisemment réduit pour n'être que rarement visible.
+
+\subsection{Collisions multiples}
+Lorsque le joueur entre en collisions avec de multiples blocks, le vecteur de résolution de collision, de correction ainsi que le vecteur de friction résultants correspondent à la moyenne des vecteurs obtenus en résolvant les collisions, corrections et frictions avec les blocks.
+
+\subsection{Stockage des données de collision}
+L'ensemble des données est stoqué et retourné dans une structure dédiée, permettant de conserver :\\
+\begin{itemize}
+  \item{-} La moyenne des vecteurs obtenus par la résolution de collision, correction et friction
+  \item{-} Des booléens indiquant s'il est nécessaire d'appliquer le vecteur de résolution de collision ou la correction
+  \item{-} L'ensemble des types de blocks avec lesquels une collision est survenue, qu'elle ait été résolue ou non (ce qui permet de détecter les collisions avec les piques ou les écrous)
+  \item{-} L'ensemble des coordonnées des blocks avec lesquels une collision est survenue, résolue ou non (ce qui permet notemment l'effacement des écrous de la grille)\\
+\end{itemize}
+
+Cette structure est ensuite transmise au personnage, qui pourra appliquer les vecteurs de résolution de friction et de collision à sa vitesse, et corriger sa position.
+
+\subsection{Résistance de l'air}
+La resistance de l'air permet de réduire l'accéleration du joueur lors de sa chute, en fonction de sa vitesse actuelle.\\
+Nous avons choisi de l'implémenter afin d'avoir plus de mobilité en l'air, et d'éviter au joueur d'atteindre des vitesses énormes trop vite en chutant.\\
+La résistance de l'air est calculée dans une fonction séparée, et est donnée par :
+\[
+ -dir \times v^2
+\]
+Où \(dir\) est la direction du joueur, et \(v\) sa vitesse actuelle.
 
 \section{Notre organisation}
 \subsection{La définition des tâches}
