@@ -17,15 +17,15 @@
   %\begin{sffamily}
   \begin{center}
     \includegraphics[height=25mm]{gfx/logo-UMLP.png}~\\[3cm]
-
+    
     \textsc{\LARGE UFR Sciences et technique}\\
     \textsc{\Large Université Marie et Louis PASTEUR}\\
     \textsc{\Large \textbf{Projet}}\\
     \textsc{\Large L3 Informatique}\\[2.5cm]
-
+    
     \HRule \\[0.4cm]
     { \huge \bfseries Jeu de plate-formes avec génération procédurale\\[0.4cm] } % C'est le titre donné par jube, j'y suis pour rien
-
+    
     \HRule \\[0.6cm]\renewcommand\thesection{\arabic{section}}
     \textsc{\Large \textbf{Rapport de projet}}\\[1.5cm]
     \begin{minipage}{\textwidth}
@@ -38,7 +38,7 @@
     \vfill
     % Bottom of the page
     {\large \ avril 2025}
-
+    
   \end{center}
   %\end{sffamily}
 \end{titlepage}
@@ -78,6 +78,21 @@ Dans ce rapport, nous commencerons par une présentation générale du jeu, en e
 % Je sais pas trop comment ça se passe, faudrait le remplir
 % Faudra penser à préciser qu'on a commencé par faire un monde "test" avant d'arriver à notre générateur actuel
 % Et aussi à donner les étapes/difficultés avant d'en arriver à un truc qui marche correctement
+
+\subsection{Aléatoire et graine de génération}
+
+À des fins de débuggage, la possibilité de pouvoir générer le même monde
+plusieurs fois est important. Pour cela, les niveaux sont générés à l'aide
+d'un générateur de nombres pseudo-aléatoire. Ce générateur peut utiliser
+un entier codé sur 64 bits, et générera la même séquence de nombres
+aléatoires tant que la même graine est utilisée. 
+
+Nous avons donc implémenté
+deux moyens de générer les mondes: avec ou sans graine. Si une graine est
+donnée au générateur, alors cette graine sera utilisée lors de la création
+du niveau. Sinon, une graine aléatoire est choisie, et est affichée dans
+la console. Cela permet, en cas de problème, de facilement noter et partager
+une graine, permettant de reproduire le problème plus facilement.
 
 \section{Le personnage}
 \subsection{Les contrôles de base}
