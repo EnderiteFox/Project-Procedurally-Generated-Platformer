@@ -6,6 +6,7 @@
 \usepackage{graphicx} % Required for inserting images
 \usepackage[T1]{fontenc}
 \usepackage{amstext}
+\usepackage{float}
 
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \newcommand{\hsp}{\hspace{20pt}}
@@ -197,7 +198,7 @@ Certains cas spéciaux se présentent avec cet algorithme:
   taille d'au moins 2 blocs.
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{images/room_placement.png}
   \caption{Un exemple de placement de salle.}
@@ -211,7 +212,7 @@ Les salles étant une donnée réutilisée fréquemment par le générateur,
 elles sont stockées en tant que liste de vecteurs contenant une position
 x et y, ainsi que la taille de la salle (voir figure~\ref{fig:room_data}).
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{images/room_storage.png}
   \caption{Une représentation du stockage d'une salle, 
@@ -223,10 +224,12 @@ x et y, ainsi que la taille de la salle (voir figure~\ref{fig:room_data}).
 
 Une fois les salles générées, les murs sont placés. Pour cela, le niveau 
 est rempli avec des blocs, de manière à recouvrir complètement toutes
-les salles, plus une marge afin de marquer la bordure du niveau.
+les salles, plus une marge afin de marquer la bordure du niveau. 
+Les coordonnées de remplissage correspondent simplement aux coordonnées
+minimum et maximum correspondant à des salles.
 Ensuite, des blocs sont retirés de manière à creuser les salles.
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{images/filling_the_world.png}
   \caption{Deux salles, après que les murs soient générés}
@@ -235,13 +238,81 @@ Ensuite, des blocs sont retirés de manière à creuser les salles.
 
 \subsubsection{Génération du chemin}
 
+La prochaine étape de la génération est de générer un chemin, que le 
+joueur pourra suivre. Cela permet de s'assurer qu'il existe toujours au
+moins un chemin possible afin de terminer le niveau, et que tous les 
+niveaux soient bien possibles.
+
+Le chemin est une suite de coordonnées. Un point est donc choisi 
+aléatoirement dans chaque salle.
+
+Une fois le chemin généré, afin que le joueur puisse l'emprunter, il
+faut le relier avec des plateformes et des échelles.
+Pour cela, nous utilisons un algorithme dont le but est de tracer des
+lignes droites, en zig-zag:
+
+\begin{itemize}
+  \item Choisir une direction (horizontale ou verticale)
+  \item Tant que possible, avancer dans la direction choisie vers le
+  point de destination
+  \item Si le point de destination est atteint dans la direction choisie
+  ou que l'on ne peut plus avancer, changer de direction et continuer
+  \item S'arrêter une fois que le point est atteint, ou si aucun chemin 
+  n'est trouvé
+\end{itemize}
+
+Une fois le chemin calculé, les sections horizontales du chemin seront
+remplacées par des plateformes, et les sections verticales correspondront
+à des échelles.
+
+Afin d'introduire plus de variété, le chemin est calculé deux fois:
+En commençant par la direction horizontale (plateforme), et en commençant
+par la direction verticale (échelle). Si le chemin a pu être tracé dans
+les deux directions, une des deux directions est choisie aléatoirement.
+Si seule un des deux chemins a pu être tracé entièrement, alors celui-ci
+est choisi.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/two_ways_to_connect.png}
+  \caption{Un chemin composé de deux points, et les deux manières de
+  les connecter}
+  (En commençant par une échelle à gauche, et par une plateforme à droite)\\
+  On peut remarquer que le chemin s'arrête avant de toucher le plafond, 
+  afin que le joueur puisse marcher sur la plateforme.
+  \label{fig:two_ways_to_connect}
+\end{figure}
+
+Encore une fois, certains cas particuliers apparraissent:
+\begin{itemize}
+  \item \textbf{Le dernier point}: Le dernier point du chemin correspondra 
+  à la sortie. Il est donc placé de manière particulière, en utilisant le
+  même algorithme que pour touver un point de départ qui soit sécurisé.
+  \item \textbf{Prise en compte du plafond}: Une fois les plateformes
+  générées, il est important que le joueur puisse marcher sur les 
+  plateformes. Ainsi, si en générant une échelle ou une plateforme, si
+  l'algorithme rencontre un espace où le plafond ne permet pas de marcher
+  sur la plateforme, cet espace est considéré comme un mur, causant un
+  changement de direction.
+  \item \textbf{Connections entre échelle et plateforme}: Afin de connecter
+  correctement une plateforme et une échelle, certains cas particuliers
+  sont pris en compte, particulièrement lorsqu'il s'agit de choisir le bloc
+  correspondant à un coin lors d'un virage. Pour cela, si une échelle vient
+  du bas de la plateforme, alors le bloc du coin sera une échelle.
+  Sinon, le bloc sera une plateforme. Ces choix sont visibles sur la
+  figure~\ref{fig:two_ways_to_connect}.
+\end{itemize}
+
+\subsubsection{Placement de la sortie}
+
+La sortie est placée à la position du dernier point du chemin, selon
+les conditions indiquées ci-dessus.
+
 \subsubsection{Fausses plateformes et échelles}
 
 \subsubsection{Placement des blocs spéciaux}
 
 \subsubsection{Placement des pièges}
-
-\subsubsection{Placement de la sortie}
 
 \subsection{Monde de test}
 
@@ -252,7 +323,7 @@ niveau en notre générateur de monde de test, et le monde généré sera alors
 un monde simple, contenant une plateforme et autres fonctionnalités que
 nous voulons tester (voir figure~\ref{fig:test_world}).
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{images/test_world.png}
   \caption{Une capture d'écran du monde de test}
