@@ -358,7 +358,7 @@ Pour cela, le moteur physique a pour tâche de pouvoir gérer :
 La première étape de la réalisation du moteur physique a été la gestion des collisions.\\
 Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont celles entre le personnage et les éléments du décor.\\
 Nous avons choisi de représenter les éléments du décor et le personnage par des formes rectangulaires, ce qui simplifie la tâche, les collisions rectangle-rectangle étant les plus simples à calculer.
-De plus, le décor étant stocké sur une grille de blocks de même taille, seuls les blocs se trouvant dans les cases adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui, ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
+De plus, le décor étant stocké sur une grille de blocs de même taille, seuls les blocs se trouvant dans les cases adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui, ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
 les 8 entourant le joueur et celle sur laquelle il se trouve.\par
 
 La détection des collisions n'a pas été un problème, celle si étant gérée par la classe \emph{collide} de gamedev framework.\\
