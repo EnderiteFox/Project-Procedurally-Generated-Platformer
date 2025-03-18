@@ -197,7 +197,7 @@ Certains cas spéciaux se présentent avec cet algorithme:
   taille d'au moins 2 blocs.
 \end{itemize}
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.5\textwidth]{images/room_placement.png}
   \caption{Un exemple de placement de salle.}
@@ -211,7 +211,7 @@ Les salles étant une donnée réutilisée fréquemment par le générateur,
 elles sont stockées en tant que liste de vecteurs contenant une position
 x et y, ainsi que la taille de la salle (voir figure~\ref{fig:room_data}).
 
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.5\textwidth]{images/room_storage.png}
   \caption{Une représentation du stockage d'une salle, 
@@ -220,6 +220,18 @@ x et y, ainsi que la taille de la salle (voir figure~\ref{fig:room_data}).
 \end{figure}
 
 \subsubsection{Génération des murs}
+
+Une fois les salles générées, les murs sont placés. Pour cela, le niveau 
+est rempli avec des blocs, de manière à recouvrir complètement toutes
+les salles, plus une marge afin de marquer la bordure du niveau.
+Ensuite, des blocs sont retirés de manière à creuser les salles.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/filling_the_world.png}
+  \caption{Deux salles, après que les murs soient générés}
+  \label{fig:filling_world}
+\end{figure}
 
 \subsubsection{Génération du chemin}
 
@@ -240,7 +252,7 @@ niveau en notre générateur de monde de test, et le monde généré sera alors
 un monde simple, contenant une plateforme et autres fonctionnalités que
 nous voulons tester (voir figure~\ref{fig:test_world}).
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{images/test_world.png}
   \caption{Une capture d'écran du monde de test}
