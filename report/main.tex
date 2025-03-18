@@ -310,9 +310,28 @@ les conditions indiquées ci-dessus.
 
 \subsubsection{Fausses plateformes et échelles}
 
+Un jeu dont le chemin serait tout tracé ne serait pas amusant. Pour cette
+raison, nous essayons de brouiller les pistes en noyant le véritable chemin
+au milieu de fausses plateformes et échelles. Ces plateformes sont générées
+aléatoirement dans chaque salle. Chaque plateforme est placée en commençant
+sur le mur gauche ou droit, et est placée bloc par bloc vers l'intérieur
+de la salle jusqu'à ce que la plateforme croise un bloc sur son chemin ou
+que la plateforme atteigne une taille choisie aléatoirement. Par la suite,
+des échelles sont générées le long de la plateforme, s'étendant vers le bas
+suivant le même principe que les plateformes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/fake_platforms.png}
+  \caption{Un exemple de génération de fausse plateformes}
+  \label{fig:fake_platforms}
+\end{figure}
+
 \subsubsection{Placement des blocs spéciaux}
 
 \subsubsection{Placement des pièges}
+
+\subsubsection{Placement du point d'apparition}
 
 \subsection{Monde de test}
 
@@ -389,7 +408,7 @@ Avec :\\
   \item[-] \(C_{corr}\) : Le coefficient de correction, indiquant la force de correction qu'il est nécessaire d'appliquer. Nous avons choisi d'avoir \(C_{corr}=0.8\)
 \end{itemize}
 
-\subsection{Resolution de la friction}
+\subsection{Résolution de la friction}
 Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en se déplaçant sur les blocs au sol.\\
 Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au bloc après l'application de \(V_{res}\) :
 \[V =  - (V_{P} + V_{corr})\]
@@ -397,29 +416,29 @@ Cette fois, nous avons besoin de la tangente \(t\) pour connaître la direction 
 \[t = V - relativeVelocity \cdot (n \times (1,0)) \times n\]
 Une fois la tangente connue, il est possible de calculer le coefficient de friction \(C_{f}\), correspondant à la vélocité relative à la tangente :
 \[C_{f} = - V \dot t\]
-D'après la loi de Coulomb sur la friction, la force de friction est toujours inferieure à la force normale multipliée par le coefficient de friction statique \(\mu_{s}\) des materiaux entrant en friction. Nous pouvons donc déterminer le vecteur de friction \(C_{f}\) à appliquer grâce à l'équation :
+D'après la loi de Coulomb sur la friction, la force de friction est toujours inférieure à la force normale multipliée par le coefficient de friction statique \(\mu_{s}\) des matériaux entrant en friction. Nous pouvons donc déterminer le vecteur de friction \(C_{f}\) à appliquer grâce à l'équation :
 \[
 V_{f} = \left\{\begin{array}{lr}
            C_{f} \times t & \text{si } |C_{f}| < |C_{i}| \times \mu_{s}\\
           -C_{i} \times t * \mu_{d} & \text{si } |C_{f}| \geq |C_{i}| \times \mu_{s}
         \end{array}\right\}
 \]
-Où \(\mu_{s}\) et \(\mu_{d}\) sont respectivement le coefficient de friction statique et dynamique du block avec lequel le joueur entrant en friction.
+Où \(\mu_{s}\) et \(\mu_{d}\) sont respectivement le coefficient de friction statique et dynamique du bloc avec lequel le joueur entrant en friction.
 
 \subsection{Collisions avec des platformes directionnelles}
-En plus des blocks classiques, nous avons fait le choix d'ajouter des platformes directionnelles, à travers lesquelles le joueur passe à moins de venir d'une direction particulière.\\
+En plus des blocs classiques, nous avons fait le choix d'ajouter des platformes directionnelles, à travers lesquelles le joueur passe à moins de venir d'une direction particulière.\\
 Leur particularité implique l'implémentation de caractéristiques supplémentaires lors de la détection et la résolution de collisions.\\
 Premièrement, une fois la collision détectée, on teste la direction de mouvement du joueur par rapport à la normale de collision, donnée par :
 \[
   angle(n,Dir_{block}) + \pi
 \]
-Où \(Dir_{block}\) correspond à un vecteur donnant la direction attendue du joueur pour avoir une collision (\((0,-1)\) pour un block orienté vers le haut), et \(angle\) une fonction retournant l'angle entre 2 vecteurs.\\
-Si cet angle est superieur à un seuil, que nous avons choisi comme étant \(0.1\), alors on considère que le joueur ne se trouve pas dans la bonne direction, et la collision n'a pas lieu.\par
+Où \(Dir_{block}\) correspond à un vecteur donnant la direction attendue du joueur pour avoir une collision (\((0,-1)\) pour un bloc orienté vers le haut), et \(angle\) une fonction retournant l'angle entre 2 vecteurs.\\
+Si cet angle est supérieur à un seuil, que nous avons choisi comme étant \(0.1\), alors on considère que le joueur ne se trouve pas dans la bonne direction, et la collision n'a pas lieu.\par
 Secondement, dans le but d'éviter que la collision soit résolue dans le cas où le joueur soit en train de tomber à travers la platforme, la collision est détectée avec des hitbox de taille réduite, orientées dans la direction de la collision. Ainsi, pour les collisions entre entre une platforme orientée vers le haut, le joueur et la platforme disposent d'une hitbox d'un huitième de bloc, respectivement placée en haut et en bas des hitbox classiques.\par
 Ces deux algorithmes ne permettent pas de complètement effacer le problème, mais celui-ci est suffisemment réduit pour n'être que rarement visible.
 
 \subsection{Collisions multiples}
-Lorsque le joueur entre en collisions avec de multiples blocs, le vecteur de résolution de collision, de correction ainsi que le vecteur de friction résultants correspondent à la moyenne des vecteurs obtenus en résolvant les collisions, corrections et frictions avec les blocks.
+Lorsque le joueur entre en collisions avec de multiples blocs, le vecteur de résolution de collision, de correction ainsi que le vecteur de friction résultants correspondent à la moyenne des vecteurs obtenus en résolvant les collisions, corrections et frictions avec les blocs.
 
 \subsection{Stockage des données de collision}
 L'ensemble des données est stocké et retourné dans une structure dédiée, permettant de conserver :
