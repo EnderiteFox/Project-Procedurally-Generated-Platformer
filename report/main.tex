@@ -259,7 +259,7 @@ nous voulons tester (voir figure~\ref{fig:test_world}).
 
 \section{La physique}
 Lorsque nous avons commencé le projet, nous avions le choix entre réaliser la physique nous-même, et nous appuyer sur un moteur physique déjà existant.
-En suivant les conseils de notre responsable de projet, nous avons finalement choisi d'implementer notre propre moteur physique.\par
+En suivant les conseils de notre responsable de projet, nous avons finalement choisi d'implémenter notre propre moteur physique.\par
 
 Nous avons pris la décision de réaliser une physique basée sur les impulsions.
 Ainsi, les déplacements et les collisions sont calculées comme des vecteurs, qui sont ensuite appliqués aux divers éléments du jeu.\\
@@ -274,41 +274,41 @@ Pour cela, le moteur physique a pour tâche de pouvoir gérer :
 \subsection{La gestion des collisions}
 La première étape de la réalisation du moteur physique a été la gestion des collisions.\\
 Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont celles entre le personnage et les éléments du décor.\\
-Nous avons choisi de représenter les éléments du décor et le personnage par des formes rectangulaires, ce qui simplifie la tâche, les collisions rectangle-rectangle étant les plus simples à gérer.
-De plus, le décor étant stoqué sur une grille de blocks de même taille, seuls les blocks se trouvant dans les cases adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui, ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
+Nous avons choisi de représenter les éléments du décor et le personnage par des formes rectangulaires, ce qui simplifie la tâche, les collisions rectangle-rectangle étant les plus simples à calculer.
+De plus, le décor étant stocké sur une grille de blocks de même taille, seuls les blocs se trouvant dans les cases adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui, ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
 les 8 entourant le joueur et celle sur laquelle il se trouve.\par
 
 La détection des collisions n'a pas été un problème, celle si étant gérée par la classe \emph{collide} de gamedev framework.\\
 La première difficulté que nous avons rencontré a été lors de la résolution des collisions, ceci restant une étape complexe dans la création d'un moteur physique même lorsqu'uniquement des rectangles sont impliqués.\par
 
-Une fois une collision détectée entre un block du décor et le joueur, on commence par déterminer la vélocité relative \(V\) entre les éléments.
-Etant donné que le block est immobile, cette vélocité est donnée par :
+Une fois une collision détectée entre un bloc du décor et le joueur, on commence par déterminer la vélocité relative \(V\) entre les éléments.
+Étant donné que le block est immobile, cette vélocité est donnée par :
 \[ V =  - V_{P} \]
 Où \(V_{P}\) est la vitesse du joueur.\\
 Une fois cette vitesse déterminée, on peut l'utiliser pour calculer la vitesse \(V_{n}\) par rapport à la normale de collision \(n\), donnée par la détection de collisions de gamedev framework :
 \[ V_{n} = V \cdot n \]
-Si \(V_{n}\) est négative, cela signifie que le joueur ne se déplace pas en direction du block, et la collision n'a pas à être résolue.\\
+Si \(V_{n}\) est négative, cela signifie que le joueur ne se déplace pas en direction du bloc, et la collision n'a pas à être résolue.\\
 Cette vitesse nous permet de calculer la magnitude de l'impulsion \(C_{i}\) à appliquer au joueur :\\
 \[ C_{i} = (1 + e) \times V_{n} \]
-Où e est le \emph{coefficient de restitution} du block avec lequel le joueur est entré en collision.\\
-Ce coefficient permet de déterminer la puissance du "rebond" que le joueur subira après avoir quitté le block.\\
-Dans un moteur physique classique, il serait nécessaire de prendre en compte le coefficient de restitution des deux entités entrant en collision, mais le joueur étant le seul élément entrant en collision, nous avons simplifié le modèle en ne prenant que celui du block.\\
+Où e est le \emph{coefficient de restitution} du bloc avec lequel le joueur est entré en collision.\\
+Ce coefficient permet de déterminer la puissance du "rebond" que le joueur subira après avoir quitté le bloc.\\
+Dans un moteur physique classique, il serait nécessaire de prendre en compte le coefficient de restitution des deux entités entrant en collision, mais le joueur étant le seul élément entrant en collision, nous avons simplifié le modèle en ne prenant que celui du bloc.\\
 Finalement, nous pouvons calculer le vecteur de résolution de collision \(V_{res}\) à appliquer au joueur :
 \[V_{res} = C_{i} \times n \]
 
 \subsection{Correction positionnelle}
-Dans le modèle que nous avons choisi, chacun des objets possède une masse infinie, ce qui explique qu'elle n'apparaisse pas dans les calculs. Cependant, les imprécisions causées par les flottants amènent le joueur à s'enfoncer dans les blocks lorsqu'il est immobile dessus.\\
+Dans le modèle que nous avons choisi, chacun des objets possède une masse infinie, ce qui explique qu'elle n'apparaisse pas dans les calculs. Cependant, les imprécisions causées par les flottants amènent le joueur à s'enfoncer dans les blocs lorsqu'il est immobile dessus.\\
 Pour résoudre cela, nous pouvons appliquer en plus du vecteur de résolution de collision, un second vecteur de correction positionnel \(V_{corr}\) donné par :
 \[V_{corr} = -max(d-0.1,0) \times C_{corr} \times n\]
 Avec :\\
 \begin{itemize}
-  \item[-] \emph{d} : La profondeur de collision, c'est-à-dire la distance dans laquelle le joueur s'est enfoncé dans le block
+  \item[-] \emph{d} : La profondeur de collision, c'est-à-dire la distance dans laquelle le joueur s'est enfoncé dans le bloc
   \item[-] \(C_{corr}\) : Le coefficient de correction, indiquant la force de correction qu'il est nécessaire d'appliquer. Nous avons choisi d'avoir \(C_{corr}=0.8\)
 \end{itemize}
 
 \subsection{Resolution de la friction}
-Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en se déplaçant sur les blocks au sol.\\
-Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au block après l'application de \(V_{res}\) :
+Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en se déplaçant sur les blocs au sol.\\
+Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au bloc après l'application de \(V_{res}\) :
 \[V =  - (V_{P} + V_{corr})\]
 Cette fois, nous avons besoin de la tangente \(t\) pour connaître la direction sur laquelle appliquer la friction, qu'on peut déterminer par :
 \[t = V - relativeVelocity \cdot (n \times (1,0)) \times n\]
@@ -332,25 +332,26 @@ Premièrement, une fois la collision détectée, on teste la direction de mouvem
 \]
 Où \(Dir_{block}\) correspond à un vecteur donnant la direction attendue du joueur pour avoir une collision (\((0,-1)\) pour un block orienté vers le haut), et \(angle\) une fonction retournant l'angle entre 2 vecteurs.\\
 Si cet angle est superieur à un seuil, que nous avons choisi comme étant \(0.1\), alors on considère que le joueur ne se trouve pas dans la bonne direction, et la collision n'a pas lieu.\par
-Secondement, dans le but d'éviter que la collision soit résolue dans le cas où le joueur soit en train de tomber à travers la platforme, la collision est détectée avec des hitbox de taille réduite, orientées dans la direction de la collision. Ainsi, pour les collisions entre entre une platforme orientée vers le haut, le joueur et la platforme disposent d'une hitbox d'un huitième de block, respectivement placée en haut et en bas des hitbox classiques.\par
+Secondement, dans le but d'éviter que la collision soit résolue dans le cas où le joueur soit en train de tomber à travers la platforme, la collision est détectée avec des hitbox de taille réduite, orientées dans la direction de la collision. Ainsi, pour les collisions entre entre une platforme orientée vers le haut, le joueur et la platforme disposent d'une hitbox d'un huitième de bloc, respectivement placée en haut et en bas des hitbox classiques.\par
 Ces deux algorithmes ne permettent pas de complètement effacer le problème, mais celui-ci est suffisemment réduit pour n'être que rarement visible.
 
 \subsection{Collisions multiples}
-Lorsque le joueur entre en collisions avec de multiples blocks, le vecteur de résolution de collision, de correction ainsi que le vecteur de friction résultants correspondent à la moyenne des vecteurs obtenus en résolvant les collisions, corrections et frictions avec les blocks.
+Lorsque le joueur entre en collisions avec de multiples blocs, le vecteur de résolution de collision, de correction ainsi que le vecteur de friction résultants correspondent à la moyenne des vecteurs obtenus en résolvant les collisions, corrections et frictions avec les blocks.
 
 \subsection{Stockage des données de collision}
-L'ensemble des données est stoqué et retourné dans une structure dédiée, permettant de conserver :\\
+L'ensemble des données est stocké et retourné dans une structure dédiée, permettant de conserver :
+
 \begin{itemize}
-  \item{-} La moyenne des vecteurs obtenus par la résolution de collision, correction et friction
-  \item{-} Des booléens indiquant s'il est nécessaire d'appliquer le vecteur de résolution de collision ou la correction
-  \item{-} L'ensemble des types de blocks avec lesquels une collision est survenue, qu'elle ait été résolue ou non (ce qui permet de détecter les collisions avec les piques ou les écrous)
-  \item{-} L'ensemble des coordonnées des blocks avec lesquels une collision est survenue, résolue ou non (ce qui permet notemment l'effacement des écrous de la grille)\\
+  \item La moyenne des vecteurs obtenus par la résolution de collision, correction et friction
+  \item Des booléens indiquant s'il est nécessaire d'appliquer le vecteur de résolution de collision ou la correction
+  \item L'ensemble des types de blocs avec lesquels une collision est survenue, qu'elle ait été résolue ou non (ce qui permet de détecter les collisions avec les piques ou les écrous)
+  \item L'ensemble des coordonnées des blocs avec lesquels une collision est survenue, résolue ou non (ce qui permet notemment l'effacement des écrous de la grille)
 \end{itemize}
 
 Cette structure est ensuite transmise au personnage, qui pourra appliquer les vecteurs de résolution de friction et de collision à sa vitesse, et corriger sa position.
 
 \subsection{Résistance de l'air}
-La resistance de l'air permet de réduire l'accéleration du joueur lors de sa chute, en fonction de sa vitesse actuelle.\\
+La résistance de l'air permet de réduire l'accéleration du joueur lors de sa chute, en fonction de sa vitesse actuelle.\\
 Nous avons choisi de l'implémenter afin d'avoir plus de mobilité en l'air, et d'éviter au joueur d'atteindre des vitesses énormes trop vite en chutant.\\
 La résistance de l'air est calculée dans une fonction séparée, et est donnée par :
 \[
