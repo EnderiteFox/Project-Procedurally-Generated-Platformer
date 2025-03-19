@@ -7,6 +7,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amstext}
 \usepackage{float}
+\usepackage{amsmath}
 
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \newcommand{\hsp}{\hspace{20pt}}
@@ -18,7 +19,7 @@
 \begin{titlepage}
   %\begin{sffamily}
   \begin{center}
-    \includegraphics[height=25mm]{gfx/logo-UMLP.png}~\\[3cm]
+    \includegraphics[height=25mm]{gfx/logo-UMLP}~\\[3cm]
     
     \textsc{\LARGE UFR Sciences et technique}\\
     \textsc{\Large Université Marie et Louis PASTEUR}\\
@@ -200,7 +201,7 @@ Certains cas spéciaux se présentent avec cet algorithme:
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\textwidth]{images/room_placement.png}
+  \includegraphics[width=0.5\textwidth]{images/room_placement}
   \caption{Un exemple de placement de salle.}
   Une salle est représentée en vert.\\ 
   Si la direction haut est choisie, une salle de taille 3x3 peut\\
@@ -214,7 +215,7 @@ x et y, ainsi que la taille de la salle (voir figure~\ref{fig:room_data}).
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\textwidth]{images/room_storage.png}
+  \includegraphics[width=0.5\textwidth]{images/room_storage}
   \caption{Une représentation du stockage d'une salle, 
   en tant que coordonnée et taille de salle}
   \label{fig:room_data}
@@ -231,7 +232,7 @@ Ensuite, des blocs sont retirés de manière à creuser les salles.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\textwidth]{images/filling_the_world.png}
+  \includegraphics[width=0.5\textwidth]{images/filling_the_world}
   \caption{Deux salles, après que les murs soient générés}
   \label{fig:filling_world}
 \end{figure}
@@ -239,12 +240,13 @@ Ensuite, des blocs sont retirés de manière à creuser les salles.
 \subsubsection{Génération du chemin}
 
 La prochaine étape de la génération est de générer un chemin, que le 
-joueur pourra suivre. Cela permet de s'assurer qu'il existe toujours au
+joueur pourra suivre.
+Cela permet de s'assurer qu'il existe toujours au
 moins un chemin possible afin de terminer le niveau, et que tous les 
 niveaux soient bien possibles.
 
-Le chemin est une suite de coordonnées. Un point est donc choisi 
-aléatoirement dans chaque salle.
+Le chemin est une suite de coordonnées.
+Un point est donc choisi aléatoirement dans chaque salle.
 
 Une fois le chemin généré, afin que le joueur puisse l'emprunter, il
 faut le relier avec des plateformes et des échelles.
@@ -274,7 +276,7 @@ est choisi.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\textwidth]{images/two_ways_to_connect.png}
+  \includegraphics[width=0.5\textwidth]{images/two_ways_to_connect}
   \caption{Un chemin composé de deux points, et les deux manières de
   les connecter}
   (En commençant par une échelle à gauche, et par une plateforme à droite)\\
@@ -310,19 +312,20 @@ les conditions indiquées ci-dessus.
 
 \subsubsection{Fausses plateformes et échelles}
 
-Un jeu dont le chemin serait tout tracé ne serait pas amusant. Pour cette
-raison, nous essayons de brouiller les pistes en noyant le véritable chemin
-au milieu de fausses plateformes et échelles. Ces plateformes sont générées
-aléatoirement dans chaque salle. Chaque plateforme est placée en commençant
-sur le mur gauche ou droit, et est placée bloc par bloc vers l'intérieur
-de la salle jusqu'à ce que la plateforme croise un bloc sur son chemin ou
-que la plateforme atteigne une taille choisie aléatoirement. Par la suite,
-des échelles sont générées le long de la plateforme, s'étendant vers le bas
-suivant le même principe que les plateformes.
+Un jeu dont le chemin serait tout tracé ne serait pas amusant.
+Pour cette raison, nous essayons de brouiller les pistes en noyant le
+véritable chemin au milieu de fausses plateformes et échelles.
+Ces plateformes sont générées aléatoirement dans chaque salle.
+Chaque plateforme est placée en commençant sur le mur gauche ou droit,
+et est placée bloc par bloc vers l'intérieur de la salle jusqu'à ce
+que la plateforme croise un bloc sur son chemin ou
+que la plateforme atteigne une taille choisie aléatoirement.
+Par la suite,des échelles sont générées le long de la plateforme,
+s'étendant vers le bas suivant le même principe que les plateformes.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.5\textwidth]{images/fake_platforms.png}
+  \includegraphics[width=0.5\textwidth]{images/fake_platforms}
   \caption{Un exemple de génération de fausse plateformes}
   \label{fig:fake_platforms}
 \end{figure}
@@ -346,14 +349,15 @@ ne soit visible.
 
 Afin de tester des fonctionnalités du jeu comme les collisions, les 
 échelles ou autres, un monde de test a été ajouté, sous la forme d'un 
-générateur de monde. Dans le code, nous pouvons changer le générateur de
+générateur de monde.
+Dans le code, nous pouvons changer le générateur de
 niveau en notre générateur de monde de test, et le monde généré sera alors
 un monde simple, contenant une plateforme et autres fonctionnalités que
 nous voulons tester (voir figure~\ref{fig:test_world}).
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{images/test_world.png}
+  \includegraphics[width=\textwidth]{images/test_world}
   \caption{Une capture d'écran du monde de test}
   \label{fig:test_world}
 \end{figure}
