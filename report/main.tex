@@ -129,7 +129,6 @@ Enfin, atteindre la sortie ne signifie pas nécessairement que le joueur a maxim
 
 \section{Les blocks et entités du monde}
 \subsection{La définition dynamique des blocs}
-% TODO: Fichier XML et récupération dans une classe dédiée
 
 Afin de pouvoir facilement ajouter des blocs au jeu, une définition dynamique des blocs a été mise en place.
 
@@ -149,8 +148,12 @@ Les définitions de blocs sont stockées dans un fichier XML, définissant les p
   \item \textbf{connected}: Définit si le bloc dispose de textures connectées ou pas.
   \item \textbf{hitboxHeight, hitboxWidth, hitboxOffsetX, hitboxOffsetY}: Paramètres de taille et de positionnement
   de la boîte de collision.
-\end{itemize}       
+\end{itemize}
 
+Ce fichier XML est lu par une class BlockTypes qui va ensuite stocker les types de blocs afin qu'ils puissent
+être lus par le jeu par la suite.
+Nous pouvons donc, à partir du nom du type de bloc, avoir accès à toutes ses propriétés.
+  
 \subsection{Le stockage des blocks}
 % TODO: Récupération dans le blockmanager utilisé par le monde
 
