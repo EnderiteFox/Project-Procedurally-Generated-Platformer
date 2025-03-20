@@ -129,7 +129,28 @@ Enfin, atteindre la sortie ne signifie pas nécessairement que le joueur a maxim
 
 \section{Les blocks et entités du monde}
 \subsection{La définition dynamique des blocs}
-% TODO: Fichier XML et récupération dans une classe dédiée        
+% TODO: Fichier XML et récupération dans une classe dédiée
+
+Afin de pouvoir facilement ajouter des blocs au jeu, une définition dynamique des blocs a été mise en place.
+
+Les définitions de blocs sont stockées dans un fichier XML, définissant les propriétés suivantes:
+\begin{itemize}
+  \item \textbf{Type de balise}: Le type de la balise définit le type de bloc, précisant si le bloc défini
+  est un bloc normal, une échelle, une plateforme, un danger, un objet ramassable ou une sortie.
+  \item \textbf{type}: Le sous-type de bloc correspond au nom de bloc.
+  Par exemple, un bloc de type plateforme peut être une plateforme de glace ou une plateforme de slime.
+  Ces deux types de plateformes auront un attribut "type" différent.
+  \item \textbf{texture}: Le chemin vers la texture du bloc.
+  \item \textbf{scale}: Le paramètre de mise à l'échelle de la texture.
+  \item \textbf{staticFriction}: %TODO: Différence entre staticFriction et dynamicFriction?
+  \item \textbf{dynamicFriction}:
+  \item \textbf{restitution}: À quel point le joueur rebondira sur le bloc.
+  \item \textbf{collidable}: Définit si le bloc est solide et est pris en compte dans les collision ou pas.
+  \item \textbf{connected}: Définit si le bloc dispose de textures connectées ou pas.
+  \item \textbf{hitboxHeight, hitboxWidth, hitboxOffsetX, hitboxOffsetY}: Paramètres de taille et de positionnement
+  de la boîte de collision.
+\end{itemize}       
+
 \subsection{Le stockage des blocks}
 % TODO: Récupération dans le blockmanager utilisé par le monde
 
