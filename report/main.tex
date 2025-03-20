@@ -138,25 +138,23 @@ Enfin, atteindre la sortie ne signifie pas nécessairement que le joueur a maxim
 
 \subsection{Aléatoire et graine de génération}
 
-À des fins de débuggage, la possibilité de pouvoir générer le même monde
-plusieurs fois est importante. Pour cela, les niveaux sont générés à l'aide
-d'un générateur de nombres pseudo-aléatoire. Ce générateur peut utiliser
-un entier codé sur 64 bits, et générera la même séquence de nombres
+À des fins de débuggage, la possibilité de pouvoir générer le même monde plusieurs fois est importante.
+Pour cela, les niveaux sont générés à l'aide d'un générateur de nombres pseudo-aléatoire.
+Ce générateur peut utiliser un entier codé sur 64 bits, et générera la même séquence de nombres
 aléatoires tant que la même graine est utilisée. 
 
-Nous avons donc implémenté
-deux moyens de générer les mondes: avec ou sans graine. Si une graine est
-donnée au générateur, alors cette graine sera utilisée lors de la création
-du niveau. Sinon, une graine aléatoire est choisie, et est affichée dans
-la console. Cela permet, en cas de problème, de facilement noter et partager
-une graine, permettant de reproduire le problème plus facilement.
+Nous avons donc implémenté deux moyens de générer les mondes: avec ou sans graine.
+Si une graine est donnée au générateur, alors cette graine sera utilisée lors de la création du niveau.
+Sinon, une graine aléatoire est choisie, et est affichée dans la console.
+Cela permet, en cas de problème, de facilement noter et partager une graine, permettant de reproduire
+le problème plus facilement.
 
 \subsection{Étapes de génération}
 \subsubsection{Génération des salles}
 
 Les salles sont générées de manière à ce qu'elles soient connectées entre
-elles, sans jamais se chevaucher. Pour cela, l'algorithme suivant est 
-appliqué:
+elles, sans jamais se chevaucher.
+Pour cela, l'algorithme suivant est appliqué:
 
 \begin{itemize}
   \item Générer une salle de départ.
@@ -177,24 +175,25 @@ appliqué:
 Certains cas spéciaux se présentent avec cet algorithme:
 \begin{itemize}
   \item \textbf{La salle de départ}: La salle de départ, étant la première
-  salle, ne peut pas se générer à la suite d'une autre salle. Elle se 
-  génère donc simplement aux coordonnées (0, 0)
+  salle, ne peut pas se générer à la suite d'une autre salle.
+  Elle se génère donc simplement aux coordonnées (0, 0)
   \item \textbf{Retour en arrière}: Dans certains cas, une salle peut se 
-  retrouver encerclée par d'autre salles. Dans ce cas, aucune salle ne 
-  pourra se générer par la suite. Afin d'éviter ces situations, l'
-  algorithme décide, si une salle n'arrive pas à se générer, de réessayer 
+  retrouver encerclée par d'autre salles.
+  Dans ce cas, aucune salle ne pourra se générer par la suite.
+  Afin d'éviter ces situations, l'algorithme décide, si une salle n'arrive pas à se générer, de réessayer
   d'abord avec une salle de différente taille, car une salle plus petite
-  peut éventuellement réussir à se générer. Mais, au bout d'un certain 
-  nombre d'essais, l'algorithme décide de retourner en arrière. Dans ce
-  cas, la salle précédente est supprimée, et, en prenant un autre chemin,
+  peut éventuellement réussir à se générer.
+  Mais, au bout d'un certain nombre d'essais, l'algorithme décide de retourner en arrière.
+  Dans ce cas, la salle précédente est supprimée, et, en prenant un autre chemin,
   le générateur réussira à générer l'ensemble des salles.
   \item \textbf{Taille minimale d'entrée}: La génération de plateformes et 
   de pièges pourrait rendre l'entrée dans une salle impossible dans des cas
-  où l'entrée d'une salle serait trop petite. Afin d'éviter cela,
-  lorsqu'elles se placent le long d'un mur, les coordonnées aléatoires ont
+  où l'entrée d'une salle serait trop petite.
+  Afin d'éviter cela, lorsqu'elles se placent le long d'un mur, les coordonnées aléatoires ont
   été restreintes afin que l'entrée vers la salle suivante aie toujours
-  une taille minimale. Cette taille a été définie à 2 blocs. Dans la
-  figure~\ref{fig:room_placement}, on peut voir que peu importe où se génère la
+  une taille minimale.
+  Cette taille a été définie à 2 blocs.
+  Dans la figure~\ref{fig:room_placement}, on peut voir que peu importe où se génère la
   salle, l'entrée de la salle verte vers la salle bleue aura toujours une
   taille d'au moins 2 blocs.
 \end{itemize}
@@ -223,8 +222,8 @@ x et y, ainsi que la taille de la salle (voir figure~\ref{fig:room_data}).
 
 \subsubsection{Génération des murs}
 
-Une fois les salles générées, les murs sont placés. Pour cela, le niveau 
-est rempli avec des blocs, de manière à recouvrir complètement toutes
+Une fois les salles générées, les murs sont placés.
+Pour cela, le niveau est rempli avec des blocs, de manière à recouvrir complètement toutes
 les salles, plus une marge afin de marquer la bordure du niveau. 
 Les coordonnées de remplissage correspondent simplement aux coordonnées
 minimum et maximum correspondant à des salles.
@@ -269,10 +268,9 @@ remplacées par des plateformes, et les sections verticales correspondront
 
 Afin d'introduire plus de variété, le chemin est calculé deux fois:
 En commençant par la direction horizontale (plateforme), et en commençant
-par la direction verticale (échelle). Si le chemin a pu être tracé dans
-les deux directions, une des deux directions est choisie aléatoirement.
-Si seule un des deux chemins a pu être tracé entièrement, alors celui-ci
-est choisi.
+par la direction verticale (échelle).
+Si le chemin a pu être tracé dans les deux directions, une des deux directions est choisie aléatoirement.
+Si seule un des deux chemins a pu être tracé entièrement, alors celui-ci est choisi.
 
 \begin{figure}[H]
   \centering
@@ -287,22 +285,22 @@ est choisi.
 
 Encore une fois, certains cas particuliers apparraissent:
 \begin{itemize}
-  \item \textbf{Le dernier point}: Le dernier point du chemin correspondra 
-  à la sortie. Il est donc placé de manière particulière, en utilisant le
+  \item \textbf{Le dernier point}: Le dernier point du chemin correspondra à la sortie.
+  Il est donc placé de manière particulière, en utilisant le
   même algorithme que pour touver un point de départ qui soit sécurisé.
   \item \textbf{Prise en compte du plafond}: Une fois les plateformes
-  générées, il est important que le joueur puisse marcher sur les 
-  plateformes. Ainsi, si en générant une échelle ou une plateforme, si
+  générées, il est important que le joueur puisse marcher sur les plateformes.
+  Ainsi, si en générant une échelle ou une plateforme, si
   l'algorithme rencontre un espace où le plafond ne permet pas de marcher
   sur la plateforme, cet espace est considéré comme un mur, causant un
   changement de direction.
   \item \textbf{Connections entre échelle et plateforme}: Afin de connecter
   correctement une plateforme et une échelle, certains cas particuliers
   sont pris en compte, particulièrement lorsqu'il s'agit de choisir le bloc
-  correspondant à un coin lors d'un virage. Pour cela, si une échelle vient
-  du bas de la plateforme, alors le bloc du coin sera une échelle.
-  Sinon, le bloc sera une plateforme. Ces choix sont visibles sur la
-  figure~\ref{fig:two_ways_to_connect}.
+  correspondant à un coin lors d'un virage.
+  Pour cela, si une échelle vient du bas de la plateforme, alors le bloc du coin sera une échelle.
+  Sinon, le bloc sera une plateforme.
+  Ces choix sont visibles sur la figure~\ref{fig:two_ways_to_connect}.
 \end{itemize}
 
 \subsubsection{Placement de la sortie}
@@ -333,17 +331,45 @@ s'étendant vers le bas suivant le même principe que les plateformes.
 \subsubsection{Placement des blocs spéciaux}
 
 Afin de pimenter la traversée du niveau par le joueur, de la glace et du 
-slime sont placés dans ce niveau. Cela transforme les blocs et les 
-plateformes en leur version de glace ou de slime. Le choix de la variante
-de bloc est déterminé par un bruit de Perlin, appliqué sur chaque bloc
-composant le niveau. Cela fait que la plupart du niveau sera normal, mais
-que certaines zones seront plus glacées, et d'autres zones seront plutôt
-recouvertes de slime, sans qu'une transition trop brusque entre les zones
-ne soit visible.
+slime sont placés dans ce niveau.
+Cela transforme les blocs et les plateformes en leur version de glace ou de slime.
+Le choix de la variante de bloc est déterminé par un bruit de Perlin, appliqué sur chaque bloc
+composant le niveau.
+Cela fait que la plupart du niveau sera normal, mais que certaines zones seront plus glacées,
+et d'autres zones seront plutôt recouvertes de slime,
+sans qu'une transition trop brusque entre les zones ne soit visible.
 
 \subsubsection{Placement des pièges}
 
-\subsubsection{Placement du point d'apparition}
+Des dangers et pièges sont ensuite rajoutés au niveau, afin que le joueur ne puisse pas se déplacer librement sans
+faire attention, et augmentant la difficulté du jeu.
+Pour cela, des pics sont rajoutés au niveau.
+Si le joueur touche un de ces pics, il sera instantanément ramené au début du niveau, et perdra une vie.
+Les pics sont rajoutés de deux manières.
+\begin{itemize}
+  \item Premièrement, chaque salle a 30\% de chance d'être rendue dangereuse.
+  Cela implique que le sol de la salle sera recouvert de pics.
+  \item Ensuite, d'autres petits pièges, plus rares et moins importants, sont rajoutés dans toutes les salles.
+  Actuellement, seul un type de piège est implémenté: si une ligne de blocs de glace est détectée au sol, alors
+  un pic est placé au bout de cette ligne.
+  Cela fait que si le joueur marche sur ce sol de glace, il prend alors le risque de glisser, et d'être tué par le
+  pic se trouvant au bout.
+\end{itemize}
+
+La dernière salle est épargnée par ces mécaniques.
+De cette manière, aucun pic ne se générera dans la salle contenant la sortie, évitant des situations où la sortie
+difficile d'accès car se trouvant au milieu de pics.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/ice_spike_trap}
+  \caption{Un exemple de génération de pics dans des salles.}
+  Seule la salle bleue a été sélectionnée comme étant dangereuse.\\
+  Le pic de la salle verte est placé au bout d'une ligne de blocs de glace.
+  \label{fig:spike_placement}
+\end{figure}
+
+\subsubsection{Placement du point d'apparition}   
 
 \subsection{Monde de test}
 
@@ -391,7 +417,7 @@ La première étape de la réalisation du moteur physique a été la gestion des
 Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont celles entre le personnage et les éléments du décor.\\
 Nous avons choisi de représenter les éléments du décor et le personnage par des formes rectangulaires, ce qui simplifie la tâche, les collisions rectangle-rectangle étant les plus simples à calculer.
 De plus, le décor étant stocké sur une grille de blocs de même taille, seuls les blocs se trouvant dans les cases adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui, ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
-les 8 entourant le joueur et celle sur laquelle il se trouve.\par
+les 8 entourant le joueur et celle sur laquelle il se trouve.
 
 La détection des collisions n'a pas été un problème, celle si étant gérée par la classe \emph{collide} de gamedev framework.\\
 La première difficulté que nous avons rencontré a été lors de la résolution des collisions, ceci restant une étape complexe dans la création d'un moteur physique même lorsqu'uniquement des rectangles sont impliqués.\par
