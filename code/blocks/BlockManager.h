@@ -19,7 +19,7 @@ namespace platformer {
 
     class BlockType;
 
-    struct internalBlockData{
+    struct internalBlockData {
         std::string blockType;
         uint8_t offset;
     };

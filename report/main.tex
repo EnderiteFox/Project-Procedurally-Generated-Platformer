@@ -154,8 +154,24 @@ Ce fichier XML est lu par une class BlockTypes qui va ensuite stocker les types 
 être lus par le jeu par la suite.
 Nous pouvons donc, à partir du nom du type de bloc, avoir accès à toutes ses propriétés.
   
-\subsection{Le stockage des blocks}
+\subsection{Le stockage des blocs}
 % TODO: Récupération dans le blockmanager utilisé par le monde
+
+Les blocs sont stockés et gérés par un objet BlockManager.
+
+Cet objet permet de stocker les blocs du monde, en associant une position x et y à un nom de bloc.
+
+\subsection{Le monde}
+
+L'objet World est composé de plusieurs choses dont: un générateur de monde, un conteneur d'entités,
+un BlockManager, un joueur, un point d'apparition de joueur, et enfin d'une limite inférieure au monde.
+
+Cet objet permet de centraliser tous les objets qui doivent être mis à jour à chaque frame de jeu, afin de
+les mettre à jour plus facilement.
+
+La limite inférieure de monde sert à s'assurer que même dans le cas où le joueur trouverait un moyen de sortir de la
+zone de jeu et tomberait dans le vide, qu'il soit téléporté à son point d'apparition.
+Cette limite inférieure est calculée à partir de la salle la plus basse qui ait été générée par le générateur de monde.
 
 \section{La génération procédurale}
 % TODO: Donner les étapes/difficultés avant d'en arriver à un truc qui marche correctement
@@ -553,6 +569,7 @@ Où \(dir\) est la direction du joueur, et \(v\) sa vitesse actuelle.
 \subsection{La définition des tâches}
 \subsubsection{La répartition du travail}
 \subsection{Les outils utilisés}
+% TODO: Mettres les logos des outils utilisés ? Au moins celui de gf
 % ça serait important de mentionner qu'on a mis un peu de temps à avoir un trello
 % je pense aussi que l'ordre dans lequel on a mis les outils en place peut être interessant à rajouter
 \subsubsection{Gamedev Framework}
