@@ -578,14 +578,38 @@ développement.
 Nous avons utilisés plusieurs IDEs, tel que CLion, (vos IDEs ici\ldots) afin de développer le jeu.
 
 \newpage
-      
+
 \section{Conclusion}
 % On a quand même une conclusion ici avant les autres points
 \subsection{Points d'amélioration}
 \subsubsection{Ce qu'on aurait voulu ajouter}
 %c.f le gdoc
 \subsubsection{Wave Function Collapse}
-\subsubsection{Pathfinding amélioré}
+
+L'algorithme de Wave Function Collapse est un algorithme permettant de définir différent patternes, ainsi que la
+manière dont les patternes peuvent se connecter, et par la suite de générer un placement de ces patternes respectant
+les contraines définies.
+Cela aurait permis de définir différents morceaux de niveau et de les assembler correctement, pouvant mener à des
+niveaux prenant des formes plus complexes.
+
+Cependant, cet algorithme a été découvert trop tard dans le processus de développement pour pouvoir être implémenté
+à temps.  
+
+\subsubsection{Pathfinding}
+
+Bien que l'algorithme utilisé afin de relier les différent points du chemin fonctionne dans la plupart des cas, il
+existe certains cas où l'algorithme échoue à relier deux points.
+
+Notamment, l'algorithme est incapable de créer une plateforme dans une direction, et de revenir dans
+la direction inverse par la suite, et est à la place limité à la direction choisie au départ.
+
+Dans les cas où cela se produit, la plupart du temps, le niveau reste possible à l'aide des fausses plateformes,
+qui peuvent être empruntées afin de progresser dans le niveau.
+
+Un algorithme de pathfinding pourrait aider à éliminer complètement ce problème.
+Cependant, la nature rectiligne des plateformes rendrait plus difficile l'implémentation de ce genre d'algorithme
+de pathfinding, en contraignant le type de chemin pouvant être pris.
+
 \subsubsection{La physique} % ;-;
 
 \tableofcontents
