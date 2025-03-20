@@ -287,7 +287,7 @@ Encore une fois, certains cas particuliers apparraissent:
 \begin{itemize}
   \item \textbf{Le dernier point}: Le dernier point du chemin correspondra à la sortie.
   Il est donc placé de manière particulière, en utilisant le
-  même algorithme que pour touver un point de départ qui soit sécurisé.
+  même algorithme que pour touver un point de départ qui soit sécurisé (voir section~\ref{subsubsec:spawn_point})  .
   \item \textbf{Prise en compte du plafond}: Une fois les plateformes
   générées, il est important que le joueur puisse marcher sur les plateformes.
   Ainsi, si en générant une échelle ou une plateforme, si
@@ -369,8 +369,33 @@ difficile d'accès car se trouvant au milieu de pics.
   \label{fig:spike_placement}
 \end{figure}
 
-\subsubsection{Placement du point d'apparition}   
+\subsubsection{Placement du point d'apparition}
+\label{subsubsec:spawn_point}
 
+Le joueur ne peut pas commencer le niveau à n'importe quelle position.
+Il faut s'assurer que le joueur ne commence pas le niveau dans un endroit dangereux, ou flottant dans les airs.
+Pour cela, étant donné une salle, l'algorithme suivant cherche un point d'apparition valide dans la salle:
+
+\begin{itemize}
+  \item Vérifier le bloc situé au sol, au milieu de la salle.
+  \item Si ce bloc est vide, et que le bloc situé juste en dessous est un bloc solide, alors il s'agit d'un
+  point d'apparition valide.
+  \item Sinon, on vérifie les blocs situés sur la même ligne, à gauche est à droite, en partant du centre jusqu'au
+  bord de la salle.
+  \item Si aucun point d'apparition n'est trouvé sur cette ligne, chercher sur la ligne située un bloc plus haut.
+\end{itemize}
+
+Si, pour une raison quelconque, aucun point d'apparition n'est trouvé, alors un point d'apparition valide est
+cherché dans les salles suivantes.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/valid_spawn_locations}
+  \caption{Un exemple des points d'apparition valides dans un niveau.}
+  Le bloc situé le plus au centre, en bas de la salle de départ sera le point d'apparition choisi.
+  \label{fig:spawn_points}
+\end{figure}
+  
 \subsection{Monde de test}
 
 Afin de tester des fonctionnalités du jeu comme les collisions, les 
