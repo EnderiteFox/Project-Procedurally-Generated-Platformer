@@ -8,11 +8,13 @@
 \usepackage{amstext}
 \usepackage{float}
 \usepackage{amsmath}
+\usepackage{shorttoc}
 
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \newcommand{\hsp}{\hspace{20pt}}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \renewcommand\thesection{\arabic{section}}
+\renewcommand{\contentsname{Table des matières}}
 
 \begin{document}
 
@@ -48,10 +50,10 @@
 
 \normalsize
 \pagenumbering{arabic}
-\tableofcontents
+\shorttableofcontents{Table des matières}{2}
 \pagebreak
 \listoffigures
-\pagebreak
+\pagebreak  
 
 \section{Introduction}
 
@@ -360,7 +362,7 @@ La dernière salle est épargnée par ces mécaniques.
 De cette manière, aucun pic ne se générera dans la salle contenant la sortie, évitant des situations où la sortie
 difficile d'accès car se trouvant au milieu de pics.
 
-\begin{figure}[H]
+  \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{images/ice_spike_trap}
   \caption{Un exemple de génération de pics dans des salles.}
@@ -395,7 +397,7 @@ cherché dans les salles suivantes.
   Le bloc situé le plus au centre, en bas de la salle de départ sera le point d'apparition choisi.
   \label{fig:spawn_points}
 \end{figure}
-  
+
 \subsection{Monde de test}
 
 Afin de tester des fonctionnalités du jeu comme les collisions, les 
@@ -550,5 +552,6 @@ Où \(dir\) est la direction du joueur, et \(v\) sa vitesse actuelle.
 \subsubsection{Pathfinding amélioré}
 \subsubsection{La physique} % ;-;
 
+\tableofcontents
 
 \end{document}
