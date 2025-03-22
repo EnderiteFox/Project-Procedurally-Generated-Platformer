@@ -9,6 +9,7 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{shorttoc}
+\usepackage{hyperref}
 
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 \newcommand{\hsp}{\hspace{20pt}}
@@ -196,7 +197,7 @@ Les définitions de blocs sont stockées dans un fichier XML, définissant les p
   est un bloc normal, une échelle, une plateforme, un danger, un objet ramassable ou une sortie.
   \item \textbf{type}: Le sous-type de bloc correspond au nom de bloc.
   Par exemple, un bloc de type plateforme peut être une plateforme de glace ou une plateforme de slime.
-  Ces deux types de plateformes auront un attribut "type" différent.
+  Ces deux types de plateformes auront un attribut ``type'' différent.
   \item \textbf{texture}: Le chemin vers la texture du bloc.
   \item \textbf{scale}: Le paramètre de mise à l'échelle de la texture.
   \item \textbf{staticFriction}: Friction statique du bloc.
@@ -210,15 +211,14 @@ Les définitions de blocs sont stockées dans un fichier XML, définissant les p
 
 Ce fichier XML est lu par une class \emph{BlockTypes} qui va ensuite stocker les types de blocs afin qu'ils puissent
 être lus par le jeu par la suite.
-Nous pouvons donc, à partir du nom du type de bloc, avoir accès à toutes ses propriétés.
   
 \subsection{Le stockage des blocs}
-% TODO: Récupération dans le blockmanager utilisé par le monde
 
 Les blocs sont stockés et gérés par un objet \emph{BlockManager}.
 
 Cet objet permet de stocker les blocs du monde dans un tableau associatif, en associant une position x et y
 à un nom de bloc.
+Nous pouvons donc par la suite, à partir du type de bloc, lire ses propriétés à l'aide de la classe \emph{BlockTypes}.
 
 \subsection{Le monde}
 
@@ -233,8 +233,6 @@ zone de jeu et tomberait dans le vide, qu'il soit téléporté à son point d'ap
 Cette limite inférieure est calculée à partir de la salle la plus basse qui ait été générée par le générateur de monde.
 
 \section{La génération procédurale}
-% TODO: Donner les étapes/difficultés avant d'en arriver à un truc qui marche correctement
-
 \subsection{Aléatoire et graine de génération}
 
 À des fins de débuggage, la possibilité de pouvoir générer le même monde plusieurs fois est importante.
@@ -569,7 +567,7 @@ et la collision n'a pas à être résolue.\\
 Cette vitesse nous permet de calculer la magnitude de l'impulsion \(C_{i}\) à appliquer au joueur :\\
 \[ C_{i} = (1 + e) \times V_{n} \]
 Où e est le \emph{coefficient de restitution} du bloc avec lequel le joueur est entré en collision.\\
-Ce coefficient permet de déterminer la puissance du "rebond" que le joueur subira après avoir quitté le bloc.\\
+Ce coefficient permet de déterminer la puissance du ``rebond'' que le joueur subira après avoir quitté le bloc.\\
 Dans un moteur physique classique, il serait nécessaire de prendre en compte le coefficient de restitution des
 deux entités entrant en collision, mais le joueur étant le seul élément entrant en collision,
 nous avons simplifié le modèle en ne prenant que celui du bloc.\\
@@ -674,7 +672,7 @@ Où \(dir\) est la direction du joueur, et \(v\) sa vitesse actuelle.
 \subsection{La définition des tâches}
 \subsubsection{La répartition du travail}
 \subsection{Les outils utilisés}
-% TODO: Mettre les logos des outils utilisés ? Au moins celui de gf
+% TODO: Mettre les logos des outils utilisés ? Au moins celui de gf. À moins qu'on le mettre uniquement dans la présentation?
 % ça serait important de mentionner qu'on a mis un peu de temps à avoir un trello
 % je pense aussi que l'ordre dans lequel on a mis les outils en place peut être intéressant à rajouter
 \subsubsection{Gamedev Framework}
