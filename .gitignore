@@ -18,4 +18,9 @@ report/main.synctex.gz
 *.fls
 *.fdb_latexmk
 *.aux
+*.nav
+*.snm
+presentation/presentation.synctex.gz
+*.vrb
+*.out
 report/main.pdf
