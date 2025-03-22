@@ -57,13 +57,33 @@
 
 \section{Introduction}
 
-Dans le cadre de notre projet semestriel en L3 Informatique à l'Université Marie et Louis Pasteur, nous avons travaillé sur le développement d’un jeu de plate-formes avec génération procédurale en C++. 
+Dans le cadre de notre projet semestriel en L3 Informatique à l'Université Marie et Louis Pasteur,
+nous avons travaillé sur le développement d’un jeu de plate-formes avec génération procédurale en C++.
 
-Les jeux de plate-formes sont un genre qui repose sur le contrôle d'un personnage avec des mécaniques comme les sauts et les obstacles, l’objectif étant généralement de rejoindre une sortie pour terminer le niveau. L’ajout de la génération procédurale introduit une caractéristique supplémentaire : plutôt que de concevoir chaque niveau à la main, un algorithme est chargé de créer les niveaux du jeu, permettant ainsi une expérience unique à chaque partie.
+Les jeux de plate-formes sont un genre qui repose sur le contrôle d'un personnage avec des mécaniques comme
+les sauts et les obstacles, l’objectif étant généralement de rejoindre une sortie pour terminer le niveau.
+L’ajout de la génération procédurale introduit une caractéristique supplémentaire :
+plutôt que de concevoir chaque niveau à la main, un algorithme est chargé de créer les niveaux du jeu,
+permettant ainsi une expérience unique à chaque partie.
 
-L'objectif principal de ce projet était de concevoir un jeu de plate-formes dont les niveaux seraient générés de manière procédurale, offrant ainsi une rejouabilité infinie. En parallèle, nous avons dû concevoir un jeu intégrant plusieurs mécaniques de jeu, incluant des déplacements, des sauts, un dash, ainsi qu’un objectif centré sur la récolte d’objets, tout en assurant la gestion des collisions et la physique du jeu.
+L'objectif principal de ce projet était de concevoir un jeu de plate-formes dont les niveaux seraient générés
+de manière procédurale, offrant ainsi une rejouabilité infinie.
+En parallèle, nous avons dû concevoir un jeu intégrant plusieurs mécaniques de jeu, incluant des déplacements,
+des sauts, un dash, ainsi qu’un objectif centré sur la récolte d’objets,
+tout en assurant la gestion des collisions et la physique du jeu.
 
-Dans ce rapport, nous commencerons par une présentation générale du jeu, en exposant les objectifs du joueur et les scènes du jeu. Ensuite, nous détaillerons la conception des blocs et entités qui composent le monde et leur gestion dynamique. Par la suite, nous aborderons la génération procédurale, en expliquant la méthode utilisée ainsi que les détails d'implémentation. Nous discuterons ensuite des contrôles du personnage et des différentes mécaniques de jeu, telles que le saut, le dash, etc. La partie suivante sera consacrée à la physique, notamment la gestion des collisions et des propriétés physiques comme la résistance de l'air. Enfin, nous reviendrons sur l’organisation du travail, la répartition des tâches et les outils utilisés pour mener à bien ce projet. Le rapport se conclura par un bilan du projet et les améliorations possibles.
+Dans ce rapport, nous commencerons par une présentation générale du jeu, en exposant les objectifs du joueur et
+les scènes du jeu.
+Ensuite, nous détaillerons la conception des blocs et entités qui composent le monde et leur gestion dynamique.
+Par la suite, nous aborderons la génération procédurale, en expliquant la méthode utilisée ainsi que les détails
+d'implémentation.
+Nous discuterons ensuite des contrôles du personnage et des différentes mécaniques de jeu, telles que le saut,
+le dash, etc.
+La partie suivante sera consacrée à la physique, notamment la gestion des collisions et des propriétés physiques
+comme la résistance de l'air.
+Enfin, nous reviendrons sur l’organisation du travail, la répartition des tâches et les outils utilisés pour
+mener à bien ce projet.
+Le rapport se conclura par un bilan du projet et les améliorations possibles.
 
 \pagebreak
 
@@ -72,22 +92,41 @@ Dans ce rapport, nous commencerons par une présentation générale du jeu, en e
 \section{Présentation du jeu}
 \subsection{Présentation générale}
 
-Ce projet consiste à développer un jeu de plate-forme en 2D intégrant un système de génération procédurale de niveau. L’objectif est d’offrir une expérience où chaque partie est unique : au lieu d’avoir des niveaux prédéfinis, ceux-ci sont générés aléatoirement à chaque nouvelle partie. Contrairement aux jeux de plate-forme classiques où l'on peut apprendre les niveaux par cœur, ici, aucun parcours ne peut être rejoué à l’identique. Cette approche permet non seulement une rejouabilité infinie, mais aussi un défi constant, obligeant le joueur à s’adapter à chaque nouvelle configuration de niveau.
+Ce projet consiste à développer un jeu de plate-forme en 2D intégrant un système de génération procédurale de niveau.
+L’objectif est d’offrir une expérience où chaque partie est unique : au lieu d’avoir des niveaux prédéfinis,
+ceux-ci sont générés aléatoirement à chaque nouvelle partie.
+Contrairement aux jeux de plate-forme classiques où l'on peut apprendre les niveaux par cœur, ici, aucun parcours ne
+peut être rejoué à l’identique.
+Cette approche permet non seulement une rejouabilité infinie, mais aussi un défi constant, obligeant le joueur
+à s’adapter à chaque nouvelle configuration de niveau.
 
-Le joueur incarne un petit robot, dont la mission principale est de récolter un maximum d’écrous avant d’atteindre la sortie du niveau. Ces écrous sont disposés aléatoirement dans l’environnement, incitant le joueur à explorer avant de pouvoir terminer la partie.
+Le joueur incarne un petit robot, dont la mission principale est de récolter un maximum d’écrous
+avant d’atteindre la sortie du niveau.
+Ces écrous sont disposés aléatoirement dans l’environnement, incitant le joueur à explorer avant de pouvoir
+terminer la partie.
 
-Pour évoluer dans le monde, le joueur dispose de plusieurs mécaniques lui permettant de se déplacer librement et d’interagir avec son environnement :
+Pour évoluer dans le monde, le joueur dispose de plusieurs mécaniques lui permettant de se déplacer librement et
+d’interagir avec son environnement :
 \begin{itemize}
-  \item \textbf{déplacement} : le personnage peut se déplacer latéralement, à gauche et à droite, pour parcourir le niveau.
-  \item \textbf{saut} : le personnage peut sauter pour franchir des obstacles ou atteindre des plateformes situées en hauteur.
-  \item \textbf{double saut} : après un premier saut, lorsqu'il est encore en l’air, le personnage peut effectuer un second saut lui permettant d’atteindre des zones plus élevées.
-  \item \textbf{dash} : le personnage dispose également d’un dash, une impulsion rapide dans une direction (gauche ou droite), utile pour traverser de grands espaces vides ou esquiver des obstacles.\\
+  \item \textbf{déplacement} : le personnage peut se déplacer latéralement, à gauche et à droite,
+  pour parcourir le niveau.
+  \item \textbf{saut} : le personnage peut sauter pour franchir des obstacles ou atteindre des plateformes
+  situées en hauteur.
+  \item \textbf{double saut} : après un premier saut, lorsqu'il est encore en l’air, le personnage peut effectuer
+  un second saut lui permettant d’atteindre des zones plus élevées.
+  \item \textbf{dash} : le personnage dispose également d’un dash, une impulsion rapide dans une direction
+  (gauche ou droite), utile pour traverser de grands espaces vides ou esquiver des obstacles.\\
 \end{itemize}
 
-Ces mécaniques offrent une grande liberté de mouvement, permettant aux joueurs d’adopter différentes stratégies. Certains privilégieront une approche prudente, optimisant chaque saut pour éviter la mort, tandis que d’autres tenteront des enchaînements rapides et fluides pour terminer le niveau efficacement.
+Ces mécaniques offrent une grande liberté de mouvement, permettant aux joueurs d’adopter différentes stratégies.
+Certains privilégieront une approche prudente, optimisant chaque saut pour éviter la mort, tandis que d’autres
+tenteront des enchaînements rapides et fluides pour terminer le niveau efficacement.
 
 
-Comme mentionné précédemment, tous les niveaux sont générés de manière procédurale, cela signifie qu'à chaque lancement de partie c'est un algorithme qui se charge de créer un environnement en plaçant des blocs, plateformes, échelles, écrous, piques et une sortie. Cette méthode permet de générer de manière presque infinie des mondes différents. 
+Comme mentionné précédemment, tous les niveaux sont générés de manière procédurale, cela signifie qu'à chaque
+lancement de partie c'est un algorithme qui se charge de créer un environnement en plaçant des blocs, plateformes,
+échelles, écrous, piques et une sortie.
+Cette méthode permet de générer de manière presque infinie des mondes différents.
 
 Ces différent niveaux sont composés de salles générées de manière 
 contiguës, et les salles sont reliées entre elles par des échelles et des
@@ -100,27 +139,46 @@ que cela implique sur ses déplacements.
 
 \subsection{Les objectifs du joueur}
 
-Dans ce jeu de plate-forme, le joueur incarne un petit robot dont l’objectif principal est de récupérer des écrous dispersés dans l’environnement avant d’atteindre la sortie.
+Dans ce jeu de plate-forme, le joueur incarne un petit robot dont l’objectif principal est de récupérer des écrous
+dispersés dans l’environnement avant d’atteindre la sortie.
 
 
 \subsubsection{Les écrous}
 
-Les écrous sont des objets collectables répartis à plusieurs endroits du niveau. Ils constituent un élément central du jeu, car ils encouragent le joueur à explorer le monde plutôt que de se précipiter vers la sortie.
+Les écrous sont des objets collectables répartis à plusieurs endroits du niveau.
+Ils constituent un élément central du jeu, car ils encouragent le joueur à explorer le monde plutôt que de se
+précipiter vers la sortie.
 
-Comme tous les autres éléments du monde, les écrous sont placés aléatoirement à chaque génération de niveau. Leur nombre n’est pas fixe, ce qui signifie que chaque partie offre une répartition différente des écrous, renforçant ainsi la rejouabilité. Le joueur doit donc parcourir l’environnement avec attention pour être sûr de ne pas en oublier.
+Comme tous les autres éléments du monde, les écrous sont placés aléatoirement à chaque génération de niveau.
+Leur nombre n’est pas fixe, ce qui signifie que chaque partie offre une répartition différente des écrous,
+renforçant ainsi la rejouabilité.
+Le joueur doit donc parcourir l’environnement avec attention pour être sûr de ne pas en oublier.
 
-Toutefois, la collecte des écrous n’est pas obligatoire pour terminer un niveau. Le joueur peut choisir de se concentrer sur la recherche de la sortie ou, au contraire, tenter de récupérer un maximum d’écrous pour améliorer son score, affiché dans le coin supérieur gauche de l’écran.
+Toutefois, la collecte des écrous n’est pas obligatoire pour terminer un niveau.
+Le joueur peut choisir de se concentrer sur la recherche de la sortie ou, au contraire, tenter de récupérer
+un maximum d’écrous pour améliorer son score, affiché dans le coin supérieur gauche de l’écran.
 
 
 \subsubsection{La sortie}
 
-La sortie représente l'objectif final d'une partie. Une fois que le joueur l'a trouvée, il peut choisir de l’atteindre immédiatement pour terminer la partie ou bien continuer à explorer afin de collecter davantage d’écrous et améliorer son score. Ce choix introduit un élément de stratégie, puisque le joueur doit évaluer s’il préfère sécuriser sa progression ou prendre des risques pour maximiser ses points.
+La sortie représente l'objectif final d'une partie.
+Une fois que le joueur l'a trouvée, il peut choisir de l’atteindre immédiatement pour terminer la partie ou bien
+continuer à explorer afin de collecter davantage d’écrous et améliorer son score.
+Ce choix introduit un élément de stratégie, puisque le joueur doit évaluer s’il préfère sécuriser sa progression
+ou prendre des risques pour maximiser ses points.
 
-Comme pour les écrous, la sortie est placée aléatoirement dans le niveau, ce qui signifie que le joueur ne sait jamais à l’avance où elle se trouve. Il est donc obligé d’explorer activement l’environnement pour la localiser.
+Comme pour les écrous, la sortie est placée aléatoirement dans le niveau, ce qui signifie que le joueur ne sait
+jamais à l’avance où elle se trouve.
+Il est donc obligé d’explorer activement l’environnement pour la localiser.
 
-Le fait que la sortie soit générée aléatoirement renforce la diversité des parties. Chaque session de jeu demande au joueur de s’adapter aux conditions spécifiques du niveau généré, ce qui augmente le défi et évite toute monotonie. Trouver la sortie peut parfois être simple, mais dans d’autres cas, elle pourra être bien cachée ou difficile d’accès, obligeant le joueur à parcourir l’intégralité du niveau.
+Le fait que la sortie soit générée aléatoirement renforce la diversité des parties.
+Chaque session de jeu demande au joueur de s’adapter aux conditions spécifiques du niveau généré, ce qui augmente
+le défi et évite toute monotonie.
+Trouver la sortie peut parfois être simple, mais dans d’autres cas, elle pourra être bien cachée ou difficile d’accès,
+obligeant le joueur à parcourir l’intégralité du niveau.
 
-Enfin, atteindre la sortie ne signifie pas nécessairement que le joueur a maximisé son score, mais cela valide sa progression et lui permet de lancer une nouvelle partie avec un niveau entièrement différent.
+Enfin, atteindre la sortie ne signifie pas nécessairement que le joueur a maximisé son score, mais cela valide
+sa progression et lui permet de lancer une nouvelle partie avec un niveau entièrement différent.
 
 
 
@@ -141,8 +199,8 @@ Les définitions de blocs sont stockées dans un fichier XML, définissant les p
   Ces deux types de plateformes auront un attribut "type" différent.
   \item \textbf{texture}: Le chemin vers la texture du bloc.
   \item \textbf{scale}: Le paramètre de mise à l'échelle de la texture.
-  \item \textbf{staticFriction}: %TODO: Différence entre staticFriction et dynamicFriction?
-  \item \textbf{dynamicFriction}:
+  \item \textbf{staticFriction}: Friction statique du bloc.
+  \item \textbf{dynamicFriction}: Friction dynamique du bloc.
   \item \textbf{restitution}: À quel point le joueur rebondira sur le bloc.
   \item \textbf{collidable}: Définit si le bloc est solide et est pris en compte dans les collision ou pas.
   \item \textbf{connected}: Définit si le bloc dispose de textures connectées ou pas.
@@ -150,16 +208,17 @@ Les définitions de blocs sont stockées dans un fichier XML, définissant les p
   de la boîte de collision.
 \end{itemize}
 
-Ce fichier XML est lu par une class BlockTypes qui va ensuite stocker les types de blocs afin qu'ils puissent
+Ce fichier XML est lu par une class \emph{BlockTypes} qui va ensuite stocker les types de blocs afin qu'ils puissent
 être lus par le jeu par la suite.
 Nous pouvons donc, à partir du nom du type de bloc, avoir accès à toutes ses propriétés.
   
 \subsection{Le stockage des blocs}
 % TODO: Récupération dans le blockmanager utilisé par le monde
 
-Les blocs sont stockés et gérés par un objet BlockManager.
+Les blocs sont stockés et gérés par un objet \emph{BlockManager}.
 
-Cet objet permet de stocker les blocs du monde, en associant une position x et y à un nom de bloc.
+Cet objet permet de stocker les blocs du monde dans un tableau associatif, en associant une position x et y
+à un nom de bloc.
 
 \subsection{Le monde}
 
@@ -327,7 +386,7 @@ Encore une fois, certains cas particuliers apparraissent:
 \begin{itemize}
   \item \textbf{Le dernier point}: Le dernier point du chemin correspondra à la sortie.
   Il est donc placé de manière particulière, en utilisant le
-  même algorithme que pour touver un point de départ qui soit sécurisé (voir section~\ref{subsubsec:spawn_point})  .
+  même algorithme que pour touver un point de départ qui soit sécurisé (voir section~\ref{subsubsec:spawn_point}).
   \item \textbf{Prise en compte du plafond}: Une fois les plateformes
   générées, il est important que le joueur puisse marcher sur les plateformes.
   Ainsi, si en générant une échelle ou une plateforme, si
@@ -464,11 +523,14 @@ nous voulons tester (voir figure~\ref{fig:test_world}).
 \subsection{Le score et les vies}
 
 \section{La physique}
-Lorsque nous avons commencé le projet, nous avions le choix entre réaliser la physique nous-même, et nous appuyer sur un moteur physique déjà existant.
-En suivant les conseils de notre responsable de projet, nous avons finalement choisi d'implémenter notre propre moteur physique.\par
+Lorsque nous avons commencé le projet, nous avions le choix entre réaliser la physique nous-même, et nous appuyer sur
+un moteur physique déjà existant.
+En suivant les conseils de notre responsable de projet, nous avons finalement choisi d'implémenter notre
+propre moteur physique.
 
 Nous avons pris la décision de réaliser une physique basée sur les impulsions.
-Ainsi, les déplacements et les collisions sont calculées comme des vecteurs, qui sont ensuite appliqués aux divers éléments du jeu.\\
+Ainsi, les déplacements et les collisions sont calculées comme des vecteurs, qui sont ensuite appliqués aux
+divers éléments du jeu.\\
 Pour cela, le moteur physique a pour tâche de pouvoir gérer :
 \begin{itemize}
   \item[-] La détection de collisions entre le personnage et les éléments du décor
@@ -479,70 +541,108 @@ Pour cela, le moteur physique a pour tâche de pouvoir gérer :
 
 \subsection{La gestion des collisions}
 La première étape de la réalisation du moteur physique a été la gestion des collisions.\\
-Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont celles entre le personnage et les éléments du décor.\\
-Nous avons choisi de représenter les éléments du décor et le personnage par des formes rectangulaires, ce qui simplifie la tâche, les collisions rectangle-rectangle étant les plus simples à calculer.
-De plus, le décor étant stocké sur une grille de blocs de même taille, seuls les blocs se trouvant dans les cases adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui, ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
+Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont
+celles entre le personnage et les éléments du décor.\\
+Nous avons choisi de représenter les éléments du décor et le personnage par des formes rectangulaires,
+ce qui simplifie la tâche, les collisions rectangle-rectangle étant les plus simples à calculer.
+De plus, le décor étant stocké sur une grille de blocs de même taille, seuls les blocs se trouvant dans les cases
+adjacentes à celle où se trouve le personnage joueur sont susceptibles d'entrer en collision avec lui,
+ce qui implique qu'à n'importe quel instant, il n'est nécessaire de tester les collisions qu'avec 9 cases :
 les 8 entourant le joueur et celle sur laquelle il se trouve.
 
-La détection des collisions n'a pas été un problème, celle si étant gérée par la classe \emph{collide} de gamedev framework.\\
-La première difficulté que nous avons rencontré a été lors de la résolution des collisions, ceci restant une étape complexe dans la création d'un moteur physique même lorsqu'uniquement des rectangles sont impliqués.\par
+La détection des collisions n'a pas été un problème, celle si étant gérée par
+la classe \emph{collide} de gamedev framework.\\
+La première difficulté que nous avons rencontré a été lors de la résolution des collisions,
+ceci restant une étape complexe dans la création d'un moteur physique même lorsqu'uniquement
+des rectangles sont impliqués.
 
-Une fois une collision détectée entre un bloc du décor et le joueur, on commence par déterminer la vélocité relative \(V\) entre les éléments.
+Une fois une collision détectée entre un bloc du décor et le joueur, on commence par déterminer la
+vélocité relative \(V\) entre les éléments.
 Étant donné que le block est immobile, cette vélocité est donnée par :
 \[ V =  - V_{P} \]
 Où \(V_{P}\) est la vitesse du joueur.\\
-Une fois cette vitesse déterminée, on peut l'utiliser pour calculer la vitesse \(V_{n}\) par rapport à la normale de collision \(n\), donnée par la détection de collisions de gamedev framework :
+Une fois cette vitesse déterminée, on peut l'utiliser pour calculer la vitesse \(V_{n}\) par rapport à la
+normale de collision \(n\), donnée par la détection de collisions de gamedev framework :
 \[ V_{n} = V \cdot n \]
-Si \(V_{n}\) est négative, cela signifie que le joueur ne se déplace pas en direction du bloc, et la collision n'a pas à être résolue.\\
+Si \(V_{n}\) est négative, cela signifie que le joueur ne se déplace pas en direction du bloc,
+et la collision n'a pas à être résolue.\\
 Cette vitesse nous permet de calculer la magnitude de l'impulsion \(C_{i}\) à appliquer au joueur :\\
 \[ C_{i} = (1 + e) \times V_{n} \]
 Où e est le \emph{coefficient de restitution} du bloc avec lequel le joueur est entré en collision.\\
 Ce coefficient permet de déterminer la puissance du "rebond" que le joueur subira après avoir quitté le bloc.\\
-Dans un moteur physique classique, il serait nécessaire de prendre en compte le coefficient de restitution des deux entités entrant en collision, mais le joueur étant le seul élément entrant en collision, nous avons simplifié le modèle en ne prenant que celui du bloc.\\
+Dans un moteur physique classique, il serait nécessaire de prendre en compte le coefficient de restitution des
+deux entités entrant en collision, mais le joueur étant le seul élément entrant en collision,
+nous avons simplifié le modèle en ne prenant que celui du bloc.\\
 Finalement, nous pouvons calculer le vecteur de résolution de collision \(V_{res}\) à appliquer au joueur :
 \[V_{res} = C_{i} \times n \]
 
 \subsection{Correction positionnelle}
-Dans le modèle que nous avons choisi, chacun des objets possède une masse infinie, ce qui explique qu'elle n'apparaisse pas dans les calculs. Cependant, les imprécisions causées par les flottants amènent le joueur à s'enfoncer dans les blocs lorsqu'il est immobile dessus.\\
-Pour résoudre cela, nous pouvons appliquer en plus du vecteur de résolution de collision, un second vecteur de correction positionnel \(V_{corr}\) donné par :
+Dans le modèle que nous avons choisi, chacun des objets possède une masse infinie,
+ce qui explique qu'elle n'apparaisse pas dans les calculs.
+Cependant, les imprécisions causées par les flottants amènent le joueur à s'enfoncer dans les blocs
+lorsqu'il est immobile dessus.\\
+Pour résoudre cela, nous pouvons appliquer en plus du vecteur de résolution de collision,
+un second vecteur de correction positionnel \(V_{corr}\) donné par :
 \[V_{corr} = -max(d-0.1,0) \times C_{corr} \times n\]
 Avec :\\
 \begin{itemize}
-  \item[-] \emph{d} : La profondeur de collision, c'est-à-dire la distance dans laquelle le joueur s'est enfoncé dans le bloc
-  \item[-] \(C_{corr}\) : Le coefficient de correction, indiquant la force de correction qu'il est nécessaire d'appliquer. Nous avons choisi d'avoir \(C_{corr}=0.8\)
+  \item[-] \emph{d} : La profondeur de collision, c'est-à-dire la distance dans laquelle
+  le joueur s'est enfoncé dans le bloc
+  \item[-] \(C_{corr}\) : Le coefficient de correction, indiquant la force de correction
+  qu'il est nécessaire d'appliquer.
+  Nous avons choisi d'avoir \(C_{corr}=0.8\)
 \end{itemize}
 
 \subsection{Résolution de la friction}
-Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en se déplaçant sur les blocs au sol.\\
-Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au bloc après l'application de \(V_{res}\) :
+Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en
+se déplaçant sur les blocs au sol.\\
+Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au bloc après
+l'application de \(V_{res}\) :
 \[V =  - (V_{P} + V_{corr})\]
-Cette fois, nous avons besoin de la tangente \(t\) pour connaître la direction sur laquelle appliquer la friction, qu'on peut déterminer par :
+Cette fois, nous avons besoin de la tangente \(t\) pour connaître la direction sur laquelle appliquer la friction,
+qu'on peut déterminer par :
 \[t = V - relativeVelocity \cdot (n \times (1,0)) \times n\]
-Une fois la tangente connue, il est possible de calculer le coefficient de friction \(C_{f}\), correspondant à la vélocité relative à la tangente :
+Une fois la tangente connue, il est possible de calculer le coefficient de friction \(C_{f}\),
+correspondant à la vélocité relative à la tangente :
 \[C_{f} = - V \dot t\]
-D'après la loi de Coulomb sur la friction, la force de friction est toujours inférieure à la force normale multipliée par le coefficient de friction statique \(\mu_{s}\) des matériaux entrant en friction. Nous pouvons donc déterminer le vecteur de friction \(C_{f}\) à appliquer grâce à l'équation :
+D'après la loi de Coulomb sur la friction, la force de friction est toujours inférieure à la force normale
+multipliée par le coefficient de friction statique \(\mu_{s}\) des matériaux entrant en friction.
+Nous pouvons donc déterminer le vecteur de friction \(C_{f}\) à appliquer grâce à l'équation :
 \[
 V_{f} = \left\{\begin{array}{lr}
            C_{f} \times t & \text{si } |C_{f}| < |C_{i}| \times \mu_{s}\\
           -C_{i} \times t * \mu_{d} & \text{si } |C_{f}| \geq |C_{i}| \times \mu_{s}
         \end{array}\right\}
 \]
-Où \(\mu_{s}\) et \(\mu_{d}\) sont respectivement le coefficient de friction statique et dynamique du bloc avec lequel le joueur entrant en friction.
+Où \(\mu_{s}\) et \(\mu_{d}\) sont respectivement le coefficient de friction statique et dynamique du bloc avec lequel
+le joueur entrant en friction.
 
 \subsection{Collisions avec des platformes directionnelles}
-En plus des blocs classiques, nous avons fait le choix d'ajouter des platformes directionnelles, à travers lesquelles le joueur passe à moins de venir d'une direction particulière.\\
-Leur particularité implique l'implémentation de caractéristiques supplémentaires lors de la détection et la résolution de collisions.\\
-Premièrement, une fois la collision détectée, on teste la direction de mouvement du joueur par rapport à la normale de collision, donnée par :
+En plus des blocs classiques, nous avons fait le choix d'ajouter des platformes directionnelles,
+à travers lesquelles le joueur passe à moins de venir d'une direction particulière.\\
+Leur particularité implique l'implémentation de caractéristiques supplémentaires
+lors de la détection et la résolution de collisions.\\
+Premièrement, une fois la collision détectée, on teste la direction de mouvement du joueur par rapport
+à la normale de collision, donnée par :
 \[
   angle(n,Dir_{block}) + \pi
 \]
-Où \(Dir_{block}\) correspond à un vecteur donnant la direction attendue du joueur pour avoir une collision (\((0,-1)\) pour un bloc orienté vers le haut), et \(angle\) une fonction retournant l'angle entre 2 vecteurs.\\
-Si cet angle est supérieur à un seuil, que nous avons choisi comme étant \(0.1\), alors on considère que le joueur ne se trouve pas dans la bonne direction, et la collision n'a pas lieu.\par
-Secondement, dans le but d'éviter que la collision soit résolue dans le cas où le joueur soit en train de tomber à travers la platforme, la collision est détectée avec des hitbox de taille réduite, orientées dans la direction de la collision. Ainsi, pour les collisions entre entre une platforme orientée vers le haut, le joueur et la platforme disposent d'une hitbox d'un huitième de bloc, respectivement placée en haut et en bas des hitbox classiques.\par
-Ces deux algorithmes ne permettent pas de complètement effacer le problème, mais celui-ci est suffisemment réduit pour n'être que rarement visible.
+Où \(Dir_{block}\) correspond à un vecteur donnant la direction attendue du joueur pour avoir une collision
+(\((0,-1)\) pour un bloc orienté vers le haut), et \(angle\) une fonction retournant l'angle entre 2 vecteurs.\\
+Si cet angle est supérieur à un seuil, que nous avons choisi comme étant \(0.1\),
+alors on considère que le joueur ne se trouve pas dans la bonne direction, et la collision n'a pas lieu.\par
+Secondement, dans le but d'éviter que la collision soit résolue dans le cas où le joueur soit en train de
+tomber à travers la platforme, la collision est détectée avec des hitbox de taille réduite,
+orientées dans la direction de la collision.
+Ainsi, pour les collisions entre entre une platforme orientée vers le haut, le joueur et la platforme disposent
+d'une hitbox d'un huitième de bloc, respectivement placée en haut et en bas des hitbox classiques.\par
+Ces deux algorithmes ne permettent pas de complètement effacer le problème, mais celui-ci est suffisamment
+réduit pour n'être que rarement visible.
 
 \subsection{Collisions multiples}
-Lorsque le joueur entre en collisions avec de multiples blocs, le vecteur de résolution de collision, de correction ainsi que le vecteur de friction résultants correspondent à la moyenne des vecteurs obtenus en résolvant les collisions, corrections et frictions avec les blocs.
+Lorsque le joueur entre en collisions avec de multiples blocs, le vecteur de résolution de collision,
+de correction ainsi que le vecteur de friction résultants correspondent à la moyenne des vecteurs obtenus en
+résolvant les collisions, corrections et frictions avec les blocs.
 
 \subsection{Stockage des données de collision}
 L'ensemble des données est stocké et retourné dans une structure dédiée, permettant de conserver :
@@ -550,15 +650,20 @@ L'ensemble des données est stocké et retourné dans une structure dédiée, pe
 \begin{itemize}
   \item La moyenne des vecteurs obtenus par la résolution de collision, correction et friction
   \item Des booléens indiquant s'il est nécessaire d'appliquer le vecteur de résolution de collision ou la correction
-  \item L'ensemble des types de blocs avec lesquels une collision est survenue, qu'elle ait été résolue ou non (ce qui permet de détecter les collisions avec les piques ou les écrous)
-  \item L'ensemble des coordonnées des blocs avec lesquels une collision est survenue, résolue ou non (ce qui permet notemment l'effacement des écrous de la grille)
+  \item L'ensemble des types de blocs avec lesquels une collision est survenue, qu'elle ait été résolue ou non
+  (ce qui permet de détecter les collisions avec les piques ou les écrous)
+  \item L'ensemble des coordonnées des blocs avec lesquels une collision est survenue, résolue ou non
+  (ce qui permet notemment l'effacement des écrous de la grille)
 \end{itemize}
 
-Cette structure est ensuite transmise au personnage, qui pourra appliquer les vecteurs de résolution de friction et de collision à sa vitesse, et corriger sa position.
+Cette structure est ensuite transmise au personnage, qui pourra appliquer les vecteurs de résolution de friction
+et de collision à sa vitesse, et corriger sa position.
 
 \subsection{Résistance de l'air}
-La résistance de l'air permet de réduire l'accéleration du joueur lors de sa chute, en fonction de sa vitesse actuelle.\\
-Nous avons choisi de l'implémenter afin d'avoir plus de mobilité en l'air, et d'éviter au joueur d'atteindre des vitesses énormes trop vite en chutant.\\
+La résistance de l'air permet de réduire l'accéleration du joueur lors de sa chute,
+en fonction de sa vitesse actuelle.\\
+Nous avons choisi de l'implémenter afin d'avoir plus de mobilité en l'air, et d'éviter au joueur d'atteindre
+des vitesses énormes trop vite en chutant.\\
 La résistance de l'air est calculée dans une fonction séparée, et est donnée par :
 \[
  -dir \times v^2
@@ -569,9 +674,9 @@ Où \(dir\) est la direction du joueur, et \(v\) sa vitesse actuelle.
 \subsection{La définition des tâches}
 \subsubsection{La répartition du travail}
 \subsection{Les outils utilisés}
-% TODO: Mettres les logos des outils utilisés ? Au moins celui de gf
+% TODO: Mettre les logos des outils utilisés ? Au moins celui de gf
 % ça serait important de mentionner qu'on a mis un peu de temps à avoir un trello
-% je pense aussi que l'ordre dans lequel on a mis les outils en place peut être interessant à rajouter
+% je pense aussi que l'ordre dans lequel on a mis les outils en place peut être intéressant à rajouter
 \subsubsection{Gamedev Framework}
 % Il faut quand même mentionner notre cher Jube pour son joli framework
 
