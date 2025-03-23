@@ -276,11 +276,33 @@
 
 \section{La physique}
 \begin{frame}{Gestion des collisions}
-
+    Calcul de la vitesse par rapport à la normale :
+    \[ V_{n} = - V_{joueur} \cdot n \]
+    Calcul de la magnitude de l'impulsion à appliquer :
+    \[ C_{i} = (1 + e) \times V_{n} \]
+    Calcul du vecteur résultat :
+    \[V_{res} = C_{i} \times n \]
+    Application d'une correction (pour les erreurs de flottant) :
+    \[V_{corr} = -max(d-0.1,0) \times C_{corr} \times n\]
 \end{frame}
 
 \begin{frame}{Platformes directionnelles}
-
+    \begin{columns}
+        \column{0.4\textwidth}
+            \begin{block}{Platformes directionnelles}
+                \begin{itemize}
+                    \item[•] Utilisent une hitbox plus petite, dirigée
+                    \item[•] élément \emph{direction} du fichier XML
+                    \item[•] Le joueur utilise aussi une hitbox plus petite
+                \end{itemize}
+            \end{block}
+        \column{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.5\textwidth]{images/DirectionnalHB.png}
+                \caption{Hitbox directionnelle comparée à la hitbox classique}
+            \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Friction}
