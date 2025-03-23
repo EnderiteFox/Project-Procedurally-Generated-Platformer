@@ -185,26 +185,32 @@ sa progression et lui permet de lancer une nouvelle partie avec un niveau entiè
 
 Le jeu est organisé en scènes, pour permettre des boucles de jeu différentes.
 Les scènes sont des objects à part entière contenant l'ensemble des entités, textes, et actions pouvant être réalisées sur celle-ci.
-Celles-ci sont elles-même stoquées dans l'object \emph{PlatformerManager}, un gestionnaire de scènes ayant pour rôle de changer la scène active.
+Celles-ci sont elles-même stockées dans l'object \emph{PlatformerManager}, un gestionnaire de scènes ayant pour rôle de changer la scène active.
 Le jeu est composé des scènes :\\
 \begin{itemize}
-  \item \textbf{Menu} : La scène affichée lors du lancement du jeu. Elle contiens seulement un texte explicatif de comment lancer le jeu, et le titre du jeu.
+  \item \textbf{Menu} : La scène affichée lors du lancement du jeu.
+  Elle contient seulement un texte expliquant comment lancer le jeu, et le titre du jeu.
   Elle permet de lancer le jeu avec la touche \emph{espace}, et de quitter le jeu avec la touche \emph{echap}.
-  \item \textbf{GameScene} : La scène principale du jeu. Elle contiens tous les objets du monde et le personnage. La plupart des actions de la scène servent à déplacer le personnage.
+  \item \textbf{GameScene} : La scène principale du jeu.
+  Elle contient tous les objets du monde et le personnage.
+  La plupart des actions de la scène servent à déplacer le personnage.
   Il est possible d'afficher un menu de pause depuis cette scène à l'aide des touches \emph{P} et \emph{echap}.
-  \item \textbf{Pause} : Menu affiché quand la \emph{GameScene} est en pause. Elle contiens seulement un texte explicatif du menu de pause.
-  Elle laisse la scène principale en arrière plan, en pause. Il est possible de la quitter avec les touches \emph{P} et \emph{echap}.
+  \item \textbf{Pause} : Menu affiché quand la \emph{GameScene} est en pause.
+  Elle contient seulement un texte expliquant le menu de pause.
+  Elle laisse la scène principale en arrière plan, en pause.
+  Il est possible de la quitter avec les touches \emph{P} et \emph{echap}.
   \item \textbf{EndScene} : La scène de fin de jeu.
   Elle affiche le résultat de la partie (si le joueur est mort ou non et son score), et permet de retourner au menu principal avec la touche \emph{espace}.
 \end{itemize}
 
 \section{Les blocks et entités du monde}
 \subsection{La définition dynamique des blocs}
-L'ensemble des éléments qui composent le monde (blocs, écrous, sortie...) sont définis de manière dynamique dans le fichier XML tiles.xml.\\
+L'ensemble des éléments qui composent le monde (blocs, écrous, sortie\ldots) sont définis de manière dynamique dans le fichier XML tiles.xml.\\
 Nous avons fait le choix d'utiliser XML car il s'agit d'un type de fichier encore très utilisé, mais absent de notre formation.\\
-Ce fichier permet de donner les éléments pouvant être utiliser par le jeu et la génération sans avoir à ré-écrire d'importantes parties du code à chaque ajout de fonctionnalité dans le monde.\\
+Ce fichier permet de donner les éléments pouvant être utilisés par le jeu et la génération sans avoir à ré-écrire d'importantes parties du code à chaque ajout de fonctionnalité dans le monde.\\
 La racine de l'arborescence XML donne le chemin vers les textures des éléments.\\
-Au sein du fichier, un élément est donné par un bloc, correspondant à son type principal, et donnant le comportement général de l'élément. Les autres caractéristiques donnant le comportement des éléments sont :\\
+Au sein du fichier, un élément est donné par un bloc, correspondant à son type principal, et donnant le comportement général de l'élément.
+Les autres caractéristiques donnant le comportement des éléments sont :\\
 \begin{itemize}
   \item \textbf{type}: Le sous-type de bloc correspond au nom de bloc, permettant de lui définir un comportement unique, en plus de son type principal.
   Par exemple, un bloc de type plateforme peut être une plateforme de glace ou une plateforme de slime.
@@ -231,24 +237,27 @@ Nous pouvons donc par la suite, à partir du type de bloc, lire ses propriétés
 
 \subsection{La connectivité des textures}
 
-Pour un meilleur aspect esthétique, les textures des blocks de même sous-type peuvent se connecter entre elles.
+Pour un meilleur aspect esthétique, les textures des blocs de même sous-type peuvent se connecter entre elles.
 
-Pour les éléments de jeu classiques, les textures sont des images simple qui correspondent à la texture du bloc. Pour les blocs possédant la propriété "connected", la texture est stoquée sous la forme d'une spritesheet, donnant les 16 textures possibles pour chaque bloc, pour que la connection se fasse, en fonctions des blocs qui l'entournet.
+Pour les éléments de jeu classiques, les textures sont des images simples qui correspondent à la texture du bloc.
+Pour les blocs possédant la propriété ``connected'', la texture est stockée sous la forme d'une spritesheet,
+donnant les 16 textures possibles pour chaque bloc, pour que la connection se fasse, en fonctions des blocs qui l'entourent.
 
-Pour cela, le \emph{BlockManager} associe à une position, en plus du type de block s'y trouvant, un indice sous la forme d'un entier non signé inidiquant quelle partie de la spritesheet appliquer.
-Lors de la création du bloc manager, cet entier est positionné à 0, et les blocs ont leur texture "par défaut", sans connexions.
-Une fois le monde généré, et l'ensemble des blocs du monde stoqués dans le \emph{BlockManager}, celui-ci recalcule l'indice de texture des blocs en fonction des blocs du même type qui l'entourent :
+Pour cela, le \emph{BlockManager} associe à une position, en plus du type de bloc s'y trouvant, un indice sous la
+forme d'un entier non signé indiquant quelle partie de la spritesheet appliquer.
+Lors de la création du \emph{BlockManager}, cet entier est positionné à 0, et les blocs ont leur texture ``par défaut'', sans connections.
+Une fois le monde généré, et l'ensemble des blocs du monde stockés dans le \emph{BlockManager}, celui-ci recalcule l'indice de texture des blocs en fonction des blocs du même type qui l'entourent :
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{images/connected_textures_offset_computing}
   \caption{Calcul de la connectivité des textures.}
-  Le bloc central est celui dont on veut déterminer la textures.
+  Le bloc central est celui dont on veut déterminer la texture.\\
   L'indice de la texture du bloc central est donné par la somme des nombres indiqués sur la figure des blocs adjacents du même type.
   \label{fig:connected_textures_computing}
 \end{figure}
 
-Une puissance de 2 est donné à chaque position de bloc pouvant entourer le bloc donc on veut déterminer la texture:
+Une puissance de 2 est donnée à chaque position de bloc pouvant entourer le bloc donc on veut déterminer la texture:
 \begin{itemize}
   \item \textbf{1} Pour le bloc au dessus
   \item \textbf{2} Pour le bloc à gauche
@@ -259,8 +268,8 @@ On fait la somme des nombres associés aux blocs adjacents du même sous-type qu
 
 \subsection{Le monde}
 
-L'objet World est composé de plusieurs choses dont: un générateur de monde, un conteneur d'entités,
-un BlockManager, un joueur, un point d'apparition de joueur, et enfin d'une limite inférieure au monde.
+L'objet \emph{World} est composé de plusieurs choses dont: un générateur de monde, un conteneur d'entités,
+un \emph{BlockManager}, un joueur, un point d'apparition de joueur, et enfin d'une limite inférieure au monde.
 
 Cet objet permet de centraliser tous les objets qui doivent être mis à jour à chaque frame de jeu, afin de
 les mettre à jour plus facilement.
@@ -417,7 +426,7 @@ Si seule un des deux chemins a pu être tracé entièrement, alors celui-ci est 
   \label{fig:two_ways_to_connect}
 \end{figure}
 
-Encore une fois, certains cas particuliers apparraissent:
+Encore une fois, certains cas particuliers apparaissent:
 \begin{itemize}
   \item \textbf{Le dernier point}: Le dernier point du chemin correspondra à la sortie.
   Il est donc placé de manière particulière, en utilisant le
@@ -707,16 +716,16 @@ Où \(dir\) est la direction du joueur, \(C_{air}\) un coefficient de résistanc
 
 \section{Notre organisation}
 
-Nore organisation se basait sur un processus itératif.
-Nous avons réparti notre organisation en "periodes" correspondant au temps entre deux rendez-vous avec notre tuteur.
+Nore organisation s'est basée sur un processus itératif.
+Nous avons réparti notre organisation en ``périodes'' correspondant au temps entre deux rendez-vous avec notre tuteur.
 Après chaque réunion, nous discutions d'un objectif général à atteindre pour le prochain rendez vous.
-A partir de cette discussions, nous convenions d'un ensemble de tâches à réaliser pour atteindre cet objectif, qui étaient ajoutées sur le tabeau Trello.
-Chaque membre du groupe était libre de choisir les tâches qu'il souhaitait et se sentait capable de réaliser.\par
+À partir de cette discussion, nous convenions d'un ensemble de tâches à réaliser pour atteindre cet objectif, qui étaient ajoutées sur le tableau Trello.
+Chaque membre du groupe était libre de choisir les tâches qu'il souhaitait et se sentait capable de réaliser.
 
-Cette organisation était très dynamique, et a permi aux membres du groupe de de travailler sur différentes parties du projet à leur guise.
+Cette organisation était très dynamique, et a permis aux membres du groupe de travailler sur différentes parties du projet à leur guise.
 
 \subsection{Les outils utilisés}
-% TODO: Mettre les logos des outils utilisés ? Au moins celui de gf. À moins qu'on le mettre uniquement dans la présentation?
+% TODO: Mettre les logos des outils utilisés ? Au moins celui de gf. À moins qu'on le mette uniquement dans la présentation?
 % ça serait important de mentionner qu'on a mis un peu de temps à avoir un trello
 % je pense aussi que l'ordre dans lequel on a mis les outils en place peut être intéressant à rajouter
 \subsubsection{Gamedev Framework}
@@ -771,8 +780,9 @@ Nous avons utilisés plusieurs IDEs, tel que CLion, Kate et Visual Studio Code a
 \subsection{Points d'amélioration}
 \subsubsection{Ce qu'on aurait voulu ajouter}
 
-Nous avions de multiples idées lors du début du projet qui n'ont pas pu être implémentées soit à cause de leur difficulté, soit par manque de temps, soit parce qu'elles ne convenaient plus  à la trajectoire qu'avait pris le projet.
-Ces idées regroupent :
+Nous avions de multiples idées lors du début du projet qui n'ont pas pu être implémentées soit à cause de leur
+difficulté, soit par manque de temps, soit parce qu'elles ne convenaient plus  à la trajectoire qu'avait prise le projet.
+Ces idées regroupent:
 \begin{itemize}
   \item \emph{Des ennemis}: Qui auraient pu se déplacer et chercher à entrer en collision avec le personnage pour le détruire.
         Cette idée a été abandonnée par manque de temps.
@@ -780,12 +790,12 @@ Ces idées regroupent :
         L'idée a été abandonnée car elle semblait trop redondante avec les échelles
   \item \emph{Possibilité de choix de la graine de génération}: Un moyen de choisir la graine avec laquelle le niveau se génère.
         L'idée a été abandonnée à la fin du projet par manque de temps, bien que la plupart de ce qui en nécessite la création soit déjà implémenté.
-  \item \emph{Clés}: Les clés auraient été associées aux portes, et auraient permi de les ouvrir pour progresser ou augmenter le score.
+  \item \emph{Clés}: Les clés auraient été associées aux portes, et auraient permis de les ouvrir pour progresser ou augmenter le score.
         L'idée a été abandonnée car trop complexe à implémenter.
-  \item \emph{Téléporteurs} : Les téléporteurs auraient permi de parcourir de grande distances dans le niveau de manière instantanée
+  \item \emph{Téléporteurs} : Les téléporteurs auraient permis de parcourir de grande distances dans le niveau de manière instantanée
         L'idée a été abandonnée car trop complexe pour la génération procédurale
-  \item \emph{Des bonus} : Les bonus auraient été des objets récoltables permettant de changer des mécanoiques de gameplay.
-        L'idée des bonue a été abandonnée car ne convenant par au gameplay que nous commencions à créer
+  \item \emph{Des bonus} : Les bonus auraient été des objets récupérables permettant de changer des mécaniques de gameplay.
+        L'idée des bonus a été abandonnée car ne convenant pas au gameplay que nous commencions à créer
   \item \emph{Pluie/Eau} : La pluie ou l'eau aurait fait glisser le personnage des murs, pour l'empêcher de grimper.
         L'idée a été remaniée, et transformée en blocs de glace, faisant glisser le personnage
   \item \emph{Choix de difficulté} : La possibilité de choisir la difficulté du jeu et de la génération.
