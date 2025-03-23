@@ -15,7 +15,7 @@
 \newcommand{\hsp}{\hspace{20pt}}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \renewcommand\thesection{\arabic{section}}
-\renewcommand{\contentsname{Table des matières}}
+\renewcommand{\contentsname}{Table des matières}
 
 \begin{document}
 
@@ -185,40 +185,64 @@ sa progression et lui permet de lancer une nouvelle partie avec un niveau entiè
 
 \subsection{Les scènes}
 
-
 \section{Les blocks et entités du monde}
 \subsection{La définition dynamique des blocs}
-
-Afin de pouvoir facilement ajouter des blocs au jeu, une définition dynamique des blocs a été mise en place.
-
-Les définitions de blocs sont stockées dans un fichier XML, définissant les propriétés suivantes:
+L'ensemble des éléments qui composent le monde (blocs, écrous, sortie...) sont définis de manière dynamique dans le fichier XML tiles.xml.\\
+Nous avons fait le choix d'utiliser XML car il s'agit d'un type de fichier encore très utilisé, mais absent de notre formation.\\
+Ce fichier permet de donner les éléments pouvant être utiliser par le jeu et la génération sans avoir à ré-écrire d'importantes parties du code à chaque ajout de fonctionnalité dans le monde.\\
+La racine de l'arborescence XML donne le chemin vers les textures des éléments.\\
+Au sein du fichier, un élément est donné par un bloc, correspondant à son type principal, et donnant le comportement général de l'élément. Les autres caractéristiques donnant le comportement des éléments sont :\\
 \begin{itemize}
-  \item \textbf{Type de balise}: Le type de la balise définit le type de bloc, précisant si le bloc défini
-  est un bloc normal, une échelle, une plateforme, un danger, un objet ramassable ou une sortie.
-  \item \textbf{type}: Le sous-type de bloc correspond au nom de bloc.
+  \item \textbf{type}: Le sous-type de bloc correspond au nom de bloc, permettant de lui définir un comportement unique, en plus de son type principal.
   Par exemple, un bloc de type plateforme peut être une plateforme de glace ou une plateforme de slime.
   Ces deux types de plateformes auront un attribut ``type'' différent.
-  \item \textbf{texture}: Le chemin vers la texture du bloc.
+  \item \textbf{texture}: Le chemin relatif de la texture de l'élément à partir du chemin donné dans la racine.
   \item \textbf{scale}: Le paramètre de mise à l'échelle de la texture.
-  \item \textbf{staticFriction}: Friction statique du bloc.
-  \item \textbf{dynamicFriction}: Friction dynamique du bloc.
-  \item \textbf{restitution}: À quel point le joueur rebondira sur le bloc.
+  \item \textbf{staticFriction} et \textbf{dynamicFriction} : Respectivement, les coefficients de friction statiques et dynamiques de l'élement (cf. \ref{physique:friction})
+  \item \textbf{restitution} : Le coefficient de restitution de l'élément (cf. \ref{physique:collisions})
   \item \textbf{collidable}: Définit si le bloc est solide et est pris en compte dans les collision ou pas.
-  \item \textbf{connected}: Définit si le bloc dispose de textures connectées ou pas.
-  \item \textbf{hitboxHeight, hitboxWidth, hitboxOffsetX, hitboxOffsetY}: Paramètres de taille et de positionnement
+  \item \textbf{direction}: Indique si le bloc est directionnel, et donne sa direction (cf. \ref{physique:direction})
+  \item \textbf{connected} : Indique si la texture de l'élément doit être connectée aux textures des éléments du même sous-type.
+  \item \textbf{hitboxHeight, hitboxWidth, hitboxOffsetX, hitboxOffsetY}: Paramètres de taille et de positionnement de la hitbox du bloc.
   de la boîte de collision.
 \end{itemize}
 
-Ce fichier XML est lu par une class \emph{BlockTypes} qui va ensuite stocker les types de blocs afin qu'ils puissent
-être lus par le jeu par la suite.
+Ce fichier XML est lu par une classe \emph{BlockTypes} qui va stocker les types de blocs sous forme de structures \emph{BlockType} afin qu'ils puissent être utilisés par les autres éléments du jeu.
   
 \subsection{Le stockage des blocs}
 
 Les blocs sont stockés et gérés par un objet \emph{BlockManager}.
 
-Cet objet permet de stocker les blocs du monde dans un tableau associatif, en associant une position x et y
-à un nom de bloc.
-Nous pouvons donc par la suite, à partir du type de bloc, lire ses propriétés à l'aide de la classe \emph{BlockTypes}.
+Cet objet permet de stocker les blocs du monde dans un tableau associatif, en associant une position dans le plan à un nom de bloc.
+Nous pouvons donc par la suite, à partir du type de bloc, lire ses propriétés à l'aide d'une méthode statique de la classe \emph{BlockTypes}.
+
+\subsection{La connectivité des textures}
+
+Pour un meilleur aspect esthétique, les textures des blocks de même sous-type peuvent se connecter entre elles.
+
+Pour les éléments de jeu classiques, les textures sont des images simple qui correspondent à la texture du bloc. Pour les blocs possédant la propriété "connected", la texture est stoquée sous la forme d'une spritesheet, donnant les 16 textures possibles pour chaque bloc, pour que la connection se fasse, en fonctions des blocs qui l'entournet.
+
+Pour cela, le \emph{BlockManager} associe à une position, en plus du type de block s'y trouvant, un indice sous la forme d'un entier non signé inidiquant quelle partie de la spritesheet appliquer.
+Lors de la création du bloc manager, cet entier est positionné à 0, et les blocs ont leur texture "par défaut", sans connexions.
+Une fois le monde généré, et l'ensemble des blocs du monde stoqués dans le \emph{BlockManager}, celui-ci recalcule l'indice de texture des blocs en fonction des blocs du même type qui l'entourent :
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/connected_textures_offset_computing}
+  \caption{Calcul de la connectivité des textures.}
+  Le bloc central est celui dont on veut déterminer la textures.
+  L'indice de la texture du bloc central est donné par la somme des nombres indiqués sur la figure des blocs adjacents du même type.
+  \label{fig:connected_textures_computing}
+\end{figure}
+
+Une puissance de 2 est donné à chaque position de bloc pouvant entourer le bloc donc on veut déterminer la texture:
+\begin{itemize}
+  \item \textbf{1} Pour le bloc au dessus
+  \item \textbf{2} Pour le bloc à gauche
+  \item \textbf{4} Pour le bloc à droite
+  \item \textbf{8} Pour le bloc au dessous
+\end{itemize}
+On fait la somme des nombres associés aux blocs adjacents du même sous-type que le bloc, ce qui nous donne l'indice de la texture à appliquer.
 
 \subsection{Le monde}
 
@@ -537,7 +561,7 @@ Pour cela, le moteur physique a pour tâche de pouvoir gérer :
   \item[-] La résistance de l'air, ralentissant la chute du personnage.
 \end{itemize}
 
-\subsection{La gestion des collisions}
+\subsection{La gestion des collisions} \label{physique:collisions}
 La première étape de la réalisation du moteur physique a été la gestion des collisions.\\
 Le seul élément de jeu pouvant se déplacer étant le personnage, les seules collisions à détecter et résoudre sont
 celles entre le personnage et les éléments du décor.\\
@@ -591,7 +615,7 @@ Avec :\\
   Nous avons choisi d'avoir \(C_{corr}=0.8\)
 \end{itemize}
 
-\subsection{Résolution de la friction}
+\subsection{Résolution de la friction} \label{physique:friction}
 Le moteur physique doit ensuite être capable de gérer la friction que le personnage pourra subir en
 se déplaçant sur les blocs au sol.\\
 Pour cela, on commence par recalculer la vélocité relative du joueur \(V\) par rapport au bloc après
@@ -615,7 +639,7 @@ V_{f} = \left\{\begin{array}{lr}
 Où \(\mu_{s}\) et \(\mu_{d}\) sont respectivement le coefficient de friction statique et dynamique du bloc avec lequel
 le joueur entrant en friction.
 
-\subsection{Collisions avec des platformes directionnelles}
+\subsection{Collisions avec des platformes directionnelles} \label{physique:direction}
 En plus des blocs classiques, nous avons fait le choix d'ajouter des platformes directionnelles,
 à travers lesquelles le joueur passe à moins de venir d'une direction particulière.\\
 Leur particularité implique l'implémentation de caractéristiques supplémentaires
