@@ -181,9 +181,22 @@ obligeant le joueur à parcourir l’intégralité du niveau.
 Enfin, atteindre la sortie ne signifie pas nécessairement que le joueur a maximisé son score, mais cela valide
 sa progression et lui permet de lancer une nouvelle partie avec un niveau entièrement différent.
 
-
-
 \subsection{Les scènes}
+
+Le jeu est organisé en scènes, pour permettre des boucles de jeu différentes.
+Les scènes sont des objects à part entière contenant l'ensemble des entités, textes, et actions pouvant être réalisées sur celle-ci.
+Celles-ci sont elles-même stoquées dans l'object \emph{PlatformerManager}, un gestionnaire de scènes ayant pour rôle de changer la scène active.
+Le jeu est composé des scènes :\\
+\begin{itemize}
+  \item \textbf{Menu} : La scène affichée lors du lancement du jeu. Elle contiens seulement un texte explicatif de comment lancer le jeu, et le titre du jeu.
+  Elle permet de lancer le jeu avec la touche \emph{espace}, et de quitter le jeu avec la touche \emph{echap}.
+  \item \textbf{GameScene} : La scène principale du jeu. Elle contiens tous les objets du monde et le personnage. La plupart des actions de la scène servent à déplacer le personnage.
+  Il est possible d'afficher un menu de pause depuis cette scène à l'aide des touches \emph{P} et \emph{echap}.
+  \item \textbf{Pause} : Menu affiché quand la \emph{GameScene} est en pause. Elle contiens seulement un texte explicatif du menu de pause.
+  Elle laisse la scène principale en arrière plan, en pause. Il est possible de la quitter avec les touches \emph{P} et \emph{echap}.
+  \item \textbf{EndScene} : La scène de fin de jeu.
+  Elle affiche le résultat de la partie (si le joueur est mort ou non et son score), et permet de retourner au menu principal avec la touche \emph{espace}.
+\end{itemize}
 
 \section{Les blocks et entités du monde}
 \subsection{La définition dynamique des blocs}
@@ -688,9 +701,9 @@ Nous avons choisi de l'implémenter afin d'avoir plus de mobilité en l'air, et 
 des vitesses énormes trop vite en chutant.\\
 La résistance de l'air est calculée dans une fonction séparée, et est donnée par :
 \[
- -dir \times v^2
+ -dir \times v^2 \times C_{air}
 \]
-Où \(dir\) est la direction du joueur, et \(v\) sa vitesse actuelle.
+Où \(dir\) est la direction du joueur, \(C_{air}\) un coefficient de résistance de l'air, que nous avons défini à (0.01,0.02), et \(v\) sa vitesse actuelle.
 
 \section{Notre organisation}
 \subsection{La définition des tâches}
