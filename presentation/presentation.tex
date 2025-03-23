@@ -55,7 +55,7 @@
     \end{block}
 \end{frame}
 
-\section{Présnetation générale}
+\section{Présentation générale}
 \begin{frame}{Présentation du projet}
 
 \end{frame}
@@ -70,11 +70,42 @@
 
 \section{Blocs et textures}
 \begin{frame}{Stockage dynamique des blocs}
-
+    \begin{columns}
+        \column{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/XMLfile.png}
+                \caption{Stockage d'un bloc au format XML}
+            \end{figure}
+        \column{0.4\textwidth}
+            \begin{block}{Définition des blocs}
+                \begin{itemize}
+                    \item[•] Définition des blocs au format XML
+                    \item[•] Lecture du fichier et stockage dans une classe dédiée
+                    \item[•] Accès depuis les autre classes via une méthode statique
+                \end{itemize}
+            \end{block}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Connectivité des textures}
-
+    \begin{columns}
+        \column{0.4\textwidth}
+            \begin{block}{Textures connectées}
+                \begin{itemize}
+                    \item[•] Textures des blocs connectées aux blocs du même type
+                    \item[•] élément \emph{connected} du fichier XML
+                    \item[•] Textures au format de feuilles de sprite
+                    \item[•] Calcul basé sur les blocs autour
+                \end{itemize}
+            \end{block}
+        \column{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{images/connected_textures_offset_computing.png}
+                \caption{Calcul de la texture connectée du bloc}
+            \end{figure}
+    \end{columns}
 \end{frame}
 
 \section{Présentation du personnage}
