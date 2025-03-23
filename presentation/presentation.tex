@@ -5,6 +5,7 @@
 \usepackage[export]{adjustbox}
 \usepackage{graphicx}
 \usepackage{blkarray} % Required for inserting images
+\usepackage{svg}
 
 \newcommand{\nologo}{\setbeamertemplate{logo}{}}
 
@@ -66,7 +67,24 @@
 \end{frame}
 
 \begin{frame}{Construction du jeu en scènes}
-
+    \begin{columns}
+        \column{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includesvg[width=1.0\textwidth]{images/Scenes_FA.svg}
+                \caption{Automate des Scènes}
+            \end{figure}
+        \column{0.4\textwidth}
+            \begin{block}{Scènes du jeu}
+                \begin{itemize}
+                    \item[\bullet] Menu
+                    \item[\bullet] Scène de Jeu
+                    \item[\bullet] Pause
+                    \item[\bullet] Scène de fin
+                \end{itemize}
+                Gérées par un gestionnaire de scènes
+            \end{block}
+    \end{columns}
 \end{frame}
 
 \section{Blocs et textures}
@@ -333,6 +351,14 @@
     \begin{block}{Collisions multiples}
         Moyenne des résultats des collisions avec les blocs
     \end{block}
+\end{frame}
+
+\section{Notre organisation}
+\begin{frame}{Organisation du travail}
+
+\end{frame}
+
+\begin{frame}{Outils utilisés}
 
 \end{frame}
 

@@ -1,0 +1,15 @@
+digraph finite_state_machine{
+    fontname="Helvetica,Arial,sans-serif"
+	edge [fontname="Helvetica,Arial,sans-serif"]
+	rankdir = LR;
+	node [shape = square];
+	Menu
+	Game
+	Pause
+	EndScene
+	Menu -> Game;
+	Game -> Pause;
+	Pause -> Game;
+	Game -> EndScene;
+	EndScene -> Menu;
+}
