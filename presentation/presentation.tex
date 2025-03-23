@@ -128,20 +128,80 @@
 \end{frame}
 
 \section{Présentation du personnage}
-\begin{frame}{Personnage (1/4)}
-
+\begin{frame}{Contrôles de base}
+    \begin{columns}
+        \column{0.4\textwidth}
+            \begin{block}{Contrôles du personnage}
+                \begin{itemize}
+                    \item[\bullet] Touches \emph{D} et \emph{Q}
+                    \item[\bullet] Touches $\rightarrow$ et $\leftarrow$
+                    \item[\bullet] Priorité à la direction droite
+                    \item[\bullet] Dirigent le personnage
+                \end{itemize}
+            \end{block}
+        \column{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{images/character_placeholder.png}
+                \caption{Personnage du jeu}
+            \end{figure}
+    \end{columns}
 \end{frame}
 
-\begin{frame}{Personnage (2/4)}
+\begin{frame}{Saut}
+    \begin{block}{Saut}
+        \begin{itemize}
+            \item[\bullet] Touche \emph{Espace}
+            \item[\bullet] Donne une impulsion vers le haut instantanée
+            \item[\bullet] Permet de franchir des obstacles facilement
+            \item[\bullet] Disponible depuis le sol
+        \end{itemize}
+    \end{block}
+    \begin{block}{Double saut}
+        \begin{itemize}
+            \item[\bullet] Touche \emph{Espace} en l'air
+            \item[\bullet] Utilisable une fois par saut
+            \item[\bullet] Se recharge en touchant le sol
 
+        \end{itemize}
+    \end{block}
 \end{frame}
 
-\begin{frame}{Personnage (3/4)}
-
+\begin{frame}{Dash}
+    \begin{block}{Dash}
+        \begin{itemize}
+            \item[\bullet] Impulsion directionnelle instantanée
+            \item[\bullet] Activé en appuyant deux fois sur une touche directionnelle
+            \item[\bullet] Permet de se déplacer rapidement horizontalement
+            \item[\bullet] Disponible une seule fois en l'air
+            \item[\bullet] Dispose d'un temps de recharge
+        \end{itemize}
+    \end{block}
 \end{frame}
 
-\begin{frame}{Personnage (4/4)}
-
+\begin{frame}{Score et vies}
+    \begin{columns}
+        \column{0.4\textwidth}
+            Affichés à tout moment en haut à gauche
+            \begin{block}{Vies du personnage}
+                \begin{itemize}
+                    \item[\bullet] Diminuent en touchant un pique
+                    \item[\bullet] Une fois à 0, la partie se termine
+                \end{itemize}
+            \end{block}
+            \begin{block}{Score}
+                \begin{itemize}
+                    \item[\bullet] S'incrémente en touchant un écrou
+                    \item[\bullet] Score final affiché sur l'écran de fin
+                \end{itemize}
+            \end{block}
+        \column{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{images/Screenshot from 2025-03-23 23-14-37.png}
+                \caption{Affichage du score et des vies}
+            \end{figure}
+    \end{columns}
 \end{frame}
 
 \section{La génération procédurale}
