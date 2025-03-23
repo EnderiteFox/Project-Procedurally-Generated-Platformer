@@ -1,14 +1,55 @@
 Ce qu'on doit dire par slides :
 
 =============
-Plan : 
+Plan : {Théo ,30s}
 
 Annonce du plan 
 ==============
-Introduction :
+Introduction : {Laura, 30s}
 
-Résumé des objectifs et du context; Rien de particulier à dire
+Résumé des objectifs et du context
 ==============
+Présentation générale {Laura, 1 minutes}
 
+Présentation générale du jeu <=> rapport
+=============
+Objectifs {Laura, 30s}
 
+Objectifs du joueur
+=============
+Scènes {Kilian, 30s}
 
+Présentation de la gestion des scènes
+=============
+XML {Kilian, 1min30s} // 2 Slides
+
+Présentation du fichier XML+choix réalisés, algo de calcul des textures connectées
+=============
+Personnage {Laura, 3 minutes} // 4 slides
+
+Présentation de tout le contenu sur le personnage
+=============
+Génération procédurale {Théo, 5 minutes} // 9 slides environ
+
+Présentation de tout le contenu sur la génération procédurale
+=============
+Physique {Kilian, 4 minutes} // 5 slides environ
+
+Présentation de la physique et des algorithmes utilisés
+============
+Organisation {Laura, 1min} // 2 slides
+
+Présentation de notre organisation et des outils utilisés
+============
+Conclusion {Laura, 30s}
+
+Conclusion générale
+============
+Ce qu'on aurait voulu ajouter {Kilian, 30s}
+
+Tout ce qu'on aurait voulu ajouter
+============
+Wave function collapse + pathfinding amélioré {Théo, 1 minute} // 2 slides
+
+C'est dans le titre
+============
