@@ -3,7 +3,8 @@
 \usepackage[french]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[export]{adjustbox}
-\usepackage{graphicx} % Required for inserting images
+\usepackage{graphicx}
+\usepackage{blkarray} % Required for inserting images
 
 \newcommand{\nologo}{\setbeamertemplate{logo}{}}
 
@@ -23,7 +24,7 @@
 \author[T.Pariney L.Jaqueson K.Jelic]{Théo Pariney \newline Laura Jacqueson \newline Kilian Jelic\\\footnotesize Tuteur : Julien Bernard}
 \institute[]{Université Marie et Louis Pasteur \\ \vspace{0.25cm} Licence 3 Informatique, 2024--2025}
 \date{26 mars 2025}
-\logo{\includegraphics[width=0.25\linewidth]{images/logo-UMLP.png}}
+\logo{\includegraphics[width=0.25\linewidth]{images/logo-UMLP}}
 
 \begin{document}
 
@@ -40,17 +41,17 @@
 \begin{frame}{Introduction}
     \begin{block}{Contexte}
         \begin{itemize}
-            \item[•] Jeu de platformes en 2D
-            \item[•] Génération procédurale
-            \item[•] Réalisé en C++
-            \item[•] Utilise Gamedev Framework
+            \item[\bullet] Jeu de platformes en 2D
+            \item[\bullet] Génération procédurale
+            \item[\bullet] Réalisé en C++
+            \item[\bullet] Utilise Gamedev Framework
         \end{itemize}
     \end{block}
     \begin{block}{Objectifs}
        \begin{itemize}
-            \item[•] Programmer un jeu en C++
-            \item[•] Réaliser les textures
-            \item[•] Se familiariser avec la bibliothèque GF
+            \item[\bullet] Programmer un jeu en C++
+            \item[\bullet] Réaliser les textures
+            \item[\bullet] Se familiariser avec la bibliothèque GF
         \end{itemize}
     \end{block}
 \end{frame}
@@ -74,15 +75,15 @@
         \column{0.6\textwidth}
             \begin{figure}
                 \centering
-                \includegraphics[width=1.0\textwidth]{images/XMLfile.png}
+                \includegraphics[width=1.0\textwidth]{images/XMLfile}
                 \caption{Stockage d'un bloc au format XML}
             \end{figure}
         \column{0.4\textwidth}
             \begin{block}{Définition des blocs}
                 \begin{itemize}
-                    \item[•] Définition des blocs au format XML
-                    \item[•] Lecture du fichier et stockage dans une classe dédiée
-                    \item[•] Accès depuis les autre classes via une méthode statique
+                    \item[\bullet] Définition des blocs au format XML
+                    \item[\bullet] Lecture du fichier et stockage dans une classe dédiée
+                    \item[\bullet] Accès depuis les autre classes via une méthode statique
                 \end{itemize}
             \end{block}
     \end{columns}
@@ -93,16 +94,16 @@
         \column{0.4\textwidth}
             \begin{block}{Textures connectées}
                 \begin{itemize}
-                    \item[•] Textures des blocs connectées aux blocs du même type
-                    \item[•] élément \emph{connected} du fichier XML
-                    \item[•] Textures au format de feuilles de sprite
-                    \item[•] Calcul basé sur les blocs autour
+                    \item[\bullet] Textures des blocs connectées aux blocs du même type
+                    \item[\bullet] élément \emph{connected} du fichier XML
+                    \item[\bullet] Textures au format de feuilles de sprite
+                    \item[\bullet] Calcul basé sur les blocs autour
                 \end{itemize}
             \end{block}
         \column{0.6\textwidth}
             \begin{figure}
                 \centering
-                \includegraphics[width=0.8\textwidth]{images/connected_textures_offset_computing.png}
+                \includegraphics[width=0.8\textwidth]{images/connected_textures_offset_computing}
                 \caption{Calcul de la texture connectée du bloc}
             \end{figure}
     \end{columns}
@@ -126,7 +127,7 @@
 \end{frame}
 
 \section{La génération procédurale}
-\begin{frame}{L'aléatoire}
+\begin{frame}{L'al\'eatoire}
 
 \end{frame}
 
