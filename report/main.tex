@@ -706,8 +706,15 @@ La résistance de l'air est calculée dans une fonction séparée, et est donné
 Où \(dir\) est la direction du joueur, \(C_{air}\) un coefficient de résistance de l'air, que nous avons défini à (0.01,0.02), et \(v\) sa vitesse actuelle.
 
 \section{Notre organisation}
-\subsection{La définition des tâches}
-\subsubsection{La répartition du travail}
+
+Nore organisation se basait sur un processus itératif.
+Nous avons réparti notre organisation en "periodes" correspondant au temps entre deux rendez-vous avec notre tuteur.
+Après chaque réunion, nous discutions d'un objectif général à atteindre pour le prochain rendez vous.
+A partir de cette discussions, nous convenions d'un ensemble de tâches à réaliser pour atteindre cet objectif, qui étaient ajoutées sur le tabeau Trello.
+Chaque membre du groupe était libre de choisir les tâches qu'il souhaitait et se sentait capable de réaliser.\par
+
+Cette organisation était très dynamique, et a permi aux membres du groupe de de travailler sur différentes parties du projet à leur guise.
+
 \subsection{Les outils utilisés}
 % TODO: Mettre les logos des outils utilisés ? Au moins celui de gf. À moins qu'on le mettre uniquement dans la présentation?
 % ça serait important de mentionner qu'on a mis un peu de temps à avoir un trello
@@ -720,6 +727,8 @@ tuteur, Julien Bernard.
 
 Ce framework nous a permis de développer l'interface graphique du jeu, ainsi que certains aspects techniques comme
 la gestion de la boucle de jeu, ce certaines ressources, et de l'aléatoire.
+
+L'utilisation de ce framework était imposé par le sujet.
 
 \subsubsection{Discord}
 
@@ -753,8 +762,7 @@ Nous nous sommes servi de Git et de GitHub afin de synchroniser les changements 
 Un IDE (Integrated Development Environment) est une application fournissant divers outils afin d'assister au
 développement.
 
-% TODO: Remplir ça
-Nous avons utilisés plusieurs IDEs, tel que CLion, (vos IDEs ici\ldots) afin de développer le jeu.
+Nous avons utilisés plusieurs IDEs, tel que CLion, Kate et Visual Studio Code afin de développer le jeu.
 
 \newpage
 
@@ -762,7 +770,30 @@ Nous avons utilisés plusieurs IDEs, tel que CLion, (vos IDEs ici\ldots) afin de
 % TODO: On a quand même une conclusion ici avant les autres points
 \subsection{Points d'amélioration}
 \subsubsection{Ce qu'on aurait voulu ajouter}
-% TODO: c.f le gdoc
+
+Nous avions de multiples idées lors du début du projet qui n'ont pas pu être implémentées soit à cause de leur difficulté, soit par manque de temps, soit parce qu'elles ne convenaient plus  à la trajectoire qu'avait pris le projet.
+Ces idées regroupent :
+\begin{itemize}
+  \item \emph{Des ennemis}: Qui auraient pu se déplacer et chercher à entrer en collision avec le personnage pour le détruire.
+        Cette idée a été abandonnée par manque de temps.
+  \item \emph{Des bulles}: Qui auraient été un moyen pour le personnage de gagner de la hauteur autrement qu'en prenant les échelles.
+        L'idée a été abandonnée car elle semblait trop redondante avec les échelles
+  \item \emph{Possibilité de choix de la graine de génération}: Un moyen de choisir la graine avec laquelle le niveau se génère.
+        L'idée a été abandonnée à la fin du projet par manque de temps, bien que la plupart de ce qui en nécessite la création soit déjà implémenté.
+  \item \emph{Clés}: Les clés auraient été associées aux portes, et auraient permi de les ouvrir pour progresser ou augmenter le score.
+        L'idée a été abandonnée car trop complexe à implémenter.
+  \item \emph{Téléporteurs} : Les téléporteurs auraient permi de parcourir de grande distances dans le niveau de manière instantanée
+        L'idée a été abandonnée car trop complexe pour la génération procédurale
+  \item \emph{Des bonus} : Les bonus auraient été des objets récoltables permettant de changer des mécanoiques de gameplay.
+        L'idée des bonue a été abandonnée car ne convenant par au gameplay que nous commencions à créer
+  \item \emph{Pluie/Eau} : La pluie ou l'eau aurait fait glisser le personnage des murs, pour l'empêcher de grimper.
+        L'idée a été remaniée, et transformée en blocs de glace, faisant glisser le personnage
+  \item \emph{Choix de difficulté} : La possibilité de choisir la difficulté du jeu et de la génération.
+        Cette idée s'est révélée trop longue à implémenter, et demandant trop de charge de travail.
+  \item \emph{Autre personnages} : La possibilité de choisir un personnage, et que chaque personnage ait des mécaniques de gameplay différentes.
+        Comme pour le choix de la difficulté, cette idée demanderait trop de charge de travail pour pouvoir être correctement implémentée.
+\end{itemize}
+
 \subsubsection{Wave Function Collapse}
 
 L'algorithme de Wave Function Collapse est un algorithme permettant de définir différent patternes, ainsi que la
@@ -789,7 +820,11 @@ Un algorithme de pathfinding pourrait aider à éliminer complètement ce probl�
 Cependant, la nature rectiligne des plateformes rendrait plus difficile l'implémentation de ce genre d'algorithme
 de pathfinding, en contraignant le type de chemin pouvant être pris.
 
-\subsubsection{La physique} % TODO: ;-;
+\subsubsection{La physique}
+
+Malgré le temps passé à l'implémentation du moteur physique nécessaire au fonctionnement du jeu, celle-ci reste très imparfaite et possède certains bugs.\\
+Nous aurions aimé pouvoir la retravailler pour l'améliorer, et obtenir une physique fonctionnelle.
+Cependant, les bugs de physique sont apparus trop tard dans le développement pour pouvoir être réglés sans devoir réécrire des parties importantes du projet, ce qui était impossible à cause du manque de temps.
 
 \tableofcontents
 
