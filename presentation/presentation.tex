@@ -40,30 +40,70 @@
 \end{frame}
 
 \begin{frame}{Introduction}
-    \begin{block}{Contexte}
-        \begin{itemize}
-            \item[\bullet] Jeu de platformes en 2D
-            \item[\bullet] Génération procédurale
-            \item[\bullet] Réalisé en C++
-            \item[\bullet] Utilise Gamedev Framework
+    \begin{block}{Qu'est-ce qu'un jeu de plateforme ?}
+       \begin{itemize}
+            \item[\bullet] Personnage qui saute sur des plateformes
+            \item[\bullet] Défilement horizontal ou vertical
+            \item[\bullet] Collecte d'objets
+            \item[\bullet] Obstacles 
         \end{itemize}
     \end{block}
-    \begin{block}{Objectifs}
-       \begin{itemize}
-            \item[\bullet] Programmer un jeu en C++
-            \item[\bullet] Réaliser les textures
-            \item[\bullet] Se familiariser avec la bibliothèque GF
+    \begin{block}{Contexte et objectifs}
+        \begin{itemize}
+            \item[\bullet] Jeu de plateformes en 2D
+            \item[\bullet] Réalisé en C++
+            \item[\bullet] Génération procédurale
+            \item[\bullet] Utilise la bibliothèque : Gamedev Framework
         \end{itemize}
     \end{block}
 \end{frame}
 
 \section{Présentation générale}
-\begin{frame}{Présentation du projet}
-
+\begin{frame}{Présentation du jeu}
+    \begin{block}{Caractéristiques}
+        \begin{itemize}
+            \item[\bullet] Jeu de plateforme en 2D en C++
+            \item[\bullet] Personnage : petit robot
+            \item[\bullet] Contrôles 
+            \begin{itemize}
+                \item droite et gauche
+                \item saut et double saut
+                \item dash : impulsion rapide horizontal
+            \end{itemize}
+            \item[\bullet] Niveau : pas de choix --> génération aléatoire 
+            \item[\bullet] Missions du personnage : ramasser écrous et rejoindre sortie
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 \begin{frame}{Objectifs du jeu}
-
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Score : objets ramassables}
+            \begin{itemize}
+                \item[\bullet] Types : écrous
+                \item[\bullet] Nombre inconnu
+                \item[\bullet] Tous placés aléatoirement 
+                \item[\bullet] Pas d'obligation de collecte
+            \end{itemize}
+        \end{block}
+        \begin{block}{Sortie}
+            \begin{itemize}
+                \item[\bullet] Placée aléatoirement
+                \item[\bullet] Stop la partie 
+            \end{itemize}
+        \end{block}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth]{images/nut}
+        \end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.6\textwidth]{images/exit}
+        \end{figure}
+        
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Construction du jeu en scènes}
