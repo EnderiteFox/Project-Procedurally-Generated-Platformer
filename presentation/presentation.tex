@@ -276,8 +276,10 @@
 
 \section{La physique}
 \begin{frame}{Gestion des collisions}
+    Calcul de la vitesse relative de la collision :
+    \[ V_{rel} =  - V_{joueur} \]
     Calcul de la vitesse par rapport à la normale :
-    \[ V_{n} = - V_{joueur} \cdot n \]
+    \[ V_{n} = V_{rel} \cdot n \]
     Calcul de la magnitude de l'impulsion à appliquer :
     \[ C_{i} = (1 + e) \times V_{n} \]
     Calcul du vecteur résultat :
@@ -300,16 +302,37 @@
             \begin{figure}
                 \centering
                 \includegraphics[width=0.5\textwidth]{images/DirectionnalHB.png}
-                \caption{Hitbox directionnelle comparée à la hitbox classique}
+                \caption{Hitbox directionnelle (en vert) comparée à la hitbox classique (en rouge)}
             \end{figure}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Friction}
-
+    Calcul de la tangente à la collision :
+    \[t = V_{rel} - [V_{rel} \cdot (n \times (1,0))] \times n\]
+    Calcul du coefficient de friction à appliquer :
+    \[C_{f} = - V_{rel} \cdot t\]
+    Calcul du vecteur de friction résultant :
+    \[
+        V_{friction} = \left\{\begin{array}{lr}
+            C_{f} \times t & \text{si } |C_{f}| < |C_{i}| \times \mu_{s}\\
+            -C_{i} \times t \times \mu_{d} & \text{si } |C_{f}| \geq |C_{i}| \times \mu_{s}
+        \end{array}\right\}
+    \]
 \end{frame}
 
-\begin{frame}{Stockage des données}
+\begin{frame}{Autre données de physique}
+    \begin{block}{Résistance de l'air}
+        La résistance de l'air est donnée par :
+        \[
+         -dir \times (V_{joueur})^2 \times C_{air}
+        \]
+        avec \(C_{air} = (0.01,0.02)\)
+    \end{block}
+
+    \begin{block}{Collisions multiples}
+        Moyenne des résultats des collisions avec les blocs
+    \end{block}
 
 \end{frame}
 
