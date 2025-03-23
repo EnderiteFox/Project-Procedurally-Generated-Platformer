@@ -128,23 +128,96 @@
 
 \section{La génération procédurale}
 \begin{frame}{L'al\'eatoire}
-
+    \begin{block}{Graine de génération}
+        \begin{itemize}
+            \item[\bullet] Choisie aléatoirement
+            \item[\bullet] Peut être choisie manuellement
+            \item[\bullet] Permet de reproduire les problèmes
+        \end{itemize}
+    \end{block}
 \end{frame}
 
 \begin{frame}{Génération des salles/des murs}
-
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Génération des salles}
+            \begin{itemize}
+                \item[\bullet] Génère une suite de salles connectées entre elles
+                \item[\bullet] Éviter que les salles se chevauchent
+                \item[\bullet] Retourne en arrière si aucun chemin n'est possible
+            \end{itemize}
+        \end{block}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[height=0.2\textheight]{images/room_placement}
+            \caption{Placement d'une salle au dessus d'une autre}
+        \end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics[height=0.2\textheight]{images/filling_the_world}
+            \caption{Génération des murs}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Génération du chemin}
-
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Génération d'un chemin}
+            \begin{itemize}
+                \item[\bullet] Génère un chemin du début à la fin
+                \item[\bullet] S'assurer que le niveau est possible
+            \end{itemize}
+        \end{block}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.0\textwidth]{images/two_ways_to_connect}
+            \caption{Deux moyens de relier deux points du chemin}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Les fausses platformes}
-
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Pourquoi?}
+            \begin{itemize}
+                \item[\bullet] Cache le vrai chemin
+                \item[\bullet] Exploration du niveau
+            \end{itemize}
+        \end{block}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.0\textwidth]{images/fake_platforms}
+            \caption{Une salle contenant de fausses plateformes}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Les blocs spéciaux}
-
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Blocs de glace et de slime}
+            \begin{itemize}
+                \item[\bullet] Ajoute de la variété
+                \item[\bullet] Généré à partir d'un bruit de Perlin
+            \end{itemize}
+        \end{block}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[height=0.2\textheight]{images/perlin_noise_example}
+            \caption{Données brutes d'un bruit de Perlin}
+        \end{figure}
+        \begin{figure}
+            \centering
+            \includegraphics[height=0.2\textheight]{images/perlin_noise_in_level}
+            \caption{Des blocs de glace et de slime dans un niveau}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Les pièges}
