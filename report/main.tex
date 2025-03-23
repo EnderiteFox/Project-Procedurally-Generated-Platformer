@@ -17,36 +17,43 @@
 \renewcommand\thesection{\arabic{section}}
 \renewcommand{\contentsname}{Table des matières}
 
+
 \begin{document}
 
 \begin{titlepage}
-  %\begin{sffamily}
   \begin{center}
-    \includegraphics[height=25mm]{gfx/logo-UMLP}~\\[3cm]
+    \includegraphics[height=25mm]{gfx/logo-UMLP} \\[1cm]
     
-    \textsc{\LARGE UFR Sciences et technique}\\
-    \textsc{\Large Université Marie et Louis PASTEUR}\\
-    \textsc{\Large \textbf{Projet}}\\
-    \textsc{\Large L3 Informatique}\\[2.5cm]
+
+    {\LARGE\textsc{Université Marie et Louis PASTEUR}}\\[0.4cm]
+    {\Large\textsc{UFR Sciences et Techniques}}\\[0.4cm]
+    {\Large \textsc{L3 Informatique}}\\[1cm]
     
-    \HRule \\[0.4cm]
-    { \huge \bfseries Jeu de plate-formes avec génération procédurale\\[0.4cm] } % C'est le titre donné par jube, j'y suis pour rien
-    
-    \HRule \\[0.6cm]\renewcommand\thesection{\arabic{section}}
-    \textsc{\Large \textbf{Rapport de projet}}\\[1.5cm]
-    \begin{minipage}{\textwidth}
-      \begin{center}\LARGE
-        Kilian \textsc{Jelic} \\
-        Laura \textsc{Jacqueson} \\
-        Théo \textsc{Pariney} \\
-      \end{center}
-    \end{minipage}
+
+    \HRule \\[0.5cm]
+    {\huge \bfseries Jeu de plate-formes avec génération procédurale}\\[0.4cm]
+    \HRule \\[1cm]
+
+    {\Large \textbf{Rapport de projet}}\\[1cm]
+
+    \includegraphics[width=0.7\textwidth]{images/illustration} \\[1.5cm]
+
+    \parbox{0.45\textwidth}{\raggedright
+      \textbf{Étudiants :} \\
+      Kilian \textsc{Jelic}\\
+      Laura\textsc{Jacqueson}\\
+      Théo\textsc{Pariney}
+    }
+    \hfill
+    \parbox{0.45\textwidth}{\raggedleft
+      \textbf{Responsable :}\\
+      Julien \textsc{Bernard}
+    }
     \vfill
-    % Bottom of the page
-    {\large \ avril 2025}
-    
+
+    {\large Mars 2025}
+
   \end{center}
-  %\end{sffamily}
 \end{titlepage}
 
 \normalsize
@@ -58,20 +65,19 @@
 
 \section{Introduction}
 
-Dans le cadre de notre projet semestriel en L3 Informatique à l'Université Marie et Louis Pasteur,
-nous avons travaillé sur le développement d’un jeu de plate-formes avec génération procédurale en C++.
-
 Les jeux de plate-formes sont un genre qui repose sur le contrôle d'un personnage avec des mécaniques comme
 les sauts et les obstacles, l’objectif étant généralement de rejoindre une sortie pour terminer le niveau.
-L’ajout de la génération procédurale introduit une caractéristique supplémentaire :
+L’ajout de la textbf{génération procédurale} introduit une caractéristique supplémentaire :
 plutôt que de concevoir chaque niveau à la main, un algorithme est chargé de créer les niveaux du jeu,
 permettant ainsi une expérience unique à chaque partie.
+
+Dans le cadre de notre projet semestriel en L3 Informatique à l'Université Marie et Louis Pasteur,
+nous avons travaillé sur le développement d’un textbf{jeu de plate-formes avec génération procédurale en C++}.
 
 L'objectif principal de ce projet était de concevoir un jeu de plate-formes dont les niveaux seraient générés
 de manière procédurale, offrant ainsi une rejouabilité infinie.
 En parallèle, nous avons dû concevoir un jeu intégrant plusieurs mécaniques de jeu, incluant des déplacements,
-des sauts, un dash, ainsi qu’un objectif centré sur la récolte d’objets,
-tout en assurant la gestion des collisions et la physique du jeu.
+des sauts, un dash, ainsi qu’un objectif centré sur la récolte d’objets, tout en assurant la gestion des collisions et la physique du jeu.
 
 Dans ce rapport, nous commencerons par une présentation générale du jeu, en exposant les objectifs du joueur et
 les scènes du jeu.
@@ -93,12 +99,12 @@ Le rapport se conclura par un bilan du projet et les améliorations possibles.
 \section{Présentation du jeu}
 \subsection{Présentation générale}
 
-Ce projet consiste à développer un jeu de plate-forme en 2D intégrant un système de génération procédurale de niveau.
+Ce projet consiste à développer un textbf{jeu de plate-forme en 2D} intégrant un système de textbf{génération procédurale} de niveau.
 L’objectif est d’offrir une expérience où chaque partie est unique : au lieu d’avoir des niveaux prédéfinis,
 ceux-ci sont générés aléatoirement à chaque nouvelle partie.
 Contrairement aux jeux de plate-forme classiques où l'on peut apprendre les niveaux par cœur, ici, aucun parcours ne
 peut être rejoué à l’identique.
-Cette approche permet non seulement une rejouabilité infinie, mais aussi un défi constant, obligeant le joueur
+Cette approche permet non seulement une rejouabilité infinie, mais aussi un défi durable, obligeant le joueur
 à s’adapter à chaque nouvelle configuration de niveau.
 
 Le joueur incarne un petit robot, dont la mission principale est de récolter un maximum d’écrous
@@ -106,7 +112,7 @@ avant d’atteindre la sortie du niveau.
 Ces écrous sont disposés aléatoirement dans l’environnement, incitant le joueur à explorer avant de pouvoir
 terminer la partie.
 
-Pour évoluer dans le monde, le joueur dispose de plusieurs mécaniques lui permettant de se déplacer librement et
+Pour naviguer dans le monde, le joueur dispose de plusieurs mécaniques lui permettant de se déplacer librement et
 d’interagir avec son environnement :
 \begin{itemize}
   \item \textbf{déplacement} : le personnage peut se déplacer latéralement, à gauche et à droite,
@@ -119,9 +125,8 @@ d’interagir avec son environnement :
   (gauche ou droite), utile pour traverser de grands espaces vides ou esquiver des obstacles.\\
 \end{itemize}
 
-Ces mécaniques offrent une grande liberté de mouvement, permettant aux joueurs d’adopter différentes stratégies.
-Certains privilégieront une approche prudente, optimisant chaque saut pour éviter la mort, tandis que d’autres
-tenteront des enchaînements rapides et fluides pour terminer le niveau efficacement.
+Ces mécaniques offrent une grande liberté d'action, permettant aux joueurs d’adopter différentes stratégies.
+Certains préfèreront une approche prudente, en évitant à tout prix de mourir, tandis que d’autres tenteront de terminer simplement le niveau sans se soucier de la mort.
 
 
 Comme mentionné précédemment, tous les niveaux sont générés de manière procédurale, cela signifie qu'à chaque
@@ -557,14 +562,71 @@ nous voulons tester (voir figure~\ref{fig:test_world}).
 \end{figure}
 
 \section{Le personnage}
+Le joueur incarne un petit robot doté de différentes possibilités de déplacement, lui permet d'évoluer dans le niveau. 
+
 \subsection{Les contrôles de base}
+Le personnage se déplace principalement à gauche et à droite. Ces déplacements sont possibles grâce aux flèches directionnelles (droite $\rightarrow$ ou gauche $\leftarrow$) ou bien les touche \emph{"Q"} et \emph{"D"}.\\
+Ce fonctionnement repose sur plusieurs mécaniques assurant un déplacement horizontale fluide :
+
+\begin{itemize}
+  \item \textbf{Déplacement droite/gauche} : lorsque le joueur appuie sur les touches de déplacement, une constante est ajouté à l'axe X du personnage lui permettant de gagner de la vitesse. 
+  \item \textbf{Priorité} : si les 2 touches sont presser en même temps, la priorité de déplacement est donné à la droite.
+  \item \textbf{Effet de la glace} : Lorsque le personnage se trouve sur un bloc ou une plateforme de glace, il ne s'arrête pas immédiatement après le relâchement de la touche. De plus, comme la glace n'a pas de friction, le personnage est affecté par cette absence de friction et va donc plus vite pendant son déplacement.
+\end{itemize}
+
+Ces déplacements sont controlés via des actions continues, c'est-à-dire que tant que la touche en enfoncée le joueur continue de se déplacer. 
+
+
 \subsection{Le saut}
-\subsubsection{Le saut modulable}
-% TODO: ça fait partie des choix qu'on a fait puis abandonné, c'est important à mentionner
-\subsubsection{Le double saut}
+Le personnage peut sauter en appuyant sur la touche \emph{Espace} du clavier. Les sauts sont essentiels pour un jeu de plateforme, car sans eux, le personnage ne pourrait pas franchir d'obstacles ni atteindre les plateformes en hauteur. 
+
+Lors de l'appui de la touche \emph{Espace}, le personnage monte, et la hauteur maximale atteinte, il redescend progressivement. \\
+Sur le plan technique le saut repose sur les principes suivants : 
+
+\begin{itemize}
+  \item \textbf{Impulsion initiale} : au moment du saut, une constante est ajouté sur l'axe Y du personnage, lui permettant de quitter le sol.
+  \item \textbf{Influence de la gravité} : une fois arrivé à son point maximum le personnage redescend doucement sous l'effet de la gravité. 
+  \item \textbf{Influence de la résistance de l'air} : lors de la montée ainsi que de la descente, le personnage est ralentit sous l'influence de la résistance de l'air, ce qui permet de ne pas avoir d'accélération brutale. 
+  \item \textbf{Condition d'activation du saut} : un saut ne peut être initié que si le joueur est en contact avec le sol (plateformes ou blocs), ce qui signifie que s'il est sur une échelle le saut est impossible. 
+\end{itemize}
+
+En plus du saut classique, le personnage à la possibilité d'effectuer un \textbf{double saut}. Cette mécanique permet au joueur, une fois que le robot est en l'air, de réappuyer sur \emph{Espace} pour lui donner une nouvelle impulsion pour atteindre des endroits plus en hauteur. 
+
+En plus des principes du saut simple, le double saut repose également sur ces principes :
+
+\begin{itemize}
+  \item \textbf{Déclenchement} : le joueur peut appuyer sur la touche du saut avant que le personnage n'atterrisse sur le sol, ce qui applique de nouveau une impulsion vers le haut.
+  \item \textbf{Limitation} : le double saut ne peut être utilisé qu'une fois par saut simple. Pour réinitialiser cette capacité le personnage doit retoucher le sol.
+\end{itemize}
+
+
+Nous avions initialement prévu d'intégrer un saut modulable au jeu. Cette mécanique permettait au joueur de contrôler la hauteur du saut du personnage en fonction de la durée d'appuie sur la touche. Plus la touche aurait été maintenue, plus le robot serait allé haut, avec un plafond maximum.
+Cependant, nous avons fait le choix d'abandonner cette mécanique car elle compliquait trop les commandes au clavier rendant les sauts moins intuitifs et plus difficiles à maîtriser. 
+
 \subsection{Le dash}
-% TODO: Faudra aussi mentionner qu'on a eu du mal à trouver des contrôles convenables
+Le dash est une mécanique permettant au personnage d'effectuer une accélération horizontalement afin d'atteindre un point éloigné plus rapidement. Il peut aussi être combinée au saut pour donner plus de choix de mobilité au joueur. 
+
+Dès le début de l'implémentation de cette mécanique, nous avons rencontré des difficultés pour le choix de la commande déclenchant le dash. Au débart, nous avions fait le choix de la combinaison de touche flèches directionnelles et \emph{shift droit} ou bien flèches directionnelles et \emph{Entrée}. Cependant, ces combinaisons ce sont révélées peu ergonomique et difficile à maîtriser. Nous avons donc opté pour un double appuie rapide des flèches directionnelles. 
+
+Techniquement, le dash s'appuie sur les propriétés ci-dessous :
+\begin{itemize}
+  \item \textbf{Déclenchement} : le joueur peut effectuer un double appui sur une des flèche pour appliquer une constante sur l'axe X.
+  \item \textbf{Vitesse et durée} : le personnage gagne tout de suite une impulsion élévé mais sur une courte durée.
+  \item \textbf{Limitations} : le joueur ne peut effectuer qu'un dash à la fois, la fonctionnalité ne se réinitialise qu'au bout de quelques seconde et uniquement lorsque le robot est sur le sol. 
+\end{itemize}
+
+Cette mécanique permet d'ajouter davantage d'alternatives de déplacement au joueur, offrant ainsi plus de choix de jeu. 
+
 \subsection{Le score et les vies}
+Dans le jeu, le score repose sur la collecte de petits \textbf{écrous} ramassables. Ces écrous sont dispersés aléatoirement à travers le niveau et peuvent être obtenus simplement en passant dessus avec le robot. Le nombre total d'écrous dans chaque niveau n'est pas connu, ce qui incite le joueur à explorer minutieusement chaque recoin pour en collecter le maximum.
+
+Contrairement à d'autres jeux de plateforme, la collecte des écrous n'est pas nécessaire pour atteindre la sortie et terminer le niveau. Ainsi, le joueur a la liberté de choisir s’il préfère explorer le niveau pour ramasser tous les écrous et maximiser son score, ou s’il opte pour une approche plus rapide en se dirigeant directement vers la sortie dès qu'il la trouve.
+
+Le joueur dispose de \textbf{5 vies} par partie. Il n'existe qu'une seule manière de perdre une vie : si le personnage entre en contact avec un \textbf{pique}. Dans ce cas, une vie est retirée du compteur et le joueur réapparaît au point de départ du niveau.
+
+Si le joueur perd toutes ses vies, la partie prend fin de manière définitive. Il est alors impossible de recommencer avec la même génération de niveau. Toutefois, le joueur peut relancer une nouvelle partie avec une graine différente, générant ainsi un niveau unique à chaque tentative.
+
+Ce système de vies limitées incite le joueur à adopter une stratégie plus prudente, en équilibrant exploration et prise de risque. 
 
 \section{La physique}
 Lorsque nous avons commencé le projet, nous avions le choix entre réaliser la physique nous-même, et nous appuyer sur
