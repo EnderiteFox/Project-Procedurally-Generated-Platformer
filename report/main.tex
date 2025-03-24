@@ -248,6 +248,13 @@ Pour les éléments de jeu classiques, les textures sont des images simples qui 
 Pour les blocs possédant la propriété ``connected'', la texture est stockée sous la forme d'une spritesheet,
 donnant les 16 textures possibles pour chaque bloc, pour que la connection se fasse, en fonctions des blocs qui l'entourent.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{images/tile_jelly}
+  \caption{Spritesheet du bloc de gelée, possédant la propriété connected}
+  \label{fig:tile_jelly}
+\end{figure}
+
 Pour cela, le \emph{BlockManager} associe à une position, en plus du type de bloc s'y trouvant, un indice sous la
 forme d'un entier non signé indiquant quelle partie de la spritesheet appliquer.
 Lors de la création du \emph{BlockManager}, cet entier est positionné à 0, et les blocs ont leur texture ``par défaut'', sans connections.
@@ -262,14 +269,21 @@ Une fois le monde généré, et l'ensemble des blocs du monde stockés dans le \
   \label{fig:connected_textures_computing}
 \end{figure}
 
-Une puissance de 2 est donnée à chaque position de bloc pouvant entourer le bloc donc on veut déterminer la texture:
+Un bit est donnée à chaque position de bloc pouvant entourer le bloc donc on veut déterminer la texture:
 \begin{itemize}
-  \item \textbf{1} Pour le bloc au dessus
-  \item \textbf{2} Pour le bloc à gauche
-  \item \textbf{4} Pour le bloc à droite
-  \item \textbf{8} Pour le bloc au dessous
+  \item \textbf{0001} Pour le bloc au dessus
+  \item \textbf{0010} Pour le bloc à gauche
+  \item \textbf{0100} Pour le bloc à droite
+  \item \textbf{1000} Pour le bloc au dessous
 \end{itemize}
 On fait la somme des nombres associés aux blocs adjacents du même sous-type que le bloc, ce qui nous donne l'indice de la texture à appliquer.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[height=0.2\textwidth]{images/connectedTiles}
+  \caption{Groupe de 4 blocs de gelée dont les textures se connectent entre elles}
+  \label{fig:connected_tiles}
+\end{figure}
 
 \subsection{Le monde}
 
