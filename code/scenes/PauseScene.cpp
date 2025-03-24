@@ -31,6 +31,7 @@ namespace platformer {
     }
 
     void PauseScene::doHandleActions(gf::Window& window) {
+        (void) window;
         if (unpauseAction.isActive()) {
             manager->unpause();
             hide();

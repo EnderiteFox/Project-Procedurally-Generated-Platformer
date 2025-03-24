@@ -64,7 +64,8 @@ namespace platformer{
         }
     }
 
-    void Menu::doUpdate(gf::Time time) {
+    void Menu::doUpdate(const gf::Time time) {
+        (void) time;
         if (do_start) {
             do_start = false;
             manager->loadGame();

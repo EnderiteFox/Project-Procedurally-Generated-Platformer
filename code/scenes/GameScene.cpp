@@ -118,7 +118,8 @@ namespace platformer {
         character.processImpulse();
     }
 
-    void GameScene::doUpdate(gf::Time time) {
+    void GameScene::doUpdate(const gf::Time time) {
+        (void) time;
         scoreDisplay.setString("x" + std::to_string(character.getScore()));
         lifeDisplay.setString("x" + std::to_string(character.getLives()));
     }

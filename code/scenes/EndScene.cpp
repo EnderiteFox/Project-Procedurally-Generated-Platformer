@@ -72,6 +72,7 @@ namespace platformer{
     }
 
     void EndScene::doHandleActions(gf::Window& window) {
+        (void) window;
         if (menuAction.isActive()) {
             manager->loadMenu();
         }

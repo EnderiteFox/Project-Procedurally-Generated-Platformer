@@ -23,10 +23,10 @@ namespace platformer {
     : type(std::move(type))
     , subType(std::move(subType))
     , texturePath(std::move(texturePath))
-    , scale(scale)
     , isCollidable(false)
     , hitboxSize(hitboxSize)
     , hitboxOffset(hitboxOffset)
+    , scale(scale)
     , isConnected(isConnected)
     {}
 
@@ -45,13 +45,13 @@ namespace platformer {
     : type(std::move(type))
     , subType(std::move(subType))
     , texturePath(std::move(texturePath))
-    , scale(scale)
     , isCollidable(true)
     , staticFriction(staticFriction)
     , dynamicFriction(dynamicFriction)
     , restitution(restitution)
     , hitboxSize(hitboxSize)
     , hitboxOffset(hitboxOffset)
+    , scale(scale)
     , isConnected(isConnected)
     {}
 
@@ -71,7 +71,6 @@ namespace platformer {
     : type(std::move(type))
     , subType(std::move(subType))
     , texturePath(std::move(texturePath))
-    , scale(scale)
     , isCollidable(true)
     , staticFriction(staticFriction)
     , dynamicFriction(dynamicFriction)
@@ -80,6 +79,7 @@ namespace platformer {
     , hitboxOffset(hitboxOffset)
     , isDirectional(true)
     , direction(directionMap[direction])
+    , scale(scale)
     , isConnected(isConnected)
     {}
 }
