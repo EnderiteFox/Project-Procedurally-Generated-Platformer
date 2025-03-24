@@ -24,3 +24,4 @@ presentation/presentation.synctex.gz
 *.vrb
 *.out
 report/main.pdf
+*.pdf_tex
