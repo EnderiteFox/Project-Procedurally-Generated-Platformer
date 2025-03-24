@@ -75,7 +75,7 @@ namespace platformer {
         // The chance that a room spawns with spikes at the bottom
         static constexpr double DANGEROUS_ROOM_CHANCE = 0.3;
 
-        // The minimum and maximum amount of collectibles to generate in each room
+        // The minimum and maximum amount of collectibles to generate on each platform
         static constexpr int MIN_COLLECTIBLE_AMOUNT = 0;
         static constexpr int MAX_COLLECTIBLE_AMOUNT = 1;
 
