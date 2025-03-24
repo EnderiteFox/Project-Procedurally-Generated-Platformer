@@ -394,16 +394,24 @@
 
 \section{La physique}
 \begin{frame}{Gestion des collisions}
-    Calcul de la vitesse relative de la collision :
-    \[ V_{rel} =  - V_{joueur} \]
-    Calcul de la vitesse par rapport à la normale :
-    \[ V_{n} = V_{rel} \cdot n \]
-    Calcul de la magnitude de l'impulsion à appliquer :
-    \[ C_{i} = (1 + e) \times V_{n} \]
-    Calcul du vecteur résultat :
-    \[V_{res} = C_{i} \times n \]
-    Application d'une correction (pour les erreurs de flottant) :
-    \[V_{corr} = -max(d-0.1,0) \times C_{corr} \times n\]
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Résolution des Collisions}
+            \begin{itemize}
+                \item[\bullet] Collisions entre rectangles 
+                \item[\bullet] Pas de masses
+                \item[\bullet] Collisions entre joueur et blocs seulement
+                \item[\bullet] Dépends du coefficient de restitution
+                \item [\bullet] Nécessité d'appliquer une correction de position
+            \end{itemize}
+        \end{block}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.0\textwidth]{images/null}
+            \caption{Capture d'écran du monde de test}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Platformes directionnelles}
@@ -426,17 +434,22 @@
 \end{frame}
 
 \begin{frame}{Friction}
-    Calcul de la tangente à la collision :
-    \[t = V_{rel} - [V_{rel} \cdot (n \times (1,0))] \times n\]
-    Calcul du coefficient de friction à appliquer :
-    \[C_{f} = - V_{rel} \cdot t\]
-    Calcul du vecteur de friction résultant :
-    \[
-        V_{friction} = \left\{\begin{array}{lr}
-            C_{f} \times t & \text{si } |C_{f}| < |C_{i}| \times \mu_{s}\\
-            -C_{i} \times t \times \mu_{d} & \text{si } |C_{f}| \geq |C_{i}| \times \mu_{s}
-        \end{array}\right\}
-    \]
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Résolution de la friction}
+            \begin{itemize}
+                \item[\bullet] Ralentis le joueur quand il se déplace sur un blocs
+                \item[\bullet] Dépends des coefficients de friction dynamique et statiques des blocs
+                \item[\bullet] Résolu après application de la résolution de collision
+            \end{itemize}
+        \end{block}
+        \column{0.4\textwidth}
+        \begin{figure}
+            \centering
+            \includegraphics[width=1.0\textwidth]{images/null}
+            \caption{Capture d'écran du monde de test}
+        \end{figure}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Autre données de physique}
@@ -488,7 +501,7 @@
                 \item[\rightarrow] Moteur physique fonctionnel
                 \item[\rightarrow] Génération procédurale
                 \item[\rightarrow] Mécaniques du personnage
-            \end{itemize}
+            \end{itemize}   
         \end{itemize}
     \end{block}
     \begin{block}{Difficultés rencontrées}
