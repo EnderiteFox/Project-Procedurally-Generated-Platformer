@@ -67,12 +67,12 @@
 
 Les jeux de plate-formes sont un genre qui repose sur le contrôle d'un personnage avec des mécaniques comme
 les sauts et les obstacles, l’objectif étant généralement de rejoindre une sortie pour terminer le niveau.
-L’ajout de la textbf{génération procédurale} introduit une caractéristique supplémentaire :
+L’ajout de la \textbf{génération procédurale} introduit une caractéristique supplémentaire :
 plutôt que de concevoir chaque niveau à la main, un algorithme est chargé de créer les niveaux du jeu,
 permettant ainsi une expérience unique à chaque partie.
 
 Dans le cadre de notre projet semestriel en L3 Informatique à l'Université Marie et Louis Pasteur,
-nous avons travaillé sur le développement d’un textbf{jeu de plate-formes avec génération procédurale en C++}.
+nous avons travaillé sur le développement d’un \textbf{jeu de plate-formes avec génération procédurale en C++}.
 
 L'objectif principal de ce projet était de concevoir un jeu de plate-formes dont les niveaux seraient générés
 de manière procédurale, offrant ainsi une rejouabilité infinie.
@@ -111,6 +111,13 @@ Le joueur incarne un petit robot, dont la mission principale est de récolter un
 avant d’atteindre la sortie du niveau.
 Ces écrous sont disposés aléatoirement dans l’environnement, incitant le joueur à explorer avant de pouvoir
 terminer la partie.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/world_example}
+  \caption{Exemple de monde}
+\end{figure}
+
 
 Pour naviguer dans le monde, le joueur dispose de plusieurs mécaniques lui permettant de se déplacer librement et
 d’interagir avec son environnement :
@@ -155,6 +162,12 @@ Les écrous sont des objets collectables répartis à plusieurs endroits du nive
 Ils constituent un élément central du jeu, car ils encouragent le joueur à explorer le monde plutôt que de se
 précipiter vers la sortie.
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{images/nut}
+  \caption{Ecrou}
+\end{figure}
+
 Comme tous les autres éléments du monde, les écrous sont placés aléatoirement à chaque génération de niveau.
 Leur nombre n’est pas fixe, ce qui signifie que chaque partie offre une répartition différente des écrous,
 renforçant ainsi la rejouabilité.
@@ -172,6 +185,13 @@ Une fois que le joueur l'a trouvée, il peut choisir de l’atteindre immédiate
 continuer à explorer afin de collecter davantage d’écrous et améliorer son score.
 Ce choix introduit un élément de stratégie, puisque le joueur doit évaluer s’il préfère sécuriser sa progression
 ou prendre des risques pour maximiser ses points.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\textwidth]{images/exit}
+  \caption{Sortie}
+\end{figure}
+
 
 Comme pour les écrous, la sortie est placée aléatoirement dans le niveau, ce qui signifie que le joueur ne sait
 jamais à l’avance où elle se trouve.
@@ -577,6 +597,13 @@ nous voulons tester (voir figure~\ref{fig:test_world}).
 
 \section{Le personnage}
 Le joueur incarne un petit robot doté de différentes possibilités de déplacement, lui permettant d'évoluer dans le niveau.
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\textwidth]{images/character_placeholder}
+  \caption{Le personnage}
+\end{figure}
 
 \subsection{Les contrôles de base}
 Le personnage se déplace principalement à gauche et à droite. Ces déplacements sont possibles grâce aux flèches directionnelles (droite $\rightarrow$ ou gauche $\leftarrow$) ou bien les touches \emph{"Q"} et \emph{"D"}.\\
