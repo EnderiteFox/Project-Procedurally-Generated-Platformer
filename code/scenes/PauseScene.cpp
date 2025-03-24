@@ -17,6 +17,8 @@ namespace platformer {
         manager->charSize*1.5
     )
     {
+        setClearColor(gf::Color::Black);
+
         // Parameters of the text
         pauseText.setColor(gf::Color::Yellow);
         pauseText.setAlignment(gf::Alignment::Center);
