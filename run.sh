@@ -10,5 +10,5 @@ cmake ..
 if make
 then
 	clear
-	./Platformer
+	./Platformer 5289412085745606899
 fi
