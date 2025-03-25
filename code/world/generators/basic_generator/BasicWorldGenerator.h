@@ -131,6 +131,9 @@ namespace platformer {
         // The points of the path
         std::vector<gf::Vector2i> path;
 
+        // The amount of nuts placed
+        int nutCount = 0;
+
         /**
          * Generates the list of rooms
          */

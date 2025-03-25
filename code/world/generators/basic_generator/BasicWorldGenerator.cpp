@@ -60,6 +60,9 @@ namespace platformer {
         // Place the exit at the last path point
         world.getBlockManager().setBlockTypeAt(path.back(), EXIT_BLOCK);
 
+        // Store the amount of nuts in the world
+        world.setTotalNutCount(nutCount);
+
         // Debug the path
         //debugPath(world);
     }
@@ -539,6 +542,7 @@ namespace platformer {
             // More collectibles to place than space on the platform
             for (int i = 0; i < generatedPlatformLength; ++i) {
                 world.getBlockManager().setBlockTypeAt(startPos.x + direction.x * i, startPos.y - 1, COLLECTIBLE_BLOCK);
+                ++nutCount;
             }
         }
         else {

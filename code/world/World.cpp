@@ -29,6 +29,11 @@ namespace platformer {
         return this->playerSpawnPoint;
     }
 
+    int World::getTotalNutCount() const {
+        return totalNutCount;
+    }
+
+
 
     void World::generate() {
         generator.generate(*this);
@@ -53,6 +58,11 @@ namespace platformer {
     void World::setVoidHeight(const float voidHeight) {
         this->voidHeight = voidHeight;
     }
+
+    void World::setTotalNutCount(const int nutCount) {
+        this->totalNutCount = nutCount;
+    }
+
 
 
 }

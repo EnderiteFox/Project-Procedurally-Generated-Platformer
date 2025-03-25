@@ -27,6 +27,7 @@ namespace platformer {
         Character& player;
         gf::Vector2f playerSpawnPoint;
         float voidHeight = DEFAULT_VOID_HEIGHT;
+        int totalNutCount = 0;
 
     public:
         //Constructor
@@ -37,10 +38,12 @@ namespace platformer {
         BlockManager& getBlockManager() const;
         gf::EntityContainer& getEntityContainer();
         gf::Vector2f getSpawnPoint() const;
+        int getTotalNutCount() const;
 
         // Setters
         void setSpawnPoint(gf::Vector2f spawnPoint);
         void setVoidHeight(float voidHeight);
+        void setTotalNutCount(int nutCount);
 
         // GF's render and update methods
         void render(gf::RenderTarget& target, const gf::RenderStates& states = gf::RenderStates()) override;
