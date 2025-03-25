@@ -112,7 +112,6 @@
             \begin{figure}
                 \centering
                 \includesvg[width=1.0\textwidth]{Scenes_FA.svg}
-                \caption{Automate des Scènes}
             \end{figure}
         \column{0.4\textwidth}
             \begin{block}{Scènes du jeu}
@@ -134,7 +133,6 @@
             \begin{figure}
                 \centering
                 \includegraphics[width=1.0\textwidth]{XMLfile}
-                \caption{Stockage d'un bloc au format XML}
             \end{figure}
         \column{0.4\textwidth}
             \begin{block}{Définition des blocs}
@@ -162,7 +160,6 @@
             \begin{figure}
                 \centering
                 \includegraphics[width=0.8\textwidth]{connected_textures_offset_computing}
-                \caption{Calcul de la texture connectée du bloc}
             \end{figure}
     \end{columns}
 \end{frame}
@@ -182,8 +179,7 @@
         \column{0.4\textwidth}
             \begin{figure}
                 \centering
-                \includegraphics[width=0.8\textwidth]{character_placeholder.png}
-                \caption{Personnage du jeu}
+                \includegraphics[width=0.8\textwidth]{character_placeholder}
             \end{figure}
     \end{columns}
 \end{frame}
@@ -238,8 +234,7 @@
         \column{0.4\textwidth}
             \begin{figure}
                 \centering
-                \includegraphics[width=0.8\textwidth]{Screenshot from 2025-03-23 23-14-37.png}
-                \caption{Affichage du score et des vies}
+                \includegraphics[width=0.8\textwidth]{Screenshot from 2025-03-23 23-14-37}
             \end{figure}
     \end{columns}
 \end{frame}
@@ -269,13 +264,11 @@
         \column{0.4\textwidth}
         \begin{figure}
             \centering
-            \includegraphics[height=0.2\textheight]{room_placement}
-            \caption{Placement d'une salle au dessus d'une autre}
+            \includegraphics[width=0.9\textwidth]{room_placement}
         \end{figure}
         \begin{figure}
             \centering
-            \includegraphics[height=0.2\textheight]{filling_the_world}
-            \caption{Génération des murs}
+            \includegraphics[width=0.9\textwidth]{filling_the_world}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -301,7 +294,6 @@
         \begin{figure}
             \centering
             \includegraphics[width=1.0\textwidth]{two_ways_to_connect}
-            \caption{Deux moyens de relier deux points du chemin}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -313,13 +305,13 @@
             \begin{itemize}
                 \item[\bullet] Vrai chemin caché
                 \item[\bullet] Exploration du niveau
+                \item[\bullet] Placement des écrous
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
         \begin{figure}
             \centering
             \includegraphics[width=1.0\textwidth]{fake_platforms}
-            \caption{Une salle contenant de fausses plateformes}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -329,7 +321,7 @@
         \column{0.5\textwidth}
         \begin{block}{Blocs de glace et de slime}
             \begin{itemize}
-                \item[\bullet] Plus de variété
+                \item[\bullet] Variété dans les déplacements
                 \item[\bullet] Génération à partir d'un bruit de Perlin
             \end{itemize}
         \end{block}
@@ -370,7 +362,6 @@
         \begin{figure}
             \centering
             \includegraphics[width=1.0\textwidth]{ice_spike_trap}
-            \caption{Deux situations où des pics peuvent se générer}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -381,34 +372,28 @@
         \begin{block}{Point d'apparition du joueur}
             \begin{itemize}
                 \item[\bullet] Début du niveau
-                \item[\bullet] Dans un endroit sûr
+                \item[\bullet] Endroit sûr
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
         \begin{figure}
             \centering
             \includegraphics[width=1.0\textwidth]{valid_spawn_locations}
-            \caption{Points d'apparition valides dans un niveau}
         \end{figure}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Monde de test}
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{block}{Générateur de monde de test}
-            \begin{itemize}
-                \item[\bullet] Implémentation alternative d'un générateur de monde
-                \item[\bullet] Permet de tester les fonctionnalités
-            \end{itemize}
-        \end{block}
-        \column{0.4\textwidth}
-        \begin{figure}
-            \centering
-            \includegraphics[width=1.0\textwidth]{test_world}
-            \caption{Capture d'écran du monde de test}
-        \end{figure}
-    \end{columns}
+    \begin{block}{Monde de test}
+        \begin{itemize}
+            \item[\bullet] Monde alternatif
+            \item[\bullet] Permet de tester les fonctionnalités
+        \end{itemize}
+    \end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.7\textwidth]{test_world}
+    \end{figure}
 \end{frame}
 
 \section{La physique}
@@ -428,7 +413,6 @@
         \begin{figure}
             \centering
             \includegraphics[width=1.0\textwidth]{null}
-            \caption{Capture d'écran du monde de test}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -438,15 +422,15 @@
         \column{0.4\textwidth}
             \begin{block}{Platformes directionnelles}
                 \begin{itemize}
-                    \item[•] Utilisent une hitbox plus petite, dirigée
-                    \item[•] élément \emph{direction} du fichier XML
-                    \item[•] Le joueur utilise aussi une hitbox plus petite
+                    \item[\bullet] Utilisent une hitbox plus petite, dirigée
+                    \item[\bullet] élément \emph{direction} du fichier XML
+                    \item[\bullet] Le joueur utilise aussi une hitbox plus petite
                 \end{itemize}
             \end{block}
         \column{0.6\textwidth}
             \begin{figure}
                 \centering
-                \includegraphics[width=0.5\textwidth]{DirectionnalHB.png}
+                \includegraphics[width=0.5\textwidth]{DirectionnalHB}
                 \caption{Hitbox directionnelle (en vert) comparée à la hitbox classique (en rouge)}
             \end{figure}
     \end{columns}
@@ -466,7 +450,6 @@
         \begin{figure}
             \centering
             \includegraphics[width=1.0\textwidth]{null}
-            \caption{Capture d'écran du monde de test}
         \end{figure}
     \end{columns}
 \end{frame}
@@ -573,7 +556,7 @@
     Avez vous des questions ?
     \begin{figure}
         \centering
-        \includegraphics[width=0.5\linewidth]{character_placeholder.png}
+        \includegraphics[width=0.5\linewidth]{character_placeholder}
     \end{figure}
 \end{frame}
 
