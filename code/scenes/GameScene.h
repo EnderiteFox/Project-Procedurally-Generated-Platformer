@@ -36,6 +36,8 @@ namespace platformer {
         // Initialize the scene and it's main entities
         void init();
 
+        const float victoryThreshold = 0.5;
+
     protected:
         void doHandleActions(gf::Window& window) override;
         void doUpdate(gf::Time time) override;
