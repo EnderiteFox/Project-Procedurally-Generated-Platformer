@@ -127,26 +127,6 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{Construction du jeu en scènes}
-    \begin{columns}
-        \column{0.6\textwidth}
-            \begin{figure}
-                \centering
-                \includesvg[width=1.0\textwidth]{Scenes_FA.svg}
-            \end{figure}
-        \column{0.4\textwidth}
-            \begin{block}{Scènes du jeu}
-                \begin{itemize}
-                    \item[\bullet] Menu
-                    \item[\bullet] Scène de Jeu
-                    \item[\bullet] Pause
-                    \item[\bullet] Scène de fin
-                \end{itemize}
-                Gérées par un gestionnaire de scènes
-            \end{block}
-    \end{columns}
-\end{frame}
-
 \section{Blocs et textures}
 \begin{frame}{Stockage dynamique des blocs}
     \begin{columns}
@@ -166,21 +146,59 @@
     \end{columns}
 \end{frame}
 
+\begin{frame}{Contenu  du fichier XML}
+    \begin{block}{Attributs des blocks}
+        \begin{itemize}
+            \item[\bullet] Type principal
+            \item[\bullet] \textbf{type} : Sous-type du bloc
+            \item[\bullet] \textbf{texture} : Texture du bloc
+            \item[\bullet] \textbf{scale} : Échelle de la texture
+            \item[\bullet] \textbf{staticFriction/dynamicFriction} : Coefficients de friction
+            \item[\bullet] \textbf{restitution} : Coefficients de réstitution
+            \item[\bullet] \textbf{collidable} : Collision possible
+            \item[\bullet] \textbf{connected} : Textures connectées
+            \item[\bullet] \textbf{direction} : Direction des platformes connectées
+            \item[\bullet] \textbf{alternate} : Texture alternative
+        \end{itemize}
+    \end{block}
+\end{frame}
+
 \begin{frame}{Connectivité des textures}
     \begin{columns}
         \column{0.4\textwidth}
             \begin{block}{Textures connectées}
                 \begin{itemize}
-                    \item[\bullet] Textures des blocs connectées aux blocs du même type
+                    \item[\bullet] Textures différentes en fonction des blocs autour
                     \item[\bullet] élément \emph{connected} du fichier XML
-                    \item[\bullet] Textures au format de feuilles de sprite
-                    \item[\bullet] Calcul basé sur les blocs autour
+                    \item[\bullet] Connectivité entre les groupes de blocs
+                    \item[\bullet] Format de feuille de sprites
                 \end{itemize}
             \end{block}
         \column{0.6\textwidth}
             \begin{figure}
                 \centering
-                \includegraphics[width=0.8\textwidth]{connected_textures_offset_computing}
+                \includegraphics[width=0.4\textwidth]{images/connectedTiles.png}
+            \end{figure}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1.0\textwidth]{images/tile_jelly.png}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Calcul des textures}
+    \begin{columns}
+        \column{0.4\textwidth}
+            \begin{block}{Textures connectées}
+                \begin{itemize}
+                    \item[\bullet] Bit donné à chaque bloc autour
+                    \item[\bullet] Somme des bits donne la texture dans la feuille de sprites
+                \end{itemize}
+            \end{block}
+        \column{0.6\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{images/connected_textures_offset_computing.png}
             \end{figure}
     \end{columns}
 \end{frame}
@@ -421,38 +439,44 @@
 \begin{frame}{Gestion des collisions}
     \begin{columns}
         \column{0.5\textwidth}
+        \begin{block}{Collisions}
+            \begin{itemize}
+                \item[\bullet] Séparation de deux objets qui se rentrent dedans
+                \item[\bullet] Collisions entre rectangles
+                \item[\bullet] Collisions entre joueur et blocs seulement
+            \end{itemize}
+        \end{block}
         \begin{block}{Résolution des Collisions}
             \begin{itemize}
-                \item[\bullet] Collisions entre rectangles 
-                \item[\bullet] Pas de masses
-                \item[\bullet] Collisions entre joueur et blocs seulement
                 \item[\bullet] Dépends du coefficient de restitution
-                \item [\bullet] Nécessité d'appliquer une correction de position
+                \item[\bullet] Nécessite d'appliquer une correction de position
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
         \begin{figure}
             \centering
-            \includegraphics[width=1.0\textwidth]{null}
+            \includegraphics[width=1.0\textwidth]{images/schéma collision.png}
         \end{figure}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Platformes directionnelles}
     \begin{columns}
-        \column{0.4\textwidth}
+        \column{0.5\textwidth}
             \begin{block}{Platformes directionnelles}
                 \begin{itemize}
-                    \item[\bullet] Utilisent une hitbox plus petite, dirigée
                     \item[\bullet] élément \emph{direction} du fichier XML
-                    \item[\bullet] Le joueur utilise aussi une hitbox plus petite
+                    \item[\bullet] Joueur utilise une boîte de collisions plus petite
                 \end{itemize}
             \end{block}
-        \column{0.6\textwidth}
+            \begin{block}{Détection de la collision}
+                Collision résolue uniquement si :
+                \[angle(Dir_{block},n) + \pi \le 10\%\]
+            \end{block}
+        \column{0.5\textwidth}
             \begin{figure}
                 \centering
                 \includegraphics[width=0.5\textwidth]{DirectionnalHB}
-                \caption{Hitbox directionnelle (en vert) comparée à la hitbox classique (en rouge)}
             \end{figure}
     \end{columns}
 \end{frame}
@@ -470,18 +494,18 @@
         \column{0.4\textwidth}
         \begin{figure}
             \centering
-            \includegraphics[width=1.0\textwidth]{null}
+            \includegraphics[width=1.0\textwidth]{images/Friction.png}
         \end{figure}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Autre données de physique}
     \begin{block}{Résistance de l'air}
-        La résistance de l'air est donnée par :
-        \[
-         -dir \times (V_{joueur})^2 \times C_{air}
-        \]
-        avec \(C_{air} = (0.01,0.02)\)
+        L'air ralentis la vitesse du joueur
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.2\textwidth]{images/Airresistance.png}
+        \end{figure}
     \end{block}
 
     \begin{block}{Collisions multiples}
@@ -524,7 +548,7 @@
                 \item[\rightarrow] Moteur physique fonctionnel
                 \item[\rightarrow] Génération procédurale
                 \item[\rightarrow] Mécaniques du personnage
-            \end{itemize}   
+            \end{itemize}
         \end{itemize}
     \end{block}
     \begin{block}{Difficultés rencontrées}
@@ -540,13 +564,9 @@
     \begin{block}{Elements d'amélioration}
         \begin{itemize}
           \item[\bullet] Des ennemis
-          \item[\bullet] Des bulles
           \item[\bullet] Possibilité de choix de la graine de génération
-                  \item[\bullet] Clés
           \item[\bullet] Téléporteurs
           \item[\bullet] Des bonus
-          \item[\bullet] Pluie/Eau
-          \item[\bullet] Choix de difficulté
           \item[\bullet] Autre personnages
         \end{itemize}
     \end{block}
