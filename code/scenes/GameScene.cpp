@@ -98,6 +98,7 @@ namespace platformer {
 
     void GameScene::reset() {
         world.generate();
+        thresholreached = false;
         scoreDisplay.setColor(gf::Color::Yellow);
         blockManager.updateTextureOffset();
         character.resetScore();
@@ -126,7 +127,8 @@ namespace platformer {
 
     void GameScene::doUpdate(const gf::Time time) {
         (void) time;
-        if(character.getScore() >= world.getTotalNutCount()*victoryThreshold){
+        if(!thresholreached && character.getScore() >= world.getTotalNutCount()*victoryThreshold){
+            thresholreached = true;
             scoreDisplay.setColor(gf::Color::Green);
             blockManager.openDoor();
         }
