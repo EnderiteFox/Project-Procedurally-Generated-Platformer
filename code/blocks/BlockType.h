@@ -40,10 +40,15 @@ namespace platformer {
         // Constructor for directionnal blocks
         BlockType(std::string type, std::string subType, std::string texturePath, float staticFriction, float dynamicFriction, float restitution, gf::Vector2f hitboxSize, gf::Vector2f hitboxOffset, std::string direction, float scale, bool isConnected);
 
+        // Adds an alternate texture to the block
+        void addAlternateTexture(std::string texturePath);
+
         // Textures and type names
         const std::string type;
         const std::string subType;
         const std::string texturePath;
+        std::string alternateTexturePath;
+        bool hasAlternateTexture=false;
 
         // Set to true if the collision should be resolved or not
         const bool isCollidable;

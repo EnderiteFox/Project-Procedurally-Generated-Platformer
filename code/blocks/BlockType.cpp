@@ -82,4 +82,9 @@ namespace platformer {
     , scale(scale)
     , isConnected(isConnected)
     {}
+
+    void BlockType::addAlternateTexture(std::string texturePath){
+        alternateTexturePath = texturePath;
+        hasAlternateTexture=true;
+    }
 }

@@ -36,6 +36,7 @@ namespace platformer {
         }
 
         return res;
+
     }
 
     void BlockTypes::parseXML() {
@@ -76,6 +77,7 @@ namespace platformer {
                         scale,
                         it->attribute("connected").as_bool()
                     );
+                    if(it->attribute("alternate")) type.addAlternateTexture("../"+gfxpath+"/"+it->attribute("alternate").value());
                     cache.emplace(it->attribute("type").value(),type);
                 }
                 else { // The block is collidable but not directionnal
@@ -91,6 +93,7 @@ namespace platformer {
                         scale,
                         it->attribute("connected").as_bool()
                     );
+                    if(it->attribute("alternate")) type.addAlternateTexture("../"+gfxpath+"/"+it->attribute("alternate").value());
                     cache.emplace(it->attribute("type").value(),type);
                 }
             }
@@ -104,6 +107,7 @@ namespace platformer {
                     scale,
                     it->attribute("connected").as_bool()
                 );
+                if(it->attribute("alternate")) type.addAlternateTexture("../"+gfxpath+"/"+it->attribute("alternate").value());
                 cache.emplace(it->attribute("type").value(),type);
             }
         }

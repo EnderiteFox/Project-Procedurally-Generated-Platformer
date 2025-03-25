@@ -128,9 +128,9 @@ namespace platformer {
         (void) time;
         if(character.getScore() >= world.getTotalNutCount()*victoryThreshold){
             scoreDisplay.setColor(gf::Color::Green);
+            blockManager.openDoor();
         }
-        int ScoreTotal = floor(world.getTotalNutCount()*victoryThreshold);
-        scoreDisplay.setString("x" + std::to_string(character.getScore()) + " (" + std::to_string(ScoreTotal)+")");
+        scoreDisplay.setString("x" + std::to_string(character.getScore()) + " (" + std::to_string(world.getTotalNutCount())+")");
         lifeDisplay.setString("x" + std::to_string(character.getLives()));
     }
 

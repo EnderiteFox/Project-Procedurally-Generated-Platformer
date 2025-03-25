@@ -22,6 +22,7 @@ namespace platformer {
     struct internalBlockData {
         std::string blockType;
         uint8_t offset;
+        bool alternate=false;
     };
 
     class BlockManager final : public gf::Entity {
@@ -30,6 +31,7 @@ namespace platformer {
 
         gf::Vector2f ViewPosition;
         const gf::Vector2f ViewSize;
+        std::pair<int,int> doorPosition;
 
     public:
         explicit BlockManager(gf::Vector2f ViewSize);
@@ -49,6 +51,7 @@ namespace platformer {
         bool isEmptyBlock(int x, int y) const;
         bool isEmptyBlock(gf::Vector2i pos) const;
         const gf::Texture& getBlockTextureByName(const std::string& name) const;
+        void openDoor();
 
         // Updating stored view position
         void setViewPosition(gf::Vector2f ViewPosition);

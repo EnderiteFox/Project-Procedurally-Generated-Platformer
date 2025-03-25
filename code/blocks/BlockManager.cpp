@@ -28,6 +28,7 @@ namespace platformer {
 
     void BlockManager::setBlockTypeAt(const int x, const int y, const BlockType& blockType) {
         if (blockType.type == BlockTypes::EMPTY_BLOCK) return removeBlockAt(x, y);
+        if (blockType.type == BlockTypes::EXIT) doorPosition = std::make_pair(x, y);
         blockMap.insert_or_assign(std::make_pair(x, y), internalBlockData{blockType.subType,0});
     }
 
@@ -59,6 +60,9 @@ namespace platformer {
         for (const BlockType& blockType : BlockTypes::getAllTypes()) {
             if (blockType.texturePath == "") continue; // Skipping untextured blocks
             textureMap.insert(std::make_pair(blockType.subType, gf::Texture(blockType.texturePath)));
+            if(blockType.hasAlternateTexture){
+                textureMap.insert(std::make_pair(blockType.subType+"_alt", gf::Texture(blockType.alternateTexturePath)));
+            }
         }
     }
 
@@ -90,7 +94,10 @@ namespace platformer {
 
                 std::string blockType = found->second.blockType;
                 uint8_t offset = found->second.offset;
-                auto textureFound = textureMap.find(blockType);
+
+                auto textureFound = (found->second.alternate && BlockTypes::getBlockTypeByName(blockType).hasAlternateTexture)?
+                                    textureMap.find(blockType+"_alt"):
+                                    textureMap.find(blockType);
                 if (textureFound == textureMap.cend()) continue; //Skipping untextured blocks
 
                 gf::Sprite sprite;
@@ -145,7 +152,10 @@ namespace platformer {
         return gf::Vector2f(toWorldSpace(vector.x), toWorldSpace(vector.y));
     }
 
-
+    void BlockManager::openDoor(){
+        auto found = blockMap.find(doorPosition);
+        found->second.alternate=true;
+    }
 
     std::vector<std::pair<gf::RectF,std::string>> BlockManager::getNearbyHitboxes(const gf::Vector2f position, const gf::Vector2f size) const {
         std::vector<std::pair<gf::RectF,std::string>> res;
