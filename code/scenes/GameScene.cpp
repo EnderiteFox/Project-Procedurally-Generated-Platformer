@@ -125,7 +125,8 @@ namespace platformer {
 
     void GameScene::doUpdate(const gf::Time time) {
         (void) time;
-        scoreDisplay.setString("x" + std::to_string(character.getScore()));
+        int ScoreTotal = floor(world.getTotalNutCount()*victoryThreshold);
+        scoreDisplay.setString("x" + std::to_string(character.getScore()) + " (" + std::to_string(ScoreTotal)+")");
         lifeDisplay.setString("x" + std::to_string(character.getLives()));
     }
 
