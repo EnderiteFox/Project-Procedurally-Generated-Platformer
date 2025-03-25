@@ -196,10 +196,10 @@
         \column{0.6\textwidth}
             \begin{block}{Contrôles du personnage}
                 \begin{itemize}
+                    \item[\bullet] Direction droite et gauche
                     \item[\bullet] Touches \emph{D} et \emph{Q}
                     \item[\bullet] Touches $\rightarrow$ et $\leftarrow$
                     \item[\bullet] Priorité à la direction droite
-                    \item[\bullet] Dirigent le personnage
                 \end{itemize}
             \end{block}
         \column{0.4\textwidth}
@@ -214,47 +214,58 @@
     \begin{block}{Saut}
         \begin{itemize}
             \item[\bullet] Touche \emph{Espace}
-            \item[\bullet] Donne une impulsion vers le haut instantanée
-            \item[\bullet] Permet de franchir des obstacles facilement
-            \item[\bullet] Disponible depuis le sol
+            \item[\bullet] Impulsion vers le haut instantanée
+            \item[\bullet] Redescente sous l'effet de la gravité 
+            \item[\bullet] Permet de franchir des obstacles
         \end{itemize}
     \end{block}
+\end{frame}
+
+\begin{frame}{Saut}
+    
     \begin{block}{Double saut}
         \begin{itemize}
             \item[\bullet] Touche \emph{Espace} en l'air
             \item[\bullet] Utilisable une fois par saut
-            \item[\bullet] Se recharge en touchant le sol
-
+            \item[\bullet] Réinitialisation en touchant le sol
+            \item[\bullet] Permet l'accès à des plateformes très haute
         \end{itemize}
     \end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.55\textwidth]{images/double_jump_ex.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Dash}
     \begin{block}{Dash}
         \begin{itemize}
             \item[\bullet] Impulsion directionnelle instantanée
-            \item[\bullet] Activé en appuyant deux fois sur une touche directionnelle
-            \item[\bullet] Permet de se déplacer rapidement horizontalement
-            \item[\bullet] Disponible une seule fois en l'air
-            \item[\bullet] Dispose d'un temps de recharge
+            \item[\bullet] Double appui : D, Q ou $\rightarrow$, $\leftarrow$
+            \item[\bullet] Temps de recharge
+            \item[\bullet] Permet de passer un grand espace vide
+            
         \end{itemize}
     \end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.55\textwidth]{images/dash_ex.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Score et vies}
     \begin{columns}
         \column{0.6\textwidth}
-            Affichés à tout moment en haut à gauche
             \begin{block}{Vies du personnage}
                 \begin{itemize}
-                    \item[\bullet] Diminuent en touchant un pique
-                    \item[\bullet] Une fois à 0, la partie se termine
+                    \item[\bullet] Diminution au contact d'un pique : mort
+                    \item[\bullet] 5 vies au total
+                    \item[\bullet] Fin de la partie à 0
                 \end{itemize}
             \end{block}
             \begin{block}{Score}
                 \begin{itemize}
-                    \item[\bullet] S'incrémente en touchant un écrou
-                    \item[\bullet] Score final affiché sur l'écran de fin
+                    \item[\bullet] Incrémentation en touchant un écrou
                 \end{itemize}
             \end{block}
         \column{0.4\textwidth}
@@ -324,7 +335,7 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{Les fausses platformes}
+\begin{frame}{Les fausses plateformes}
     \begin{columns}
         \column{0.5\textwidth}
         \begin{block}{Pourquoi?}
@@ -500,18 +511,6 @@
     \end{block}
 \end{frame}
 
-\section{Notre organisation}
-\begin{frame}{Organisation du travail}
-    \begin{block}{Notre organisation}
-        \begin{itemize}
-            \item[\bullet] Organisation en ``Périodes'' entre deux rendez-vous
-            \item[\bullet] Un grand objectif global par période
-            \item[\bullet] Division de l'objectif en tâches
-            \item[\bullet] Chaque membre du groupe choisis les tâches qu'il souhaite réaliser
-        \end{itemize}
-    \end{block}
-\end{frame}
-
 \begin{frame}{Outils utilisés}
     \begin{block}{Outils pour le projet}
         \begin{itemize}
@@ -525,26 +524,35 @@
     \end{block}
 \end{frame}
 
+\section{Notre organisation}
+\begin{frame}{Organisation du travail}
+    \begin{block}{Notre organisation}
+        \begin{itemize}
+            \item[\bullet] Rendez-vous fréquent avec notre responsable
+            \item[\bullet] Objectifs entre chaque rendez-vous
+            \item[\bullet] Division de l'objectif en \emph{cartes} rangées par thème dans des \emph{listes} sur Trello
+            \item[\bullet] Choix libre des tâches à faire pour chaque membre
+        \end{itemize}
+    \end{block}
+\end{frame}
+
 \section{Conclusion}
 \begin{frame}{Conclusion}
     \begin{block}{R\'esultats}
         \begin{itemize}
             \item[\bullet] Projet réalisé dans son intégralité
-            \item[\bullet] Objectifs fixés généralement accomplis :
+            \item[\bullet] Objectifs fixés accomplis :
             \begin{itemize}
-                \item[\rightarrow] Moteur physique fonctionnel
-                \item[\rightarrow] Génération procédurale
-                \item[\rightarrow] Mécaniques du personnage
-            \end{itemize}
+                \item[\rightarrow] Moteur physique cohérent
+                \item[\rightarrow] Génération procédurale fonctionnelle
+                \item[\rightarrow] Mécaniques du personnage variées
+            \end{itemize}   
         \end{itemize}
     \end{block}
-    \begin{block}{Difficultés rencontrées}
-        \begin{itemize}
-            \item[\bullet] Réalisation de la physique
-            \item[\bullet] Choix des mécaniques du personnage à implémenter
-            \item[\bullet] Génération du monde intéressante à jouer
-        \end{itemize}
-    \end{block}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.58\textwidth]{images/end.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Ce qu'on aurait voulu ajouter}
