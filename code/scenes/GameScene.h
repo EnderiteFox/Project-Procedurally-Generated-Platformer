@@ -53,5 +53,7 @@ namespace platformer {
         void reset();
 
         void endGame() const;
+
+        bool isWinPossible() const;
     };
 }

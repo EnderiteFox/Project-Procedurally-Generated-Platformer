@@ -98,6 +98,7 @@ namespace platformer {
 
     void GameScene::reset() {
         world.generate();
+        scoreDisplay.setColor(gf::Color::Yellow);
         blockManager.updateTextureOffset();
         character.resetScore();
         character.resetLives();
@@ -125,9 +126,16 @@ namespace platformer {
 
     void GameScene::doUpdate(const gf::Time time) {
         (void) time;
+        if(character.getScore() >= world.getTotalNutCount()*victoryThreshold){
+            scoreDisplay.setColor(gf::Color::Green);
+        }
         int ScoreTotal = floor(world.getTotalNutCount()*victoryThreshold);
         scoreDisplay.setString("x" + std::to_string(character.getScore()) + " (" + std::to_string(ScoreTotal)+")");
         lifeDisplay.setString("x" + std::to_string(character.getLives()));
+    }
+
+    bool GameScene::isWinPossible() const{
+        return character.getScore() >= world.getTotalNutCount()*victoryThreshold;
     }
 
     void GameScene::endGame() const {

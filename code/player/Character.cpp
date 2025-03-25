@@ -93,7 +93,7 @@ namespace platformer {
         speed += collisionVector.collision + collisionVector.friction;
 
         // Checking if we touched the exit
-        if (collisionVector.flags.find("exit") != collisionVector.flags.end()) {
+        if (collisionVector.flags.find("exit") != collisionVector.flags.end() && static_cast<GameScene*>(gameScene)->isWinPossible()) {
             static_cast<GameScene*>(gameScene)->endGame();
         }
 
