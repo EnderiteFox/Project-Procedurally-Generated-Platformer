@@ -248,9 +248,9 @@
 \begin{frame}{L'al\'eatoire}
     \begin{block}{Graine de génération}
         \begin{itemize}
-            \item[\bullet] Choisie aléatoirement
-            \item[\bullet] Peut être choisie manuellement
-            \item[\bullet] Permet de reproduire les problèmes
+            \item[\bullet] Choix aléatoire
+            \item[\bullet] Choix manuel
+            \item[\bullet] Reproduction des problèmes
         \end{itemize}
     \end{block}
 \end{frame}
@@ -260,9 +260,10 @@
         \column{0.5\textwidth}
         \begin{block}{Génération des salles}
             \begin{itemize}
-                \item[\bullet] Génère une suite de salles connectées entre elles
-                \item[\bullet] Éviter que les salles se chevauchent
-                \item[\bullet] Retourne en arrière si aucun chemin n'est possible
+                \item[\bullet] Génération d'une une suite de salles connectées entre elles
+                \item[\bullet] Placement le long de la salle précédente
+                \item[\bullet] Salles ne se chevauchant pas
+                \item[\bullet] Retour en arrière si aucun chemin n'est possible
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
@@ -284,8 +285,16 @@
         \column{0.5\textwidth}
         \begin{block}{Génération d'un chemin}
             \begin{itemize}
-                \item[\bullet] Génère un chemin du début à la fin
-                \item[\bullet] S'assurer que le niveau est possible
+                \item[\bullet] Génération d'un chemin du début à la fin
+                \item[\bullet] Niveau toujours possible
+                \item[\bullet] Calcul dans deux directions
+                \item[\bullet] Choix parmi les directions possibles
+            \end{itemize}
+        \end{block}
+        \begin{block}{Changement de direction}
+            \begin{itemize}
+                \item[\bullet] Bloc solide
+                \item[\bullet] Plafond atteint
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
@@ -302,7 +311,7 @@
         \column{0.5\textwidth}
         \begin{block}{Pourquoi?}
             \begin{itemize}
-                \item[\bullet] Cache le vrai chemin
+                \item[\bullet] Vrai chemin caché
                 \item[\bullet] Exploration du niveau
             \end{itemize}
         \end{block}
@@ -320,8 +329,8 @@
         \column{0.5\textwidth}
         \begin{block}{Blocs de glace et de slime}
             \begin{itemize}
-                \item[\bullet] Ajoute de la variété
-                \item[\bullet] Généré à partir d'un bruit de Perlin
+                \item[\bullet] Plus de variété
+                \item[\bullet] Génération à partir d'un bruit de Perlin
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
@@ -343,8 +352,9 @@
         \column{0.5\textwidth}
         \begin{block}{Génération de pics}
             \begin{itemize}
-                \item[\bullet] Dans les salles dangereuses
-                \item[\bullet] Au bout de lignes de blocs de glace
+                \item[\bullet] 30\% de salles dangereuses
+                \item[\bullet] Placement au sol des salles dangereuses
+                \item[\bullet] Extrémités de lignes de blocs de glace
             \end{itemize}
         \end{block}
     \column{0.4\textwidth}
