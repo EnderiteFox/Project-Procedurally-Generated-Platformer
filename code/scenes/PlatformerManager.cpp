@@ -35,6 +35,7 @@ namespace platformer {
     PlatformerManager::PlatformerManager(
         const std::string &title,
         const gf::Vector2i size,
+        const std::optional<uint64_t> forcedSeed,
         const gf::Flags<gf::WindowHints> hints
     )
     : SceneManager(title, size, hints)
@@ -42,6 +43,7 @@ namespace platformer {
     , gameTitle(title)
     , charSize(0.025f)
     , ScreenSize(gf::Monitor::getPrimaryMonitor().getPhysicalSize())
+    , forcedSeed(forcedSeed)
     , gameScene(gameViewSize, this)
     , menu(gameViewSize, this)
     , pause(ScreenSize, this)
@@ -49,4 +51,16 @@ namespace platformer {
     {
         loadMenu(false);
     }
+
+    void PlatformerManager::setForcedSeed(uint64_t forcedSeed)
+    {
+        this->forcedSeed = std::optional(forcedSeed);
+    }
+
+    std::optional<uint64_t> PlatformerManager::getForcedSeed() const
+    {
+        return this->forcedSeed;
+    }
+
+
 }

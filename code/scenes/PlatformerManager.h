@@ -20,6 +20,8 @@ namespace platformer {
         gf::Vector2i ScreenSize;
 
     private:
+        std::optional<uint64_t> forcedSeed;
+
         GameScene gameScene;
         Menu menu;
         PauseScene pause;
@@ -34,6 +36,9 @@ namespace platformer {
         void unpause();
         void loadEndScreen(int score, bool isVictory);
 
-        PlatformerManager(const std::string &title, gf::Vector2i size, gf::Flags<gf::WindowHints> hints=gf::All);
+        void setForcedSeed(uint64_t forcedSeed);
+        std::optional<uint64_t> getForcedSeed() const;
+
+        PlatformerManager(const std::string &title, gf::Vector2i size, std::optional<uint64_t> forcedSeed = std::nullopt, gf::Flags<gf::WindowHints> hints=gf::All);
     };
 }
