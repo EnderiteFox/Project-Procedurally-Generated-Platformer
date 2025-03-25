@@ -554,6 +554,7 @@ namespace platformer {
                     continue;
                 }
                 world.getBlockManager().setBlockTypeAt(startPos.x + direction.x * xPos, startPos.y - 1, COLLECTIBLE_BLOCK);
+                ++nutCount;
             }
         }
 
