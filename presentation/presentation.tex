@@ -56,49 +56,63 @@
             \item[\bullet] Obstacles
         \end{itemize}
     \end{block}
-    \begin{block}{Contexte et objectifs}
+    \begin{block}{Qu'est-ce que la génération procédurale ?}
         \begin{itemize}
-            \item[\bullet] Jeu de plateformes en 2D
-            \item[\bullet] Réalisé en C++
-            \item[\bullet] Génération procédurale
-            \item[\bullet] Utilise la bibliothèque : Gamedev Framework
+            \item[\bullet] Création contenu via algorithme
+            \item[\bullet] Utilisation de règles mathématiques 
+            \item[\bullet] Génération basée sur un grand nombre tiré aléatoirement : graine
         \end{itemize}
     \end{block}
 \end{frame}
 
+
 \section{Présentation du jeu}
-\begin{frame}{Présentation du jeu}
-    \begin{block}{Caract\'eristiques}
+\begin{frame}{Caractéristiques}
+    \begin{block}{Caractéristiques}
         \begin{itemize}
-            \item[\bullet] Jeu de plateforme en 2D en C++
+            \item[\bullet] Jeu de plateformes en 2D
+            \item[\bullet] Monde : généré procéduralement
+            \item[\bullet] Langage : \emph{C++}
+            \item[\bullet] Utilisation de la bibliothèque : Gamedev Framework
+        \end{itemize}
+    \end{block}
+    \begin{figure}
+            \centering
+            \includegraphics[width=0.55\textwidth]{images/world_example}
+        \end{figure}
+\end{frame}
+
+\begin{frame}{Présentation du jeu}
+    \begin{block}{Règles du jeu}
+        \begin{itemize}
             \item[\bullet] Personnage : petit robot
             \item[\bullet] Contrôles
             \begin{itemize}
                 \item droite et gauche
-                \item saut et double saut
+                \item saut
+                \item double saut : deuxième saut quand le personnage est dans les airs
                 \item dash : impulsion rapide horizontal
             \end{itemize}
-            \item[\bullet] Niveau : pas de choix $\rightarrow$ génération aléatoire
-            \item[\bullet] Missions du personnage : ramasser écrous et rejoindre sortie
+            \item[\bullet] Missions du personnage : ramasser objets et rejoindre sortie
         \end{itemize}
     \end{block}
 \end{frame}
 
-\begin{frame}{Objectifs du jeu}
+\begin{frame}{Objectifs du joueur}
     \begin{columns}
         \column{0.5\textwidth}
         \begin{block}{Score : objets ramassables}
             \begin{itemize}
                 \item[\bullet] Types : écrous
-                \item[\bullet] Nombre inconnu
                 \item[\bullet] Tous placés aléatoirement
-                \item[\bullet] Pas d'obligation de collecte
+                \item[\bullet] Obligation d'en collecter 50\%
             \end{itemize}
         \end{block}
         \begin{block}{Sortie}
             \begin{itemize}
-                \item[\bullet] Placée aléatoirement
-                \item[\bullet] Stop la partie
+                \item[\bullet] Placement aléatoire
+                \item[\bullet] Ouverture de la porte au-delà de 50\% de collecte
+                \item[\bullet] Fin de la partie
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
@@ -106,11 +120,18 @@
             \centering
             \includegraphics[width=0.6\textwidth]{nut}
         \end{figure}
-        \begin{figure}
-            \centering
-            \includegraphics[width=0.6\textwidth]{exit}
-        \end{figure}
-
+        \begin{columns}
+            \column{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1\textwidth]{exit}
+            \end{figure}
+            \column{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=1\textwidth]{images/exit_open}
+            \end{figure}
+        \end{columns}
     \end{columns}
 \end{frame}
 
@@ -228,7 +249,7 @@
             \item[\bullet] Touche \emph{Espace} en l'air
             \item[\bullet] Utilisable une fois par saut
             \item[\bullet] Réinitialisation en touchant le sol
-            \item[\bullet] Permet l'accès à des plateformes très haute
+            \item[\bullet] Permet l'accès à des plateformes très hautes
         \end{itemize}
     \end{block}
     \begin{figure}
@@ -446,8 +467,8 @@
         \end{block}
         \begin{block}{Résolution des Collisions}
             \begin{itemize}
-                \item[\bullet] Dépends du coefficient de restitution
-                \item[\bullet] Nécessite d'appliquer une correction de position
+                \item[\bullet] Dépendance avec le coefficient de restitution
+                \item[\bullet] Application d'une correction de position
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
@@ -458,12 +479,12 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{Platformes directionnelles}
+\begin{frame}{Plateformes directionnelles}
     \begin{columns}
         \column{0.5\textwidth}
-            \begin{block}{Platformes directionnelles}
+            \begin{block}{Plateformes directionnelles}
                 \begin{itemize}
-                    \item[\bullet] élément \emph{direction} du fichier XML
+                    \item[\bullet] Élément \emph{direction} du fichier XML
                     \item[\bullet] Joueur utilise une boîte de collisions plus petite
                 \end{itemize}
             \end{block}
@@ -484,9 +505,9 @@
         \column{0.5\textwidth}
         \begin{block}{Résolution de la friction}
             \begin{itemize}
-                \item[\bullet] Ralentis le joueur quand il se déplace sur un blocs
-                \item[\bullet] Dépends des coefficients de friction dynamique et statiques des blocs
-                \item[\bullet] Résolu après application de la résolution de collision
+                \item[\bullet] Ralentissement du joueur quand il se déplace sur un bloc
+                \item[\bullet] Dépendance avec coefficients de friction dynamique et statiques des blocs
+                \item[\bullet] Résolution après l'application de la résolution de collision
             \end{itemize}
         \end{block}
         \column{0.4\textwidth}
@@ -511,6 +532,8 @@
     \end{block}
 \end{frame}
 
+\section{Notre organisation}
+
 \begin{frame}{Outils utilisés}
     \begin{block}{Outils pour le projet}
         \begin{itemize}
@@ -524,7 +547,6 @@
     \end{block}
 \end{frame}
 
-\section{Notre organisation}
 \begin{frame}{Organisation du travail}
     \begin{block}{Notre organisation}
         \begin{itemize}
@@ -556,13 +578,13 @@
 \end{frame}
 
 \begin{frame}{Ce qu'on aurait voulu ajouter}
-    \begin{block}{Elements d'amélioration}
+    \begin{block}{Éléments d'amélioration}
         \begin{itemize}
-          \item[\bullet] Des ennemis
-          \item[\bullet] Possibilité de choix de la graine de génération
+          \item[\bullet] Ennemis
+          \item[\bullet] Choix de la graine de génération
           \item[\bullet] Téléporteurs
-          \item[\bullet] Des bonus
-          \item[\bullet] Autre personnages
+          \item[\bullet] Bonus
+          \item[\bullet] Autres personnages
         \end{itemize}
     \end{block}
 \end{frame}
@@ -589,7 +611,7 @@
 
 \begin{frame}
     \centering
-    Avez vous des questions ?
+    Avez-vous des questions ?
     \begin{figure}
         \centering
         \includegraphics[width=0.5\linewidth]{character_placeholder}
